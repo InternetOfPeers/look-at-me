@@ -57,11 +57,11 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper  
 	}
 	
 	@Override
-	public void close(DBOpenHelper dbOpenHelper)
+	public void close()
 	{
-        if (dbOpenHelper != null) {
-        	close();
-        }
+        
+        	this.close();
+        
         if (database != null) {
             database.close();
         }

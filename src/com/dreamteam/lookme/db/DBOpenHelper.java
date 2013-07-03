@@ -19,7 +19,7 @@ public interface DBOpenHelper {
 	
 	public SQLiteDatabase getWritableDatabase() ;
 
-	public  void close(DBOpenHelper dbOpenHelper);
+	public  void close();
 
 	public  Profile saveOrUpdateProfile(Profile profile) throws Exception;
 
