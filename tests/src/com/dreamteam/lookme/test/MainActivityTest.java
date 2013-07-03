@@ -1,5 +1,6 @@
 package com.dreamteam.lookme.test;
 
+<<<<<<< HEAD
 import java.io.File;
 
 import android.graphics.Bitmap;
@@ -18,6 +19,14 @@ public class MainActivityTest extends
 	
 	DBOpenHelper dbOpenHelper;
 	
+=======
+import android.test.ActivityInstrumentationTestCase2;
+
+import com.dreamteam.lookme.MainActivity;
+
+public class MainActivityTest extends
+		ActivityInstrumentationTestCase2<MainActivity> {
+>>>>>>> 844ad4027a0f3823af835c1ac07fb77cf738db73
 
 	public MainActivityTest() {
 		super(MainActivity.class);
@@ -25,21 +34,28 @@ public class MainActivityTest extends
 
 	protected void setUp() throws Exception {
 		super.setUp();
+<<<<<<< HEAD
 		dbOpenHelper = new DBOpenHelperImpl(getActivity());
 		
 //		dbOpenHelper.getWritableDatabase().beginTransaction();
+=======
+>>>>>>> 844ad4027a0f3823af835c1ac07fb77cf738db73
 	}
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
+<<<<<<< HEAD
 		dbOpenHelper.close(dbOpenHelper);
 //		dbOpenHelper.getWritableDatabase().endTransaction(); 
+=======
+>>>>>>> 844ad4027a0f3823af835c1ac07fb77cf738db73
 	}
 
 	public void testActivity() {
 		MainActivity activity = getActivity();
 		assertNotNull(activity);
 	}
+<<<<<<< HEAD
 	
 	
 	public void testDB() {
@@ -76,5 +92,7 @@ public class MainActivityTest extends
 	}
 	
 	
+=======
+>>>>>>> 844ad4027a0f3823af835c1ac07fb77cf738db73
 
 }
