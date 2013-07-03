@@ -1,4 +1,4 @@
-/*
+/**
  * Author: Carlo Tassi
  * 
  * Message object over chord for Look@me App
@@ -18,9 +18,10 @@ public class ChordMessage implements Serializable {
 
 	private static final long serialVersionUID = -2069620040307561844L;
 	
-	private final MessageType mType;			/* Message type 		*/
-	private final Map<String, Object> mPayload;	/* Data to transfer		*/
-	private String mSenderNodeName;				/* Name of sender node 	*/
+	private final MessageType mType;			/* Message type 		 */
+	private final Map<String, Object> mPayload;	/* Data to transfer		 */
+	private String mSenderNodeName;				/* Name of sender node 	 */
+	private String mReceiverNodeName;			/* Name of receiver node */
 	
 	private ChordMessage(MessageType type) {
 		this.mType = type;
@@ -60,17 +61,25 @@ public class ChordMessage implements Serializable {
 	}
 	
 	public String getSenderNodeName() {
-		return this.mSenderNodeName;
+		return mSenderNodeName;
 	}
 
 	public void setSenderNodeName(String senderNodeName) {
 		mSenderNodeName = senderNodeName;
 	}
 	
-	/*
+	public String getReceiverNodeName() {
+		return mReceiverNodeName;
+	}
+
+	public void setReceiverNodeName(String receiverNodeName) {
+		mReceiverNodeName = receiverNodeName;
+	}
+	
+	/**
 	 * Return message object as byte array
 	 */
-	byte[] getBytes() {
+	public byte[] getBytes() {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		final ObjectOutputStream os;
 
@@ -84,7 +93,7 @@ public class ChordMessage implements Serializable {
 		return out.toByteArray();
 	}
 	
-	/*
+	/**
 	 * Recreates message object from the byte array
 	 */
 	public static ChordMessage obtainChordMessage(byte[] data, String senderNodeName) {

@@ -1,4 +1,4 @@
-/*
+/**
  * Author: Carlo Tassi
  * 
  * Enumeration of all message types that can be 
