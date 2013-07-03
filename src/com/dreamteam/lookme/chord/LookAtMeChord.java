@@ -40,7 +40,7 @@ public class LookAtMeChord {
 	
 	LookAtMeChord(Context context, String gameName) {
 		mChordManager = ChordManager.getInstance(context);
-		int result = mChordManager.start(ChordManager.INTERFACE_TYPE_WIFI, mChordManagerListener);
+		int result = mChordManager.start(ChordManager.INTERFACE_TYPE_WIFIP2P, mChordManagerListener);
 		if (result != ChordManager.ERROR_NONE) {
 			//onChordStartFailed(result);
 		}
