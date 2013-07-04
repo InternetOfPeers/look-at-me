@@ -7,10 +7,23 @@ import com.samsung.chord.IChordChannelListener;
 
 public class LookAtMeChordSocialChannelListener implements IChordChannelListener {
 
+
+	@Override
+	public void onNodeJoined(String arg0, String arg1) {
+		// NOP
+		
+	}
+
+	@Override
+	public void onNodeLeft(String arg0, String arg1) {
+		// aggiorna la lista dei partecipanti eliminando il profilo del nodo arg0
+		
+	}
+
 	@Override
 	public void onDataReceived(String arg0, String arg1, String arg2,
 			byte[][] arg3) {
-		// TODO Auto-generated method stub
+		// inserisci il profilo del nodo arg0 in lista
 		
 	}
 
@@ -53,18 +66,6 @@ public class LookAtMeChordSocialChannelListener implements IChordChannelListener
 	@Override
 	public void onFileWillReceive(String arg0, String arg1, String arg2,
 			String arg3, String arg4, String arg5, long arg6) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onNodeJoined(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onNodeLeft(String arg0, String arg1) {
 		// TODO Auto-generated method stub
 		
 	}
