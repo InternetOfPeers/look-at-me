@@ -4,9 +4,9 @@
  * Enumeration of all message types that can be 
  * sent over chord by Look@me App
  */
-package com.dreamteam.lookme.chord.message;
+package com.dreamteam.lookme.communication;
 
-public enum MessageType {
+public enum LookAtMeMessageType {
 	
 	PREVIEW, 	/* Minimal profile data  */
 	PROFILE, 	/* Complete profile data */

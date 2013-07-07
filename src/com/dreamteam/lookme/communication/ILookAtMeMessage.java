@@ -1,6 +1,5 @@
 package com.dreamteam.lookme.communication;
 
-import com.dreamteam.lookme.chord.message.MessageType;
 
 public interface ILookAtMeMessage {
 
@@ -16,7 +15,7 @@ public interface ILookAtMeMessage {
 
 	public abstract Object getObject(String key);
 
-	public abstract MessageType getType();
+	public abstract LookAtMeMessageType getType();
 
 	public abstract String getSenderNodeName();
 

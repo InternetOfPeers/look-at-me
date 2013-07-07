@@ -15,22 +15,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dreamteam.lookme.communication.ILookAtMeMessage;
+import com.dreamteam.lookme.communication.LookAtMeMessageType;
 
 public class ChordMessage implements Serializable, ILookAtMeMessage {
 
 	private static final long serialVersionUID = -2069620040307561844L;
 	
-	private final MessageType mType;			/* Message type 		 */
-	private final Map<String, Object> mPayload;	/* Data to transfer		 */
-	private String mSenderNodeName;				/* Name of sender node 	 */
-	private String mReceiverNodeName;			/* Name of receiver node */
+	private final LookAtMeMessageType type;			/* Message type 		 */
+	private final Map<String, Object> payload;	/* Data to transfer		 */
+	private String senderNodeName;				/* Name of sender node 	 */
+	private String receiverNodeName;			/* Name of receiver node */
 	
-	private ChordMessage(MessageType type) {
-		this.mType = type;
-		mPayload = new HashMap<String, Object>();
+	private ChordMessage(LookAtMeMessageType type) {
+		this.type = type;
+		payload = new HashMap<String, Object>();
 	}
 	
-	public static ILookAtMeMessage obtainMessage(MessageType type) {
+	public static ILookAtMeMessage obtainMessage(LookAtMeMessageType type) {
 		return new ChordMessage(type);
 	}
 
@@ -39,7 +40,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public void putInt(String key, int value) {
-		mPayload.put(key, value);
+		payload.put(key, value);
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +48,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public void putString(String key, String value) {
-		mPayload.put(key, value);
+		payload.put(key, value);
 	}
 
 	/* (non-Javadoc)
@@ -55,7 +56,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public void putObject(String key, Object value) {
-		mPayload.put(key, value);
+		payload.put(key, value);
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +64,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public int getInt(String key) {
-		return (Integer) mPayload.get(key);
+		return (Integer) payload.get(key);
 	}
 
 	/* (non-Javadoc)
@@ -71,7 +72,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public String getString(String key) {
-		return (String) mPayload.get(key);
+		return (String) payload.get(key);
 	}
 
 	/* (non-Javadoc)
@@ -79,15 +80,15 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public Object getObject(String key) {
-		return mPayload.get(key);
+		return payload.get(key);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getType()
 	 */
 	@Override
-	public MessageType getType() {
-		return mType;
+	public LookAtMeMessageType getType() {
+		return type;
 	}
 	
 	/* (non-Javadoc)
@@ -95,7 +96,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public String getSenderNodeName() {
-		return mSenderNodeName;
+		return senderNodeName;
 	}
 
 	/* (non-Javadoc)
@@ -103,7 +104,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public void setSenderNodeName(String senderNodeName) {
-		mSenderNodeName = senderNodeName;
+		this.senderNodeName = senderNodeName;
 	}
 	
 	/* (non-Javadoc)
@@ -111,7 +112,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public String getReceiverNodeName() {
-		return mReceiverNodeName;
+		return receiverNodeName;
 	}
 
 	/* (non-Javadoc)
@@ -119,7 +120,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 	 */
 	@Override
 	public void setReceiverNodeName(String receiverNodeName) {
-		mReceiverNodeName = receiverNodeName;
+		this.receiverNodeName = receiverNodeName;
 	}
 	
 	/* (non-Javadoc)
@@ -155,7 +156,7 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 			throw new RuntimeException(e);
 		}
 
-		message.mSenderNodeName = senderNodeName;
+		message.senderNodeName = senderNodeName;
 		return message;
 	}
 
