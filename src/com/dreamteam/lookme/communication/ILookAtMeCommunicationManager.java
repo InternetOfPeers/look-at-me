@@ -12,5 +12,7 @@ public interface ILookAtMeCommunicationManager {
 	public void startCommunication();
 	
 	public void stopCommunication();
+	
+	public void sendToAll(ILookAtMeMessage message);
 
 }

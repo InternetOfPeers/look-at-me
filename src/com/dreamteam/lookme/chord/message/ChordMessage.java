@@ -14,7 +14,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChordMessage implements Serializable {
+import com.dreamteam.lookme.communication.ILookAtMeMessage;
+
+public class ChordMessage implements Serializable, ILookAtMeMessage {
 
 	private static final long serialVersionUID = -2069620040307561844L;
 	
@@ -28,57 +30,102 @@ public class ChordMessage implements Serializable {
 		mPayload = new HashMap<String, Object>();
 	}
 	
-	public static ChordMessage obtainMessage(MessageType type) {
+	public static ILookAtMeMessage obtainMessage(MessageType type) {
 		return new ChordMessage(type);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#putInt(java.lang.String, int)
+	 */
+	@Override
 	public void putInt(String key, int value) {
 		mPayload.put(key, value);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#putString(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public void putString(String key, String value) {
 		mPayload.put(key, value);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#putObject(java.lang.String, java.lang.Object)
+	 */
+	@Override
 	public void putObject(String key, Object value) {
 		mPayload.put(key, value);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getInt(java.lang.String)
+	 */
+	@Override
 	public int getInt(String key) {
 		return (Integer) mPayload.get(key);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getString(java.lang.String)
+	 */
+	@Override
 	public String getString(String key) {
 		return (String) mPayload.get(key);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getObject(java.lang.String)
+	 */
+	@Override
 	public Object getObject(String key) {
 		return mPayload.get(key);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getType()
+	 */
+	@Override
 	public MessageType getType() {
 		return mType;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getSenderNodeName()
+	 */
+	@Override
 	public String getSenderNodeName() {
 		return mSenderNodeName;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#setSenderNodeName(java.lang.String)
+	 */
+	@Override
 	public void setSenderNodeName(String senderNodeName) {
 		mSenderNodeName = senderNodeName;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getReceiverNodeName()
+	 */
+	@Override
 	public String getReceiverNodeName() {
 		return mReceiverNodeName;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#setReceiverNodeName(java.lang.String)
+	 */
+	@Override
 	public void setReceiverNodeName(String receiverNodeName) {
 		mReceiverNodeName = receiverNodeName;
 	}
 	
-	/**
-	 * Return message object as byte array
+	/* (non-Javadoc)
+	 * @see com.dreamteam.lookme.chord.message.ILookAtMeMessage#getBytes()
 	 */
+	@Override
 	public byte[] getBytes() {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		final ObjectOutputStream os;
@@ -96,7 +143,7 @@ public class ChordMessage implements Serializable {
 	/**
 	 * Recreates message object from the byte array
 	 */
-	public static ChordMessage obtainChordMessage(byte[] data, String senderNodeName) {
+	public static ILookAtMeMessage obtainChordMessage(byte[] data, String senderNodeName) {
 		final ByteArrayInputStream in = new ByteArrayInputStream(data);
 		final ObjectInputStream is;
 		ChordMessage message = null;

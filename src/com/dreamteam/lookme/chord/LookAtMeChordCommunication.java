@@ -6,6 +6,7 @@ package com.dreamteam.lookme.chord;
 import android.content.Context;
 
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
+import com.dreamteam.lookme.communication.ILookAtMeMessage;
 
 public class LookAtMeChordCommunication implements ILookAtMeCommunicationManager {
 	
@@ -25,7 +26,7 @@ public class LookAtMeChordCommunication implements ILookAtMeCommunicationManager
 	@Override
 	public void startCommunication() {
 		chord.joinSocialChannel();
-		if (true) { // TODO: mettere la condizione di check game abilitato
+		if (false) { // TODO: mettere la condizione di check game abilitato
 			chord.joinGameChannel();
 		}
 		
@@ -34,6 +35,12 @@ public class LookAtMeChordCommunication implements ILookAtMeCommunicationManager
 	@Override
 	public void stopCommunication() {
 		chord.stopChord();
+	}
+
+	@Override
+	public void sendToAll(ILookAtMeMessage message) {
+		// TODO
+		
 	}
 
 }
