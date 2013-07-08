@@ -25,20 +25,20 @@ public class ChordMessageTest extends TestCase {
 		profile = new Profile();
 		profile.setName("pippo");
 		profile.setSurname("paperino");
-		message.putObject("profile", profile);
-		assertEquals(profile, message.getObject("profile"));
-		assertEquals(((Profile) message.getObject("profile")).getName(),
+		message.putObject(ILookAtMeMessage.PROFILE_KEY, profile);
+		assertEquals(profile, message.getObject(ILookAtMeMessage.PROFILE_KEY));
+		assertEquals(((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY)).getName(),
 				"pippo");
-		assertEquals(((Profile) message.getObject("profile")).getSurname(),
+		assertEquals(((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY)).getSurname(),
 				"paperino");
 
 		profile = new Profile();
 		profile.setName("pluto");
 		profile.setSurname("topolino");
-		message.putObject("profile", profile);
-		assertEquals(((Profile) message.getObject("profile")).getName(),
+		message.putObject(ILookAtMeMessage.PROFILE_KEY, profile);
+		assertEquals(((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY)).getName(),
 				"pluto");
-		assertEquals(((Profile) message.getObject("profile")).getSurname(),
+		assertEquals(((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY)).getSurname(),
 				"topolino");
 	}
 

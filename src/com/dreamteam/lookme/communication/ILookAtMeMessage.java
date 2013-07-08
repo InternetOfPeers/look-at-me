@@ -4,6 +4,9 @@ import java.util.Map;
 
 public interface ILookAtMeMessage {
 
+	String PROFILE_KEY = "profile";
+	String PROFILE_MESSAGE = "profileMessage";
+
 	public abstract void putInt(String key, int value);
 
 	public abstract void putString(String key, String value);

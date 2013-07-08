@@ -1,7 +1,5 @@
 package com.dreamteam.lookme;
 
-import java.util.Map;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -196,14 +194,15 @@ public class TestChordActivity extends Activity implements OnClickListener {
 					}
 
 					@Override
-					public void onDataReceived(String arg0, String arg1,
-							String arg2, byte[][] arg3) {
+					public void onDataReceived(String fromNode,
+							String fromChannel, String payloadType,
+							byte[][] payload) {
 						Log.d("CHORDTEST", "onDataReceived public");
 						ILookAtMeMessage message = ChordMessage
-								.obtainChordMessage(arg3[0], arg0);
+								.obtainChordMessage(payload[0], fromNode);
 						Profile profile = (Profile) message
-								.getObject("profilo");
-						textBuddy.setText("JOINED " + profile.getName() + " "
+								.getObject(ILookAtMeMessage.PROFILE_KEY);
+						textBuddy.setText("RECEIVED MESSAGE FROM " + profile.getName() + " "
 								+ profile.getSurname());
 					}
 				});
@@ -272,17 +271,10 @@ public class TestChordActivity extends Activity implements OnClickListener {
 						ILookAtMeMessage message = ChordMessage
 								.obtainChordMessage(payload[0], fromNode);
 
-						Object misteriosoNull = message.getPayload().get(
-								"profilo");
-						Object tuttoOk = comeSopra(message.getPayload());
-
-						Profile profile = (Profile) tuttoOk;
-						textBuddy.setText("JOINED " + profile.getName() + " "
+						Profile profile = (Profile) message
+								.getObject(ILookAtMeMessage.PROFILE_KEY);
+						textBuddy.setText("RECEIVED MESSAGE FROM " + profile.getName() + " "
 								+ profile.getSurname());
-					}
-
-					private Object comeSopra(Map<String, Object> map) {
-						return map.get("profile");
 					}
 
 				});
@@ -292,24 +284,23 @@ public class TestChordActivity extends Activity implements OnClickListener {
 	private void sendAllPublicChannel(Profile profile) {
 		Log.d("CHORDTEST", "SENDING DATA TO PUBLIC CHANNEL");
 		ILookAtMeMessage message = profileToMessage(profile);
-		byte[][] payloadArray = new byte[1][1];
-		byte[] payload = message.getBytes();
-		payloadArray[0] = payload;
-		publicChannel.sendDataToAll("profileMessage", payloadArray);
+		byte[][] payload = new byte[1][];
+		payload[0] = message.getBytes();
+		publicChannel.sendDataToAll(ILookAtMeMessage.PROFILE_MESSAGE, payload);
 	}
 
 	private void sendAllPrivateChannel(Profile profile) {
-		Log.d("CHORDTEST", "SENDING DATA TO PUBLIC CHANNEL");
+		Log.d("CHORDTEST", "SENDING DATA TO PRIVATE CHANNEL");
 		byte[][] payload = new byte[1][];
 		ILookAtMeMessage message = profileToMessage(profile);
 		payload[0] = message.getBytes();
-		privateChannel.sendDataToAll("profileMessage", payload);
+		privateChannel.sendDataToAll(ILookAtMeMessage.PROFILE_MESSAGE, payload);
 	}
 
 	private ILookAtMeMessage profileToMessage(Profile profile) {
 		ILookAtMeMessage message = ChordMessage
 				.obtainMessage(LookAtMeMessageType.PREVIEW);
-		message.putObject("profile", profile);
+		message.putObject(ILookAtMeMessage.PROFILE_KEY, profile);
 		return message;
 	}
 }
