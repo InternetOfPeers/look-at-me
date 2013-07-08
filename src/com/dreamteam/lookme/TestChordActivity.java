@@ -1,5 +1,7 @@
 package com.dreamteam.lookme;
 
+import java.util.Map;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -97,7 +99,7 @@ public class TestChordActivity extends Activity implements OnClickListener {
 
 	private void startChordTest() {
 		Log.d("CHORDTEST", "STARTING");
-		int startingResult = chord.start(ChordManager.INTERFACE_TYPE_WIFIP2P,
+		int startingResult = chord.start(ChordManager.INTERFACE_TYPE_WIFI,
 				new IChordManagerListener() {
 					@Override
 					public void onStarted(String arg0, int arg1) {
@@ -263,16 +265,26 @@ public class TestChordActivity extends Activity implements OnClickListener {
 					}
 
 					@Override
-					public void onDataReceived(String arg0, String arg1,
-							String arg2, byte[][] arg3) {
+					public void onDataReceived(String fromNode,
+							String fromChannel, String payloadType,
+							byte[][] payload) {
 						Log.d("CHORDTEST", "onDataReceived private");
 						ILookAtMeMessage message = ChordMessage
-								.obtainChordMessage(arg3[0], arg0);
-						Profile profile = (Profile) message
-								.getObject("profilo");
+								.obtainChordMessage(payload[0], fromNode);
+
+						Object misteriosoNull = message.getPayload().get(
+								"profilo");
+						Object tuttoOk = comeSopra(message.getPayload());
+
+						Profile profile = (Profile) tuttoOk;
 						textBuddy.setText("JOINED " + profile.getName() + " "
 								+ profile.getSurname());
 					}
+
+					private Object comeSopra(Map<String, Object> map) {
+						return map.get("profile");
+					}
+
 				});
 		Log.d("CHORDTEST", "private channel is " + privateChannel.getName());
 	}
@@ -288,11 +300,10 @@ public class TestChordActivity extends Activity implements OnClickListener {
 
 	private void sendAllPrivateChannel(Profile profile) {
 		Log.d("CHORDTEST", "SENDING DATA TO PUBLIC CHANNEL");
+		byte[][] payload = new byte[1][];
 		ILookAtMeMessage message = profileToMessage(profile);
-		byte[][] payloadArray = new byte[1][1];
-		byte[] payload = message.getBytes();
-		payloadArray[0] = payload;
-		privateChannel.sendDataToAll("profileMessage", payloadArray);
+		payload[0] = message.getBytes();
+		privateChannel.sendDataToAll("profileMessage", payload);
 	}
 
 	private ILookAtMeMessage profileToMessage(Profile profile) {

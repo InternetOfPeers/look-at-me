@@ -203,4 +203,9 @@ public class ChordMessage implements Serializable, ILookAtMeMessage {
 		return message;
 	}
 
+	@Override
+	public Map<String, Object> getPayload() {
+		return payload;
+	}
+
 }

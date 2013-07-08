@@ -1,5 +1,7 @@
 package com.dreamteam.lookme.communication;
 
+import java.util.Map;
+
 public interface ILookAtMeMessage {
 
 	public abstract void putInt(String key, int value);
@@ -28,5 +30,7 @@ public interface ILookAtMeMessage {
 	 * Return message object as byte array
 	 */
 	public abstract byte[] getBytes();
+
+	public abstract Map<String, Object> getPayload();
 
 }
