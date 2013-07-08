@@ -16,19 +16,19 @@ public interface DBOpenHelper {
 	public static final String TABLE_PROFILES_COLUMN_SURNAME = "surname";
 	public static final String TABLE_PROFILES_COLUMN_NICKNAME = "nickname";
 	public static final String TABLE_PROFILES_COLUMN_IMAGE = "image";
-	
-	public SQLiteDatabase getWritableDatabase() ;
 
-	public  void close();
+	public SQLiteDatabase getWritableDatabase();
 
-	public  Profile saveOrUpdateProfile(Profile profile) throws Exception;
+	public void close();
 
-	public  List<Profile> getProfiles() throws Exception;
+	public Profile saveOrUpdateProfile(Profile profile) throws Exception;
 
-	public  void deleteProfiles() throws Exception;
-	
-	public  void deleteProfile(long profileID) throws Exception;
+	public List<Profile> getProfiles() throws Exception;
 
-	public  Profile getProfile(long profileID) throws Exception;
+	public void deleteProfiles() throws Exception;
+
+	public void deleteProfile(long profileID) throws Exception;
+
+	public Profile getProfile(long profileID) throws Exception;
 
 }

@@ -16,27 +16,27 @@ public class LookAtMePublicChannelListener implements IChordChannelListener {
 	@Override
 	public void onNodeJoined(String arg0, String arg1) {
 		// NOP
-		
+
 	}
 
 	@Override
 	public void onNodeLeft(String arg0, String arg1) {
 		// NOP
-		
+
 	}
-	
+
 	@Override
 	public void onDataReceived(String arg0, String arg1, String arg2,
 			byte[][] arg3) {
 		// NOP
-		
+
 	}
 
 	@Override
 	public void onFileChunkReceived(String arg0, String arg1, String arg2,
 			String arg3, String arg4, String arg5, long arg6, long arg7) {
 		// NOP
-		
+
 	}
 
 	@Override
@@ -44,35 +44,35 @@ public class LookAtMePublicChannelListener implements IChordChannelListener {
 			String arg3, String arg4, String arg5, long arg6, long arg7,
 			long arg8) {
 		// NOP
-		
+
 	}
 
 	@Override
 	public void onFileFailed(String arg0, String arg1, String arg2,
 			String arg3, String arg4, int arg5) {
 		// NOP
-		
+
 	}
 
 	@Override
 	public void onFileReceived(String arg0, String arg1, String arg2,
 			String arg3, String arg4, String arg5, long arg6, String arg7) {
 		// NOP
-		
+
 	}
 
 	@Override
 	public void onFileSent(String arg0, String arg1, String arg2, String arg3,
 			String arg4, String arg5) {
 		// NOP
-		
+
 	}
 
 	@Override
 	public void onFileWillReceive(String arg0, String arg1, String arg2,
 			String arg3, String arg4, String arg5, long arg6) {
 		// NOP
-		
+
 	}
 
 }

@@ -27,35 +27,38 @@ import com.samsung.chord.IChordChannelListener;
 import com.samsung.chord.IChordManagerListener;
 
 public class LookAtMeChord {
-	
+
 	public static final String SOCIAL_CHANNEL_NAME = "LOOKATME_SOCIAL_CHANNEL";
 	public static final String GAME_CHANNEL_NAME = "LOOKATME_GAME_CHANNEL";
 
 	private final ChordManager chordManager;
-	
+
 	private final IChordManagerListener chordManagerListener;
 	private final IChordChannelListener chordPublicChannelListener;
 	private final IChordChannelListener chordSocialChannelListener;
 	private final IChordChannelListener chordGameChannelListener;
-	
+
 	private IChordChannel publicChannel;
 	private IChordChannel socialChannel;
 	private IChordChannel gameChannel;
-	
+
 	public LookAtMeChord(Context context) {
 		chordManager = ChordManager.getInstance(context);
 		chordPublicChannelListener = new LookAtMePublicChannelListener();
 		chordSocialChannelListener = new LookAtMeChordSocialChannelListener();
 		chordGameChannelListener = new LookAtMeChordGameChannelListener();
-		chordManagerListener = new LookAtMeChordManagerListener(chordManager, chordPublicChannelListener);
-		
-		int result = chordManager.start(ChordManager.INTERFACE_TYPE_WIFIP2P, chordManagerListener);
+		chordManagerListener = new LookAtMeChordManagerListener(chordManager,
+				chordPublicChannelListener);
+
+		int result = chordManager.start(ChordManager.INTERFACE_TYPE_WIFIP2P,
+				chordManagerListener);
 		if (result != ChordManager.ERROR_NONE) {
-			//onChordStartFailed(result);
+			// onChordStartFailed(result);
 		}
-		publicChannel = chordManager.getJoinedChannel(ChordManager.PUBLIC_CHANNEL);
+		publicChannel = chordManager
+				.getJoinedChannel(ChordManager.PUBLIC_CHANNEL);
 	}
-	
+
 	public void stopChord() {
 		if (publicChannel != null) {
 			chordManager.leaveChannel(publicChannel.getName());
@@ -70,66 +73,64 @@ public class LookAtMeChord {
 	}
 
 	/**
-	 * Joins to the public channel (ChordManager.PUBLIC_CHANNEL).
-	 * "Devices running Chord-based applications 
-	 * are added to the public channel automatically" (docs).
-	 * It's redoundant???? publicChannel is retrieved with
-	 * chordManager.getJoinedChannel(ChordManager.PUBLIC_CHANNEL);
+	 * Joins to the public channel (ChordManager.PUBLIC_CHANNEL). "Devices
+	 * running Chord-based applications are added to the public channel
+	 * automatically" (docs). It's redoundant???? publicChannel is retrieved
+	 * with chordManager.getJoinedChannel(ChordManager.PUBLIC_CHANNEL);
 	 */
 	void joinPublicChannel() {
-		publicChannel = new LookAtMeChannel(
-				chordManager.joinChannel(ChordManager.PUBLIC_CHANNEL,chordPublicChannelListener), false);
+		publicChannel = new LookAtMeChannel(chordManager.joinChannel(
+				ChordManager.PUBLIC_CHANNEL, chordPublicChannelListener), false);
 	}
-	
+
 	/**
 	 * Joins to the social channel
 	 */
 	public void joinSocialChannel() {
-		socialChannel = new LookAtMeChannel(
-				chordManager.joinChannel(SOCIAL_CHANNEL_NAME, chordSocialChannelListener), true);
-		//onJoinedToPrivateChannel(mSocialPrivateChannel);
+		socialChannel = new LookAtMeChannel(chordManager.joinChannel(
+				SOCIAL_CHANNEL_NAME, chordSocialChannelListener), true);
+		// onJoinedToPrivateChannel(mSocialPrivateChannel);
 	}
-	
+
 	/**
 	 * Joins to the game channel
 	 */
 	public void joinGameChannel() {
-		gameChannel = new LookAtMeChannel(
-				chordManager.joinChannel(GAME_CHANNEL_NAME, chordGameChannelListener), true);
-		//onJoinedToPrivateChannel(mPrivateChannel);
+		gameChannel = new LookAtMeChannel(chordManager.joinChannel(
+				GAME_CHANNEL_NAME, chordGameChannelListener), true);
+		// onJoinedToPrivateChannel(mPrivateChannel);
 	}
-	
+
 	public String getNodeName() {
 		return chordManager.getName();
 	}
-	
+
 	/**
 	 * Sends message over public channel.
 	 */
 	public void sendPublicMessage(ChordMessage message) {
-		publicChannel.sendDataToAll(message.getType().name(), new byte[][] { message.getBytes() });
+		publicChannel.sendDataToAll(message.getType().name(),
+				new byte[][] { message.getBytes() });
 	}
 
 	/**
 	 * Sends message over social private channel.
 	 */
 	public void sendSocialMessage(ChordMessage message, String toNode) {
-		socialChannel.sendData(toNode, message.getType().name(), new byte[][] { message.getBytes() });
+		socialChannel.sendData(toNode, message.getType().name(),
+				new byte[][] { message.getBytes() });
 	}
 
 	/**
 	 * Sends message over game private channel.
 	 */
 	public void sendGameMessage(ChordMessage message, String toNode) {
-		gameChannel.sendData(toNode, message.getType().name(), new byte[][] { message.getBytes() });
+		gameChannel.sendData(toNode, message.getType().name(),
+				new byte[][] { message.getBytes() });
 	}
 	/*
-	public void handlePublicMessage(ChordMessage message) {
-		//TODO
-	}
-
-	public void handlePrivateMessage(ChordMessage message) {
-		//TODO
-	}
-	*/
+	 * public void handlePublicMessage(ChordMessage message) { //TODO }
+	 * 
+	 * public void handlePrivateMessage(ChordMessage message) { //TODO }
+	 */
 }

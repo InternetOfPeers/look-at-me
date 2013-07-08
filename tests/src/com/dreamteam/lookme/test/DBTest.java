@@ -26,7 +26,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		//dbOpenHelper.close();
+		// dbOpenHelper.close();
 	}
 
 	public void testDB() {

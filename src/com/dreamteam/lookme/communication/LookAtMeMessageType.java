@@ -7,13 +7,13 @@
 package com.dreamteam.lookme.communication;
 
 public enum LookAtMeMessageType {
-	
-	PREVIEW, 	/* Minimal profile data  */
-	PROFILE, 	/* Complete profile data */
-	INTEREST, 	/* Interest data 		 */
-	SHARED,		/* Shared files data 	 */
-	LIKE;		/* Love game			 */ 
-	
+
+	PREVIEW, /* Minimal profile data */
+	PROFILE, /* Complete profile data */
+	INTEREST, /* Interest data */
+	SHARED, /* Shared files data */
+	LIKE; /* Love game */
+
 	@Override
 	public String toString() {
 		return name();

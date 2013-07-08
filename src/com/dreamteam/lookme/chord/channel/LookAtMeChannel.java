@@ -14,12 +14,12 @@ public class LookAtMeChannel implements IChordChannel {
 
 	private final IChordChannel chordChannel;
 	private final boolean isPrivate;
-	
+
 	public LookAtMeChannel(IChordChannel channel, boolean isPrivate) {
 		this.chordChannel = channel;
 		this.isPrivate = isPrivate;
 	}
-	
+
 	@Override
 	public String getName() {
 		return chordChannel.getName();
@@ -37,26 +37,30 @@ public class LookAtMeChannel implements IChordChannel {
 
 	@Override
 	public boolean sendData(String toNode, String payloadType, byte[][] payload) {
-		Log.d("LookAtMe", "sendData[" + getType() + getName() + "][" + toNode + "] "
-				+ getMessageDescription(payload));
+		Log.d("LookAtMe", "sendData[" + getType() + getName() + "][" + toNode
+				+ "] " + getMessageDescription(payload));
 		return chordChannel.sendData(toNode, payloadType, payload);
 	}
 
 	@Override
 	public boolean sendDataToAll(String payloadType, byte[][] payload) {
-		Log.d("LookAtMe", "sendDataToAll[" + getType() + getName() + "][ALL] " + getMessageDescription(payload));
+		Log.d("LookAtMe", "sendDataToAll[" + getType() + getName() + "][ALL] "
+				+ getMessageDescription(payload));
 		return chordChannel.sendDataToAll(payloadType, payload);
 	}
 
 	@Override
-	public String sendFile(String toNode, String fileType, String filePath, long timeoutMsc) {
+	public String sendFile(String toNode, String fileType, String filePath,
+			long timeoutMsc) {
 		Log.d("LookAtMe", "sendFile[" + getName() + "][" + toNode + "]");
 		return chordChannel.sendFile(toNode, fileType, filePath, timeoutMsc);
 	}
 
 	@Override
-	public boolean acceptFile(String exchangeId, long chunkTimeoutMsc, int chunkRetries, long chunkSize) {
-		return chordChannel.acceptFile(exchangeId, chunkTimeoutMsc, chunkRetries, chunkSize);
+	public boolean acceptFile(String exchangeId, long chunkTimeoutMsc,
+			int chunkRetries, long chunkSize) {
+		return chordChannel.acceptFile(exchangeId, chunkTimeoutMsc,
+				chunkRetries, chunkSize);
 	}
 
 	@Override

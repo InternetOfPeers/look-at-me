@@ -19,25 +19,25 @@ import com.samsung.chord.IChordChannelListener;
 import com.samsung.chord.IChordManagerListener;
 
 public class TestChordActivity extends Activity implements OnClickListener {
-	
+
 	private EditText editName;
 	private EditText editSurname;
 	private TextView textBuddy;
-	
+
 	private ChordManager chord;
 	private IChordChannel publicChannel;
 	private IChordChannel privateChannel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test_chord);
-		
+
 		editName = (EditText) findViewById(R.id.editName);
 		editSurname = (EditText) findViewById(R.id.editSurname);
 		textBuddy = (TextView) findViewById(R.id.textBuddy);
-		
+
 		Button buttonStart = (Button) findViewById(R.id.buttonStart);
 		buttonStart.setOnClickListener(this);
 		Button buttonStop = (Button) findViewById(R.id.buttonStop);
@@ -50,10 +50,11 @@ public class TestChordActivity extends Activity implements OnClickListener {
 		buttonSendAllPublic.setOnClickListener(this);
 		Button buttonSendAllPrivate = (Button) findViewById(R.id.buttonSendAllPrivate);
 		buttonSendAllPrivate.setOnClickListener(this);
-		
+
 		chord = ChordManager.getInstance(this);
-		Log.d("CHORDTEST","chord != null ? "+(chord!=null));
-		//chord.setTempDirectory(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Chord");
+		Log.d("CHORDTEST", "chord != null ? " + (chord != null));
+		// chord.setTempDirectory(Environment.getExternalStorageDirectory().getAbsolutePath()
+		// + "/Chord");
 		chord.setHandleEventLooper(getMainLooper());
 	}
 
@@ -62,176 +63,220 @@ public class TestChordActivity extends Activity implements OnClickListener {
 
 		Profile profile = new Profile();
 		String name = editName.getText().toString();
-		Log.d("", "name is: "+name);
+		Log.d("", "name is: " + name);
 		profile.setName(name);
 		String surname = editSurname.getText().toString();
-		Log.d("", "surname is:"+surname);
+		Log.d("", "surname is:" + surname);
 		profile.setSurname(surname);
-		
-		Button button = (Button)v;
-		switch(button.getId()) {
-		case R.id.buttonStart : 
+
+		Button button = (Button) v;
+		switch (button.getId()) {
+		case R.id.buttonStart:
 			startChordTest();
 			break;
-		case R.id.buttonStop : 
+		case R.id.buttonStop:
 			stopChordTest();
 			break;
-		case R.id.buttonJoinPublic : 
+		case R.id.buttonJoinPublic:
 			joinPublicChannel();
 			break;
-		case R.id.buttonJoinPrivate : 
+		case R.id.buttonJoinPrivate:
 			joinPrivateChannel();
 			break;
-		case R.id.buttonSendAllPublic : 
+		case R.id.buttonSendAllPublic:
 			sendAllPublicChannel(profile);
 			break;
-		case R.id.buttonSendAllPrivate : 
+		case R.id.buttonSendAllPrivate:
 			sendAllPrivateChannel(profile);
 			break;
-		default: 
+		default:
 			Log.d("CHORDTEST", "UNKNOWN");
 			break;
 		}
 	}
-	
+
 	private void startChordTest() {
 		Log.d("CHORDTEST", "STARTING");
-		int startingResult = chord.start(ChordManager.INTERFACE_TYPE_WIFIP2P, new IChordManagerListener() {
-			@Override
-			public void onStarted(String arg0, int arg1) {
-				Log.d("CHORDTEST","onStarted("+arg0+","+arg1+")");
-			}
-			@Override
-			public void onNetworkDisconnected() {
-				Log.d("CHORDTEST","onNetworkDisconnected()");
-			}
-			@Override
-			public void onError(int arg0) {
-				Log.d("CHORDTEST","onError("+arg0+")");	
-			}
-		});
+		int startingResult = chord.start(ChordManager.INTERFACE_TYPE_WIFIP2P,
+				new IChordManagerListener() {
+					@Override
+					public void onStarted(String arg0, int arg1) {
+						Log.d("CHORDTEST", "onStarted(" + arg0 + "," + arg1
+								+ ")");
+					}
+
+					@Override
+					public void onNetworkDisconnected() {
+						Log.d("CHORDTEST", "onNetworkDisconnected()");
+					}
+
+					@Override
+					public void onError(int arg0) {
+						Log.d("CHORDTEST", "onError(" + arg0 + ")");
+					}
+				});
 		switch (startingResult) {
-		case ChordManager.ERROR_FAILED: Log.d("CHORDTEST","ERROR_FAILED"); break;
-		case ChordManager.ERROR_INVALID_INTERFACE: Log.d("CHORDTEST","ERROR_INVALID_INTERFACE"); break;
-		case ChordManager.ERROR_INVALID_PARAM: Log.d("CHORDTEST","ERROR_INVALID_PARAM"); break;
-		case ChordManager.ERROR_INVALID_STATE: Log.d("CHORDTEST","ERROR_INVALID_STATE"); break;
-		case ChordManager.ERROR_NONE: Log.d("CHORDTEST","ERROR_NONE"); break;
+		case ChordManager.ERROR_FAILED:
+			Log.d("CHORDTEST", "ERROR_FAILED");
+			break;
+		case ChordManager.ERROR_INVALID_INTERFACE:
+			Log.d("CHORDTEST", "ERROR_INVALID_INTERFACE");
+			break;
+		case ChordManager.ERROR_INVALID_PARAM:
+			Log.d("CHORDTEST", "ERROR_INVALID_PARAM");
+			break;
+		case ChordManager.ERROR_INVALID_STATE:
+			Log.d("CHORDTEST", "ERROR_INVALID_STATE");
+			break;
+		case ChordManager.ERROR_NONE:
+			Log.d("CHORDTEST", "ERROR_NONE");
+			break;
 		}
 	}
-	
+
 	private void stopChordTest() {
 		Log.d("CHORDTEST", "STOPPING");
 		chord.stop();
 	}
-	
+
 	private void joinPublicChannel() {
 		Log.d("CHORDTEST", "JOINING TO PUBLIC CHANNEL");
-		publicChannel = chord.joinChannel(ChordManager.PUBLIC_CHANNEL, new IChordChannelListener() {
-			@Override
-			public void onNodeLeft(String arg0, String arg1) {
-				Log.d("CHORDTEST", "onNodeLeft public");
-			}
-			@Override
-			public void onNodeJoined(String arg0, String arg1) {
-				Log.d("CHORDTEST", "onNodeJoined public");
-			}
-			@Override
-			public void onFileWillReceive(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6) {
-				Log.d("CHORDTEST", "onFileWillReceive public");
-			}
-			@Override
-			public void onFileSent(String arg0, String arg1, String arg2, String arg3,
-					String arg4, String arg5) {
-				Log.d("CHORDTEST", "onFileSent public");
-			}
-			@Override
-			public void onFileReceived(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6, String arg7) {
-				Log.d("CHORDTEST", "onFileReceived public");
-			}
-			@Override
-			public void onFileFailed(String arg0, String arg1, String arg2,
-					String arg3, String arg4, int arg5) {
-				Log.d("CHORDTEST", "onFileFailed public");
-			}
-			@Override
-			public void onFileChunkSent(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6, long arg7,
-					long arg8) {
-				Log.d("CHORDTEST", "onFileChunkSent public");
-			}
-			@Override
-			public void onFileChunkReceived(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6, long arg7) {
-				Log.d("CHORDTEST", "onFileChunkReceived public");
-			}
-			@Override
-			public void onDataReceived(String arg0, String arg1, String arg2,
-					byte[][] arg3) {
-				Log.d("CHORDTEST", "onDataReceived public");
-				ILookAtMeMessage message = ChordMessage.obtainChordMessage(arg3[0], arg0);
-				Profile profile = (Profile) message.getObject("profilo");
-				textBuddy.setText("JOINED "+profile.getName()+" "+profile.getSurname());
-			}
-		});
-		Log.d("CHORDTEST", "public channel is "+publicChannel.getName());
+		publicChannel = chord.joinChannel(ChordManager.PUBLIC_CHANNEL,
+				new IChordChannelListener() {
+					@Override
+					public void onNodeLeft(String arg0, String arg1) {
+						Log.d("CHORDTEST", "onNodeLeft public");
+					}
+
+					@Override
+					public void onNodeJoined(String arg0, String arg1) {
+						Log.d("CHORDTEST", "onNodeJoined public");
+					}
+
+					@Override
+					public void onFileWillReceive(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6) {
+						Log.d("CHORDTEST", "onFileWillReceive public");
+					}
+
+					@Override
+					public void onFileSent(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5) {
+						Log.d("CHORDTEST", "onFileSent public");
+					}
+
+					@Override
+					public void onFileReceived(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6, String arg7) {
+						Log.d("CHORDTEST", "onFileReceived public");
+					}
+
+					@Override
+					public void onFileFailed(String arg0, String arg1,
+							String arg2, String arg3, String arg4, int arg5) {
+						Log.d("CHORDTEST", "onFileFailed public");
+					}
+
+					@Override
+					public void onFileChunkSent(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6, long arg7, long arg8) {
+						Log.d("CHORDTEST", "onFileChunkSent public");
+					}
+
+					@Override
+					public void onFileChunkReceived(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6, long arg7) {
+						Log.d("CHORDTEST", "onFileChunkReceived public");
+					}
+
+					@Override
+					public void onDataReceived(String arg0, String arg1,
+							String arg2, byte[][] arg3) {
+						Log.d("CHORDTEST", "onDataReceived public");
+						ILookAtMeMessage message = ChordMessage
+								.obtainChordMessage(arg3[0], arg0);
+						Profile profile = (Profile) message
+								.getObject("profilo");
+						textBuddy.setText("JOINED " + profile.getName() + " "
+								+ profile.getSurname());
+					}
+				});
+		Log.d("CHORDTEST", "public channel is " + publicChannel.getName());
 	}
-	
+
 	private void joinPrivateChannel() {
 		Log.d("CHORDTEST", "JOINING TO PRIVATE CHANNEL");
-		privateChannel = chord.joinChannel("LookAtMePrivateChannel", new IChordChannelListener() {
-			@Override
-			public void onNodeLeft(String arg0, String arg1) {
-				Log.d("CHORDTEST", "onNodeLeft private");
-			}
-			@Override
-			public void onNodeJoined(String arg0, String arg1) {
-				Log.d("CHORDTEST", "onNodeJoined private");
-			}
-			@Override
-			public void onFileWillReceive(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6) {
-				Log.d("CHORDTEST", "onFileWillReceive private");
-			}
-			@Override
-			public void onFileSent(String arg0, String arg1, String arg2, String arg3,
-					String arg4, String arg5) {
-				Log.d("CHORDTEST", "onFileSent private");
-			}
-			@Override
-			public void onFileReceived(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6, String arg7) {
-				Log.d("CHORDTEST", "onFileReceived private");
-			}
-			@Override
-			public void onFileFailed(String arg0, String arg1, String arg2,
-					String arg3, String arg4, int arg5) {
-				Log.d("CHORDTEST", "onFileFailed private");
-			}
-			@Override
-			public void onFileChunkSent(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6, long arg7,
-					long arg8) {
-				Log.d("CHORDTEST", "onFileChunkSent private");
-			}
-			@Override
-			public void onFileChunkReceived(String arg0, String arg1, String arg2,
-					String arg3, String arg4, String arg5, long arg6, long arg7) {
-				Log.d("CHORDTEST", "onFileChunkReceived private");
-			}
-			@Override
-			public void onDataReceived(String arg0, String arg1, String arg2,
-					byte[][] arg3) {
-				Log.d("CHORDTEST", "onDataReceived private");
-				ILookAtMeMessage message = ChordMessage.obtainChordMessage(arg3[0], arg0);
-				Profile profile = (Profile) message.getObject("profilo");
-				textBuddy.setText("JOINED "+profile.getName()+" "+profile.getSurname());
-			}
-		});
-		Log.d("CHORDTEST", "private channel is "+privateChannel.getName());
+		privateChannel = chord.joinChannel("LookAtMePrivateChannel",
+				new IChordChannelListener() {
+					@Override
+					public void onNodeLeft(String arg0, String arg1) {
+						Log.d("CHORDTEST", "onNodeLeft private");
+					}
+
+					@Override
+					public void onNodeJoined(String arg0, String arg1) {
+						Log.d("CHORDTEST", "onNodeJoined private");
+					}
+
+					@Override
+					public void onFileWillReceive(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6) {
+						Log.d("CHORDTEST", "onFileWillReceive private");
+					}
+
+					@Override
+					public void onFileSent(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5) {
+						Log.d("CHORDTEST", "onFileSent private");
+					}
+
+					@Override
+					public void onFileReceived(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6, String arg7) {
+						Log.d("CHORDTEST", "onFileReceived private");
+					}
+
+					@Override
+					public void onFileFailed(String arg0, String arg1,
+							String arg2, String arg3, String arg4, int arg5) {
+						Log.d("CHORDTEST", "onFileFailed private");
+					}
+
+					@Override
+					public void onFileChunkSent(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6, long arg7, long arg8) {
+						Log.d("CHORDTEST", "onFileChunkSent private");
+					}
+
+					@Override
+					public void onFileChunkReceived(String arg0, String arg1,
+							String arg2, String arg3, String arg4, String arg5,
+							long arg6, long arg7) {
+						Log.d("CHORDTEST", "onFileChunkReceived private");
+					}
+
+					@Override
+					public void onDataReceived(String arg0, String arg1,
+							String arg2, byte[][] arg3) {
+						Log.d("CHORDTEST", "onDataReceived private");
+						ILookAtMeMessage message = ChordMessage
+								.obtainChordMessage(arg3[0], arg0);
+						Profile profile = (Profile) message
+								.getObject("profilo");
+						textBuddy.setText("JOINED " + profile.getName() + " "
+								+ profile.getSurname());
+					}
+				});
+		Log.d("CHORDTEST", "private channel is " + privateChannel.getName());
 	}
-	
+
 	private void sendAllPublicChannel(Profile profile) {
 		Log.d("CHORDTEST", "SENDING DATA TO PUBLIC CHANNEL");
 		ILookAtMeMessage message = profileToMessage(profile);
@@ -240,7 +285,7 @@ public class TestChordActivity extends Activity implements OnClickListener {
 		payloadArray[0] = payload;
 		publicChannel.sendDataToAll("profileMessage", payloadArray);
 	}
-	
+
 	private void sendAllPrivateChannel(Profile profile) {
 		Log.d("CHORDTEST", "SENDING DATA TO PUBLIC CHANNEL");
 		ILookAtMeMessage message = profileToMessage(profile);
@@ -249,9 +294,10 @@ public class TestChordActivity extends Activity implements OnClickListener {
 		payloadArray[0] = payload;
 		privateChannel.sendDataToAll("profileMessage", payloadArray);
 	}
-	
+
 	private ILookAtMeMessage profileToMessage(Profile profile) {
-		ILookAtMeMessage message = ChordMessage.obtainMessage(LookAtMeMessageType.PREVIEW);
+		ILookAtMeMessage message = ChordMessage
+				.obtainMessage(LookAtMeMessageType.PREVIEW);
 		message.putObject("profile", profile);
 		return message;
 	}

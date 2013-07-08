@@ -1,6 +1,5 @@
 package com.dreamteam.lookme.communication;
 
-
 public interface ILookAtMeMessage {
 
 	public abstract void putInt(String key, int value);
