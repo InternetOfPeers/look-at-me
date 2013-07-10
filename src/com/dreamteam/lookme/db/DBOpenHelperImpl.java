@@ -77,7 +77,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			contentValues.put(TABLE_PROFILES_COLUMN_SURNAME,
 					profile.getSurname());
 			contentValues.put(TABLE_PROFILES_COLUMN_NICKNAME,
-					profile.getNickname());
+					profile.getUsername());
 			contentValues.put(TABLE_PROFILES_COLUMN_IMAGE, profile.getImage());
 			profile.setId(database.insert(TABLE_PROFILES, null, contentValues));
 		} else {
@@ -87,7 +87,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			contentValues.put(TABLE_PROFILES_COLUMN_SURNAME,
 					profile.getSurname());
 			contentValues.put(TABLE_PROFILES_COLUMN_NICKNAME,
-					profile.getNickname());
+					profile.getUsername());
 			contentValues.put(TABLE_PROFILES_COLUMN_IMAGE, profile.getImage());
 			database.update(TABLE_PROFILES, contentValues, "id",
 					new String[] { "primary_id" });
@@ -122,7 +122,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 							.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
 					tempProfile.setSurname(cursor.getString(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
-					tempProfile.setNickname(cursor.getString(cursor
+					tempProfile.setUsername(cursor.getString(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
 					tempProfile.setImage(cursor.getBlob(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_IMAGE)));
@@ -206,7 +206,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 							.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
 					tempProfile.setSurname(cursor.getString(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
-					tempProfile.setNickname(cursor.getString(cursor
+					tempProfile.setUsername(cursor.getString(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
 					tempProfile.setImage(cursor.getBlob(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_IMAGE)));

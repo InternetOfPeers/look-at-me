@@ -9,7 +9,8 @@ public class Profile implements Serializable {
 	private long id;
 	private String name;
 	private String surname;
-	private String nickname;
+	private String username;
+	private String nodeName;
 	private byte[] image;
 
 	public long getId() {
@@ -36,20 +37,28 @@ public class Profile implements Serializable {
 		this.surname = surname;
 	}
 
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
 	public byte[] getImage() {
 		return image;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
 	}
 
 }
