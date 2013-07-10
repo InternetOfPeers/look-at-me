@@ -25,7 +25,7 @@ public class RegisterActivity  extends Activity {
 	private static int RESULT_LOAD_IMAGE = 1;
 	
 	private static final int PICK_IMAGE = 1;
-	DBOpenHelper dbOpenHelper;
+	private DBOpenHelper dbOpenHelper;
 	 String imageFilePath=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,13 +115,13 @@ public class RegisterActivity  extends Activity {
     						0, image.length));
 
     				cursor.close();
-    				text = "YOU NEED TO RESTART THE APPLICATION! ";
+    				text = "THANK U FOR REGISTER";
     			}
 
     		} catch (Exception e) {
     			Log.e("changing image",
     					"error changing image, error: " + e.toString());
-    			text = "Unable to load image ";
+    			text = "ops!Unable to load image ";
 
     		}
     		int duration = Toast.LENGTH_LONG;

@@ -1,31 +1,57 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-     >
+    android:layout_height="fill_parent" >
 
-    <!-- android:background="@drawable/custom_button" -->
-    
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff" >
+
+        <!-- android:background="@drawable/custom_button" -->
+
+
+        <!-- Header  Starts -->
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@layout/header_gradient"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
+
+            <!-- Logo Start -->
+
+            <ImageView
+                android:layout_width="316dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/lookatme_logo" />
+
+            <!-- Logo Ends -->
+        </LinearLayout>
+        <!-- Header Ends -->
+    </RelativeLayout>
+
     <Button
         android:id="@+id/showLogin_btn"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"        
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginTop="25dp"
         android:onClick="showLogin"
         android:text="login/register" />
-    
-    
-        <Button
+
+    <Button
         android:id="@+id/showTestChord_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="100dp"
+        android:layout_alignBaseline="@+id/showLogin_btn"
         android:layout_alignBottom="@+id/showLogin_btn"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/showLogin_btn"
-        android:layout_toRightOf="@+id/showLogin_btn"
         android:onClick="showTestChord"
         android:text="test chord" />
 
-
 </RelativeLayout>
-

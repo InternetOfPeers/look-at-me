@@ -13,6 +13,8 @@ import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.chord.message.ChordMessage;
 import com.dreamteam.lookme.communication.ILookAtMeMessage;
 import com.dreamteam.lookme.communication.LookAtMeMessageType;
+import com.dreamteam.lookme.db.DBOpenHelper;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.samsung.chord.ChordManager;
 import com.samsung.chord.IChordChannel;
 import com.samsung.chord.IChordChannelListener;
@@ -27,13 +29,15 @@ public class TestChordActivity extends Activity implements OnClickListener {
 	private ChordManager chord;
 	private IChordChannel publicChannel;
 	private IChordChannel privateChannel;
+	
+	private DBOpenHelper dbOpenHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test_chord);
-
+		dbOpenHelper = new DBOpenHelperImpl(this);
 		editName = (EditText) findViewById(R.id.editName);
 		editSurname = (EditText) findViewById(R.id.editSurname);
 		textBuddy = (TextView) findViewById(R.id.textBuddy);
@@ -60,39 +64,43 @@ public class TestChordActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		try{
+			Profile profile = dbOpenHelper.getProfile(0);
+			String name = editName.getText().toString();
+			Log.d("", "name is: " + name);
+			profile.setName(name);
+			String surname = editSurname.getText().toString();
+			Log.d("", "surname is:" + surname);
+			profile.setSurname(surname);
 
-		Profile profile = new Profile();
-		String name = editName.getText().toString();
-		Log.d("", "name is: " + name);
-		profile.setName(name);
-		String surname = editSurname.getText().toString();
-		Log.d("", "surname is:" + surname);
-		profile.setSurname(surname);
-
-		Button button = (Button) v;
-		switch (button.getId()) {
-		case R.id.buttonStart:
-			startChordTest();
-			break;
-		case R.id.buttonStop:
-			stopChordTest();
-			break;
-		case R.id.buttonJoinPublic:
-			joinPublicChannel();
-			break;
-		case R.id.buttonJoinPrivate:
-			joinPrivateChannel();
-			break;
-		case R.id.buttonSendAllPublic:
-			sendAllPublicChannel(profile);
-			break;
-		case R.id.buttonSendAllPrivate:
-			sendAllPrivateChannel(profile);
-			break;
-		default:
-			Log.d("CHORDTEST", "UNKNOWN");
-			break;
+			Button button = (Button) v;
+			switch (button.getId()) {
+			case R.id.buttonStart:
+				startChordTest();
+				break;
+			case R.id.buttonStop:
+				stopChordTest();
+				break;
+			case R.id.buttonJoinPublic:
+				joinPublicChannel();
+				break;
+			case R.id.buttonJoinPrivate:
+				joinPrivateChannel();
+				break;
+			case R.id.buttonSendAllPublic:
+				sendAllPublicChannel(profile);
+				break;
+			case R.id.buttonSendAllPrivate:
+				sendAllPrivateChannel(profile);
+				break;
+			default:
+				Log.d("CHORDTEST", "UNKNOWN");
+				break;
+			}
+		}catch(Exception e){
+			Log.e("tesctCHORD","error during onclick, error:"+e.getMessage());
 		}
+
 	}
 
 	private void startChordTest() {

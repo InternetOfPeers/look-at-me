@@ -16,7 +16,7 @@
                 android:paddingTop="5dip"
                 android:paddingBottom="5dip">
                 <!-- Logo Start-->
-                <ImageView android:src="@drawable/ic_launcher"
+                <ImageView android:src="@drawable/lookatme_logo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dip"/>
@@ -68,7 +68,7 @@
           <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="name"/>
+                android:text="surname"/>
           <EditText android:id="@+id/reg_surname"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
           <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="name"/>
+                android:text="username"/>
           <EditText android:id="@+id/reg_username"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
