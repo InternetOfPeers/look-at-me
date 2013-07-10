@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,22 +31,25 @@ public class RegisterActivity  extends Activity {
 	 String imageFilePath=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        dbOpenHelper = new DBOpenHelperImpl(this);
-        // Set View to register.xml
-        setContentView(R.layout.register);
- 
-        TextView loginScreen = (TextView) findViewById(R.id.link_to_login);
- 
-        // Listening to Login Screen link
-        loginScreen.setOnClickListener(new View.OnClickListener() {
- 
-            public void onClick(View arg0) {
-                                // Closing registration screen
-                // Switching to Login Screen/closing register screen
-                finish();
+    	try{
+            super.onCreate(savedInstanceState);
+            dbOpenHelper = new DBOpenHelperImpl(this);
+            // Set View to register.xml
+            setContentView(R.layout.register);
+            
+            //TODO:this check SUCKS!!!!!I HAVE TO CHANGE
+            Profile oldProfile=dbOpenHelper.getProfile(1);
+            
+            if(oldProfile!=null)
+            {
+            	switchToUpdateAccount(oldProfile);
             }
-        });
+     
+    	}catch(Exception e)
+    	{
+    		Log.e("REGISTER", "errore during create of registration activity! error: "+ e.getMessage());
+    	}
+
     }
     
     public void onRegister(View view)
@@ -61,8 +66,15 @@ public class RegisterActivity  extends Activity {
         	profile.setUsername(usernameScreen.getText().toString());   
         	
         	ImageView imageView = (ImageView) findViewById(R.id.imgView);
+        	Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        	
+        	profile.setImage(bitmapToByteArray(bitmap));
 
-        	dbOpenHelper.saveOrUpdateProfile(profile);    		
+        	Profile savedProfile =dbOpenHelper.saveOrUpdateProfile(profile);    
+        	switchToUpdateAccount(savedProfile);
+    		Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
+    		toast.show();
+
     	}catch(Exception e)
     	{
     		Log.e("REGISTER", "errore during registration! error: "+ e.getMessage());
@@ -115,7 +127,7 @@ public class RegisterActivity  extends Activity {
     						0, image.length));
 
     				cursor.close();
-    				text = "THANK U FOR REGISTER";
+    				text = "COOL PICTURE!";
     			}
 
     		} catch (Exception e) {
@@ -129,6 +141,24 @@ public class RegisterActivity  extends Activity {
     		Toast toast = Toast.makeText(context, text, duration);
     		toast.show();
 
+    	}
+    	
+    	
+    	private void switchToUpdateAccount(Profile profile)
+    	{
+        	TextView nameScreen = (TextView) findViewById(R.id.reg_name);
+        	nameScreen.setText(profile.getName());
+        	TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
+        	surnameScreen.setText(profile.getSurname());
+        	TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
+        	usernameScreen.setText(profile.getUsername());            	 
+        	
+        	ImageView imageView = (ImageView) findViewById(R.id.imgView);
+        	imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getImage(), 0, profile.getImage().length));
+        	
+        	
+        	Button button = (Button) findViewById(R.id.btnRegister);
+        	button.setText("change my profile");
     	}
     
     
