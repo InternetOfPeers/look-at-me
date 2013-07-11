@@ -42,11 +42,7 @@
         
         <!--  Entry for RegisterActivity.class -->
         <activity android:name=".RegisterActivity"
-                  android:label="Register New Account"></activity>   
-                  
-        <!--  Entry for RegisterActivity.class -->
-        <activity android:name=".TestChordActivity"
-                  android:label="test chord"></activity>           
+                  android:label="Register New Account"></activity>         
                   
         
     </application>

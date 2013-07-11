@@ -21,12 +21,6 @@ public class StartMenuActivity extends Activity {
 
 	}
 
-	public void showTestChord(View view) {
-		Intent intent = new Intent(this, TestChordActivity.class);
-		startActivity(intent);
-
-	}
-
 	public void exit() {
 
 	}
