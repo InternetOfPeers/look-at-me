@@ -181,7 +181,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	}
 	
-	public Profile getMyProfile(long contactID) throws Exception {
+	public Profile getMyProfile() throws Exception {
 		return getProfile(1);
 	}
 
