@@ -7,12 +7,17 @@
  */
 package com.dreamteam.lookme.communication;
 
+import java.util.List;
+
+import com.dreamteam.lookme.error.LookAtMeException;
+
 public interface ILookAtMeCommunicationManager {
 
-	public void startCommunication();
-
+	public void startCommunication() throws LookAtMeException;
+	
 	public void stopCommunication();
 
-	public void sendToAll(ILookAtMeMessage message);
+	public List<LookAtMeNode> getSocialNodeList();
+	
 
 }
