@@ -55,6 +55,9 @@ public class RegisterActivity extends Activity {
 
 	public void onRegister(View view) {
 		try {
+			
+			
+			boolean checkFormValidation = true;
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
 			Profile profile = new Profile();
 			profile.setName(nameScreen.getText().toString());
@@ -63,7 +66,7 @@ public class RegisterActivity extends Activity {
 			profile.setSurname(surnameScreen.getText().toString());
 
 			TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
-			profile.setUsername(usernameScreen.getText().toString());
+			profile.setNickname(usernameScreen.getText().toString());
 
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 			Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable())
@@ -148,7 +151,7 @@ public class RegisterActivity extends Activity {
 		TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
 		surnameScreen.setText(profile.getSurname());
 		TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
-		usernameScreen.setText(profile.getUsername());
+		usernameScreen.setText(profile.getNickname());
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(

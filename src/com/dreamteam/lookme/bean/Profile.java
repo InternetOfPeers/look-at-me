@@ -9,7 +9,7 @@ public class Profile implements Serializable {
 	private long id;
 	private String name;
 	private String surname;
-	private String username;
+	private String nickname;
 	private String nodeName;
 	private byte[] image;
 
@@ -41,12 +41,12 @@ public class Profile implements Serializable {
 		return image;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setNickname(String username) {
+		this.nickname = username;
 	}
 
 	public void setImage(byte[] image) {
