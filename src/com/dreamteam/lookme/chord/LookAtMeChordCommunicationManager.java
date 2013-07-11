@@ -11,6 +11,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.dreamteam.lookme.bean.Profile;
+import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
 import com.dreamteam.lookme.communication.LookAtMeMessage;
 import com.dreamteam.lookme.communication.LookAtMeMessageType;
@@ -39,11 +40,14 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	private LookAtMeChordErrorManager errorManager;
 	
 	private Map<String, LookAtMeNode> socialNodeMap;
+	
+	private ILookAtMeCommunicationListener communicationListener;
 
-	public LookAtMeChordCommunicationManager(Context context) {
+	public LookAtMeChordCommunicationManager(Context context, ILookAtMeCommunicationListener communicationListener) {
 		Log.d(TAG, TAGClass + " : " + "LookAtMeChordCommunicationManager");
-		chord = ChordManager.getInstance(context);
-		errorManager = new LookAtMeChordErrorManager();
+		this.chord = ChordManager.getInstance(context);
+		this.errorManager = new LookAtMeChordErrorManager();
+		this.communicationListener = communicationListener;
 	}
 
 	@Override
@@ -54,6 +58,9 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		
 		publicChannel = joinPublicChannel();
 		socialChannel = joinSocialChannel();
+		
+		// notify to update GUI
+		communicationListener.onCommunicationStarted();
 	}
 
 	@Override
@@ -66,6 +73,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			chord.leaveChannel(SOCIAL_CHANNEL_NAME);
 		}
 		chord.stop();
+		// notify to update GUI
+		communicationListener.onCommunicationStopped();
 	}
 
 	@Override
@@ -113,7 +122,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			@Override
 			public void onFileFailed(String arg0, String arg1, String arg2,
 					String arg3, String arg4, int arg5) {
-				Log.d(TAG, TAGClass + " : " + "IChordChannelListener public : onFileFailed");
+				Log.d(TAG, TAGClass + " : " + "IChordChannelListener public : onFileFailed NOT IMPLEMENTED");
 			}
 			
 			@Override
@@ -146,7 +155,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 				Log.d(TAG, TAGClass + " : " + "IChordChannelListener social : onNodeLeft");
 				// remove node from map
 				socialNodeMap.remove(arg0);
-				// TODO: notify for update GUI
+				// notify to update GUI
+				communicationListener.onSocialNodeLeft();
 			}
 			
 			@Override
@@ -212,7 +222,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					node.setId(arg0);
 					node.setProfile(profile);
 					socialNodeMap.put(arg0, node);
-					// TODO: notify for update GUI
+					// notify to update GUI
+					communicationListener.onSocialNodeJoined();
 				}
 				
 			}
@@ -235,20 +246,17 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			
 			@Override
 			public void onStarted(String arg0, int arg1) {
-				// TODO Auto-generated method stub
-				
+				Log.d(TAG, TAGClass + " : " + "IChordManagerListener : onStarted NOT IMPLEMENTED");
 			}
 			
 			@Override
 			public void onNetworkDisconnected() {
-				// TODO Auto-generated method stub
-				
+				Log.d(TAG, TAGClass + " : " + "IChordManagerListener : onNetworkDisconnected NOT IMPLEMENTED");
 			}
 			
 			@Override
 			public void onError(int arg0) {
-				// TODO Auto-generated method stub
-				
+				Log.d(TAG, TAGClass + " : " + "IChordManagerListener : onError NOT IMPLEMENTED");
 			}
 		});
 	}
