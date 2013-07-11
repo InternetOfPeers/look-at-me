@@ -3,8 +3,8 @@ package com.dreamteam.lookme.test;
 import junit.framework.TestCase;
 
 import com.dreamteam.lookme.bean.Profile;
-import com.dreamteam.lookme.chord.message.ChordMessage;
-import com.dreamteam.lookme.communication.ILookAtMeMessage;
+import com.dreamteam.lookme.chord.LookAtMeChordMessage;
+import com.dreamteam.lookme.communication.LookAtMeMessage;
 import com.dreamteam.lookme.communication.LookAtMeMessageType;
 
 public class ChordMessageTest extends TestCase {
@@ -20,32 +20,31 @@ public class ChordMessageTest extends TestCase {
 	}
 
 	public void testPutObject() {
-		ILookAtMeMessage message = ChordMessage
-				.obtainMessage(LookAtMeMessageType.PREVIEW);
+		LookAtMeMessage message = new LookAtMeChordMessage(LookAtMeMessageType.PREVIEW);
 		profile = new Profile();
 		profile.setName("pippo");
 		profile.setSurname("paperino");
-		message.putObject(ILookAtMeMessage.PROFILE_KEY, profile);
-		assertEquals(profile, message.getObject(ILookAtMeMessage.PROFILE_KEY));
+		message.putObject(LookAtMeMessage.PROFILE_KEY, profile);
+		assertEquals(profile, message.getObject(LookAtMeMessage.PROFILE_KEY));
 		assertEquals(
-				((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY))
+				((Profile) message.getObject(LookAtMeMessage.PROFILE_KEY))
 						.getName(),
 				"pippo");
 		assertEquals(
-				((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY))
+				((Profile) message.getObject(LookAtMeMessage.PROFILE_KEY))
 						.getSurname(),
 				"paperino");
 
 		profile = new Profile();
 		profile.setName("pluto");
 		profile.setSurname("topolino");
-		message.putObject(ILookAtMeMessage.PROFILE_KEY, profile);
+		message.putObject(LookAtMeMessage.PROFILE_KEY, profile);
 		assertEquals(
-				((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY))
+				((Profile) message.getObject(LookAtMeMessage.PROFILE_KEY))
 						.getName(),
 				"pluto");
 		assertEquals(
-				((Profile) message.getObject(ILookAtMeMessage.PROFILE_KEY))
+				((Profile) message.getObject(LookAtMeMessage.PROFILE_KEY))
 						.getSurname(),
 				"topolino");
 	}
