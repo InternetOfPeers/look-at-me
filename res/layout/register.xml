@@ -24,13 +24,13 @@
         </LinearLayout>
         <!--  Header Ends -->
         <!-- Footer Start -->
-        <LinearLayout android:id="@+id/footer"
+        <!-- LinearLayout android:id="@+id/footer"
             android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="90dip"
                 android:background="@layout/footer"
                 android:layout_alignParentBottom="true">
-        </LinearLayout>
+        </LinearLayout-->
         <!-- Footer Ends -->
  
         <!-- Registration Form -->
