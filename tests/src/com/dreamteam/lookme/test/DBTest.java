@@ -40,7 +40,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
 			Profile profileToBeSaved = new Profile();
 			profileToBeSaved.setName("Riccardo");
 			profileToBeSaved.setSurname("Alfrilli");
-			profileToBeSaved.setUsername("AlfaOmega83");
+			profileToBeSaved.setNickname("AlfaOmega83");
 			profileToBeSaved = dbOpenHelper
 					.saveOrUpdateProfile(profileToBeSaved);
 			Profile profileSaved = dbOpenHelper.getProfile(profileToBeSaved
@@ -49,8 +49,8 @@ public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
 			assertEquals(profileToBeSaved.getName(), profileSaved.getName());
 			assertEquals(profileToBeSaved.getSurname(),
 					profileSaved.getSurname());
-			assertEquals(profileToBeSaved.getUsername(),
-					profileSaved.getUsername());
+			assertEquals(profileToBeSaved.getNickname(),
+					profileSaved.getNickname());
 			assertEquals(profileToBeSaved.getImage(), profileSaved.getImage());
 		} catch (Exception e) {
 			fail("error on testDB error:" + e.getMessage());
