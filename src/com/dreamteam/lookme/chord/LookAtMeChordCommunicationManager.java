@@ -36,14 +36,14 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	private List<Integer> availableWifiInterface;
 	private int currentWifiInterface;
 	
-	private LookAtMeErrorManager errorManager;
+	private LookAtMeChordErrorManager errorManager;
 	
 	private Map<String, LookAtMeNode> socialNodeMap;
 
 	public LookAtMeChordCommunicationManager(Context context) {
 		Log.d(TAG, TAGClass + " : " + "LookAtMeChordCommunicationManager");
 		chord = ChordManager.getInstance(context);
-		errorManager = new LookAtMeErrorManager();
+		errorManager = new LookAtMeChordErrorManager();
 	}
 
 	@Override
