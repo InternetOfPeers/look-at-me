@@ -29,7 +29,7 @@ public class TestChordActivity extends Activity implements OnClickListener {
 	private ChordManager chord;
 	private IChordChannel publicChannel;
 	private IChordChannel privateChannel;
-	
+
 	private DBOpenHelper dbOpenHelper;
 
 	@Override
@@ -64,7 +64,7 @@ public class TestChordActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		try{
+		try {
 			Profile profile = dbOpenHelper.getProfile(0);
 			String name = editName.getText().toString();
 			Log.d("", "name is: " + name);
@@ -97,8 +97,8 @@ public class TestChordActivity extends Activity implements OnClickListener {
 				Log.d("CHORDTEST", "UNKNOWN");
 				break;
 			}
-		}catch(Exception e){
-			Log.e("tesctCHORD","error during onclick, error:"+e.getMessage());
+		} catch (Exception e) {
+			Log.e("tesctCHORD", "error during onclick, error:" + e.getMessage());
 		}
 
 	}
@@ -210,7 +210,8 @@ public class TestChordActivity extends Activity implements OnClickListener {
 								.obtainChordMessage(payload[0], fromNode);
 						Profile profile = (Profile) message
 								.getObject(ILookAtMeMessage.PROFILE_KEY);
-						textBuddy.setText("RECEIVED MESSAGE FROM " + profile.getName() + " "
+						textBuddy.setText("RECEIVED MESSAGE FROM "
+								+ profile.getName() + " "
 								+ profile.getSurname());
 					}
 				});
@@ -281,7 +282,8 @@ public class TestChordActivity extends Activity implements OnClickListener {
 
 						Profile profile = (Profile) message
 								.getObject(ILookAtMeMessage.PROFILE_KEY);
-						textBuddy.setText("RECEIVED MESSAGE FROM " + profile.getName() + " "
+						textBuddy.setText("RECEIVED MESSAGE FROM "
+								+ profile.getName() + " "
 								+ profile.getSurname());
 					}
 

@@ -23,145 +23,141 @@ import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 
-public class RegisterActivity  extends Activity {
+public class RegisterActivity extends Activity {
 	private static int RESULT_LOAD_IMAGE = 1;
-	
+
 	private static final int PICK_IMAGE = 1;
 	private DBOpenHelper dbOpenHelper;
-	 String imageFilePath=null;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	try{
-            super.onCreate(savedInstanceState);
-            dbOpenHelper = new DBOpenHelperImpl(this);
-            // Set View to register.xml
-            setContentView(R.layout.register);
-            
-            //TODO:this check SUCKS!!!!!I HAVE TO CHANGE
-            Profile oldProfile=dbOpenHelper.getProfile(1);
-            
-            if(oldProfile!=null)
-            {
-            	switchToUpdateAccount(oldProfile);
-            }
-     
-    	}catch(Exception e)
-    	{
-    		Log.e("REGISTER", "errore during create of registration activity! error: "+ e.getMessage());
-    	}
+	String imageFilePath = null;
 
-    }
-    
-    public void onRegister(View view)
-    {
-    	try{
-        	TextView nameScreen = (TextView) findViewById(R.id.reg_name);
-        	Profile profile = new Profile();
-        	profile.setName(nameScreen.getText().toString());
-        	
-        	TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
-        	profile.setSurname(surnameScreen.getText().toString());
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		try {
+			super.onCreate(savedInstanceState);
+			dbOpenHelper = new DBOpenHelperImpl(this);
+			// Set View to register.xml
+			setContentView(R.layout.register);
 
-        	TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
-        	profile.setUsername(usernameScreen.getText().toString());   
-        	
-        	ImageView imageView = (ImageView) findViewById(R.id.imgView);
-        	Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-        	
-        	profile.setImage(bitmapToByteArray(bitmap));
+			// TODO:this check SUCKS!!!!!I HAVE TO CHANGE
+			Profile oldProfile = dbOpenHelper.getProfile(1);
 
-        	Profile savedProfile =dbOpenHelper.saveOrUpdateProfile(profile);    
-        	switchToUpdateAccount(savedProfile);
-    		Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
-    		toast.show();
+			if (oldProfile != null) {
+				switchToUpdateAccount(oldProfile);
+			}
 
-    	}catch(Exception e)
-    	{
-    		Log.e("REGISTER", "errore during registration! error: "+ e.getMessage());
-    	}
+		} catch (Exception e) {
+			Log.e("REGISTER",
+					"errore during create of registration activity! error: "
+							+ e.getMessage());
+		}
 
-    	
-    }
-    
-    public void onChooseImage(View view)
-    {
-    	try{
-    	    
-    	    Intent intent = new Intent();
-    	    intent.setType("image/*");
-    	    intent.setAction(Intent.ACTION_GET_CONTENT);
-    	    startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-    	}catch(Exception e)
-    	{
-    		Log.e("REGISTER", "errore during registration! error: "+ e.getMessage());
-    	}
+	}
 
-    	
-    } 
-    
+	public void onRegister(View view) {
+		try {
+			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
+			Profile profile = new Profile();
+			profile.setName(nameScreen.getText().toString());
 
-    	@Override
-    	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    		Context context = getApplicationContext();
-    		CharSequence text = "";
-    		byte[] image = null;
-    		try {
-    			super.onActivityResult(requestCode, resultCode, data);
+			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
+			profile.setSurname(surnameScreen.getText().toString());
 
-    			if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
-    					&& null != data) {
-    				Uri selectedImage = data.getData();
+			TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
+			profile.setUsername(usernameScreen.getText().toString());
 
-    				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			ImageView imageView = (ImageView) findViewById(R.id.imgView);
+			Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable())
+					.getBitmap();
 
-    				Cursor cursor = getContentResolver().query(selectedImage,
-    						filePathColumn, null, null, null);
-    				cursor.moveToFirst();
+			profile.setImage(bitmapToByteArray(bitmap));
 
-    				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-    				String picturePath = cursor.getString(columnIndex);
+			Profile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
+			switchToUpdateAccount(savedProfile);
+			Toast toast = Toast.makeText(getApplicationContext(),
+					"welcome on Look@ME!", 10);
+			toast.show();
 
-    				image = getImageFromPicturePath(picturePath);
-    				ImageView imageView = (ImageView) findViewById(R.id.imgView);
-    				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image,
-    						0, image.length));
+		} catch (Exception e) {
+			Log.e("REGISTER",
+					"errore during registration! error: " + e.getMessage());
+		}
 
-    				cursor.close();
-    				text = "COOL PICTURE!";
-    			}
+	}
 
-    		} catch (Exception e) {
-    			Log.e("changing image",
-    					"error changing image, error: " + e.toString());
-    			text = "ops!Unable to load image ";
+	public void onChooseImage(View view) {
+		try {
 
-    		}
-    		int duration = Toast.LENGTH_LONG;
+			Intent intent = new Intent();
+			intent.setType("image/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			startActivityForResult(
+					Intent.createChooser(intent, "Select Picture"), 1);
+		} catch (Exception e) {
+			Log.e("REGISTER",
+					"errore during registration! error: " + e.getMessage());
+		}
 
-    		Toast toast = Toast.makeText(context, text, duration);
-    		toast.show();
+	}
 
-    	}
-    	
-    	
-    	private void switchToUpdateAccount(Profile profile)
-    	{
-        	TextView nameScreen = (TextView) findViewById(R.id.reg_name);
-        	nameScreen.setText(profile.getName());
-        	TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
-        	surnameScreen.setText(profile.getSurname());
-        	TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
-        	usernameScreen.setText(profile.getUsername());            	 
-        	
-        	ImageView imageView = (ImageView) findViewById(R.id.imgView);
-        	imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getImage(), 0, profile.getImage().length));
-        	
-        	
-        	Button button = (Button) findViewById(R.id.btnRegister);
-        	button.setText("change my profile");
-    	}
-    
-    
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Context context = getApplicationContext();
+		CharSequence text = "";
+		byte[] image = null;
+		try {
+			super.onActivityResult(requestCode, resultCode, data);
+
+			if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
+					&& null != data) {
+				Uri selectedImage = data.getData();
+
+				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+				Cursor cursor = getContentResolver().query(selectedImage,
+						filePathColumn, null, null, null);
+				cursor.moveToFirst();
+
+				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+				String picturePath = cursor.getString(columnIndex);
+
+				image = getImageFromPicturePath(picturePath);
+				ImageView imageView = (ImageView) findViewById(R.id.imgView);
+				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image,
+						0, image.length));
+
+				cursor.close();
+				text = "COOL PICTURE!";
+			}
+
+		} catch (Exception e) {
+			Log.e("changing image",
+					"error changing image, error: " + e.toString());
+			text = "ops!Unable to load image ";
+
+		}
+		int duration = Toast.LENGTH_LONG;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+
+	}
+
+	private void switchToUpdateAccount(Profile profile) {
+		TextView nameScreen = (TextView) findViewById(R.id.reg_name);
+		nameScreen.setText(profile.getName());
+		TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
+		surnameScreen.setText(profile.getSurname());
+		TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
+		usernameScreen.setText(profile.getUsername());
+
+		ImageView imageView = (ImageView) findViewById(R.id.imgView);
+		imageView.setImageBitmap(BitmapFactory.decodeByteArray(
+				profile.getImage(), 0, profile.getImage().length));
+
+		Button button = (Button) findViewById(R.id.btnRegister);
+		button.setText("change my profile");
+	}
+
 	public static byte[] getImageFromPicturePath(String picturePath) {
 		try {
 			Bitmap b = BitmapLoader.loadBitmap(picturePath, 512, 256);
@@ -174,7 +170,7 @@ public class RegisterActivity  extends Activity {
 		}
 		return null;
 	}
-	
+
 	public static byte[] bitmapToByteArray(Bitmap bitmap) {
 		int size = bitmap.getWidth() * bitmap.getHeight() * 2;
 		ByteArrayOutputStream outStream;
@@ -186,7 +182,7 @@ public class RegisterActivity  extends Activity {
 		}
 		return outStream.toByteArray();
 	}
-	
+
 	public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
 
 		Bitmap resizedBitmap = Bitmap.createScaledBitmap(bm, newWidth,
@@ -194,11 +190,10 @@ public class RegisterActivity  extends Activity {
 
 		return resizedBitmap;
 
-	}	
-	
-	
+	}
 
 }
+
 class BitmapLoader {
 	public static int getScale(int originalWidth, int originalHeight,
 			final int requiredWidth, final int requiredHeight) {
@@ -261,4 +256,3 @@ class BitmapLoader {
 		return BitmapFactory.decodeFile(filePath, options);
 	}
 }
-
