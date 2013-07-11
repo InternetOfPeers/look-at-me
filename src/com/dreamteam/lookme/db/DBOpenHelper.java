@@ -30,5 +30,7 @@ public interface DBOpenHelper {
 	public void deleteProfile(long profileID) throws Exception;
 
 	public Profile getProfile(long profileID) throws Exception;
+	
+	public Profile getMyProfile() throws Exception;
 
 }

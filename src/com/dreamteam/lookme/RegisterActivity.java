@@ -39,7 +39,7 @@ public class RegisterActivity extends Activity {
 			setContentView(R.layout.register);
 
 			// TODO:this check SUCKS!!!!!I HAVE TO CHANGE
-			Profile oldProfile = dbOpenHelper.getProfile(1);
+			Profile oldProfile = dbOpenHelper.getMyProfile();
 
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
@@ -57,18 +57,32 @@ public class RegisterActivity extends Activity {
 		try {
 			
 			
-			boolean checkFormValidation = true;
+			
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
+			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
+			TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
+			ImageView imageView = (ImageView) findViewById(R.id.imgView);
+			
+			if(nameScreen.getText()==null||nameScreen.getText().equals("")||surnameScreen.getText()==null||surnameScreen.getText().equals("")||
+					usernameScreen.getText()==null||usernameScreen.getText().equals("")||imageView.getDrawable()
+					==null)
+			{
+			    Toast.makeText(this, "All Fields Required.", 
+			            Toast.LENGTH_SHORT).show();
+			    return;
+			}
+			
+			
 			Profile profile = new Profile();
 			profile.setName(nameScreen.getText().toString());
 
-			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
+			
 			profile.setSurname(surnameScreen.getText().toString());
 
-			TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
+			
 			profile.setNickname(usernameScreen.getText().toString());
 
-			ImageView imageView = (ImageView) findViewById(R.id.imgView);
+			
 			Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable())
 					.getBitmap();
 

@@ -180,6 +180,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 
 	}
+	
+	public Profile getMyProfile(long contactID) throws Exception {
+		return getProfile(1);
+	}
 
 	/*
 	 * (non-Javadoc)
