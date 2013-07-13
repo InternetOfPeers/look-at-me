@@ -1,3 +1,6 @@
+/**
+ * Author: Carlo Tassi
+ */
 package com.dreamteam.lookme.communication;
 
 public interface ILookAtMeCommunicationListener {
@@ -6,8 +9,8 @@ public interface ILookAtMeCommunicationListener {
 	
 	public void onCommunicationStopped();
 	
-	public void onSocialNodeJoined();
+	public void onSocialNodeJoined(LookAtMeNode node);
 	
-	public void onSocialNodeLeft();
+	public void onSocialNodeLeft(String nodeName);
 
 }

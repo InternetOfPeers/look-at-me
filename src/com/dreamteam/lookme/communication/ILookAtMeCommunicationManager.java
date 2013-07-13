@@ -7,8 +7,6 @@
  */
 package com.dreamteam.lookme.communication;
 
-import java.util.List;
-
 import com.dreamteam.lookme.error.LookAtMeException;
 
 public interface ILookAtMeCommunicationManager {
@@ -16,8 +14,6 @@ public interface ILookAtMeCommunicationManager {
 	public void startCommunication() throws LookAtMeException;
 	
 	public void stopCommunication();
-
-	public List<LookAtMeNode> getSocialNodeList();
 	
 
 }

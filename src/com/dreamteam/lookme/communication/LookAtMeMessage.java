@@ -1,12 +1,17 @@
+/**
+ * Author: Carlo Tassi
+ */
 package com.dreamteam.lookme.communication;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LookAtMeMessage {
+public class LookAtMeMessage implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public static final String PROFILE_KEY = "profile";
-	//String PROFILE_MESSAGE = "profileMessage";
 
 	private final LookAtMeMessageType type; /* Message type */
 	private final Map<String, Object> payload; /* Data to transfer */

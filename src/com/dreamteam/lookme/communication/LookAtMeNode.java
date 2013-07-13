@@ -1,3 +1,6 @@
+/**
+ * Author: Carlo Tassi
+ */
 package com.dreamteam.lookme.communication;
 
 import com.dreamteam.lookme.bean.Profile;

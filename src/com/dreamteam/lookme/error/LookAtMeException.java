@@ -1,3 +1,6 @@
+/**
+ * Author: Carlo Tassi
+ */
 package com.dreamteam.lookme.error;
 
 public class LookAtMeException extends Exception {

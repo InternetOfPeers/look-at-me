@@ -1,3 +1,6 @@
+/**
+ * Author: Carlo Tassi
+ */
 package com.dreamteam.lookme.chord;
 
 import java.io.ByteArrayInputStream;
@@ -10,7 +13,9 @@ import com.dreamteam.lookme.communication.LookAtMeMessage;
 import com.dreamteam.lookme.communication.LookAtMeMessageType;
 
 public class LookAtMeChordMessage extends LookAtMeMessage {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public LookAtMeChordMessage(LookAtMeMessageType type) {
 		super(type);
 	}
