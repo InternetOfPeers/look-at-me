@@ -43,8 +43,6 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	
 	private LookAtMeChordErrorManager errorManager;
 	
-	private List<String> socialNodeList;
-	
 	private ILookAtMeCommunicationListener communicationListener;
 	
 	private Context context;
@@ -149,9 +147,6 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			@Override
 			public void onNodeLeft(String arg0, String arg1) {
 				Log.d(TAG, TAGClass + "[IChordChannelListener] social : onNodeLeft");
-				// remove node from list
-				socialNodeList.remove(arg0);
-				// notify to update GUI
 				communicationListener.onSocialNodeLeft(arg0);
 			}
 			
@@ -205,20 +200,18 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					byte[][] arg3) {
 				Log.d(TAG, TAGClass + "[IChordChannelListener] social : onDataReceived");
 				// here can be received profiles, previews, etc., now we will consider only profile preview
-				if (arg3.equals(LookAtMeMessageType.PREVIEW_REQUEST.name())) {
+				if (arg2.equals(LookAtMeMessageType.PREVIEW_REQUEST.name())) {
 					// send my profile preview to arg0 node
 					sendProfilePreviewResponse(arg0);
 				}
-				else if (arg3.equals(LookAtMeMessageType.PREVIEW.name())) {
+				else if (arg2.equals(LookAtMeMessageType.PREVIEW.name())) {
 					// get chord message from payload
 					byte[] chordMessageByte = arg3[0];
-					LookAtMeChordMessage chordMessage = LookAtMeChordMessage.obtainChordMessage(chordMessageByte, arg0);
-					Profile profile = (Profile) chordMessage.getObject(LookAtMeMessage.PROFILE_KEY);
+					LookAtMeChordMessage message = LookAtMeChordMessage.obtainChordMessage(chordMessageByte, arg0);
+					Profile profile = (Profile) message.getObject(LookAtMeMessage.PROFILE_KEY);
 					LookAtMeNode node = new LookAtMeNode();
 					node.setId(arg0);
 					node.setProfile(profile);
-					socialNodeList.add(arg0);
-					// notify that data is received
 					communicationListener.onSocialNodeJoined(node);
 				}
 				
@@ -233,8 +226,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
 			return LookAtMeErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
 		}
-		if (availableWifiInterface.contains(ChordManager.INTERFACE_TYPE_WIFIAP)) {
-			currentWifiInterface = ChordManager.INTERFACE_TYPE_WIFIAP;
+		if (availableWifiInterface.contains(ChordManager.INTERFACE_TYPE_WIFI)) {
+			currentWifiInterface = ChordManager.INTERFACE_TYPE_WIFI;
 		}
 		else {
 			currentWifiInterface = (availableWifiInterface.get(0)).intValue();
@@ -266,17 +259,18 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	private boolean sendProfilePreviewRequestAll() {
 		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequestAll");
 		List<String> socialNodeList = socialChannel.getJoinedNodeList();
+		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequestAll there are " + socialNodeList.size() + " nodes joined to social channel");
 		for (String socialNodeId : socialNodeList) {
 			if (!sendProfilePreviewRequest(socialNodeId)) {
 				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	private boolean sendProfilePreviewRequest(String nodeTo) {
 		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequest");
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PREVIEW_REQUEST.name(), null);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
 	
 	private boolean sendProfilePreviewResponse(String nodeTo) {
