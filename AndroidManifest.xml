@@ -33,6 +33,16 @@
         <activity
             android:name="com.dreamteam.lookme.StartMenuActivity"
             android:label="@string/title_activity_test_chord" >
+        </activity>
+
+        <!-- Entry for RegisterActivity.class -->
+        <activity
+            android:name="com.dreamteam.lookme.RegisterActivity"
+            android:label="Register New Account" >
+        </activity>
+        <activity
+            android:name="com.dreamteam.lookme.SocialListActivity"
+            android:label="@string/title_activity_social_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,11 +50,15 @@
             </intent-filter>
         </activity>
         
-        <!--  Entry for RegisterActivity.class -->
-        <activity android:name=".RegisterActivity"
-                  android:label="Register New Account"></activity>         
-                  
-        
+        <service
+            android:name="com.dreamteam.lookme.service.CommunicationService"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.dreamteam.lookme.service.CommunicationService.SERVICE_START" />
+                <action android:name="com.dreamteam.lookme.service.CommunicationService.SERVICE_STOP" />
+                <action android:name="com.dreamteam.lookme.service.CommunicationService.SERVICE_BIND" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
