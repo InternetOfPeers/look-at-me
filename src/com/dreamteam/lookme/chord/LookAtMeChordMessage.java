@@ -19,7 +19,7 @@ public class LookAtMeChordMessage extends LookAtMeMessage {
 	public LookAtMeChordMessage(LookAtMeMessageType type) {
 		super(type);
 	}
-	
+
 	public byte[] getBytes() {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		final ObjectOutputStream os;
@@ -37,7 +37,8 @@ public class LookAtMeChordMessage extends LookAtMeMessage {
 	/**
 	 * Recreates LookAtMeChordMessage from the byte array and sender node name
 	 */
-	public static LookAtMeChordMessage obtainChordMessage(byte[] data, String senderNodeName) {
+	public static LookAtMeChordMessage obtainChordMessage(byte[] data,
+			String senderNodeName) {
 		final ByteArrayInputStream in = new ByteArrayInputStream(data);
 		final ObjectInputStream is;
 		LookAtMeChordMessage message = null;

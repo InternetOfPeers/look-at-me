@@ -10,15 +10,15 @@ public class LookAtMeException extends Exception {
 	public LookAtMeException() {
 		super();
 	}
-	
+
 	public LookAtMeException(Throwable e) {
 		super(e);
 	}
-	
+
 	public LookAtMeException(String m) {
 		super(m);
 	}
-	
+
 	public LookAtMeException(String m, Throwable e) {
 		super(m, e);
 	}

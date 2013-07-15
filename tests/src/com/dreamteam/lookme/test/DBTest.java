@@ -21,7 +21,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		dbOpenHelper = new DBOpenHelperImpl(getActivity());
+		dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
 	}
 
 	protected void tearDown() throws Exception {

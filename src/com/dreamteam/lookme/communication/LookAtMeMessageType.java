@@ -13,7 +13,7 @@ public enum LookAtMeMessageType {
 	INTEREST, /* Interest data */
 	SHARED, /* Shared files data */
 	LIKE, /* Love game */
-	
+
 	PREVIEW_REQUEST, /* request minimal profile data */
 	PROFILE_REQUEST, /* request complete profile data */
 	INTEREST_REQUEST, /* request interest data */

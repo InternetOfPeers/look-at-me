@@ -20,7 +20,8 @@ public class ChordMessageTest extends TestCase {
 	}
 
 	public void testPutObject() {
-		LookAtMeMessage message = new LookAtMeChordMessage(LookAtMeMessageType.PREVIEW);
+		LookAtMeMessage message = new LookAtMeChordMessage(
+				LookAtMeMessageType.PREVIEW);
 		profile = new Profile();
 		profile.setName("pippo");
 		profile.setSurname("paperino");

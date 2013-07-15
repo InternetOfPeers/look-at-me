@@ -4,7 +4,7 @@
 package com.dreamteam.lookme.error;
 
 public class LookAtMeErrorManager {
-	
+
 	/*
 	 * Add here all app custom error code
 	 */
@@ -13,10 +13,11 @@ public class LookAtMeErrorManager {
 	public void checkError(int result) throws LookAtMeException {
 		String message = null;
 		switch (result) {
-		case ERROR_NO_INTERFACE_AVAILABLE: 
+		case ERROR_NO_INTERFACE_AVAILABLE:
 			message = "prendere errore da un resource";// TODO
 			break;
-		default: break;
+		default:
+			break;
 		}
 		if (message != null) {
 			throw new LookAtMeException(message);

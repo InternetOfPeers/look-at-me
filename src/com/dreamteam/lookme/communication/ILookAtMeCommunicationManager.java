@@ -12,10 +12,9 @@ import com.dreamteam.lookme.error.LookAtMeException;
 public interface ILookAtMeCommunicationManager {
 
 	public void startCommunication() throws LookAtMeException;
-	
+
 	public void stopCommunication();
-	
+
 	public boolean sendProfilePreviewRequestAll();
-	
 
 }

@@ -17,7 +17,7 @@ public class LookAtMeMessage implements Serializable {
 	private final Map<String, Object> payload; /* Data to transfer */
 	private String senderNodeName; /* Name of sender node */
 	private String receiverNodeName; /* Name of receiver node */
-	
+
 	public LookAtMeMessage(LookAtMeMessageType type) {
 		this.type = type;
 		this.payload = new HashMap<String, Object>();
