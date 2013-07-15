@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
@@ -92,10 +94,13 @@ public class RegisterActivity extends Activity {
 
 			profile.setSurname(surnameScreen.getText().toString());
 
-			String deviceId = tm.getDeviceId();
+			WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+			WifiInfo info = manager.getConnectionInfo();
+			String deviceId = info.getMacAddress();
+
 			profile.setNickname(usernameScreen.getText().toString());
 
-			profile.setDeviceId(tm.getDeviceId());
+			profile.setDeviceId(deviceId);
 
 			if (imageView.getDrawable() != null) {
 				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable())

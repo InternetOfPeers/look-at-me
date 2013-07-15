@@ -33,9 +33,9 @@ public interface DBOpenHelper {
 
 	public void deleteProfiles() throws Exception;
 
-	public void deleteProfile(long profileID) throws Exception;
+	public void deleteProfile(String profileID) throws Exception;
 
-	public Profile getProfile(long profileID) throws Exception;
+	public Profile getProfile(String profileID) throws Exception;
 
 	public Profile getMyProfile() throws Exception;
 

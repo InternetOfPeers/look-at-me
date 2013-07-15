@@ -8,6 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -20,6 +22,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	private TelephonyManager tm;
 
 	private static DBOpenHelperImpl mInstance = null;
+	
+	private String MAC_ADDRESS = null;
 
 	public static DBOpenHelper getInstance(Context ctx) {
 
@@ -36,6 +40,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		tm = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
+		WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = manager.getConnectionInfo();
+		MAC_ADDRESS = info.getMacAddress();
+		 
 		database = getWritableDatabase();
 	}
 
@@ -84,7 +92,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	 */
 	@Override
 	public Profile saveOrUpdateProfile(Profile profile) throws Exception {
-		Profile oldContact = getProfile(profile.getId());
+		Profile oldContact = getProfile(profile.getDeviceId());
 
 		if (oldContact == null) {
 			ContentValues contentValues = new ContentValues();
@@ -112,14 +120,14 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			contentValues.put(TABLE_PROFILES_COLUMN_IMAGE, profile.getImage());
 
 			database.update(TABLE_PROFILES, contentValues,
-					TABLE_PROFILES_COLUMN_ID + "=" + profile.getId(), null);
+					TABLE_PROFILES_COLUMN_DEVICE_ID + "=?" , new String[] { "" + profile.getDeviceId() });
 
 			// database.update(TABLE_PROFILES, contentValues,
 			// TABLE_PROFILES_COLUMN_ID,
 			// new String[]{""+profile.getId()});
 		}
 
-		return getProfile(profile.getId());
+		return getProfile(profile.getDeviceId());
 
 	}
 
@@ -192,11 +200,11 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	 * @see com.dreamteam.lookme.db.DBOpenHelper#deleteContacts()
 	 */
 	@Override
-	public void deleteProfile(long profileID) throws Exception {
+	public void deleteProfile(String profileID) throws Exception {
 		Cursor cursor = null;
 		try {
 			cursor = database.rawQuery("DELETE FROM " + TABLE_PROFILES
-					+ " WHERE ID=?", new String[] { "" + profileID });
+					+ " WHERE "+TABLE_PROFILES_COLUMN_DEVICE_ID+"=?", new String[] { "" + profileID });
 
 		} catch (Exception e) {
 			Log.e("db", "error on getting levelReached: " + e.getMessage());
@@ -208,37 +216,11 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	public Profile getMyProfile() throws Exception {
-		Cursor cursor = null;
 		try {
-			Profile tempProfile = new Profile();
-			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID
-					+ ", " + TABLE_PROFILES_COLUMN_NAME + ", "
-					+ TABLE_PROFILES_COLUMN_SURNAME + ", "
-					+ TABLE_PROFILES_COLUMN_NICKNAME + ", "
-					+ TABLE_PROFILES_COLUMN_IMAGE + " FROM " + TABLE_PROFILES
-					+ " WHERE ID=?", new String[] { "0" });
-
-			if (cursor.moveToFirst()) {
-				do {
-					tempProfile.setId(cursor.getInt(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
-					tempProfile.setName(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
-					tempProfile.setSurname(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
-					tempProfile.setNickname(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
-					tempProfile.setImage(cursor.getBlob(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_IMAGE)));
-					return tempProfile;
-				} while (cursor.moveToNext());
-
+			return getProfile(MAC_ADDRESS);
 			}
-		} catch (Exception e) {
+		 catch (Exception e) {
 			Log.e("db", "error on getting getContact: " + e.getMessage());
-		} finally {
-			if (!cursor.isClosed())
-				cursor.close();
 		}
 		Log.d("db", "my contact not found,deviceID: " + tm.getDeviceId());
 		return null;
@@ -251,19 +233,21 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	 * @see com.dreamteam.lookme.db.DBOpenHelper#getContact(long)
 	 */
 	@Override
-	public Profile getProfile(long contactID) throws Exception {
+	public Profile getProfile(String contactID) throws Exception {
 		Cursor cursor = null;
+		Profile tempProfile = null;
 		try {
-			Profile tempProfile = new Profile();
+			
 			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID
 					+ ", " + TABLE_PROFILES_COLUMN_NAME + ", "
 					+ TABLE_PROFILES_COLUMN_SURNAME + ", "
 					+ TABLE_PROFILES_COLUMN_NICKNAME + ", "
 					+ TABLE_PROFILES_COLUMN_IMAGE + " FROM " + TABLE_PROFILES
-					+ " WHERE ID=?", new String[] { "" + contactID });
+					+ " WHERE "+TABLE_PROFILES_COLUMN_DEVICE_ID+"=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
 				do {
+					tempProfile = new Profile();
 					tempProfile.setId(cursor.getInt(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
 					tempProfile.setName(cursor.getString(cursor
@@ -278,14 +262,14 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				} while (cursor.moveToNext());
 
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			Log.e("db", "error on getting getContact: " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
 		}
 		Log.d("db", "contact not found,contactID: " + contactID);
-		return null;
+		return tempProfile;
 	}
 
 }
