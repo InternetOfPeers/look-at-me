@@ -15,5 +15,7 @@ public interface ILookAtMeCommunicationManager {
 	
 	public void stopCommunication();
 	
+	public boolean sendProfilePreviewRequestAll();
+	
 
 }

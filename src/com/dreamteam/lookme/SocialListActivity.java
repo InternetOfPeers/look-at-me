@@ -16,9 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +34,7 @@ import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
 
-public class SocialListActivity extends Activity implements OnItemClickListener {
+public class SocialListActivity extends Activity implements OnItemClickListener, OnClickListener {
 	
 	private static final String TAG = "LOOKATME_ACTIVITY";
 	private static final String TAGClass = "[SocialListActivity]";
@@ -44,6 +46,7 @@ public class SocialListActivity extends Activity implements OnItemClickListener 
 	private ListView socialListView;
 	private TextView myNickText;
 	private SocialListAdapter socialListAdapter;
+	private Button refreshListButton;
 	
 	private Map<String, LookAtMeNode> socialNodeMap;
 	// the BaseAdapter class uses as items id a long type, so while
@@ -90,6 +93,9 @@ public class SocialListActivity extends Activity implements OnItemClickListener 
 		
 		myNickText = (TextView) findViewById(R.id.myNickText);
 		myNickText.setText("You are: " + myProfile.getNickname());
+		
+		refreshListButton = (Button) findViewById(R.id.buttonRefreshList);
+		refreshListButton.setOnClickListener(this);
 		
 		socialListAdapter = new SocialListAdapter();
 		socialListView = (ListView) findViewById(R.id.socialListView);
@@ -151,6 +157,10 @@ public class SocialListActivity extends Activity implements OnItemClickListener 
 				@Override
 				public void onSocialNodeJoined(LookAtMeNode node) {
 					Log.d(TAG, TAGClass + "[ServiceConnection][ILookAtMeCommunicationListener] : onSocialNodeJoined");
+					if (node == null) {
+						Toast.makeText(getApplicationContext(), "NULL Node OBJECT ARRIVED!", Toast.LENGTH_LONG).show();
+						return;
+					}
 					// add node to socialNodeMap
 					socialNodeMap.put(node.getId(), node);
 					// add entry in profileNodeMap
@@ -184,13 +194,19 @@ public class SocialListActivity extends Activity implements OnItemClickListener 
 	};
 
 	@Override
+	public void onClick(View arg0) {
+		Log.d(TAG, TAGClass + " : " + "onClick");
+		communicationService.refreshSocialList();
+	}
+
+	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Log.d(TAG, TAGClass + " : " + "onItemClick");
 		// arg2 = the position of the item in our view (List/Grid) that we clicked
 		// arg3 = the id of the item that we have clicked
 		String nodeId = socialNodeIdMap.get(arg3);
 		LookAtMeNode node = socialNodeMap.get(nodeId);
-		String message = "NODE ID IS \"" + node.getId() + "\" AND ITS NAME IS \"" + node.getProfile().getName() + " " + node.getProfile().getSurname() + "\"";
+		String message = "DELETING NODE \"" + node.getId() + "\". ITS NAME IS \"" + node.getProfile().getName() + " " + node.getProfile().getSurname() + "\"";
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 		socialNodeIdMap.remove(arg3);
 		socialNodeMap.remove(nodeId);
@@ -201,17 +217,11 @@ public class SocialListActivity extends Activity implements OnItemClickListener 
 		
 		@Override
 		public int getCount() {
-			if (socialNodeMap == null) {
-				return 0;
-			}
 			return socialNodeMap.values().size();
 		}
 
 		@Override
 		public Object getItem(int arg0) {
-			if (socialNodeMap == null) {
-				return null;
-			}
 			List<LookAtMeNode> nodeList = new ArrayList<LookAtMeNode>(socialNodeMap.values());
 			LookAtMeNode node = (LookAtMeNode) nodeList.get(arg0);
 			return node.getProfile();
@@ -219,9 +229,6 @@ public class SocialListActivity extends Activity implements OnItemClickListener 
 
 		@Override
 		public long getItemId(int arg0) {
-			if (socialNodeMap == null) {
-				return 0;
-			}
 			Profile profile = (Profile) this.getItem(arg0);
 			return profile.getId();
 		}

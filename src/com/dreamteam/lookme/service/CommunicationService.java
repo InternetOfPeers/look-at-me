@@ -57,5 +57,10 @@ public class CommunicationService extends Service {
     	Log.d(TAG, TAGClass + " : " + "stop");
 		communicationManager.stopCommunication();
 	}
+	
+	public void refreshSocialList() {
+    	Log.d(TAG, TAGClass + " : " + "refreshSocialList");
+		communicationManager.sendProfilePreviewRequestAll();
+	}
 
 }

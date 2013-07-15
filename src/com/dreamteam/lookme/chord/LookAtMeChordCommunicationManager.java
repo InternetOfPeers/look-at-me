@@ -241,7 +241,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 				publicChannel = joinPublicChannel();
 				socialChannel = joinSocialChannel();
 				Log.d(TAG, TAGClass + "[IChordManagerListener] : now chord is joined to " + chord.getJoinedChannelList().size() + " channels");
-				sendProfilePreviewRequestAll();
+				//sendProfilePreviewRequestAll(); // QUI NON HA EFFETTO????
 			}
 			
 			@Override
@@ -255,17 +255,13 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			}
 		});
 	}
-	
-	private boolean sendProfilePreviewRequestAll() {
+
+	@Override
+	public boolean sendProfilePreviewRequestAll() {
 		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequestAll");
 		List<String> socialNodeList = socialChannel.getJoinedNodeList();
 		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequestAll there are " + socialNodeList.size() + " nodes joined to social channel");
-		for (String socialNodeId : socialNodeList) {
-			if (!sendProfilePreviewRequest(socialNodeId)) {
-				return false;
-			}
-		}
-		return true;
+		return socialChannel.sendDataToAll(LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
 	
 	private boolean sendProfilePreviewRequest(String nodeTo) {
