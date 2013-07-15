@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
 
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
@@ -31,7 +33,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.StartMenuActivity"
+            android:name="com.dreamteam.lookme.SocialListActivity"
             android:label="@string/title_activity_test_chord" >
         </activity>
 
@@ -41,7 +43,7 @@
             android:label="Register New Account" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.SocialListActivity"
+            android:name="com.dreamteam.lookme.StartMenuActivity"
             android:label="@string/title_activity_social_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

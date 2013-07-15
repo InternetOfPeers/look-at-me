@@ -80,7 +80,7 @@ public class SocialListActivity extends Activity implements OnItemClickListener 
 		myProfile.setName(name);
 		myProfile.setSurname(surname);
 		myProfile.setNickname(nickName);
-		DBOpenHelper dbOpenHelper = new DBOpenHelperImpl(this);
+		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
 			dbOpenHelper.saveOrUpdateProfile(myProfile);
 		} catch (Exception e) {

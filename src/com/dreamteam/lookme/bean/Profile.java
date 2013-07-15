@@ -10,6 +10,7 @@ public class Profile implements Serializable {
 	private String name;
 	private String surname;
 	private String nickname;
+	private String deviceId;
 	private byte[] image;
 
 	public long getId() {
@@ -50,6 +51,14 @@ public class Profile implements Serializable {
 
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 
 }

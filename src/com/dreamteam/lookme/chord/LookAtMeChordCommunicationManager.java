@@ -279,7 +279,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		message.setSenderNodeName(chord.getName());
 		message.setReceiverNodeName(nodeTo);
 		// getting my profile
-		DBOpenHelper dbOpenHelper = new DBOpenHelperImpl(context);
+		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this.context);
 		Profile myProfile = null;
 		try {
 			myProfile = dbOpenHelper.getMyProfile();

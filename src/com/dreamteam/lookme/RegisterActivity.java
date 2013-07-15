@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +35,7 @@ public class RegisterActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		try {
 			super.onCreate(savedInstanceState);
-			dbOpenHelper = new DBOpenHelperImpl(this);
+			dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 			// Set View to register.xml
 			setContentView(R.layout.register);
 
@@ -56,16 +57,21 @@ public class RegisterActivity extends Activity {
 	public void onRegister(View view) {
 		try {
 			
-			
+			TelephonyManager tm=(TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
 			
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
 			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
 			TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 			
+			if(imageView.getDrawable()==null)
+			{
+				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+			}
+			
 			if(nameScreen.getText()==null||nameScreen.getText().equals("")||surnameScreen.getText()==null||surnameScreen.getText().equals("")||
-					usernameScreen.getText()==null||usernameScreen.getText().equals("")||imageView.getDrawable()
-					==null)
+					usernameScreen.getText()==null||usernameScreen.getText().equals(""))
+					//||imageView.getDrawable()==null)
 			{
 			    Toast.makeText(this, "All Fields Required.", 
 			            Toast.LENGTH_SHORT).show();
@@ -73,21 +79,33 @@ public class RegisterActivity extends Activity {
 			}
 			
 			
-			Profile profile = new Profile();
+			Profile profile = null;
+			
+			profile = dbOpenHelper.getMyProfile();
+			
+			if(profile==null)
+				profile=new Profile();
 			profile.setName(nameScreen.getText().toString());
 
 			
 			profile.setSurname(surnameScreen.getText().toString());
 
-			
+			String deviceId=tm.getDeviceId();
 			profile.setNickname(usernameScreen.getText().toString());
+			
+			profile.setDeviceId(tm.getDeviceId());
+
+			if(imageView.getDrawable()!=null)
+			{
+				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable())
+						.getBitmap();
+
+				profile.setImage(bitmapToByteArray(bitmap));
+
+
+			}
 
 			
-			Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable())
-					.getBitmap();
-
-			profile.setImage(bitmapToByteArray(bitmap));
-
 			Profile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 			switchToUpdateAccount(savedProfile);
 			Toast toast = Toast.makeText(getApplicationContext(),
