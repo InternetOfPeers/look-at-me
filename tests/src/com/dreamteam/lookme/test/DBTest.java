@@ -38,6 +38,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
 				myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 			}
 			Profile profileToBeSaved = new Profile();
+			profileToBeSaved.setDeviceId("1");
 			profileToBeSaved.setName("Riccardo");
 			profileToBeSaved.setSurname("Alfrilli");
 			profileToBeSaved.setNickname("AlfaOmega83");
@@ -51,6 +52,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
 					profileSaved.getSurname());
 			assertEquals(profileToBeSaved.getNickname(),
 					profileSaved.getNickname());
+			assertEquals(profileToBeSaved.getDeviceId(), profileSaved.getDeviceId());
 			assertEquals(profileToBeSaved.getImage(), profileSaved.getImage());
 		} catch (Exception e) {
 			fail("error on testDB error:" + e.getMessage());

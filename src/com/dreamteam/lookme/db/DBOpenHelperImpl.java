@@ -23,7 +23,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	private static DBOpenHelperImpl mInstance = null;
 	
-	private String MAC_ADDRESS = null;
+	private String DEVICE_ID = null;
 
 	public static DBOpenHelper getInstance(Context ctx) {
 
@@ -42,7 +42,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo info = manager.getConnectionInfo();
-		MAC_ADDRESS = info.getMacAddress();
+		DEVICE_ID = info.getMacAddress();
+		if(DEVICE_ID==null)
+			DEVICE_ID=tm.getDeviceId();
 		 
 		database = getWritableDatabase();
 	}
@@ -50,11 +52,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE " + TABLE_PROFILES + "("
-				+ TABLE_PROFILES_COLUMN_ID + " INTEGER PRIMARY KEY, "
+				+ TABLE_PROFILES_COLUMN_DEVICE_ID + " TEXT PRIMARY KEY, "
 				+ TABLE_PROFILES_COLUMN_NAME + " TEXT, "
 				+ TABLE_PROFILES_COLUMN_SURNAME + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_NICKNAME + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_DEVICE_ID + " TEXT, "
+				+ TABLE_PROFILES_COLUMN_NICKNAME + " TEXT, "				
 				+ TABLE_PROFILES_COLUMN_IMAGE + " BLOB ); ");
 	}
 
@@ -95,8 +96,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Profile oldContact = getProfile(profile.getDeviceId());
 
 		if (oldContact == null) {
-			ContentValues contentValues = new ContentValues();
-			contentValues.put(TABLE_PROFILES_COLUMN_ID, profile.getId());
+			ContentValues contentValues = new ContentValues();			
 			contentValues.put(TABLE_PROFILES_COLUMN_NAME, profile.getName());
 			contentValues.put(TABLE_PROFILES_COLUMN_SURNAME,
 					profile.getSurname());
@@ -122,9 +122,6 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.update(TABLE_PROFILES, contentValues,
 					TABLE_PROFILES_COLUMN_DEVICE_ID + "=?" , new String[] { "" + profile.getDeviceId() });
 
-			// database.update(TABLE_PROFILES, contentValues,
-			// TABLE_PROFILES_COLUMN_ID,
-			// new String[]{""+profile.getId()});
 		}
 
 		return getProfile(profile.getDeviceId());
@@ -142,7 +139,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		List<Profile> returnList = new ArrayList<Profile>();
 		try {
 			cursor = database.rawQuery(
-					"SELECT " + TABLE_PROFILES_COLUMN_ID + ", "
+					"SELECT " + TABLE_PROFILES_COLUMN_DEVICE_ID + ", "
 							+ TABLE_PROFILES_COLUMN_NAME + ", "
 							+ TABLE_PROFILES_COLUMN_SURNAME + " FROM "
 							+ TABLE_PROFILES, null);
@@ -151,7 +148,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				do {
 					Profile tempProfile = new Profile();
 					tempProfile.setId(cursor.getInt(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
+							.getColumnIndex(TABLE_PROFILES_COLUMN_DEVICE_ID)));
 					tempProfile.setName(cursor.getString(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
 					tempProfile.setSurname(cursor.getString(cursor
@@ -217,7 +214,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	public Profile getMyProfile() throws Exception {
 		try {
-			return getProfile(MAC_ADDRESS);
+			return getProfile(DEVICE_ID);
 			}
 		 catch (Exception e) {
 			Log.e("db", "error on getting getContact: " + e.getMessage());
@@ -238,7 +235,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Profile tempProfile = null;
 		try {
 			
-			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID
+			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_DEVICE_ID
 					+ ", " + TABLE_PROFILES_COLUMN_NAME + ", "
 					+ TABLE_PROFILES_COLUMN_SURNAME + ", "
 					+ TABLE_PROFILES_COLUMN_NICKNAME + ", "
@@ -248,8 +245,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			if (cursor.moveToFirst()) {
 				do {
 					tempProfile = new Profile();
-					tempProfile.setId(cursor.getInt(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
+					tempProfile.setDeviceId(cursor.getString(cursor
+							.getColumnIndex(TABLE_PROFILES_COLUMN_DEVICE_ID)));
 					tempProfile.setName(cursor.getString(cursor
 							.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
 					tempProfile.setSurname(cursor.getString(cursor

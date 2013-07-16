@@ -97,6 +97,9 @@ public class RegisterActivity extends Activity {
 			WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 			WifiInfo info = manager.getConnectionInfo();
 			String deviceId = info.getMacAddress();
+			
+			if(deviceId==null)
+				deviceId=tm.getDeviceId();
 
 			profile.setNickname(usernameScreen.getText().toString());
 

@@ -11,7 +11,6 @@ public interface DBOpenHelper {
 	public static final int DATABASE_VERSION = 3;
 	public static final String DATABASE_NAME = "look_me.db";
 	public static final String TABLE_PROFILES = "profiles_tb";
-	public static final String TABLE_PROFILES_COLUMN_ID = "id";
 	public static final String TABLE_PROFILES_COLUMN_NAME = "name";
 	public static final String TABLE_PROFILES_COLUMN_SURNAME = "surname";
 	public static final String TABLE_PROFILES_COLUMN_NICKNAME = "nickname";
