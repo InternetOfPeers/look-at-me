@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     
-
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 

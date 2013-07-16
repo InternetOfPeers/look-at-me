@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,12 +32,10 @@ import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
+import com.dreamteam.util.Log;
 
 public class SocialListActivity extends Activity implements
 		OnItemClickListener, OnClickListener {
-
-	private static final String TAG = "LOOKATME_ACTIVITY";
-	private static final String TAGClass = "[SocialListActivity]";
 
 	private static final String SERVICE_PREFIX = "com.dreamteam.lookme.service.CommunicationService.";
 
@@ -57,7 +54,7 @@ public class SocialListActivity extends Activity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, TAGClass + " : " + "onCreate");
+		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social_list);
 
@@ -91,7 +88,7 @@ public class SocialListActivity extends Activity implements
 		try {
 			dbOpenHelper.saveOrUpdateProfile(myProfile);
 		} catch (Exception e) {
-			Log.d("DBOpenHelper", "failed to save myProfile");
+			Log.e("dbOpenHelper, failed to save myProfile");
 			e.printStackTrace();
 		}
 
@@ -109,14 +106,14 @@ public class SocialListActivity extends Activity implements
 
 	@Override
 	protected void onResume() {
-		Log.d(TAG, TAGClass + " : " + "onResume");
+		Log.d();
 		super.onResume();
 		socialListAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	protected void onDestroy() {
-		Log.d(TAG, TAGClass + " : " + "onDestroy");
+		Log.d();
 		super.onDestroy();
 		if (communicationService != null) {
 			communicationService.stop();
@@ -131,14 +128,14 @@ public class SocialListActivity extends Activity implements
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			Log.d(TAG, TAGClass + "[ServiceConnection] : onServiceDisconnected");
+			Log.d();
 			communicationService.stop();
 			communicationService = null;
 		}
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			Log.d(TAG, TAGClass + "[ServiceConnection] : onServiceConnected");
+			Log.d();
 			CommunicationServiceBinder binder = (CommunicationServiceBinder) service;
 			communicationService = binder.getService();
 			communicationService.initialize(SocialListActivity.this,
@@ -146,9 +143,7 @@ public class SocialListActivity extends Activity implements
 
 						@Override
 						public void onSocialNodeLeft(String nodeName) {
-							Log.d(TAG,
-									TAGClass
-											+ "[ServiceConnection][ILookAtMeCommunicationListener] : onSocialNodeLeft");
+							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onSocialNodeLeft");
 							// get profile id corresponding to nodeName
 							LookAtMeNode node = socialNodeMap.get(nodeName);
 							long profileId = node.getProfile().getId();
@@ -163,9 +158,7 @@ public class SocialListActivity extends Activity implements
 
 						@Override
 						public void onSocialNodeJoined(LookAtMeNode node) {
-							Log.d(TAG,
-									TAGClass
-											+ "[ServiceConnection][ILookAtMeCommunicationListener] : onSocialNodeJoined");
+							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onSocialNodeJoined");
 							if (node == null) {
 								Toast.makeText(getApplicationContext(),
 										"NULL Node OBJECT ARRIVED!",
@@ -184,18 +177,14 @@ public class SocialListActivity extends Activity implements
 
 						@Override
 						public void onCommunicationStopped() {
-							Log.d(TAG,
-									TAGClass
-											+ "[ServiceConnection][ILookAtMeCommunicationListener] : onCommunicationStopped NOT IMPLEMENTED");
+							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onCommunicationStopped NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 
 						}
 
 						@Override
 						public void onCommunicationStarted() {
-							Log.d(TAG,
-									TAGClass
-											+ "[ServiceConnection][ILookAtMeCommunicationListener] : onCommunicationStarted NOT IMPLEMENTED");
+							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onCommunicationStarted NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 
 						}
@@ -203,9 +192,7 @@ public class SocialListActivity extends Activity implements
 			try {
 				communicationService.start();
 			} catch (LookAtMeException e) {
-				Log.d(TAG,
-						TAGClass
-								+ "[ServiceConnection] : communicationService start() throws LookAtMeException");
+				Log.d("[ServiceConnection] : communicationService start() throws LookAtMeException");
 				e.printStackTrace();
 			}
 		}
@@ -213,24 +200,22 @@ public class SocialListActivity extends Activity implements
 
 	@Override
 	public void onClick(View arg0) {
-		Log.d(TAG, TAGClass + " : " + "onClick");
+		Log.d();
 		communicationService.refreshSocialList();
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Log.d(TAG, TAGClass + " : " + "onItemClick");
-		// arg2 = the position of the item in our view (List/Grid) that we
-		// clicked
-		// arg3 = the id of the item that we have clicked
-		String nodeId = socialNodeIdMap.get(arg3);
+	public void onItemClick(AdapterView<?> arg0, View arg1,
+			int clickedItemPosition, long clickedItemID) {
+		Log.d();
+		String nodeId = socialNodeIdMap.get(clickedItemID);
 		LookAtMeNode node = socialNodeMap.get(nodeId);
 		String message = "DELETING NODE \"" + node.getId()
 				+ "\". ITS NAME IS \"" + node.getProfile().getName() + " "
 				+ node.getProfile().getSurname() + "\"";
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG)
 				.show();
-		socialNodeIdMap.remove(arg3);
+		socialNodeIdMap.remove(clickedItemID);
 		socialNodeMap.remove(nodeId);
 		socialListAdapter.notifyDataSetChanged();
 	}
