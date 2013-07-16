@@ -44,7 +44,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
 			profileToBeSaved = dbOpenHelper
 					.saveOrUpdateProfile(profileToBeSaved);
 			Profile profileSaved = dbOpenHelper.getProfile(profileToBeSaved
-					.getId());
+					.getDeviceId());
 			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
 			assertEquals(profileToBeSaved.getName(), profileSaved.getName());
 			assertEquals(profileToBeSaved.getSurname(),
