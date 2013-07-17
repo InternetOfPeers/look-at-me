@@ -33,28 +33,25 @@
         </LinearLayout>
         <!-- Header Ends -->
     </RelativeLayout>
-    
-
 
         <Button
-            android:id="@+id/showLogin_btn"
+            android:id="@+id/changeSettingsBtn"
             android:layout_width="150dp"
             android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignLeft="@+id/showListActivity_btn"
             android:layout_below="@+id/relativeLayout1"
-            android:layout_marginTop="29dp"
+            android:layout_marginTop="26dp"
             android:onClick="showLogin"
-            android:text="login/register" />
-        
+            android:text="Change my profile" />
+
         <Button
-        android:id="@+id/showListActivity_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_alignBottom="@+id/showListActivity_btn"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/showLogin_btn"
-        android:layout_toRightOf="@+id/showLogin_btn"
-        android:onClick="showListActivity"
-        android:text="ListActivity" />        
+            android:id="@+id/showListActivity_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_below="@+id/changeSettingsBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:onClick="showListActivity"
+            android:text="Who is on-line?" />
 
 </RelativeLayout>

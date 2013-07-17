@@ -9,19 +9,110 @@
         android:layout_height="wrap_content" android:background="#fff">
  
         <!--  Header  Starts-->
-        <LinearLayout android:id="@+id/header"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@layout/header_gradient"
-                android:paddingTop="5dip"
-                android:paddingBottom="5dip">
-                <!-- Logo Start-->
-                <ImageView android:src="@drawable/lookatme_logo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dip"/>
-                <!-- Logo Ends -->
-        </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical" >
+
+          <LinearLayout
+              android:id="@+id/header"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@layout/header_gradient"
+              android:paddingBottom="5dip"
+              android:paddingTop="5dip" >
+
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dip"
+                  android:src="@drawable/lookatme_logo" />
+
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
+
+              <ImageView
+                  android:id="@+id/imgView"
+                  android:layout_width="50dp"
+                  android:layout_height="50dp"
+                  android:layout_marginLeft="5dp"
+                  android:layout_marginTop="5dp"
+                  android:src="@drawable/no_profile_image" />
+
+              <Button
+                  android:id="@+id/btnChooseImage"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:layout_marginTop="10dip"
+                  android:onClick="onChooseImage"
+                  android:text="choose image" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="10dip" >
+
+              <TextView
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="name"
+                  android:textColor="#372c24" />
+
+              <EditText
+                  android:id="@+id/reg_name"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="20dip"
+                  android:layout_marginTop="5dip"
+                  android:singleLine="true" >
+
+                  <requestFocus />
+              </EditText>
+
+              <TextView
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="surname"
+                  android:textColor="#372c24" />
+
+              <EditText
+                  android:id="@+id/reg_surname"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="20dip"
+                  android:layout_marginTop="5dip"
+                  android:singleLine="true" />
+
+              <TextView
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="username"
+                  android:textColor="#372c24" />
+
+              <EditText
+                  android:id="@+id/reg_username"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="20dip"
+                  android:layout_marginTop="5dip"
+                  android:singleLine="true" />
+
+              <Button
+                  android:id="@+id/btnRegister"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dip"
+                  android:onClick="onRegister"
+                  android:text="Register New Account" />
+          </LinearLayout>
+
+      </LinearLayout>
         <!--  Header Ends -->
         <!-- Footer Start -->
         <!-- LinearLayout android:id="@+id/footer"
@@ -34,67 +125,7 @@
         <!-- Footer Ends -->
  
         <!-- Registration Form -->
-        <LinearLayout
-          
-          android:orientation="vertical"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:padding="10dip"
-          android:layout_below="@id/header">
-          <!-- Image Button -->
-              <ImageView
-		        android:id="@+id/imgView"
-		        android:layout_width="fill_parent"
-		        android:layout_height="0dip"
-		        android:layout_weight="7.48" />
-          <Button android:id="@+id/btnChooseImage"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:onClick="onChooseImage"
-                android:text="choose image"/>                    
-          <!--  Name Label -->
-          <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="name"/>
-          <EditText android:id="@+id/reg_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:singleLine="true"
-                android:layout_marginBottom="20dip"/>
-          <!-- SurName Label -->
-          <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="surname"/>
-          <EditText android:id="@+id/reg_surname"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:singleLine="true"
-                android:layout_marginBottom="20dip"/>        
-          <!-- UserName Label -->
-          <TextView android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="username"/>
-          <EditText android:id="@+id/reg_username"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:singleLine="true"
-                android:layout_marginBottom="20dip"/>                  
-          <!-- Register Button -->
-          <Button android:id="@+id/btnRegister"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:onClick="onRegister"
-                android:text="Register New Account"/>
- 
-        </LinearLayout>
         <!-- Registration Form Ends -->
+
   </RelativeLayout>
 </ScrollView>

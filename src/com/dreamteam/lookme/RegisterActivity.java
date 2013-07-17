@@ -118,6 +118,10 @@ public class RegisterActivity extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(),
 					"welcome on Look@ME!", 10);
 			toast.show();
+			
+			Intent mainIntent = new Intent(this,StartMenuActivity.class);
+            this.startActivity(mainIntent);
+            this.finish();
 
 		} catch (Exception e) {
 			Log.e("REGISTER",

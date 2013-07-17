@@ -10,6 +10,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +47,7 @@ public class SocialListActivity extends Activity implements
 
 	private ListView socialListView;
 	private TextView myNickText;
+	private ImageView myPhotoImage;
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
 
@@ -70,27 +75,25 @@ public class SocialListActivity extends Activity implements
 			bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
 		}
 
-		// set a profile to skip registration step (will be deleted)
-		Profile myProfile = new Profile();
-		long currentMillis = System.currentTimeMillis();
-		// myProfile.setId(currentMillis);
-		String currentMillisStr = currentMillis + "";
-		String name = "nome"
-				+ currentMillisStr.substring(currentMillisStr.length() - 3);
-		String surname = "cognome"
-				+ currentMillisStr.substring(currentMillisStr.length() - 3);
-		String nickName = "nick"
-				+ currentMillisStr.substring(currentMillisStr.length() - 3);
-		myProfile.setName(name);
-		myProfile.setSurname(surname);
-		myProfile.setNickname(nickName);
+		Profile myProfile = null; // get my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
-			dbOpenHelper.saveOrUpdateProfile(myProfile);
+			myProfile = dbOpenHelper.getMyProfile();
 		} catch (Exception e) {
-			Log.e("dbOpenHelper, failed to save myProfile");
+			Log.e("dbOpenHelper, failed to retrieve my profile");
 			e.printStackTrace();
 		}
+		Log.d("My profile retrieved");
+		// Problemi con il recupero dell'immagine del profilo
+		/*myPhotoImage = (ImageView) findViewById(R.id.profilePhotoImage);
+		if (myProfile.getImage() == null || myProfile.getImage().length == 0) {
+			Bitmap bMap = BitmapFactory.decodeByteArray(myProfile.getImage(), 0, myProfile.getImage().length);
+			myPhotoImage.setImageBitmap(bMap);
+		}
+		else {
+			Drawable myPhoto = getResources().getDrawable(R.drawable.no_profile_image);
+			myPhotoImage.setImageDrawable(myPhoto);
+		}*/
 
 		myNickText = (TextView) findViewById(R.id.myNickText);
 		myNickText.setText("You are: " + myProfile.getNickname());
@@ -259,4 +262,5 @@ public class SocialListActivity extends Activity implements
 			return convertView;
 		}
 	}
+	
 }

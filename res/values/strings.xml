@@ -9,5 +9,6 @@
     <string name="title_activity_test_chord">TestChordActivity</string>
     <string name="title_activity_social_list">SocialListActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>
