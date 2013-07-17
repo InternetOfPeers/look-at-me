@@ -47,7 +47,6 @@ public class SocialListActivity extends Activity implements
 
 	private ListView socialListView;
 	private TextView myNickText;
-	private ImageView myPhotoImage;
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
 
@@ -84,16 +83,6 @@ public class SocialListActivity extends Activity implements
 			e.printStackTrace();
 		}
 		Log.d("My profile retrieved");
-		// Problemi con il recupero dell'immagine del profilo
-		/*myPhotoImage = (ImageView) findViewById(R.id.profilePhotoImage);
-		if (myProfile.getImage() == null || myProfile.getImage().length == 0) {
-			Bitmap bMap = BitmapFactory.decodeByteArray(myProfile.getImage(), 0, myProfile.getImage().length);
-			myPhotoImage.setImageBitmap(bMap);
-		}
-		else {
-			Drawable myPhoto = getResources().getDrawable(R.drawable.no_profile_image);
-			myPhotoImage.setImageDrawable(myPhoto);
-		}*/
 
 		myNickText = (TextView) findViewById(R.id.myNickText);
 		myNickText.setText("You are: " + myProfile.getNickname());
@@ -253,11 +242,23 @@ public class SocialListActivity extends Activity implements
 				convertView = layoutInflater.inflate(
 						R.layout.one_row_social_list, null);
 			}
+			
+			Profile profile = (Profile) this.getItem(position);
 
 			TextView nickNameText = (TextView) convertView
 					.findViewById(R.id.nickNameText);
-			nickNameText.setText(((Profile) this.getItem(position))
-					.getNickname());
+			nickNameText.setText(profile.getNickname());
+			
+			// Problemi con il recupero dell'immagine del profilo
+			//ImageView photoImage = (ImageView) findViewById(R.id.profilePhotoImage);
+			//if (profile.getImage() == null || profile.getImage().length == 0) {
+			//	Drawable noPhoto = getResources().getDrawable(R.drawable.no_profile_image);
+			//	photoImage.setImageDrawable(noPhoto);
+			//}
+			//else {
+			//	Bitmap bMap = BitmapFactory.decodeByteArray(profile.getImage(), 0, profile.getImage().length);
+			//	photoImage.setImageBitmap(bMap);
+			//}
 
 			return convertView;
 		}

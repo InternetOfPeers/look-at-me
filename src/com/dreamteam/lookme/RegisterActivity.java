@@ -69,7 +69,7 @@ public class RegisterActivity extends Activity {
 
 			if (imageView.getDrawable() == null) {
 				imageView.setImageBitmap(BitmapFactory.decodeResource(
-						getResources(), R.drawable.ic_launcher));
+						getResources(), R.drawable.no_profile_image));
 			}
 
 			if (nameScreen.getText() == null || nameScreen.getText().equals("")
