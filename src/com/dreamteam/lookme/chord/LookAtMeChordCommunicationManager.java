@@ -8,7 +8,6 @@ import java.util.List;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Looper;
-import android.util.Log;
 
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
@@ -24,12 +23,10 @@ import com.samsung.chord.ChordManager;
 import com.samsung.chord.IChordChannel;
 import com.samsung.chord.IChordChannelListener;
 import com.samsung.chord.IChordManagerListener;
+import com.dreamteam.util.Log;
 
 public class LookAtMeChordCommunicationManager implements
 		ILookAtMeCommunicationManager {
-
-	private static final String TAG = "LOOKATME_CHORD";
-	private static final String TAGClass = "[LookAtMeChordCommunicationManager]";
 
 	public static final String SOCIAL_CHANNEL_NAME = "com.dreamteam.lookme.SOCIAL_CHANNEL";
 
@@ -52,7 +49,7 @@ public class LookAtMeChordCommunicationManager implements
 
 	public LookAtMeChordCommunicationManager(Context context, Looper looper,
 			ILookAtMeCommunicationListener communicationListener) {
-		Log.d(TAG, TAGClass + " : " + "LookAtMeChordCommunicationManager");
+		Log.d();
 		this.context = context;
 		this.errorManager = new LookAtMeChordErrorManager();
 		this.communicationListener = communicationListener;
@@ -60,7 +57,7 @@ public class LookAtMeChordCommunicationManager implements
 
 	@Override
 	public void startCommunication() throws LookAtMeException {
-		Log.d(TAG, TAGClass + " : " + "startCommunication");
+		Log.d();
 		chord = ChordManager.getInstance(context);
 		// Log.d(TAG, TAGClass + " : " +
 		// "LookAtMeChordCommunicationManager creating tmpDir in\n"+chordFilePath);
@@ -73,7 +70,7 @@ public class LookAtMeChordCommunicationManager implements
 
 	@Override
 	public void stopCommunication() {
-		Log.d(TAG, TAGClass + " : " + "stopCommunication");
+		Log.d();
 		if (publicChannel != null) {
 			chord.leaveChannel(ChordManager.PUBLIC_CHANNEL);
 		}
@@ -86,103 +83,82 @@ public class LookAtMeChordCommunicationManager implements
 	}
 
 	private IChordChannel joinPublicChannel() {
-		Log.d(TAG, TAGClass + " : " + "joinPublicChannel");
+		Log.d();
 		return chord.joinChannel(ChordManager.PUBLIC_CHANNEL,
 				new IChordChannelListener() {
 
 					@Override
 					public void onNodeLeft(String arg0, String arg1) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onNodeLeft NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onNodeJoined(String arg0, String arg1) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onNodeJoined NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileWillReceive(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onFileWillReceive NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileSent(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onFileSent NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileReceived(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6, String arg7) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onFileReceived NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileFailed(String arg0, String arg1,
 							String arg2, String arg3, String arg4, int arg5) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onFileFailed NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileChunkSent(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6, long arg7, long arg8) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onFileChunkSent NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileChunkReceived(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6, long arg7) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onFileChunkReceived NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onDataReceived(String arg0, String arg1,
 							String arg2, byte[][] arg3) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] public : onDataReceived NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 				});
 	}
 
 	private IChordChannel joinSocialChannel() {
-		Log.d(TAG, TAGClass + " : " + "joinSocialChannel");
+		Log.d();
 		return chord.joinChannel(SOCIAL_CHANNEL_NAME,
 				new IChordChannelListener() {
 
 					@Override
 					public void onNodeLeft(String arg0, String arg1) {
-						Log.d(TAG, TAGClass
-								+ "[IChordChannelListener] social : onNodeLeft");
+						Log.d();
 						communicationListener.onSocialNodeLeft(arg0);
 					}
 
 					@Override
 					public void onNodeJoined(String arg0, String arg1) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onNodeJoined");
+						Log.d();
 						// send a preview profile request
 						sendProfilePreviewRequest(arg0);
 						// it will be notified after receive his profile
@@ -192,60 +168,46 @@ public class LookAtMeChordCommunicationManager implements
 					public void onFileWillReceive(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onFileWillReceive NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileSent(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onFileSent NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileReceived(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6, String arg7) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onFileReceived NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileFailed(String arg0, String arg1,
 							String arg2, String arg3, String arg4, int arg5) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onFileFailed NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileChunkSent(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6, long arg7, long arg8) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onFileChunkSent NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onFileChunkReceived(String arg0, String arg1,
 							String arg2, String arg3, String arg4, String arg5,
 							long arg6, long arg7) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onFileChunkReceived NOT IMPLEMENTED");
+						Log.d("NOT IMPLEMENTED");
 					}
 
 					@Override
 					public void onDataReceived(String arg0, String arg1,
 							String arg2, byte[][] arg3) {
-						Log.d(TAG,
-								TAGClass
-										+ "[IChordChannelListener] social : onDataReceived");
+						Log.d();
 						// here can be received profiles, previews, etc., now we
 						// will consider only profile preview
 						if (arg2.equals(LookAtMeMessageType.PREVIEW_REQUEST
@@ -271,7 +233,7 @@ public class LookAtMeChordCommunicationManager implements
 	}
 
 	private int startChord() {
-		Log.d(TAG, TAGClass + " : " + "startChord");
+		Log.d();
 		// trying to use INTERFACE_TYPE_WIFIAP, otherwise get the first
 		// available interface
 		availableWifiInterface = chord.getAvailableInterfaceTypes();
@@ -284,54 +246,49 @@ public class LookAtMeChordCommunicationManager implements
 		} else {
 			currentWifiInterface = (availableWifiInterface.get(0)).intValue();
 		}
-		Log.d(TAG, TAGClass + " : " + "startChord"
-				+ " connecting with interface " + currentWifiInterface);
+		Log.d("connecting with interface " + currentWifiInterface);
 		return chord.start(currentWifiInterface, new IChordManagerListener() {
 
 			@Override
 			public void onStarted(String arg0, int arg1) {
-				Log.d(TAG, TAGClass + "[IChordManagerListener] : onStarted");
+				Log.d();
 				publicChannel = joinPublicChannel();
 				socialChannel = joinSocialChannel();
-				Log.d(TAG, TAGClass
-						+ "[IChordManagerListener] : now chord is joined to "
+				Log.d("now chord is joined to "
 						+ chord.getJoinedChannelList().size() + " channels");
 				// sendProfilePreviewRequestAll(); // QUI NON HA EFFETTO????
 			}
 
 			@Override
 			public void onNetworkDisconnected() {
-				Log.d(TAG,
-						TAGClass
-								+ "[IChordManagerListener] : onNetworkDisconnected NOT IMPLEMENTED");
+				Log.d("NOT IMPLEMENTED");
 			}
 
 			@Override
 			public void onError(int arg0) {
-				Log.d(TAG, TAGClass
-						+ "[IChordManagerListener] : onError NOT IMPLEMENTED");
+				Log.d("NOT IMPLEMENTED");
 			}
 		});
 	}
 
 	@Override
 	public boolean sendProfilePreviewRequestAll() {
-		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequestAll");
+		Log.d();
 		List<String> socialNodeList = socialChannel.getJoinedNodeList();
-		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequestAll there are "
+		Log.d("there are "
 				+ socialNodeList.size() + " nodes joined to social channel");
 		return socialChannel.sendDataToAll(
 				LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
 
 	private boolean sendProfilePreviewRequest(String nodeTo) {
-		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewRequest");
+		Log.d();
 		return socialChannel.sendData(nodeTo,
 				LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
 
 	private boolean sendProfilePreviewResponse(String nodeTo) {
-		Log.d(TAG, TAGClass + " : " + "sendProfilePreviewResponse");
+		Log.d();
 		LookAtMeChordMessage message = new LookAtMeChordMessage(
 				LookAtMeMessageType.PREVIEW);
 		message.setSenderNodeName(chord.getName());
@@ -342,8 +299,7 @@ public class LookAtMeChordCommunicationManager implements
 		try {
 			myProfile = dbOpenHelper.getMyProfile();
 		} catch (Exception e) {
-			Log.d(TAG, TAGClass + " : "
-					+ "sendProfilePreviewResponse getMyProfile() failed");
+			Log.d("failed getting my profile");
 			e.printStackTrace();
 			return false;
 		}
