@@ -143,7 +143,7 @@ public class SocialListActivity extends Activity implements
 
 						@Override
 						public void onSocialNodeLeft(String nodeName) {
-							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onSocialNodeLeft");
+							Log.d();
 							// get profile id corresponding to nodeName
 							LookAtMeNode node = socialNodeMap.get(nodeName);
 							long profileId = node.getProfile().getId();
@@ -158,7 +158,7 @@ public class SocialListActivity extends Activity implements
 
 						@Override
 						public void onSocialNodeJoined(LookAtMeNode node) {
-							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onSocialNodeJoined");
+							Log.d();
 							if (node == null) {
 								Toast.makeText(getApplicationContext(),
 										"NULL Node OBJECT ARRIVED!",
@@ -177,14 +177,14 @@ public class SocialListActivity extends Activity implements
 
 						@Override
 						public void onCommunicationStopped() {
-							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onCommunicationStopped NOT IMPLEMENTED");
+							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 
 						}
 
 						@Override
 						public void onCommunicationStarted() {
-							Log.d("[ServiceConnection][ILookAtMeCommunicationListener] : onCommunicationStarted NOT IMPLEMENTED");
+							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 
 						}
