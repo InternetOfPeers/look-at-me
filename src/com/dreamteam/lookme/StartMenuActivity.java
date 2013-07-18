@@ -25,12 +25,12 @@ public class StartMenuActivity extends Activity {
 
 		FullProfile myProfile = null; // get my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
-//		try {
-//			myProfile = dbOpenHelper.getMyProfile();
-//		} catch (Exception e) {
-//			Log.e("dbOpenHelper, failed to retrieve my profile");
-//			e.printStackTrace();
-//		}
+		try {
+			myProfile = dbOpenHelper.getMyFullProfile();
+		} catch (Exception e) {
+			Log.e("dbOpenHelper, failed to retrieve my profile");
+			e.printStackTrace();
+		}
 		if (myProfile == null) {
 			Log.d("It's the first time this app run!");
 			showDialog();

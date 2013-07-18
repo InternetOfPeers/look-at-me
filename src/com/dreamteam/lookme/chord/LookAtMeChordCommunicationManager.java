@@ -345,14 +345,14 @@ public class LookAtMeChordCommunicationManager implements
 		message.setReceiverNodeName(nodeTo);
 		// getting my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this.context);
-		BasicProfile myProfile = null;//TODO
-//		try {
-//			myProfile = dbOpenHelper.getMyProfile();
-//		} catch (Exception e) {
-//			Log.d("failed getting my profile");
-//			e.printStackTrace();
-//			return false;
-//		}
+		BasicProfile myProfile = null;
+		try {
+			myProfile = dbOpenHelper.getMyBasicProfile();
+		} catch (Exception e) {
+			Log.d("failed getting my profile");
+			e.printStackTrace();
+			return false;
+		}
 		// end getting my profile
 		message.putObject(LookAtMeMessageType.PREVIEW.toString(), myProfile);
 		return socialChannel.sendData(nodeTo,
@@ -367,14 +367,14 @@ public class LookAtMeChordCommunicationManager implements
 		message.setReceiverNodeName(nodeTo);
 		// getting my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this.context);
-		FullProfile myProfile = null;//TODO
-//		try {
-//			myProfile = dbOpenHelper.getMyProfile();
-//		} catch (Exception e) {
-//			Log.d("failed getting my profile");
-//			e.printStackTrace();
-//			return false;
-//		}
+		FullProfile myProfile = null;
+		try {
+			myProfile = dbOpenHelper.getMyFullProfile();
+		} catch (Exception e) {
+			Log.d("failed getting my profile");
+			e.printStackTrace();
+			return false;
+		}
 		// end getting my profile
 		message.putObject(LookAtMeMessageType.PROFILE.toString(), myProfile);
 		return socialChannel.sendData(nodeTo,

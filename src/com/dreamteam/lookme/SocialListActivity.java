@@ -68,7 +68,7 @@ public class SocialListActivity extends Activity implements
 		BasicProfile myProfile = null; // get my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
-			myProfile = dbOpenHelper.getMyProfile();
+			myProfile = dbOpenHelper.getMyBasicProfile();
 		} catch (Exception e) {
 			Log.e("dbOpenHelper, failed to retrieve my profile");
 			e.printStackTrace();
