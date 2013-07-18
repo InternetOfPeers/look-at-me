@@ -5,13 +5,12 @@ public class BasicProfile extends Profile {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private byte[] mainProfileImage;
+	private ProfileImage mainProfileImage;
 
-	public byte[] getMainProfileImage() {
+	public ProfileImage getMainProfileImage() {
 		return mainProfileImage;
 	}
-
-	public void setMainProfileImage(byte[] mainProfileImage) {
+	public void setMainProfileImage(ProfileImage mainProfileImage) {
 		this.mainProfileImage = mainProfileImage;
 	}
 

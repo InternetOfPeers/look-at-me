@@ -10,6 +10,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -241,21 +245,22 @@ public class SocialListActivity extends Activity implements
 			}
 			
 			LookAtMeNode node = (LookAtMeNode) this.getItem(position);
+			BasicProfile profile = (BasicProfile) node.getProfile();
 
 			TextView nickNameText = (TextView) convertView
 					.findViewById(R.id.nickNameText);
 			nickNameText.setText(node.getProfile().getNickname());
 			
 			// Problemi con il recupero dell'immagine del profilo
-			//ImageView photoImage = (ImageView) findViewById(R.id.profilePhotoImage);
-			//if (profile.getImage() == null || profile.getImage().length == 0) {
-			//	Drawable noPhoto = getResources().getDrawable(R.drawable.no_profile_image);
-			//	photoImage.setImageDrawable(noPhoto);
-			//}
-			//else {
-			//	Bitmap bMap = BitmapFactory.decodeByteArray(profile.getImage(), 0, profile.getImage().length);
-			//	photoImage.setImageBitmap(bMap);
-			//}
+			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
+			if (profile.getMainProfileImage() == null || profile.getMainProfileImage().getImage() == null) {
+				Drawable noPhoto = getResources().getDrawable(R.drawable.no_profile_image);
+				photoImage.setImageDrawable(noPhoto);
+			}
+			else {
+				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length - 1);
+				photoImage.setImageBitmap(bMap);
+			}
 
 			return convertView;
 		}
