@@ -64,7 +64,7 @@ public class RegisterActivity extends Activity {
 						
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
 			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
-			TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
+			TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 
 			if (imageView.getDrawable() == null) {
@@ -201,7 +201,7 @@ public class RegisterActivity extends Activity {
 		nameScreen.setText(profile.getName());
 		TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
 		surnameScreen.setText(profile.getSurname());
-		TextView usernameScreen = (TextView) findViewById(R.id.reg_username);
+		TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
 		usernameScreen.setText(profile.getNickname());
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);

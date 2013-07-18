@@ -57,14 +57,29 @@
               android:layout_height="wrap_content"
               android:orientation="vertical"
               android:padding="10dip" >
+              
 
               <TextView
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:text="name"
+                  android:text="@string/text_nickname"
                   android:textColor="#372c24" />
 
-              <EditText
+              <EditText android:inputType="text"
+                  android:id="@+id/reg_nickname"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="20dip"
+                  android:layout_marginTop="5dip"
+                  android:singleLine="true" />              
+              
+              <TextView
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="@string/text_name"
+                  android:textColor="#372c24" />                            
+
+              <EditText android:inputType="text"
                   android:id="@+id/reg_name"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
@@ -78,30 +93,16 @@
               <TextView
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:text="surname"
+                  android:text="@string/text_surname"
                   android:textColor="#372c24" />
 
-              <EditText
+              <EditText android:inputType="text"
                   android:id="@+id/reg_surname"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="20dip"
                   android:layout_marginTop="5dip"
-                  android:singleLine="true" />
-
-              <TextView
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:text="username"
-                  android:textColor="#372c24" />
-
-              <EditText
-                  android:id="@+id/reg_username"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginBottom="20dip"
-                  android:layout_marginTop="5dip"
-                  android:singleLine="true" />
+                  android:singleLine="true" />             
 
               <Button
                   android:id="@+id/btnRegister"

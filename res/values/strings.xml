@@ -10,5 +10,8 @@
     <string name="title_activity_social_list">SocialListActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="text_name">name</string>
+    <string name="text_surname">surname</string>
+    <string name="text_nickname">nickname</string>
 
 </resources>
