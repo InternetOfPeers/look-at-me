@@ -1,6 +1,7 @@
 package com.dreamteam.lookme;
 
-import com.dreamteam.lookme.bean.Profile;
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.util.Log;
@@ -22,14 +23,14 @@ public class StartMenuActivity extends Activity {
 		setContentView(R.layout.start_menu);
 		
 
-		Profile myProfile = null; // get my profile
+		FullProfile myProfile = null; // get my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
-		try {
-			myProfile = dbOpenHelper.getMyProfile();
-		} catch (Exception e) {
-			Log.e("dbOpenHelper, failed to retrieve my profile");
-			e.printStackTrace();
-		}
+//		try {
+//			myProfile = dbOpenHelper.getMyProfile();
+//		} catch (Exception e) {
+//			Log.e("dbOpenHelper, failed to retrieve my profile");
+//			e.printStackTrace();
+//		}
 		if (myProfile == null) {
 			Log.d("It's the first time this app run!");
 			showDialog();

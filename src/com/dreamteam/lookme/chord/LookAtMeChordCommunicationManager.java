@@ -9,7 +9,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Looper;
 
-import com.dreamteam.lookme.bean.Profile;
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
 import com.dreamteam.lookme.communication.LookAtMeMessage;
@@ -19,11 +20,11 @@ import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.error.LookAtMeErrorManager;
 import com.dreamteam.lookme.error.LookAtMeException;
+import com.dreamteam.util.Log;
 import com.samsung.chord.ChordManager;
 import com.samsung.chord.IChordChannel;
 import com.samsung.chord.IChordChannelListener;
 import com.samsung.chord.IChordManagerListener;
-import com.dreamteam.util.Log;
 
 public class LookAtMeChordCommunicationManager implements
 		ILookAtMeCommunicationManager {
@@ -209,25 +210,49 @@ public class LookAtMeChordCommunicationManager implements
 							String arg2, byte[][] arg3) {
 						Log.d();
 						// here can be received profiles, previews, etc., now we
-						// will consider only profile preview
-						if (arg2.equals(LookAtMeMessageType.PREVIEW_REQUEST
-								.name())) {
-							// send my profile preview to arg0 node
-							sendProfilePreviewResponse(arg0);
-						} else if (arg2.equals(LookAtMeMessageType.PREVIEW
-								.name())) {
-							// get chord message from payload
-							byte[] chordMessageByte = arg3[0];
-							LookAtMeChordMessage message = LookAtMeChordMessage
-									.obtainChordMessage(chordMessageByte, arg0);
-							Profile profile = (Profile) message
-									.getObject(LookAtMeMessage.PROFILE_KEY);
-							LookAtMeNode node = new LookAtMeNode();
-							node.setId(arg0);
-							node.setProfile(profile);
-							communicationListener.onSocialNodeJoined(node);
+						LookAtMeMessageType messageType = LookAtMeMessageType.valueOf(arg2);
+						byte[] chordMessageByte = arg3[0];
+						LookAtMeChordMessage message = null;
+						if (chordMessageByte != null && chordMessageByte.length > 0) {
+							message = LookAtMeChordMessage
+								.obtainChordMessage(chordMessageByte, arg0);
 						}
-
+						switch (messageType) {
+						case PREVIEW_REQUEST:
+							// send my basic profile to arg0 node
+							sendProfilePreviewResponse(arg0);
+							break;
+						case PREVIEW:
+							BasicProfile basicProfile = (BasicProfile) message
+									.getObject(LookAtMeMessageType.PREVIEW.toString());
+							LookAtMeNode previewNode = new LookAtMeNode();
+							previewNode.setId(arg0);
+							previewNode.setProfile(basicProfile);
+							communicationListener.onSocialNodeJoined(previewNode);
+							break;
+						case PROFILE_REQUEST:
+							// send my full profile to arg0 node
+							sendProfileResponse(arg0);
+							break;
+						case PROFILE:
+							FullProfile fullProfile = (FullProfile) message
+									.getObject(LookAtMeMessageType.PREVIEW.toString());
+							LookAtMeNode profileNode = new LookAtMeNode();
+							profileNode.setId(arg0);
+							profileNode.setProfile(fullProfile);
+							communicationListener.onSocialNodeProfileReceived(profileNode);
+							break;
+						case CHAT_MESSAGE:
+							String chatMessage = (String) message
+							.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
+							communicationListener.onChatMessageReceived(arg0, chatMessage);
+							break;
+						case LIKE:
+							communicationListener.onLikeReceived(arg0);
+							break;
+						default:
+							break;
+						}
 					}
 				});
 	}
@@ -281,6 +306,31 @@ public class LookAtMeChordCommunicationManager implements
 				LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
 
+	@Override
+	public boolean sendProfileRequest(String nodeTo) {
+		Log.d();
+		return socialChannel.sendData(nodeTo,
+				LookAtMeMessageType.PROFILE_REQUEST.name(), new byte[0][0]);
+	}
+
+	@Override
+	public boolean sendLike(String nodeTo) {
+		Log.d();
+		return socialChannel.sendData(nodeTo,
+				LookAtMeMessageType.LIKE.name(), new byte[0][0]);
+	}
+	
+	@Override
+	public boolean sendChatMessage(String nodeTo, String message) {
+		Log.d();
+		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(LookAtMeMessageType.CHAT_MESSAGE);
+		chordMessage.setSenderNodeName(chord.getName());
+		chordMessage.setReceiverNodeName(nodeTo);
+		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(), message);
+		return socialChannel.sendData(nodeTo,
+				LookAtMeMessageType.CHAT_MESSAGE.name(), obtainPayload(chordMessage));
+	}
+
 	private boolean sendProfilePreviewRequest(String nodeTo) {
 		Log.d();
 		return socialChannel.sendData(nodeTo,
@@ -295,20 +345,42 @@ public class LookAtMeChordCommunicationManager implements
 		message.setReceiverNodeName(nodeTo);
 		// getting my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this.context);
-		Profile myProfile = null;
-		try {
-			myProfile = dbOpenHelper.getMyProfile();
-		} catch (Exception e) {
-			Log.d("failed getting my profile");
-			e.printStackTrace();
-			return false;
-		}
+		BasicProfile myProfile = null;//TODO
+//		try {
+//			myProfile = dbOpenHelper.getMyProfile();
+//		} catch (Exception e) {
+//			Log.d("failed getting my profile");
+//			e.printStackTrace();
+//			return false;
+//		}
 		// end getting my profile
-		message.putObject(LookAtMeMessage.PROFILE_KEY, myProfile);
+		message.putObject(LookAtMeMessageType.PREVIEW.toString(), myProfile);
 		return socialChannel.sendData(nodeTo,
-				LookAtMeMessageType.PREVIEW.name(), obtainPayload(message));
+				LookAtMeMessageType.PREVIEW.toString(), obtainPayload(message));
 	}
 
+	private boolean sendProfileResponse(String nodeTo) {
+		Log.d();
+		LookAtMeChordMessage message = new LookAtMeChordMessage(
+				LookAtMeMessageType.PROFILE);
+		message.setSenderNodeName(chord.getName());
+		message.setReceiverNodeName(nodeTo);
+		// getting my profile
+		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this.context);
+		FullProfile myProfile = null;//TODO
+//		try {
+//			myProfile = dbOpenHelper.getMyProfile();
+//		} catch (Exception e) {
+//			Log.d("failed getting my profile");
+//			e.printStackTrace();
+//			return false;
+//		}
+		// end getting my profile
+		message.putObject(LookAtMeMessageType.PROFILE.toString(), myProfile);
+		return socialChannel.sendData(nodeTo,
+				LookAtMeMessageType.PROFILE.toString(), obtainPayload(message));
+	}
+	
 	private byte[][] obtainPayload(LookAtMeChordMessage message) {
 		byte[][] payload = new byte[1][1];
 		payload[0] = message.getBytes();

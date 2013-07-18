@@ -11,8 +11,6 @@ public class LookAtMeMessage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String PROFILE_KEY = "profile";
-
 	private final LookAtMeMessageType type; /* Message type */
 	private final Map<String, Object> payload; /* Data to transfer */
 	private String senderNodeName; /* Name of sender node */

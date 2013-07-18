@@ -10,9 +10,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.LayoutInflater;
@@ -23,12 +20,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dreamteam.lookme.bean.Profile;
+import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelper;
@@ -51,10 +47,6 @@ public class SocialListActivity extends Activity implements
 	private Button refreshListButton;
 
 	private Map<String, LookAtMeNode> socialNodeMap;
-	// the BaseAdapter class uses as items id a long type, so while
-	// lookAtMe app identify nodes with String it's necessary a map to match
-	// profileId - nodeId and operate on socialNodeMap.
-	private Map<Long, String> socialNodeIdMap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +56,6 @@ public class SocialListActivity extends Activity implements
 
 		// init data structures
 		socialNodeMap = new HashMap<String, LookAtMeNode>();
-		socialNodeIdMap = new HashMap<Long, String>();
 
 		// Start service
 		Intent intentStart = new Intent(SERVICE_PREFIX + "SERVICE_START");
@@ -74,7 +65,7 @@ public class SocialListActivity extends Activity implements
 			bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
 		}
 
-		Profile myProfile = null; // get my profile
+		BasicProfile myProfile = null; // get my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
 			myProfile = dbOpenHelper.getMyProfile();
@@ -136,13 +127,8 @@ public class SocialListActivity extends Activity implements
 						@Override
 						public void onSocialNodeLeft(String nodeName) {
 							Log.d();
-							// get profile id corresponding to nodeName
-							LookAtMeNode node = socialNodeMap.get(nodeName);
-							long profileId = node.getProfile().getId();
 							// remove node from socialNodeMap
 							socialNodeMap.remove(nodeName);
-							// remove entry from profileNodeMap
-							socialNodeIdMap.remove(Long.valueOf(profileId));
 							// update GUI calling a GUI listener
 							socialListAdapter.notifyDataSetChanged();
 
@@ -159,9 +145,6 @@ public class SocialListActivity extends Activity implements
 							}
 							// add node to socialNodeMap
 							socialNodeMap.put(node.getId(), node);
-							// add entry in profileNodeMap
-							socialNodeIdMap.put(node.getProfile().getId(),
-									node.getId());
 							// update GUI calling a GUI listener
 							socialListAdapter.notifyDataSetChanged();
 
@@ -179,6 +162,26 @@ public class SocialListActivity extends Activity implements
 							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 
+						}
+
+						@Override
+						public void onSocialNodeProfileReceived(
+								LookAtMeNode node) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void onLikeReceived(String nodeFrom) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void onChatMessageReceived(String nodeFrom,
+								String message) {
+							// TODO Auto-generated method stub
+							
 						}
 					});
 			try {
@@ -200,23 +203,18 @@ public class SocialListActivity extends Activity implements
 	public void onItemClick(AdapterView<?> arg0, View arg1,
 			int clickedItemPosition, long clickedItemID) {
 		Log.d();
-		String nodeId = socialNodeIdMap.get(clickedItemID);
-		LookAtMeNode node = socialNodeMap.get(nodeId);
-		String message = "DELETING NODE \"" + node.getId()
-				+ "\". ITS NAME IS \"" + node.getProfile().getName() + " "
-				+ node.getProfile().getSurname() + "\"";
+		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int)clickedItemID);
+		String message = "SELECTED NODE \"" + node.getId()
+				+ "\". ITS NICK IS \"" + node.getProfile().getNickname();
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG)
 				.show();
-		socialNodeIdMap.remove(clickedItemID);
-		socialNodeMap.remove(nodeId);
-		socialListAdapter.notifyDataSetChanged();
 	}
 
 	public class SocialListAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
-			return socialNodeMap.values().size();
+			return socialNodeMap.size();
 		}
 
 		@Override
@@ -224,13 +222,12 @@ public class SocialListActivity extends Activity implements
 			List<LookAtMeNode> nodeList = new ArrayList<LookAtMeNode>(
 					socialNodeMap.values());
 			LookAtMeNode node = (LookAtMeNode) nodeList.get(arg0);
-			return node.getProfile();
+			return node;
 		}
 
 		@Override
 		public long getItemId(int arg0) {
-			Profile profile = (Profile) this.getItem(arg0);
-			return profile.getId();
+			return arg0;
 		}
 
 		@Override
@@ -243,11 +240,11 @@ public class SocialListActivity extends Activity implements
 						R.layout.one_row_social_list, null);
 			}
 			
-			Profile profile = (Profile) this.getItem(position);
+			LookAtMeNode node = (LookAtMeNode) this.getItem(position);
 
 			TextView nickNameText = (TextView) convertView
 					.findViewById(R.id.nickNameText);
-			nickNameText.setText(profile.getNickname());
+			nickNameText.setText(node.getProfile().getNickname());
 			
 			// Problemi con il recupero dell'immagine del profilo
 			//ImageView photoImage = (ImageView) findViewById(R.id.profilePhotoImage);

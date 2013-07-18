@@ -17,4 +17,10 @@ public interface ILookAtMeCommunicationManager {
 
 	public boolean sendProfilePreviewRequestAll();
 
+	public boolean sendProfileRequest(String nodeTo);
+	
+	public boolean sendChatMessage(String nodeTo, String message);
+	
+	public boolean sendLike(String nodeTo);
+
 }

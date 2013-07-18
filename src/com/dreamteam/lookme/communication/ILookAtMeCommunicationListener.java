@@ -12,5 +12,11 @@ public interface ILookAtMeCommunicationListener {
 	public void onSocialNodeJoined(LookAtMeNode node);
 
 	public void onSocialNodeLeft(String nodeName);
+	
+	public void onSocialNodeProfileReceived(LookAtMeNode node);
+	
+	public void onLikeReceived(String nodeFrom);
+	
+	public void onChatMessageReceived(String nodeFrom, String message);
 
 }

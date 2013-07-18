@@ -10,14 +10,11 @@ public enum LookAtMeMessageType {
 
 	PREVIEW, /* Minimal profile data */
 	PROFILE, /* Complete profile data */
-	INTEREST, /* Interest data */
-	SHARED, /* Shared files data */
 	LIKE, /* Love game */
+	CHAT_MESSAGE,
 
 	PREVIEW_REQUEST, /* request minimal profile data */
-	PROFILE_REQUEST, /* request complete profile data */
-	INTEREST_REQUEST, /* request interest data */
-	SHARED_REQUEST; /* request shared files data */
+	PROFILE_REQUEST; /* request complete profile data */
 
 	@Override
 	public String toString() {
