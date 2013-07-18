@@ -3,31 +3,26 @@ package com.dreamteam.lookme.bean;
 import java.io.Serializable;
 import java.util.List;
 
-public class Profile implements Serializable {
+import com.dreamteam.lookatme.enumattribute.Gender;
 
+public class Profile implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
 	public static final String MALE = "M";
 	public static final String FEMALE = "F";
 
-	private transient long id;
-	private transient String deviceId;
+	private transient String id;
 	
 	private String nickname;
-	private String sex;
+	private Gender gender;
 	private List<String> tags;
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getDeviceId() {
-		return deviceId;
-	}
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
+	public void setId(String deviceId) {
+		this.id = deviceId;
 	}
 	public String getNickname() {
 		return nickname;
@@ -35,11 +30,12 @@ public class Profile implements Serializable {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public String getSex() {
-		return sex;
+	public String getGender() {
+		if(gender==null)return null;
+		return gender.toString();
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setGender(String sex) {
+		this.gender = Gender.parse(sex);
 	}
 	public List<String> getTags() {
 		return tags;

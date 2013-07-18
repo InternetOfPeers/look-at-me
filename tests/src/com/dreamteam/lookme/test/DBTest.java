@@ -5,55 +5,99 @@ import java.io.File;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
+import android.widget.Button;
+import android.widget.TextView;
 
-import com.dreamteam.lookme.MainActivity;
+import com.dreamteam.lookme.RegisterActivity;
+import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
+import com.jayway.android.robotium.solo.Solo;
 
-public class DBTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class DBTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
+	
+	private Solo solo;
 
 	DBOpenHelper dbOpenHelper;
 
 	public DBTest() {
-		super(MainActivity.class);
+		super(RegisterActivity.class);
 	}
 
 	protected void setUp() throws Exception {
-		super.setUp();
+		solo = new Solo(getInstrumentation(), getActivity());
 		dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
 	}
 
 	protected void tearDown() throws Exception {
-		super.tearDown();
+		solo.finishOpenedActivities();
 		// dbOpenHelper.close();
+	}
+	
+	@UiThreadTest
+	public void testRegistration() {
+		
+		solo.assertCurrentActivity("Expected Register Activity", "RegisterActivity"); 
+		int i=0;
+	
+		TextView name=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_name);
+		TextView surname=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_surname);
+		TextView username=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_username);
+		Button submit = (Button) getActivity().findViewById(com.dreamteam.lookme.R.id.btnRegister);
+		
+		String oldName=name.getText()!=null?name.getText().toString():null;
+		String oldSurname=surname.getText()!=null?surname.getText().toString():null;
+		String oldUsername=username.getText()!=null?username.getText().toString():null;
+		
+		name.setText("pippo");
+		surname.setText("pluto");
+		username.setText("paperino");
+		
+		submit.performClick();
+		
+		solo.sleep(3000);
+		
+		assertEquals(name.getText().toString(), oldName);
+		assertEquals(surname.getText().toString(), oldSurname);
+		assertEquals(username.getText().toString(), oldUsername);
+		
+		name.setText(oldName);
+		surname.setText(oldSurname);
+		username.setText(oldUsername);
+		
+		submit.performClick();
+		
+		solo.sleep(3000);
+		
 	}
 
 	public void testDB() {
 		try {
+			//TODO test sulle immagini
 			dbOpenHelper.getWritableDatabase().beginTransaction();
 			File imgFile = new File("/sdcard/Images/test_image.jpg");
 			Bitmap myBitmap = null;
 			if (imgFile.exists()) {
 				myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 			}
-			Profile profileToBeSaved = new Profile();
-			profileToBeSaved.setDeviceId("1");
+			FullProfile profileToBeSaved = new FullProfile();
+			profileToBeSaved.setId("1");
 			profileToBeSaved.setName("Riccardo");
 			profileToBeSaved.setSurname("Alfrilli");
 			profileToBeSaved.setNickname("AlfaOmega83");
 			profileToBeSaved = dbOpenHelper
 					.saveOrUpdateProfile(profileToBeSaved);
-			Profile profileSaved = dbOpenHelper.getProfile(profileToBeSaved
-					.getDeviceId());
+			FullProfile profileSaved = dbOpenHelper.getFullProfile(profileToBeSaved
+					.getId());
 			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
 			assertEquals(profileToBeSaved.getName(), profileSaved.getName());
 			assertEquals(profileToBeSaved.getSurname(),
 					profileSaved.getSurname());
 			assertEquals(profileToBeSaved.getNickname(),
 					profileSaved.getNickname());
-			assertEquals(profileToBeSaved.getDeviceId(), profileSaved.getDeviceId());
-			assertEquals(profileToBeSaved.getImage(), profileSaved.getImage());
+			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
 		} catch (Exception e) {
 			fail("error on testDB error:" + e.getMessage());
 		} finally {
