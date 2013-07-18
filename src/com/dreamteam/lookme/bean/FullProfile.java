@@ -1,6 +1,6 @@
 package com.dreamteam.lookme.bean;
 
-public class FullProfile extends BasicProfile {
+public class FullProfile extends Profile {
 
 	private static final long serialVersionUID = 1L;
 	
