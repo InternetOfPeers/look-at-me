@@ -50,35 +50,114 @@ public interface DBOpenHelper {
 	public static final String TABLE_IMAGES_COLUMN_PROFILE_ID = "profile_id";
 	public static final String TABLE_IMAGES_COLUMN_IMAGE = "image";
 	public static final String TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO = "main_photo";
+	
+	public static final String TABLE_TAGS = "tags_tb";
+	public static final String TABLE_TAGS_COLUMN_ID = "id";
+	public static final String TABLE_TAGS_COLUMN_PROFILE_ID = "profile_id";
+	public static final String TABLE_TAGS_COLUMN_DESCRIPTION = "image";
+	
 
 	public SQLiteDatabase getWritableDatabase();
 
 	public void close();
 
+	/**
+	 * Save the profile if not exist in database otherwise update.
+	 *
+	 * @param  profile the FullProfile to be saved
+	 * @return      void
+	 * @throws java.lang.Exception
+	 */
 	public FullProfile saveOrUpdateProfile(FullProfile profile) throws Exception;
 
+	/**
+	 * Return All the Profiles present in the database
+	 *
+	 * @return      List<BasicProfile>
+	 * @throws java.lang.Exception
+	 */
 	public List<BasicProfile> getProfiles() throws Exception;
 
+	/**
+	 * Delete All the Profiles present in the database
+	 *
+	 * @return      void
+	 * @throws java.lang.Exception
+	 */
 	public void deleteProfiles() throws Exception;
 
+	/**
+	 * Delete a specific Profile present in the database
+	 * @param  profileID id of the Profile to be deleted
+	 * @return      void
+	 * @throws java.lang.Exception
+	 */	
 	public void deleteProfile(String profileID) throws Exception;
 
+	/**
+	 * Return the FullProfile specified by id
+	 * @param  profileID id of the FullProfile to be returned
+	 * @return      FullProfile
+	 * @throws java.lang.Exception
+	 */
 	public FullProfile getFullProfile(String profileID) throws Exception;
-	
+
+	/**
+	 * Return the BasicProfile specified by id
+	 * @param  profileID id of the FullProfile to be returned
+	 * @return      BasicProfile
+	 * @throws java.lang.Exception
+	 */	
 	public BasicProfile getBasicProfile(String profileID) throws Exception;
 
+	/**
+	 * Return the BasicProfile of the device owner
+	 * @return      BasicProfile
+	 * @throws java.lang.Exception
+	 */	
 	public BasicProfile getMyBasicProfile() throws Exception;
 	
+	/**
+	 * Return the FullProfile of the device owner
+	 * @return      FullProfile
+	 * @throws java.lang.Exception
+	 */		
 	public FullProfile getMyFullProfile() throws Exception;
 	
 	public void saveOrUpdateImages(FullProfile profile) throws Exception;
 	
+	/**
+	 * Save the ProfileImage if not exist in database otherwise update.
+	 *
+	 * @param  profileImage the ProfileImage to be saved
+	 * @return      void
+	 * @throws java.lang.Exception
+	 */
 	public void saveOrUpdateImage(ProfileImage profileImage) throws Exception;
 	
+	/**
+	 * Save the ProfileImage if not exist in database otherwise update.
+	 *
+	 * @param  profileId the ProfileImage to be saved
+	 * @return List<ProfileImage>
+	 * @throws java.lang.Exception
+	 */	
 	public List<ProfileImage> getProfileImages(String profileId) throws Exception ;
 	
+	/**
+	 * Return the ProfileImage set as Main by the device owner
+	 * @param  profileId the Profile id to load the main image 
+	 * @return      ProfileImage
+	 * @throws java.lang.Exception
+	 */	
 	public ProfileImage getProfileMainImage(String profileId) throws Exception;
-	
+
+	/**
+	 * Return the ProfileImage specified by an id
+	 * @param  profileImageId the ProfileImageId to load 
+	 * @return      ProfileImage
+	 * @throws java.lang.Exception
+	 */	
 	public ProfileImage getProfileImage(long profileImageId) throws Exception;
 
 }
