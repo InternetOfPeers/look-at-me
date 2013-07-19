@@ -1,6 +1,10 @@
 package com.dreamteam.lookme.bean;
 
-public class ProfileImage {
+import java.io.Serializable;
+
+public class ProfileImage implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private long id;
 	private String profileId;
