@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelper;
@@ -49,7 +50,8 @@ public class SocialListActivity extends Activity implements
 	private TextView myNickText;
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
-
+	
+	private LookAtMeNode currentProfileNode;
 	private Map<String, LookAtMeNode> socialNodeMap;
 
 	@Override
@@ -141,12 +143,6 @@ public class SocialListActivity extends Activity implements
 						@Override
 						public void onSocialNodeJoined(LookAtMeNode node) {
 							Log.d();
-							if (node == null) {
-								Toast.makeText(getApplicationContext(),
-										"NULL Node OBJECT ARRIVED!",
-										Toast.LENGTH_LONG).show();
-								return;
-							}
 							// add node to socialNodeMap
 							socialNodeMap.put(node.getId(), node);
 							// update GUI calling a GUI listener
@@ -171,8 +167,9 @@ public class SocialListActivity extends Activity implements
 						@Override
 						public void onSocialNodeProfileReceived(
 								LookAtMeNode node) {
-							Log.d("NOT IMPLEMENTED");
-							// TODO Auto-generated method stub
+							Log.d();
+							currentProfileNode = node;
+							// TODO: show profile
 							
 						}
 
@@ -194,8 +191,11 @@ public class SocialListActivity extends Activity implements
 						@Override
 						public void onSocialNodeUpdated(
 								LookAtMeNode node) {
-							Log.d("NOT IMPLEMENTED");
-							// TODO Auto-generated method stub
+							Log.d();
+							// update node in socialNodeMap
+							socialNodeMap.put(node.getId(), node);
+							// update GUI calling a GUI listener
+							socialListAdapter.notifyDataSetChanged();
 							
 						}
 					});
@@ -219,10 +219,7 @@ public class SocialListActivity extends Activity implements
 			int clickedItemPosition, long clickedItemID) {
 		Log.d();
 		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int)clickedItemID);
-		String message = "SELECTED NODE \"" + node.getId()
-				+ "\". ITS NICK IS \"" + node.getProfile().getNickname();
-		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG)
-				.show();
+		communicationService.sendProfileRequest(node.getId());
 	}
 
 	public class SocialListAdapter extends BaseAdapter {

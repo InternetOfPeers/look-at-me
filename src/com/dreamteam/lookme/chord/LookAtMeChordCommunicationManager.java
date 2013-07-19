@@ -237,14 +237,19 @@ public class LookAtMeChordCommunicationManager implements
 							break;
 						case PROFILE:
 							FullProfile fullProfile = (FullProfile) message
-									.getObject(LookAtMeMessageType.PREVIEW.toString());
+									.getObject(LookAtMeMessageType.PROFILE.toString());
 							LookAtMeNode profileNode = new LookAtMeNode();
 							profileNode.setId(arg0);
 							profileNode.setProfile(fullProfile);
 							communicationListener.onSocialNodeProfileReceived(profileNode);
 							break;
 						case PROFILE_UPDATE:
-							
+							BasicProfile updatedProfile = (BasicProfile) message
+							.getObject(LookAtMeMessageType.PROFILE_UPDATE.toString());
+							LookAtMeNode updatedNode = new LookAtMeNode();
+							updatedNode.setId(arg0);
+							updatedNode.setProfile(updatedProfile);
+							communicationListener.onSocialNodeUpdated(updatedNode);
 							break;
 						case CHAT_MESSAGE:
 							String chatMessage = (String) message
