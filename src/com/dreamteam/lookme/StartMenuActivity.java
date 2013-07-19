@@ -45,7 +45,7 @@ public class StartMenuActivity extends Activity {
 	}
 
 	public void showListActivity(View view) {
-		Intent intent = new Intent(this, SocialListActivity.class);
+		Intent intent = new Intent(this, SocialActivity.class);
 		startActivity(intent);
 
 	}

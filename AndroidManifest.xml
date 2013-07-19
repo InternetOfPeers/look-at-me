@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.SocialListActivity"
+            android:name="com.dreamteam.lookme.SocialActivity"
             android:label="@string/title_activity_test_chord" >
         </activity>
 		<activity

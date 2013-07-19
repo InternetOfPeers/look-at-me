@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SocialListActivity" >
+    tools:context=".SocialActivity" >
 
     <ListView
         android:id="@+id/socialListView"
@@ -17,22 +17,11 @@
 
     </ListView>
 
-    <TextView
-        android:id="@+id/myNickText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <Button
         android:id="@+id/buttonRefreshList"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/myNickText"
-        android:layout_alignBottom="@+id/myNickText"
         android:layout_alignRight="@+id/socialListView"
         android:text="Refresh" />
 
