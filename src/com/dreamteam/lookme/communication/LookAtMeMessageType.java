@@ -12,7 +12,7 @@ public enum LookAtMeMessageType {
 	PROFILE, /* Complete profile data */
 	LIKE, /* Love game */
 	CHAT_MESSAGE,
-
+	PROFILE_UPDATE, /* used to send all nodes new profile if it is updated */
 	PREVIEW_REQUEST, /* request minimal profile data */
 	PROFILE_REQUEST; /* request complete profile data */
 

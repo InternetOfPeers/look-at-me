@@ -171,12 +171,14 @@ public class SocialListActivity extends Activity implements
 						@Override
 						public void onSocialNodeProfileReceived(
 								LookAtMeNode node) {
+							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 							
 						}
 
 						@Override
 						public void onLikeReceived(String nodeFrom) {
+							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 							
 						}
@@ -184,6 +186,15 @@ public class SocialListActivity extends Activity implements
 						@Override
 						public void onChatMessageReceived(String nodeFrom,
 								String message) {
+							Log.d("NOT IMPLEMENTED");
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void onSocialNodeUpdated(
+								LookAtMeNode node) {
+							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
 							
 						}

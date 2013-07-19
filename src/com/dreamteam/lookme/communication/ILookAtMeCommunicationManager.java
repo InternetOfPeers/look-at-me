@@ -15,9 +15,11 @@ public interface ILookAtMeCommunicationManager {
 
 	public void stopCommunication();
 
-	public boolean sendProfilePreviewRequestAll();
+	public boolean sendProfilePreviewRequestAll(); /* Maybe not necessary (to testing) */
 
 	public boolean sendProfileRequest(String nodeTo);
+	
+	public boolean sendProfilePreviewAll(); /* to communicate all nodes my profile is updated */
 	
 	public boolean sendChatMessage(String nodeTo, String message);
 	
