@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -50,6 +51,7 @@ public class SocialListActivity extends Activity implements
 	private TextView myNickText;
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
+	private ProgressDialog loadingDialog;
 	
 	private LookAtMeNode currentProfileNode;
 	private Map<String, LookAtMeNode> socialNodeMap;
@@ -169,7 +171,13 @@ public class SocialListActivity extends Activity implements
 								LookAtMeNode node) {
 							Log.d();
 							currentProfileNode = node;
+							loadingDialog.dismiss();
 							// TODO: show profile
+							if (currentProfileNode != null) {
+								Toast.makeText(getApplicationContext(),
+									currentProfileNode.getProfile().getNickname() + " PROFILE ARRIVED!",
+									Toast.LENGTH_LONG).show();
+							}
 							
 						}
 
@@ -202,7 +210,7 @@ public class SocialListActivity extends Activity implements
 			try {
 				communicationService.start();
 			} catch (LookAtMeException e) {
-				Log.d("[ServiceConnection] : communicationService start() throws LookAtMeException");
+				Log.d("communicationService.start() throws LookAtMeException");
 				e.printStackTrace();
 			}
 		}
@@ -220,6 +228,7 @@ public class SocialListActivity extends Activity implements
 		Log.d();
 		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int)clickedItemID);
 		communicationService.sendProfileRequest(node.getId());
+		loadingDialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
 	}
 
 	public class SocialListAdapter extends BaseAdapter {
