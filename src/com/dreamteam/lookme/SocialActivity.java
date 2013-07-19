@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.LookAtMeNode;
@@ -118,7 +119,13 @@ public class SocialActivity extends Activity {
 						public void onSocialNodeProfileReceived(
 								LookAtMeNode node) {
 							Log.d("NOT IMPLEMETED");
+							// stop loading
+							socialListFragment.dismissLoadingDialog();
 							// TODO got to profile fragment
+							Toast.makeText(getApplicationContext(),
+									node.getProfile().getNickname() + " ARRIVED!",
+									Toast.LENGTH_LONG).show();
+							
 						}
 
 						@Override

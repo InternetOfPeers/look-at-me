@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,6 +42,7 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	private ListView socialListView;
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
+	private ProgressDialog loadingDialog;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,6 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	public void onClick(View arg0) {
 		Log.d();
 		communicationService.refreshSocialList();
-		// call listener
 	}
     
     @Override
@@ -77,8 +78,7 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 		Log.d();
 		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int)clickedItemID);
 		communicationService.sendProfileRequest(node.getId());
-		// call listener
-		//loadingDialog = ProgressDialog.show(this, "Loading", "Please wait...", true);
+		loadingDialog = ProgressDialog.show(activity, "Loading", "Please wait...", true);
 	}
     
     public void putSocialNode(LookAtMeNode node) {
@@ -91,6 +91,10 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
     
     public void refreshFragment() { 
     	this.socialListAdapter.notifyDataSetChanged();
+    }
+    
+    public void dismissLoadingDialog() {
+    	loadingDialog.dismiss();
     }
 	
 	public void setCommunicationService(CommunicationService communicationService) {
