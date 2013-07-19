@@ -12,6 +12,8 @@ public class Profile implements Serializable {
 	private transient String id;
 	
 	private String nickname;
+	private int age;
+
 	private Gender gender;
 	private List<String> tags;
 	
@@ -39,6 +41,12 @@ public class Profile implements Serializable {
 	}
 	public void setTags(List<String> tags) {
 		this.tags = tags;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 }
