@@ -44,16 +44,16 @@ public class DBTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
 	
 		TextView name=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_name);
 		TextView surname=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_surname);
-		TextView username=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_username);
+		TextView nickname=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_nickname);
 		Button submit = (Button) getActivity().findViewById(com.dreamteam.lookme.R.id.btnRegister);
 		
 		String oldName=name.getText()!=null?name.getText().toString():null;
 		String oldSurname=surname.getText()!=null?surname.getText().toString():null;
-		String oldUsername=username.getText()!=null?username.getText().toString():null;
+		String oldUsername=nickname.getText()!=null?nickname.getText().toString():null;
 		
 		name.setText("pippo");
 		surname.setText("pluto");
-		username.setText("paperino");
+		nickname.setText("paperino");
 		
 		submit.performClick();
 		
@@ -61,11 +61,11 @@ public class DBTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
 		
 		assertEquals(name.getText().toString(), oldName);
 		assertEquals(surname.getText().toString(), oldSurname);
-		assertEquals(username.getText().toString(), oldUsername);
+		assertEquals(nickname.getText().toString(), oldUsername);
 		
 		name.setText(oldName);
 		surname.setText(oldSurname);
-		username.setText(oldUsername);
+		nickname.setText(oldUsername);
 		
 		submit.performClick();
 		
