@@ -3,14 +3,11 @@ package com.dreamteam.lookme.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import com.dreamteam.lookatme.enumattribute.Gender;
+import com.dreamteam.lookme.enumattribute.Gender;
 
 public class Profile implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
-	public static final String MALE = "M";
-	public static final String FEMALE = "F";
 
 	private transient String id;
 	

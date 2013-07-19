@@ -1,4 +1,4 @@
-package com.dreamteam.lookatme.enumattribute;
+package com.dreamteam.lookme.enumattribute;
 
 public enum Color {
 	
