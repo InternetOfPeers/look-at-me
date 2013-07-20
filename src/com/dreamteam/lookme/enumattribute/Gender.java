@@ -5,13 +5,14 @@ public enum Gender {
 	M("Male"), F("Female"), TG("Transgender");
 
 	String gender;
-	
+
 	Gender(String gender) {
 		this.gender = gender;
 	}
 
 	public static String toString(Gender dest) {
-		if (dest == null) return null; 
+		if (dest == null)
+			return null;
 		return dest.gender;
 	}
 
@@ -25,7 +26,7 @@ public enum Gender {
 		}
 		return null;
 	}
-	
+
 	public String toString() {
 		return gender;
 	}

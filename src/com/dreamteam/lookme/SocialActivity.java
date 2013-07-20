@@ -22,12 +22,12 @@ public class SocialActivity extends Activity {
 	private static final String SERVICE_PREFIX = "com.dreamteam.lookme.service.CommunicationService.";
 
 	private CommunicationService communicationService;
-	
+
 	private SocialListFragment socialListFragment;
-	//private int currentFragment;
+	// private int currentFragment;
 	private FragmentTransaction fragmentTransaction;
 
-//	private ProgressDialog loadingDialog;
+	// private ProgressDialog loadingDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,8 @@ public class SocialActivity extends Activity {
 		}
 
 		// set list fragment
-		socialListFragment = (SocialListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
+		socialListFragment = (SocialListFragment) getFragmentManager()
+				.findFragmentById(R.id.fragment_list);
 		socialListFragment.setActivity(this);
 		setFragment(SocialListFragment.SOCIAL_LIST_FRAGMENT);
 	}
@@ -122,17 +123,19 @@ public class SocialActivity extends Activity {
 							// stop loading
 							socialListFragment.dismissLoadingDialog();
 							// TODO got to profile fragment
-							Toast.makeText(getApplicationContext(),
-									node.getProfile().getNickname() + " ARRIVED!",
-									Toast.LENGTH_LONG).show();
-							
+							Toast.makeText(
+									getApplicationContext(),
+									node.getProfile().getNickname()
+											+ " ARRIVED!", Toast.LENGTH_LONG)
+									.show();
+
 						}
 
 						@Override
 						public void onLikeReceived(String nodeFrom) {
 							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
-							
+
 						}
 
 						@Override
@@ -140,12 +143,11 @@ public class SocialActivity extends Activity {
 								String message) {
 							Log.d("NOT IMPLEMENTED");
 							// TODO Auto-generated method stub
-							
+
 						}
-						
+
 						@Override
-						public void onSocialNodeUpdated(
-								LookAtMeNode node) {
+						public void onSocialNodeUpdated(LookAtMeNode node) {
 							Log.d();
 							// update node in socialNodeMap
 							socialListFragment.putSocialNode(node);
@@ -153,7 +155,8 @@ public class SocialActivity extends Activity {
 						}
 					});
 			try {
-				socialListFragment.setCommunicationService(communicationService);
+				socialListFragment
+						.setCommunicationService(communicationService);
 				communicationService.start();
 			} catch (LookAtMeException e) {
 				Log.d("communicationService.start() throws LookAtMeException");
@@ -161,12 +164,12 @@ public class SocialActivity extends Activity {
 			}
 		}
 	};
-	
+
 	private void setFragment(int currentFragment) {
-		//this.currentFragment = currentFragment;
-	    this.fragmentTransaction = getFragmentManager().beginTransaction();
-	    this.fragmentTransaction.show(socialListFragment);
-	    this.fragmentTransaction.commit();
+		// this.currentFragment = currentFragment;
+		this.fragmentTransaction = getFragmentManager().beginTransaction();
+		this.fragmentTransaction.show(socialListFragment);
+		this.fragmentTransaction.commit();
 	}
-	
+
 }

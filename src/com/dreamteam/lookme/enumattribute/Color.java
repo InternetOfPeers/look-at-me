@@ -1,33 +1,26 @@
 package com.dreamteam.lookme.enumattribute;
 
 public enum Color {
-	
 
-	BLACK("Black"), 
-	BROWN("Brown"),
-	BLONDE("Blonde"),
-	AUBURN("Auburn"),		//castano ramato
-	CHESTNUT("Chestnut"),	//castano 
-	RED("Red"),			
-	GREY("Grey"),	
-	WHYTE("Whyte"),
-	
+	BLACK("Black"), BROWN("Brown"), BLONDE("Blonde"), AUBURN("Auburn"), // castano
+																		// ramato
+	CHESTNUT("Chestnut"), // castano
+	RED("Red"), GREY("Grey"), WHYTE("Whyte"),
 
-	AMBER("Amber"), 
-	BLUE("Blue"), 
-	GREEN("Green"),			
-	HAZEL("Hazel"),			//castani/verdi per gli occhi
+	AMBER("Amber"), BLUE("Blue"), GREEN("Green"), HAZEL("Hazel"), // castani/verdi
+																	// per gli
+																	// occhi
 	VIOLET("Violet");
-	
-	
+
 	String color;
-	
-	Color(String color){
+
+	Color(String color) {
 		this.color = color;
 	}
 
 	public static String toString(Color color) {
-		if (color == null) return null; 
+		if (color == null)
+			return null;
 		return color.color;
 	}
 
@@ -61,7 +54,7 @@ public enum Color {
 		}
 		return null;
 	}
-	
+
 	public String toString() {
 		return this.color;
 	}

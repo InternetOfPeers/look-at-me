@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class ImageUtil {
-	
+
 	public static int getScale(int originalWidth, int originalHeight,
 			final int requiredWidth, final int requiredHeight) {
 		// a scale of 1 means the original dimensions
@@ -68,7 +68,7 @@ public class ImageUtil {
 
 		return BitmapFactory.decodeFile(filePath, options);
 	}
-	
+
 	public static byte[] getImageFromPicturePath(String picturePath) {
 		try {
 			Bitmap b = ImageUtil.loadBitmap(picturePath, 512, 256);
@@ -101,6 +101,6 @@ public class ImageUtil {
 
 		return resizedBitmap;
 
-	}	
+	}
 
 }

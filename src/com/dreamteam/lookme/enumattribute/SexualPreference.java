@@ -1,17 +1,18 @@
 package com.dreamteam.lookme.enumattribute;
 
 public enum SexualPreference {
-	
+
 	M("Man"), F("Female"), NS("Not Specified");
-	
+
 	String sexualPreference;
-	
-	SexualPreference(String sp){
+
+	SexualPreference(String sp) {
 		this.sexualPreference = sp;
 	}
 
 	public static String toString(SexualPreference dest) {
-		if (dest == null) return null; 
+		if (dest == null)
+			return null;
 		return dest.sexualPreference;
 	}
 
@@ -25,7 +26,7 @@ public enum SexualPreference {
 		}
 		return null;
 	}
-	
+
 	public String toString() {
 		return this.sexualPreference;
 	}

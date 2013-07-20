@@ -21,7 +21,6 @@ public class StartMenuActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_menu);
-		
 
 		FullProfile myProfile = null; // get my profile
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
@@ -53,7 +52,7 @@ public class StartMenuActivity extends Activity {
 	public void exit() {
 
 	}
-	
+
 	private void showDialog() {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.first_time_dialog);
@@ -62,10 +61,11 @@ public class StartMenuActivity extends Activity {
 		Button dialogButton = (Button) dialog.findViewById(R.id.buttonBegin);
 		// if button is clicked, close the custom dialog
 		dialogButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent registerIntent = new Intent(StartMenuActivity.this, RegisterActivity.class);
+				Intent registerIntent = new Intent(StartMenuActivity.this,
+						RegisterActivity.class);
 				StartMenuActivity.this.startActivity(registerIntent);
 				StartMenuActivity.this.finish();
 				dialog.dismiss();

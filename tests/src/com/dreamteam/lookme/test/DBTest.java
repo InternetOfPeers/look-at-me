@@ -17,7 +17,7 @@ import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.jayway.android.robotium.solo.Solo;
 
 public class DBTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
-	
+
 	private Solo solo;
 
 	DBOpenHelper dbOpenHelper;
@@ -35,47 +35,56 @@ public class DBTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
 		solo.finishOpenedActivities();
 		// dbOpenHelper.close();
 	}
-	
+
 	@UiThreadTest
 	public void testRegistration() {
-		
-		solo.assertCurrentActivity("Expected Register Activity", "RegisterActivity"); 
-		int i=0;
-	
-		TextView name=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_name);
-		TextView surname=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_surname);
-		TextView nickname=(TextView)getActivity().findViewById(com.dreamteam.lookme.R.id.reg_nickname);
-		Button submit = (Button) getActivity().findViewById(com.dreamteam.lookme.R.id.btnRegister);
-		
-		String oldName=name.getText()!=null?name.getText().toString():null;
-		String oldSurname=surname.getText()!=null?surname.getText().toString():null;
-		String oldUsername=nickname.getText()!=null?nickname.getText().toString():null;
-		
+
+		solo.assertCurrentActivity("Expected Register Activity",
+				"RegisterActivity");
+		int i = 0;
+
+		TextView name = (TextView) getActivity().findViewById(
+				com.dreamteam.lookme.R.id.reg_name);
+		TextView surname = (TextView) getActivity().findViewById(
+				com.dreamteam.lookme.R.id.reg_surname);
+		TextView nickname = (TextView) getActivity().findViewById(
+				com.dreamteam.lookme.R.id.reg_nickname);
+		Button submit = (Button) getActivity().findViewById(
+				com.dreamteam.lookme.R.id.btnRegister);
+
+		String oldName = name.getText() != null ? name.getText().toString()
+				: null;
+		String oldSurname = surname.getText() != null ? surname.getText()
+				.toString() : null;
+		String oldUsername = nickname.getText() != null ? nickname.getText()
+				.toString() : null;
+
 		name.setText("pippo");
 		surname.setText("pluto");
 		nickname.setText("paperino");
-		
+
 		submit.performClick();
-		
+
 		solo.sleep(3000);
-		
+
+		//TOFIX Test non coerente. Cosa si sta testando effettivamente?
 		assertEquals(name.getText().toString(), oldName);
 		assertEquals(surname.getText().toString(), oldSurname);
 		assertEquals(nickname.getText().toString(), oldUsername);
-		
+
 		name.setText(oldName);
 		surname.setText(oldSurname);
 		nickname.setText(oldUsername);
-		
+
 		submit.performClick();
-		
+
 		solo.sleep(3000);
-		
+
 	}
 
 	public void testDB() {
 		try {
-			//TODO test sulle immagini
+			// TODO test sulle immagini
 			dbOpenHelper.getWritableDatabase().beginTransaction();
 			File imgFile = new File("/sdcard/Images/test_image.jpg");
 			Bitmap myBitmap = null;
@@ -89,8 +98,8 @@ public class DBTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
 			profileToBeSaved.setNickname("AlfaOmega83");
 			profileToBeSaved = dbOpenHelper
 					.saveOrUpdateProfile(profileToBeSaved);
-			FullProfile profileSaved = dbOpenHelper.getFullProfile(profileToBeSaved
-					.getId());
+			FullProfile profileSaved = dbOpenHelper
+					.getFullProfile(profileToBeSaved.getId());
 			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
 			assertEquals(profileToBeSaved.getName(), profileSaved.getName());
 			assertEquals(profileToBeSaved.getSurname(),

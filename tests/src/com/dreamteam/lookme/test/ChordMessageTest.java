@@ -27,28 +27,25 @@ public class ChordMessageTest extends TestCase {
 		profile.setName("pippo");
 		profile.setSurname("paperino");
 		message.putObject(LookAtMeMessageType.PROFILE.toString(), profile);
-		assertEquals(profile, message.getObject(LookAtMeMessageType.PROFILE.toString()));
+		assertEquals(profile,
+				message.getObject(LookAtMeMessageType.PROFILE.toString()));
 		assertEquals(
-				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString()))
-						.getName(),
-				"pippo");
+				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE
+						.toString())).getName(), "pippo");
 		assertEquals(
-				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString()))
-						.getSurname(),
-				"paperino");
+				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE
+						.toString())).getSurname(), "paperino");
 
 		profile = new FullProfile();
 		profile.setName("pluto");
 		profile.setSurname("topolino");
 		message.putObject(LookAtMeMessageType.PROFILE.toString(), profile);
 		assertEquals(
-				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString()))
-						.getName(),
-				"pluto");
+				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE
+						.toString())).getName(), "pluto");
 		assertEquals(
-				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString()))
-						.getSurname(),
-				"topolino");
+				((FullProfile) message.getObject(LookAtMeMessageType.PROFILE
+						.toString())).getSurname(), "topolino");
 	}
 
 }

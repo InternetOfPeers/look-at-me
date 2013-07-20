@@ -41,7 +41,6 @@ public class RegisterActivity extends Activity {
 			// Set View to register.xml
 			setContentView(R.layout.register);
 
-			
 			FullProfile oldProfile = dbOpenHelper.getMyFullProfile();
 
 			if (oldProfile != null) {
@@ -61,7 +60,7 @@ public class RegisterActivity extends Activity {
 
 			TelephonyManager tm = (TelephonyManager) this
 					.getSystemService(Context.TELEPHONY_SERVICE);
-						
+
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
 			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
 			TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
@@ -72,7 +71,8 @@ public class RegisterActivity extends Activity {
 						getResources(), R.drawable.no_profile_image));
 			}
 
-			if (usernameScreen.getText() == null|| usernameScreen.getText().equals(""))
+			if (usernameScreen.getText() == null
+					|| usernameScreen.getText().equals(""))
 			// ||imageView.getDrawable()==null)
 			{
 				Toast.makeText(this, "All Fields Required.", Toast.LENGTH_SHORT)
@@ -93,9 +93,9 @@ public class RegisterActivity extends Activity {
 			WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 			WifiInfo info = manager.getConnectionInfo();
 			String deviceId = info.getMacAddress();
-			
-			if(deviceId==null)
-				deviceId=tm.getDeviceId();
+
+			if (deviceId == null)
+				deviceId = tm.getDeviceId();
 
 			profile.setNickname(usernameScreen.getText().toString());
 
@@ -105,15 +105,14 @@ public class RegisterActivity extends Activity {
 				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable())
 						.getBitmap();
 
-				
 				ProfileImage profileImage = null;
-				if(profile.getProfileImages()!=null&!profile.getProfileImages().isEmpty())
-				{
-					
-					profileImage =profile.getProfileImages().get(0);
+				if (profile.getProfileImages() != null
+						& !profile.getProfileImages().isEmpty()) {
+
+					profileImage = profile.getProfileImages().get(0);
 					profile.getProfileImages().clear();
-				}					
-				else profileImage = new ProfileImage();
+				} else
+					profileImage = new ProfileImage();
 				profileImage.setProfileId(profile.getId());
 				profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
 				profileImage.setMainImage(true);
@@ -121,15 +120,16 @@ public class RegisterActivity extends Activity {
 
 			}
 
-			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
+			FullProfile savedProfile = dbOpenHelper
+					.saveOrUpdateProfile(profile);
 			switchToUpdateAccount(savedProfile);
 			Toast toast = Toast.makeText(getApplicationContext(),
 					"welcome on Look@ME!", 10);
 			toast.show();
-			
-			Intent mainIntent = new Intent(this,StartMenuActivity.class);
-            this.startActivity(mainIntent);
-            this.finish();
+
+			Intent mainIntent = new Intent(this, StartMenuActivity.class);
+			this.startActivity(mainIntent);
+			this.finish();
 
 		} catch (Exception e) {
 			Log.e("REGISTER",
@@ -205,14 +205,12 @@ public class RegisterActivity extends Activity {
 		usernameScreen.setText(profile.getNickname());
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
-		imageView.setImageBitmap(BitmapFactory.decodeByteArray(
-				profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length));
+		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile
+				.getProfileImages().get(0).getImage(), 0, profile
+				.getProfileImages().get(0).getImage().length));
 
 		Button button = (Button) findViewById(R.id.btnRegister);
 		button.setText("change my profile");
 	}
 
-
-	
 }
-

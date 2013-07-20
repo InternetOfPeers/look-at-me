@@ -61,7 +61,7 @@ public class CommunicationService extends Service {
 		Log.d();
 		communicationManager.sendProfilePreviewRequestAll();
 	}
-	
+
 	public void sendProfileRequest(String nodeTo) {
 		Log.d();
 		communicationManager.sendProfileRequest(nodeTo);

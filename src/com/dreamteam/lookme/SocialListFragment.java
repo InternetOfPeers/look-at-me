@@ -30,87 +30,92 @@ import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
 
-public class SocialListFragment extends Fragment implements OnClickListener, OnItemClickListener {
-	
-	public static final int SOCIAL_LIST_FRAGMENT = 1001; 
-	
+public class SocialListFragment extends Fragment implements OnClickListener,
+		OnItemClickListener {
+
+	public static final int SOCIAL_LIST_FRAGMENT = 1001;
+
 	private CommunicationService communicationService;
 	private Activity activity;
-	
+
 	private Map<String, LookAtMeNode> socialNodeMap;
-	
+
 	private ListView socialListView;
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
 	private ProgressDialog loadingDialog;
-	
-	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_social_list, null);
-        
-        socialNodeMap = new HashMap<String, LookAtMeNode>();
-        
-        refreshListButton = (Button) view.findViewById(R.id.buttonRefreshList);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_social_list, null);
+
+		socialNodeMap = new HashMap<String, LookAtMeNode>();
+
+		refreshListButton = (Button) view.findViewById(R.id.buttonRefreshList);
 		refreshListButton.setOnClickListener(this);
 
 		socialListAdapter = new SocialListAdapter();
 		socialListView = (ListView) view.findViewById(R.id.socialListView);
 		socialListView.setAdapter(socialListAdapter);
 		socialListView.setOnItemClickListener(this);
-		
-        return view;
-    }
-    
-    @Override
+
+		return view;
+	}
+
+	@Override
 	public void onClick(View arg0) {
 		Log.d();
 		communicationService.refreshSocialList();
 	}
-    
-    @Override
+
+	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1,
 			int clickedItemPosition, long clickedItemID) {
 		Log.d();
-		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int)clickedItemID);
+		LookAtMeNode node = (LookAtMeNode) socialListAdapter
+				.getItem((int) clickedItemID);
 		communicationService.sendProfileRequest(node.getId());
-		loadingDialog = ProgressDialog.show(activity, "Loading", "Please wait...", true);
+		loadingDialog = ProgressDialog.show(activity, "Loading",
+				"Please wait...", true);
 	}
-    
-    public void putSocialNode(LookAtMeNode node) {
-    	socialNodeMap.put(node.getId(), node);
-    }
-    
-    public void removeSocialNode(String nodeName) {
-    	socialNodeMap.remove(nodeName);
-    }
-    
-    public void refreshFragment() { 
-    	this.socialListAdapter.notifyDataSetChanged();
-    }
-    
-    public void dismissLoadingDialog() {
-    	loadingDialog.dismiss();
-    }
-	
-	public void setCommunicationService(CommunicationService communicationService) {
+
+	public void putSocialNode(LookAtMeNode node) {
+		socialNodeMap.put(node.getId(), node);
+	}
+
+	public void removeSocialNode(String nodeName) {
+		socialNodeMap.remove(nodeName);
+	}
+
+	public void refreshFragment() {
+		this.socialListAdapter.notifyDataSetChanged();
+	}
+
+	public void dismissLoadingDialog() {
+		loadingDialog.dismiss();
+	}
+
+	public void setCommunicationService(
+			CommunicationService communicationService) {
 		this.communicationService = communicationService;
 	}
-	
+
 	public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {
 		this.socialNodeMap = socialNodeMap;
 	}
-	
+
 	public void setActivity(Activity activity) {
 		this.activity = activity;
 	}
-	
+
 	public class SocialListAdapter extends BaseAdapter {
-		
+
 		@Override
 		public int getCount() {
 			return socialNodeMap.size();
@@ -134,26 +139,31 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 			if (convertView == null) {
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
-				LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater layoutInflater = (LayoutInflater) activity
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = layoutInflater.inflate(
 						R.layout.one_row_social_list, null);
 			}
-			
+
 			LookAtMeNode node = (LookAtMeNode) this.getItem(position);
 			BasicProfile profile = (BasicProfile) node.getProfile();
 
 			TextView nickNameText = (TextView) convertView
 					.findViewById(R.id.nickNameText);
 			nickNameText.setText(node.getProfile().getNickname());
-			
+
 			// Problemi con il recupero dell'immagine del profilo
-			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
-			if (profile.getMainProfileImage() == null || profile.getMainProfileImage().getImage() == null) {
-				Drawable noPhoto = getResources().getDrawable(R.drawable.no_profile_image);
+			ImageView photoImage = (ImageView) convertView
+					.findViewById(R.id.profilePhotoImage);
+			if (profile.getMainProfileImage() == null
+					|| profile.getMainProfileImage().getImage() == null) {
+				Drawable noPhoto = getResources().getDrawable(
+						R.drawable.no_profile_image);
 				photoImage.setImageDrawable(noPhoto);
-			}
-			else {
-				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length - 1);
+			} else {
+				Bitmap bMap = BitmapFactory.decodeByteArray(profile
+						.getMainProfileImage().getImage(), 0, profile
+						.getMainProfileImage().getImage().length - 1);
 				photoImage.setImageBitmap(bMap);
 			}
 

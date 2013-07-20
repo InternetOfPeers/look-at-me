@@ -211,12 +211,14 @@ public class LookAtMeChordCommunicationManager implements
 							String arg2, byte[][] arg3) {
 						Log.d();
 						// here can be received profiles, previews, etc., now we
-						LookAtMeMessageType messageType = LookAtMeMessageType.valueOf(arg2);
+						LookAtMeMessageType messageType = LookAtMeMessageType
+								.valueOf(arg2);
 						byte[] chordMessageByte = arg3[0];
 						LookAtMeChordMessage message = null;
-						if (chordMessageByte != null && chordMessageByte.length > 0) {
-							message = LookAtMeChordMessage
-								.obtainChordMessage(chordMessageByte, arg0);
+						if (chordMessageByte != null
+								&& chordMessageByte.length > 0) {
+							message = LookAtMeChordMessage.obtainChordMessage(
+									chordMessageByte, arg0);
 						}
 						switch (messageType) {
 						case PREVIEW_REQUEST:
@@ -225,11 +227,13 @@ public class LookAtMeChordCommunicationManager implements
 							break;
 						case PREVIEW:
 							BasicProfile basicProfile = (BasicProfile) message
-									.getObject(LookAtMeMessageType.PREVIEW.toString());
+									.getObject(LookAtMeMessageType.PREVIEW
+											.toString());
 							LookAtMeNode previewNode = new LookAtMeNode();
 							previewNode.setId(arg0);
 							previewNode.setProfile(basicProfile);
-							communicationListener.onSocialNodeJoined(previewNode);
+							communicationListener
+									.onSocialNodeJoined(previewNode);
 							break;
 						case PROFILE_REQUEST:
 							// send my full profile to arg0 node
@@ -237,24 +241,30 @@ public class LookAtMeChordCommunicationManager implements
 							break;
 						case PROFILE:
 							FullProfile fullProfile = (FullProfile) message
-									.getObject(LookAtMeMessageType.PROFILE.toString());
+									.getObject(LookAtMeMessageType.PROFILE
+											.toString());
 							LookAtMeNode profileNode = new LookAtMeNode();
 							profileNode.setId(arg0);
 							profileNode.setProfile(fullProfile);
-							communicationListener.onSocialNodeProfileReceived(profileNode);
+							communicationListener
+									.onSocialNodeProfileReceived(profileNode);
 							break;
 						case PROFILE_UPDATE:
 							BasicProfile updatedProfile = (BasicProfile) message
-							.getObject(LookAtMeMessageType.PROFILE_UPDATE.toString());
+									.getObject(LookAtMeMessageType.PROFILE_UPDATE
+											.toString());
 							LookAtMeNode updatedNode = new LookAtMeNode();
 							updatedNode.setId(arg0);
 							updatedNode.setProfile(updatedProfile);
-							communicationListener.onSocialNodeUpdated(updatedNode);
+							communicationListener
+									.onSocialNodeUpdated(updatedNode);
 							break;
 						case CHAT_MESSAGE:
 							String chatMessage = (String) message
-							.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
-							communicationListener.onChatMessageReceived(arg0, chatMessage);
+									.getObject(LookAtMeMessageType.CHAT_MESSAGE
+											.toString());
+							communicationListener.onChatMessageReceived(arg0,
+									chatMessage);
 							break;
 						case LIKE:
 							communicationListener.onLikeReceived(arg0);
@@ -309,8 +319,8 @@ public class LookAtMeChordCommunicationManager implements
 	public boolean sendProfilePreviewRequestAll() {
 		Log.d();
 		List<String> socialNodeList = socialChannel.getJoinedNodeList();
-		Log.d("there are "
-				+ socialNodeList.size() + " nodes joined to social channel");
+		Log.d("there are " + socialNodeList.size()
+				+ " nodes joined to social channel");
 		return socialChannel.sendDataToAll(
 				LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
@@ -325,27 +335,31 @@ public class LookAtMeChordCommunicationManager implements
 	@Override
 	public boolean sendLike(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo,
-				LookAtMeMessageType.LIKE.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(),
+				new byte[0][0]);
 	}
-	
+
 	@Override
 	public boolean sendChatMessage(String nodeTo, String message) {
 		Log.d();
-		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(LookAtMeMessageType.CHAT_MESSAGE);
+		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(
+				LookAtMeMessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(nodeTo);
-		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(), message);
+		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(),
+				message);
 		return socialChannel.sendData(nodeTo,
-				LookAtMeMessageType.CHAT_MESSAGE.name(), obtainPayload(chordMessage));
+				LookAtMeMessageType.CHAT_MESSAGE.name(),
+				obtainPayload(chordMessage));
 	}
-	
+
 	@Override
 	public boolean sendProfilePreviewAll() {
 		Log.d();
 		LookAtMeChordMessage message = null;
 		try {
-			message =  obtainMyProfileMessage(false, LookAtMeMessageType.PROFILE_UPDATE, null);
+			message = obtainMyProfileMessage(false,
+					LookAtMeMessageType.PROFILE_UPDATE, null);
 		} catch (Exception e) {
 			Log.d("failed getting my profile");
 			e.printStackTrace();
@@ -353,9 +367,9 @@ public class LookAtMeChordCommunicationManager implements
 		}
 		if (message != null) {
 			return socialChannel.sendDataToAll(
-					LookAtMeMessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
-		}
-		else {
+					LookAtMeMessageType.PROFILE_UPDATE.toString(),
+					obtainPayload(message));
+		} else {
 			return false;
 		}
 	}
@@ -370,7 +384,8 @@ public class LookAtMeChordCommunicationManager implements
 		Log.d();
 		LookAtMeChordMessage message = null;
 		try {
-			message =  obtainMyProfileMessage(false, LookAtMeMessageType.PREVIEW, nodeTo);
+			message = obtainMyProfileMessage(false,
+					LookAtMeMessageType.PREVIEW, nodeTo);
 		} catch (Exception e) {
 			Log.d("failed getting my profile");
 			e.printStackTrace();
@@ -378,9 +393,9 @@ public class LookAtMeChordCommunicationManager implements
 		}
 		if (message != null) {
 			return socialChannel.sendData(nodeTo,
-					LookAtMeMessageType.PREVIEW.toString(), obtainPayload(message));
-		}
-		else {
+					LookAtMeMessageType.PREVIEW.toString(),
+					obtainPayload(message));
+		} else {
 			return false;
 		}
 	}
@@ -389,7 +404,8 @@ public class LookAtMeChordCommunicationManager implements
 		Log.d();
 		LookAtMeChordMessage message = null;
 		try {
-			message =  obtainMyProfileMessage(true, LookAtMeMessageType.PROFILE, nodeTo);
+			message = obtainMyProfileMessage(true, LookAtMeMessageType.PROFILE,
+					nodeTo);
 		} catch (Exception e) {
 			Log.d("failed getting my profile");
 			e.printStackTrace();
@@ -397,14 +413,15 @@ public class LookAtMeChordCommunicationManager implements
 		}
 		if (message != null) {
 			return socialChannel.sendData(nodeTo,
-					LookAtMeMessageType.PROFILE.toString(), obtainPayload(message));
-		}
-		else {
+					LookAtMeMessageType.PROFILE.toString(),
+					obtainPayload(message));
+		} else {
 			return false;
 		}
 	}
-	
-	private LookAtMeChordMessage obtainMyProfileMessage(boolean fullProfile, LookAtMeMessageType type, String receiverNodeName) throws Exception {
+
+	private LookAtMeChordMessage obtainMyProfileMessage(boolean fullProfile,
+			LookAtMeMessageType type, String receiverNodeName) throws Exception {
 		Log.d();
 		LookAtMeChordMessage message = new LookAtMeChordMessage(type);
 		message.setSenderNodeName(chord.getName());
@@ -414,15 +431,14 @@ public class LookAtMeChordCommunicationManager implements
 		Profile myProfile = null;
 		if (fullProfile) {
 			myProfile = dbOpenHelper.getMyFullProfile();
-		}
-		else {
+		} else {
 			myProfile = dbOpenHelper.getMyBasicProfile();
 		}
 		// end getting my profile
 		message.putObject(type.toString(), myProfile);
 		return message;
 	}
-	
+
 	private byte[][] obtainPayload(LookAtMeChordMessage message) {
 		byte[][] payload = new byte[1][1];
 		payload[0] = message.getBytes();
