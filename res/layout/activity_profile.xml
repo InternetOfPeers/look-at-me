@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!--
-         As the main content view, the view below consumes the entire
-         space available using match_parent in both dimensions.
-    -->
-
-
-    <!-- <FrameLayout -->
-    <!-- android:id="@+id/content_frame" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="match_parent" /> -->
-
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -33,21 +22,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-
-                <LinearLayout
-                    android:id="@+id/header"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@layout/header_gradient"
-                    android:paddingBottom="5dip"
-                    android:paddingTop="5dip" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dip"
-                        android:src="@drawable/lookatme_logo" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"

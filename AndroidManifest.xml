@@ -30,7 +30,7 @@
         <activity
             android:name="com.dreamteam.lookme.SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_splash" 
+            android:label="@string/title_splash_activity" 
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,15 +40,11 @@
         </activity>
         <activity
             android:name="com.dreamteam.lookme.SocialActivity"
-            android:label="@string/title_activity_test_chord" >
+            android:label="@string/title_social_activity" >
         </activity>
         <activity
             android:name="com.dreamteam.lookme.ProfileActivity"
-            android:label="Register New Account" >
-        </activity>
-        <activity
-            android:name="com.dreamteam.lookme.StartMenuActivity"
-            android:label="@string/title_activity_social_list" >
+            android:label="@string/title_profile_activity" >
         </activity>
 
         <service

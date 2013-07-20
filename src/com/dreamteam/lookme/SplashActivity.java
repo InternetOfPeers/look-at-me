@@ -1,15 +1,14 @@
 package com.dreamteam.lookme;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.dreamteam.lookme.constants.AppSettings;
+import com.dreamteam.lookme.navigation.Nav;
 
 public class SplashActivity extends Activity {
 
@@ -23,13 +22,13 @@ public class SplashActivity extends Activity {
 
 		// Mostra una immagine di splash differente a seconda dell'orientamento
 		// del device
-		Drawable immagine = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? getResources()
-				.getDrawable(R.drawable.splashcreen) : getResources()
-				.getDrawable(R.drawable.splashcreen_r);
+		Drawable immagine = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? getResources().getDrawable(R.drawable.splashcreen)
+				: getResources().getDrawable(R.drawable.splashcreen_r);
 
 		ImageView imageView = (ImageView) findViewById(R.id.image_logo);
 		imageView.setImageDrawable(immagine);
 
+		final Activity activity = this;
 		/*
 		 * New Handler to start the Menu-Activity and close this Splash-Screen
 		 * after some seconds.
@@ -37,11 +36,7 @@ public class SplashActivity extends Activity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				/* Create an Intent that will start the Menu-Activity. */
-				Intent mainIntent = new Intent(SplashActivity.this,
-						SocialActivity.class);
-				SplashActivity.this.startActivity(mainIntent);
-				SplashActivity.this.finish();
+				Nav.startActivity(activity, ProfileActivity.class);
 			}
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
 	}

@@ -6,10 +6,9 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
-    <string name="title_activity_test_chord">TestChordActivity</string>
-    <string name="title_activity_social_list">SocialListActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_social_activity">Nearby</string>
+    <string name="title_splash_activity">Look@Me</string>
+    <string name="title_profile_activity">Profile</string>
     <string name="text_name">name</string>
     <string name="text_surname">surname</string>
     <string name="text_nickname">nickname</string>
@@ -17,12 +16,10 @@
 
     <!-- Drawer menu -->
     <string-array name="menu_items">
-        <item>Chat</item>
+        <item>Profile</item>
         <item>Nearby</item>
-        <item>Dummy</item>
-        <item>Dummy</item>
-        <item>Dummy</item>
     </string-array>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
