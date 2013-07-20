@@ -13,8 +13,17 @@
     <string name="text_name">name</string>
     <string name="text_surname">surname</string>
     <string name="text_nickname">nickname</string>
-    
-    
     <string name="splash">splash</string>
+
+    <!-- Drawer menu -->
+    <string-array name="menu_items">
+        <item>Chat</item>
+        <item>Nearby</item>
+        <item>Dummy</item>
+        <item>Dummy</item>
+        <item>Dummy</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>

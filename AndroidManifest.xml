@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dreamteam.lookme"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="0.5" >
 
     <!-- Necessary to chord framework -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,7 +30,8 @@
         <activity
             android:name="com.dreamteam.lookme.SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_splash" >
+            android:label="@string/title_activity_splash" 
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +43,7 @@
             android:label="@string/title_activity_test_chord" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.RegisterActivity"
+            android:name="com.dreamteam.lookme.ProfileActivity"
             android:label="Register New Account" >
         </activity>
         <activity

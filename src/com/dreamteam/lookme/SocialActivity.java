@@ -1,6 +1,7 @@
 package com.dreamteam.lookme;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,10 +9,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.LookAtMeNode;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
@@ -34,20 +39,28 @@ public class SocialActivity extends Activity {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social);
-
-		// Start service
-		Intent intentStart = new Intent(SERVICE_PREFIX + "SERVICE_START");
-		startService(intentStart);
-		if (communicationService == null) {
-			Intent intentBind = new Intent(SERVICE_PREFIX + "SERVICE_BIND");
-			bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
-		}
-
 		// set list fragment
 		socialListFragment = (SocialListFragment) getFragmentManager()
 				.findFragmentById(R.id.fragment_list);
 		socialListFragment.setActivity(this);
 		setFragment(SocialListFragment.SOCIAL_LIST_FRAGMENT);
+
+		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
+		// profilo
+		if (DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
+			// Start service
+			Intent intentStart = new Intent(SERVICE_PREFIX + "SERVICE_START");
+			startService(intentStart);
+			if (communicationService == null) {
+				Intent intentBind = new Intent(SERVICE_PREFIX + "SERVICE_BIND");
+				bindService(intentBind, serviceConnection,
+						Context.BIND_AUTO_CREATE);
+			}
+		} else {
+			// L'utente deve compilare il profilo prima di iniziare
+			Log.d("It's the first time this app run!");
+			showDialog();
+		}
 	}
 
 	@Override
@@ -170,6 +183,28 @@ public class SocialActivity extends Activity {
 		this.fragmentTransaction = getFragmentManager().beginTransaction();
 		this.fragmentTransaction.show(socialListFragment);
 		this.fragmentTransaction.commit();
+	}
+
+	private void showDialog() {
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.first_time_dialog);
+		dialog.setTitle("Dialog popup");
+
+		Button dialogButton = (Button) dialog.findViewById(R.id.buttonBegin);
+		// if button is clicked, close the custom dialog
+		dialogButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent registerIntent = new Intent(SocialActivity.this,
+						ProfileActivity.class);
+				SocialActivity.this.startActivity(registerIntent);
+				SocialActivity.this.finish();
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
 	}
 
 }

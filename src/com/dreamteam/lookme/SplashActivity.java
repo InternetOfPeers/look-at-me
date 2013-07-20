@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.dreamteam.lookme.constants.AppSettings;
@@ -14,8 +15,8 @@ public class SplashActivity extends Activity {
 
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle icicle) {
-		super.onCreate(icicle);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 		// Imposto l'activity da caricare
 		setContentView(R.layout.splash);
@@ -38,7 +39,7 @@ public class SplashActivity extends Activity {
 			public void run() {
 				/* Create an Intent that will start the Menu-Activity. */
 				Intent mainIntent = new Intent(SplashActivity.this,
-						StartMenuActivity.class);
+						SocialActivity.class);
 				SplashActivity.this.startActivity(mainIntent);
 				SplashActivity.this.finish();
 			}

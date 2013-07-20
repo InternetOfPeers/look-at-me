@@ -18,6 +18,7 @@ import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.bean.ProfileImage;
+import com.google.common.base.Optional;
 
 public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
@@ -42,10 +43,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	private DBOpenHelperImpl(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		tm = (TelephonyManager) context
-				.getSystemService(Context.TELEPHONY_SERVICE);
-		WifiManager manager = (WifiManager) context
-				.getSystemService(Context.WIFI_SERVICE);
+		tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo info = manager.getConnectionInfo();
 		DEVICE_ID = info.getMacAddress();
 		if (DEVICE_ID == null)
@@ -56,32 +55,16 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + TABLE_PROFILES + "("
-				+ TABLE_PROFILES_COLUMN_ID + " TEXT PRIMARY KEY, "
-				+ TABLE_PROFILES_COLUMN_NICKNAME + " TEXT NOT NULL, "
-				+ TABLE_PROFILES_COLUMN_NAME + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_SURNAME + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_GENDER + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_BIRTHDATE_DAY + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_BIRTH_COUNTRY + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_BIRTH_CITY + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_LIVING_COUNTRY + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_LIVING_CITY + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_JOB + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_MY_DESCRIPTION + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_STATUS + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_MOTTO + " TEXT, "
+		db.execSQL("CREATE TABLE " + TABLE_PROFILES + "(" + TABLE_PROFILES_COLUMN_ID + " TEXT PRIMARY KEY, " + TABLE_PROFILES_COLUMN_NICKNAME + " TEXT NOT NULL, "
+				+ TABLE_PROFILES_COLUMN_NAME + " TEXT, " + TABLE_PROFILES_COLUMN_SURNAME + " TEXT, " + TABLE_PROFILES_COLUMN_GENDER + " TEXT, "
+				+ TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR + " TEXT, " + TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH + " TEXT, " + TABLE_PROFILES_COLUMN_BIRTHDATE_DAY + " TEXT, "
+				+ TABLE_PROFILES_COLUMN_BIRTH_COUNTRY + " TEXT, " + TABLE_PROFILES_COLUMN_BIRTH_CITY + " TEXT, " + TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE + " TEXT, "
+				+ TABLE_PROFILES_COLUMN_LIVING_COUNTRY + " TEXT, " + TABLE_PROFILES_COLUMN_LIVING_CITY + " TEXT, " + TABLE_PROFILES_COLUMN_JOB + " TEXT, "
+				+ TABLE_PROFILES_COLUMN_MY_DESCRIPTION + " TEXT, " + TABLE_PROFILES_COLUMN_STATUS + " TEXT, " + TABLE_PROFILES_COLUMN_MOTTO + " TEXT, "
 				+ TABLE_PROFILES_COLUMN_IMAGE + " BLOB ); ");
 
-		db.execSQL("CREATE TABLE " + TABLE_IMAGES + "("
-				+ TABLE_IMAGES_COLUMN_ID
-				+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ TABLE_IMAGES_COLUMN_PROFILE_ID + " TEXT NOT NULL, "
-				+ TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + " TEXT, "
-				+ TABLE_PROFILES_COLUMN_IMAGE + " BLOB ); ");
+		db.execSQL("CREATE TABLE " + TABLE_IMAGES + "(" + TABLE_IMAGES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TABLE_IMAGES_COLUMN_PROFILE_ID
+				+ " TEXT NOT NULL, " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + " TEXT, " + TABLE_PROFILES_COLUMN_IMAGE + " BLOB ); ");
 	}
 
 	@Override
@@ -117,37 +100,26 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	 * .lookme.db.Contact)
 	 */
 	@Override
-	public FullProfile saveOrUpdateProfile(FullProfile profile)
-			throws Exception {
+	public FullProfile saveOrUpdateProfile(FullProfile profile) throws Exception {
 		FullProfile oldContact = getFullProfile(profile.getId());
 
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(TABLE_PROFILES_COLUMN_NAME, profile.getName());
 		contentValues.put(TABLE_PROFILES_COLUMN_SURNAME, profile.getSurname());
-		contentValues
-				.put(TABLE_PROFILES_COLUMN_NICKNAME, profile.getNickname());
+		contentValues.put(TABLE_PROFILES_COLUMN_NICKNAME, profile.getNickname());
 		contentValues.put(TABLE_PROFILES_COLUMN_ID, profile.getId());
 
 		contentValues.put(TABLE_PROFILES_COLUMN_GENDER, profile.getGender());
-		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_DAY,
-				profile.getBirthdateDay());
-		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH,
-				profile.getBirthdateDay());
-		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR,
-				profile.getBirthdateYear());
-		contentValues.put(TABLE_PROFILES_COLUMN_BIRTH_COUNTRY,
-				profile.getBirthCountry());
-		contentValues.put(TABLE_PROFILES_COLUMN_BIRTH_CITY,
-				profile.getBirthCity());
-		contentValues.put(TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE,
-				profile.getPrimaryLanguage());
-		contentValues.put(TABLE_PROFILES_COLUMN_LIVING_COUNTRY,
-				profile.getLivingCountry());
-		contentValues.put(TABLE_PROFILES_COLUMN_LIVING_CITY,
-				profile.getLivingCity());
+		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_DAY, profile.getBirthdateDay());
+		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH, profile.getBirthdateDay());
+		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR, profile.getBirthdateYear());
+		contentValues.put(TABLE_PROFILES_COLUMN_BIRTH_COUNTRY, profile.getBirthCountry());
+		contentValues.put(TABLE_PROFILES_COLUMN_BIRTH_CITY, profile.getBirthCity());
+		contentValues.put(TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE, profile.getPrimaryLanguage());
+		contentValues.put(TABLE_PROFILES_COLUMN_LIVING_COUNTRY, profile.getLivingCountry());
+		contentValues.put(TABLE_PROFILES_COLUMN_LIVING_CITY, profile.getLivingCity());
 		contentValues.put(TABLE_PROFILES_COLUMN_JOB, profile.getJob());
-		contentValues
-				.put(TABLE_PROFILES_COLUMN_JOB, profile.getMyDescription());
+		contentValues.put(TABLE_PROFILES_COLUMN_JOB, profile.getMyDescription());
 		contentValues.put(TABLE_PROFILES_COLUMN_JOB, profile.getMotto());
 		contentValues.put(TABLE_PROFILES_COLUMN_STATUS, profile.getStatus());
 
@@ -155,18 +127,13 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.insert(TABLE_PROFILES, null, contentValues);
 
 		} else {
-			database.update(TABLE_PROFILES, contentValues,
-					TABLE_PROFILES_COLUMN_ID + "=?", new String[] { ""
-							+ profile.getId() });
+			database.update(TABLE_PROFILES, contentValues, TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profile.getId() });
 		}
 
-		if (profile.getProfileImages() != null
-				&& !profile.getProfileImages().isEmpty())
+		if (profile.getProfileImages() != null && !profile.getProfileImages().isEmpty())
 			saveOrUpdateImage(profile.getProfileImages().get(0));
 		else
-			Log.e("db",
-					"problem saving profile,this profile has no foto profileId:"
-							+ profile.getId());
+			Log.e("db", "problem saving profile,this profile has no foto profileId:" + profile.getId());
 
 		return getFullProfile(profile.getId());
 
@@ -182,21 +149,16 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Cursor cursor = null;
 		List<BasicProfile> returnList = new ArrayList<BasicProfile>();
 		try {
-			cursor = database.rawQuery(
-					"SELECT " + TABLE_PROFILES_COLUMN_ID + ", "
-							+ TABLE_PROFILES_COLUMN_NAME + ", "
-							+ TABLE_PROFILES_COLUMN_SURNAME + " FROM "
-							+ TABLE_PROFILES, null);
+			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NAME + ", " + TABLE_PROFILES_COLUMN_SURNAME + " FROM "
+					+ TABLE_PROFILES, null);
 
 			if (cursor.moveToFirst()) {
 				do {
 					BasicProfile tempProfile = new BasicProfile();
-					tempProfile.setId(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
+					tempProfile.setId(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
 					// tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
 					// tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
-					tempProfile.setNickname(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
+					tempProfile.setNickname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
 					// tempProfile.setImage(cursor.getBlob(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_IMAGE)));
 					returnList.add(tempProfile);
 				} while (cursor.moveToNext());
@@ -241,9 +203,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	public void deleteProfile(String profileID) throws Exception {
 		Cursor cursor = null;
 		try {
-			cursor = database.rawQuery("DELETE FROM " + TABLE_PROFILES
-					+ " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?",
-					new String[] { "" + profileID });
+			cursor = database.rawQuery("DELETE FROM " + TABLE_PROFILES + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profileID });
 
 		} catch (Exception e) {
 			Log.e("db", "error on getting levelReached: " + e.getMessage());
@@ -254,15 +214,13 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	}
 
-	public FullProfile getMyFullProfile() throws Exception {
+	public FullProfile getMyFullProfile() {
 		try {
 			return getFullProfile(DEVICE_ID);
 		} catch (Exception e) {
-			Log.e("db", "error on getting getContact: " + e.getMessage());
+			Log.e("db", "error on getting getContact: " + e.getMessage() + ",deviceID: " + tm.getDeviceId());
+			return null;
 		}
-		Log.d("db", "my contact not found,deviceID: " + tm.getDeviceId());
-		return null;
-
 	}
 
 	/*
@@ -276,24 +234,12 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		FullProfile tempProfile = null;
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID
-					+ ", " + TABLE_PROFILES_COLUMN_NAME + ", "
-					+ TABLE_PROFILES_COLUMN_SURNAME + ", "
-					+ TABLE_PROFILES_COLUMN_NICKNAME + ", "
-					+ TABLE_PROFILES_COLUMN_GENDER + ", "
-					+ TABLE_PROFILES_COLUMN_STATUS + ", "
-					+ TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR + ", "
-					+ TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH + ", "
-					+ TABLE_PROFILES_COLUMN_BIRTHDATE_DAY + ", "
-					+ TABLE_PROFILES_COLUMN_BIRTH_COUNTRY + ", "
-					+ TABLE_PROFILES_COLUMN_BIRTH_CITY + ", "
-					+ TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE + ", "
-					+ TABLE_PROFILES_COLUMN_LIVING_COUNTRY + ", "
-					+ TABLE_PROFILES_COLUMN_LIVING_CITY + ", "
-					+ TABLE_PROFILES_COLUMN_JOB + ", "
-					+ TABLE_PROFILES_COLUMN_MY_DESCRIPTION + ", "
-					+ TABLE_PROFILES_COLUMN_MOTTO + " FROM " + TABLE_PROFILES
-					+ " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?",
+			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NAME + ", " + TABLE_PROFILES_COLUMN_SURNAME + ", "
+					+ TABLE_PROFILES_COLUMN_NICKNAME + ", " + TABLE_PROFILES_COLUMN_GENDER + ", " + TABLE_PROFILES_COLUMN_STATUS + ", "
+					+ TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR + ", " + TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH + ", " + TABLE_PROFILES_COLUMN_BIRTHDATE_DAY + ", "
+					+ TABLE_PROFILES_COLUMN_BIRTH_COUNTRY + ", " + TABLE_PROFILES_COLUMN_BIRTH_CITY + ", " + TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE + ", "
+					+ TABLE_PROFILES_COLUMN_LIVING_COUNTRY + ", " + TABLE_PROFILES_COLUMN_LIVING_CITY + ", " + TABLE_PROFILES_COLUMN_JOB + ", "
+					+ TABLE_PROFILES_COLUMN_MY_DESCRIPTION + ", " + TABLE_PROFILES_COLUMN_MOTTO + " FROM " + TABLE_PROFILES + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?",
 					new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
@@ -302,44 +248,21 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 					// TODO: set the image list
 					// TODO: set the tag list
 					valorizeProfile(tempProfile, cursor);
-					tempProfile.setName(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
-					tempProfile.setSurname(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
-					tempProfile.setStatus(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_STATUS)));
-					tempProfile
-							.setBirthdateYear(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR)));
-					tempProfile
-							.setBirthdateMonth(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH)));
-					tempProfile
-							.setBirthdateDay(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTHDATE_DAY)));
-					tempProfile
-							.setBirthCountry(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTH_COUNTRY)));
-					tempProfile.setBirthCity(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTH_CITY)));
-					tempProfile
-							.setPrimaryLanguage(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE)));
-					tempProfile
-							.setLivingCountry(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_LIVING_COUNTRY)));
-					tempProfile
-							.setLivingCity(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_LIVING_CITY)));
-					tempProfile.setJob(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_JOB)));
-					tempProfile
-							.setMyDescription(cursor.getString(cursor
-									.getColumnIndex(TABLE_PROFILES_COLUMN_MY_DESCRIPTION)));
-					tempProfile.setMotto(cursor.getString(cursor
-							.getColumnIndex(TABLE_PROFILES_COLUMN_MOTTO)));
-					tempProfile.setProfileImages(getProfileImages(tempProfile
-							.getId()));
+					tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
+					tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
+					tempProfile.setStatus(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_STATUS)));
+					tempProfile.setBirthdateYear(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR)));
+					tempProfile.setBirthdateMonth(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH)));
+					tempProfile.setBirthdateDay(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTHDATE_DAY)));
+					tempProfile.setBirthCountry(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTH_COUNTRY)));
+					tempProfile.setBirthCity(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_BIRTH_CITY)));
+					tempProfile.setPrimaryLanguage(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE)));
+					tempProfile.setLivingCountry(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_LIVING_COUNTRY)));
+					tempProfile.setLivingCity(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_LIVING_CITY)));
+					tempProfile.setJob(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_JOB)));
+					tempProfile.setMyDescription(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_MY_DESCRIPTION)));
+					tempProfile.setMotto(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_MOTTO)));
+					tempProfile.setProfileImages(getProfileImages(tempProfile.getId()));
 					return tempProfile;
 				} while (cursor.moveToNext());
 
@@ -354,15 +277,13 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		return tempProfile;
 	}
 
-	public BasicProfile getMyBasicProfile() throws Exception {
+	public BasicProfile getMyBasicProfile() {
 		try {
 			return getBasicProfile(DEVICE_ID);
 		} catch (Exception e) {
-			Log.e("db", "error on getting getContact: " + e.getMessage());
+			Log.d("db", "my contact not found,deviceID: " + tm.getDeviceId() + ",getContact " + e.getMessage());
+			return null;
 		}
-		Log.d("db", "my contact not found,deviceID: " + tm.getDeviceId());
-		return null;
-
 	}
 
 	/*
@@ -376,12 +297,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		BasicProfile tempProfile = null;
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID
-					+ ", " + TABLE_PROFILES_COLUMN_NICKNAME + ", "
-					+ TABLE_PROFILES_COLUMN_GENDER + ", "
-					+ TABLE_PROFILES_COLUMN_IMAGE + " FROM " + TABLE_PROFILES
-					+ " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?",
-					new String[] { "" + contactID });
+			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NICKNAME + ", " + TABLE_PROFILES_COLUMN_GENDER + ", "
+					+ TABLE_PROFILES_COLUMN_IMAGE + " FROM " + TABLE_PROFILES + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
 				do {
@@ -410,39 +327,27 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	 * .lookme.db.Contact)
 	 */
 	@Override
-	public List<ProfileImage> getProfileImages(String profileId)
-			throws Exception {
+	public List<ProfileImage> getProfileImages(String profileId) throws Exception {
 		Cursor cursor = null;
 		ProfileImage profileImage = new ProfileImage();
 		List<ProfileImage> returnList = new ArrayList<ProfileImage>();
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID
-					+ ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", "
-					+ TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
-					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES
-					+ " WHERE " + TABLE_IMAGES_COLUMN_PROFILE_ID + "=?",
-					new String[] { "" + profileId });
+			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID + ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
+					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES + " WHERE " + TABLE_IMAGES_COLUMN_PROFILE_ID + "=?", new String[] { "" + profileId });
 
 			if (cursor.moveToFirst()) {
 				do {
-					profileImage.setId(cursor.getLong(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_ID)));
-					profileImage.setProfileId(cursor.getString(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_PROFILE_ID)));
-					profileImage
-							.setMainImage(cursor.getString(cursor
-									.getColumnIndex(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO)) != null ? true
-									: false);
-					profileImage.setImage(cursor.getBlob(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_IMAGE)));
+					profileImage.setId(cursor.getLong(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_ID)));
+					profileImage.setProfileId(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_PROFILE_ID)));
+					profileImage.setMainImage(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO)) != null ? true : false);
+					profileImage.setImage(cursor.getBlob(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_IMAGE)));
 					returnList.add(profileImage);
 				} while (cursor.moveToNext());
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading allImages : " + e.getMessage()
-					+ " profile ID:" + profileId);
+			Log.e("db", "error on loading allImages : " + e.getMessage() + " profile ID:" + profileId);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -464,32 +369,21 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		List<ProfileImage> returnList = new ArrayList<ProfileImage>();
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID
-					+ ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", "
-					+ TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
-					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES
-					+ " WHERE " + TABLE_IMAGES_COLUMN_ID + "=?",
-					new String[] { "" + profileImageId });
+			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID + ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
+					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES + " WHERE " + TABLE_IMAGES_COLUMN_ID + "=?", new String[] { "" + profileImageId });
 
 			if (cursor.moveToFirst()) {
 				do {
-					profileImage.setId(cursor.getLong(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_ID)));
-					profileImage.setProfileId(cursor.getString(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_PROFILE_ID)));
-					profileImage
-							.setMainImage(cursor.getString(cursor
-									.getColumnIndex(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO)) != null ? true
-									: false);
-					profileImage.setImage(cursor.getBlob(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_IMAGE)));
+					profileImage.setId(cursor.getLong(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_ID)));
+					profileImage.setProfileId(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_PROFILE_ID)));
+					profileImage.setMainImage(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO)) != null ? true : false);
+					profileImage.setImage(cursor.getBlob(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_IMAGE)));
 					return profileImage;
 				} while (cursor.moveToNext());
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading specific Image : " + e.getMessage()
-					+ " image ID:" + profileImageId);
+			Log.e("db", "error on loading specific Image : " + e.getMessage() + " image ID:" + profileImageId);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -511,33 +405,21 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		List<ProfileImage> returnList = new ArrayList<ProfileImage>();
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID
-					+ ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", "
-					+ TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
-					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES
-					+ " WHERE " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO
-					+ " IS NOT NULL", new String[] { "" + profileId });
+			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID + ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
+					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES + " WHERE " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + " IS NOT NULL", new String[] { "" + profileId });
 
 			if (cursor.moveToFirst()) {
 				do {
-					profileImage.setId(cursor.getLong(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_ID)));
-					profileImage.setProfileId(cursor.getString(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_PROFILE_ID)));
-					profileImage
-							.setMainImage(cursor.getString(cursor
-									.getColumnIndex(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO)) != null ? true
-									: false);
-					profileImage.setImage(cursor.getBlob(cursor
-							.getColumnIndex(TABLE_IMAGES_COLUMN_IMAGE)));
+					profileImage.setId(cursor.getLong(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_ID)));
+					profileImage.setProfileId(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_PROFILE_ID)));
+					profileImage.setMainImage(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO)) != null ? true : false);
+					profileImage.setImage(cursor.getBlob(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_IMAGE)));
 					return profileImage;
 				} while (cursor.moveToNext());
 
 			}
 		} catch (Throwable e) {
-			Log.e("db",
-					"error on loading profile main image : " + e.getMessage()
-							+ " profile ID:" + profileId);
+			Log.e("db", "error on loading profile main image : " + e.getMessage() + " profile ID:" + profileId);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -575,28 +457,32 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		ProfileImage proImage = getProfileImage(profileImage.getId());
 
 		ContentValues contentValues = new ContentValues();
-		contentValues.put(TABLE_IMAGES_COLUMN_PROFILE_ID,
-				profileImage.getProfileId());
-		contentValues.put(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO,
-				profileImage.isMainImage() ? "X" : null);
+		contentValues.put(TABLE_IMAGES_COLUMN_PROFILE_ID, profileImage.getProfileId());
+		contentValues.put(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO, profileImage.isMainImage() ? "X" : null);
 		contentValues.put(TABLE_IMAGES_COLUMN_IMAGE, profileImage.getImage());
 		if (proImage == null) {
 			database.insert(TABLE_IMAGES, null, contentValues);
 		} else {
-			database.update(TABLE_IMAGES, contentValues, TABLE_IMAGES_COLUMN_ID
-					+ "=?", new String[] { "" + profileImage.getId() });
+			database.update(TABLE_IMAGES, contentValues, TABLE_IMAGES_COLUMN_ID + "=?", new String[] { "" + profileImage.getId() });
 		}
 
 	}
 
 	private static Profile valorizeProfile(Profile profile, Cursor cursor) {
-		profile.setId(cursor.getString(cursor
-				.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
-		profile.setNickname(cursor.getString(cursor
-				.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
-		profile.setGender(cursor.getString(cursor
-				.getColumnIndex(TABLE_PROFILES_COLUMN_GENDER)));
+		profile.setId(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
+		profile.setNickname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
+		profile.setGender(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_GENDER)));
 		return profile;
+	}
+
+	/**
+	 * TOIMPROVE Rendere il metodo più preciso per la decisione se il profilo è
+	 * sufficientemente completo per poter continuare ad utilizzare l'app
+	 */
+	@Override
+	public boolean isProfileCompiled() {
+		Optional<FullProfile> optional = Optional.fromNullable(getMyFullProfile());
+		return optional.isPresent();
 	}
 
 }

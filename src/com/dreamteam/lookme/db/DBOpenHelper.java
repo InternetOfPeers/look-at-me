@@ -171,4 +171,6 @@ public interface DBOpenHelper {
 	 */
 	public ProfileImage getProfileImage(long profileImageId) throws Exception;
 
+	public boolean isProfileCompiled();
+
 }

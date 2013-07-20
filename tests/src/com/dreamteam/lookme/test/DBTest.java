@@ -9,21 +9,21 @@ import android.test.UiThreadTest;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.dreamteam.lookme.RegisterActivity;
+import com.dreamteam.lookme.ProfileActivity;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.jayway.android.robotium.solo.Solo;
 
-public class DBTest extends ActivityInstrumentationTestCase2<RegisterActivity> {
+public class DBTest extends ActivityInstrumentationTestCase2<ProfileActivity> {
 
 	private Solo solo;
 
 	DBOpenHelper dbOpenHelper;
 
 	public DBTest() {
-		super(RegisterActivity.class);
+		super(ProfileActivity.class);
 	}
 
 	protected void setUp() throws Exception {
