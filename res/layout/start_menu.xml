@@ -39,6 +39,7 @@
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_alignLeft="@+id/showListActivity_btn"
+            android:layout_alignRight="@+id/showListActivity_btn"
             android:layout_below="@+id/relativeLayout1"
             android:layout_marginTop="26dp"
             android:onClick="showLogin"

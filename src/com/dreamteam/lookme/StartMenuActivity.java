@@ -1,11 +1,5 @@
 package com.dreamteam.lookme;
 
-import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.db.DBOpenHelper;
-import com.dreamteam.lookme.db.DBOpenHelperImpl;
-import com.dreamteam.util.Log;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -13,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.db.DBOpenHelper;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
+import com.dreamteam.util.Log;
 
 public class StartMenuActivity extends Activity {
 	/** Called when the activity is first created. */

@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.bean.ProfileImage;
 
 public interface DBOpenHelper {

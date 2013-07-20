@@ -13,5 +13,8 @@
     <string name="text_name">name</string>
     <string name="text_surname">surname</string>
     <string name="text_nickname">nickname</string>
+    
+    
+    <string name="splash">splash</string>
 
 </resources>

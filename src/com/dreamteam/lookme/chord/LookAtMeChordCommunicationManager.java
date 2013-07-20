@@ -14,7 +14,6 @@ import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
-import com.dreamteam.lookme.communication.LookAtMeMessage;
 import com.dreamteam.lookme.communication.LookAtMeMessageType;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelper;

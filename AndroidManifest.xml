@@ -27,17 +27,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-        <activity
-            android:name="com.dreamteam.lookme.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        
         <activity
             android:name="com.dreamteam.lookme.SplashActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,7 +41,7 @@
             android:name="com.dreamteam.lookme.SocialActivity"
             android:label="@string/title_activity_test_chord" >
         </activity>
-		<activity
+        <activity
             android:name="com.dreamteam.lookme.RegisterActivity"
             android:label="Register New Account" >
         </activity>
