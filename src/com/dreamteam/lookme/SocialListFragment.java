@@ -30,8 +30,7 @@ import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
 
-public class SocialListFragment extends Fragment implements OnClickListener,
-		OnItemClickListener {
+public class SocialListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
 	public static final int SOCIAL_LIST_FRAGMENT = 1001;
 
@@ -51,8 +50,7 @@ public class SocialListFragment extends Fragment implements OnClickListener,
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_social_list, null);
 
 		socialNodeMap = new HashMap<String, LookAtMeNode>();
@@ -75,14 +73,11 @@ public class SocialListFragment extends Fragment implements OnClickListener,
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1,
-			int clickedItemPosition, long clickedItemID) {
+	public void onItemClick(AdapterView<?> arg0, View arg1, int clickedItemPosition, long clickedItemID) {
 		Log.d();
-		LookAtMeNode node = (LookAtMeNode) socialListAdapter
-				.getItem((int) clickedItemID);
+		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int) clickedItemID);
 		communicationService.sendProfileRequest(node.getId());
-		loadingDialog = ProgressDialog.show(activity, "Loading",
-				"Please wait...", true);
+		loadingDialog = ProgressDialog.show(activity, "Loading", "Please wait...", true);
 	}
 
 	public void putSocialNode(LookAtMeNode node) {
@@ -101,8 +96,7 @@ public class SocialListFragment extends Fragment implements OnClickListener,
 		loadingDialog.dismiss();
 	}
 
-	public void setCommunicationService(
-			CommunicationService communicationService) {
+	public void setCommunicationService(CommunicationService communicationService) {
 		this.communicationService = communicationService;
 	}
 
@@ -123,8 +117,7 @@ public class SocialListFragment extends Fragment implements OnClickListener,
 
 		@Override
 		public Object getItem(int arg0) {
-			List<LookAtMeNode> nodeList = new ArrayList<LookAtMeNode>(
-					socialNodeMap.values());
+			List<LookAtMeNode> nodeList = new ArrayList<LookAtMeNode>(socialNodeMap.values());
 			LookAtMeNode node = (LookAtMeNode) nodeList.get(arg0);
 			return node;
 		}
@@ -139,31 +132,23 @@ public class SocialListFragment extends Fragment implements OnClickListener,
 			if (convertView == null) {
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
-				LayoutInflater layoutInflater = (LayoutInflater) activity
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = layoutInflater.inflate(
-						R.layout.one_row_social_list, null);
+				LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(R.layout.one_row_social_list, null);
 			}
 
 			LookAtMeNode node = (LookAtMeNode) this.getItem(position);
 			BasicProfile profile = (BasicProfile) node.getProfile();
 
-			TextView nickNameText = (TextView) convertView
-					.findViewById(R.id.nickNameText);
+			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
 			nickNameText.setText(node.getProfile().getNickname());
 
 			// Problemi con il recupero dell'immagine del profilo
-			ImageView photoImage = (ImageView) convertView
-					.findViewById(R.id.profilePhotoImage);
-			if (profile.getMainProfileImage() == null
-					|| profile.getMainProfileImage().getImage() == null) {
-				Drawable noPhoto = getResources().getDrawable(
-						R.drawable.no_profile_image);
+			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
+			if (profile.getMainProfileImage() == null || profile.getMainProfileImage().getImage() == null) {
+				Drawable noPhoto = getResources().getDrawable(R.drawable.no_profile_image);
 				photoImage.setImageDrawable(noPhoto);
 			} else {
-				Bitmap bMap = BitmapFactory.decodeByteArray(profile
-						.getMainProfileImage().getImage(), 0, profile
-						.getMainProfileImage().getImage().length - 1);
+				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length - 1);
 				photoImage.setImageBitmap(bMap);
 			}
 

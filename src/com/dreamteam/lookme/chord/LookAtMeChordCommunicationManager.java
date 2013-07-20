@@ -26,13 +26,11 @@ import com.samsung.chord.IChordChannel;
 import com.samsung.chord.IChordChannelListener;
 import com.samsung.chord.IChordManagerListener;
 
-public class LookAtMeChordCommunicationManager implements
-		ILookAtMeCommunicationManager {
+public class LookAtMeChordCommunicationManager implements ILookAtMeCommunicationManager {
 
 	public static final String SOCIAL_CHANNEL_NAME = "com.dreamteam.lookme.SOCIAL_CHANNEL";
 
-	public static final String chordFilePath = Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/LookAtMeTmp";
+	public static final String chordFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/LookAtMeTmp";
 
 	private ChordManager chord;
 	private IChordChannel publicChannel;
@@ -48,8 +46,7 @@ public class LookAtMeChordCommunicationManager implements
 	private Context context;
 	private Looper looper;
 
-	public LookAtMeChordCommunicationManager(Context context, Looper looper,
-			ILookAtMeCommunicationListener communicationListener) {
+	public LookAtMeChordCommunicationManager(Context context, Looper looper, ILookAtMeCommunicationListener communicationListener) {
 		Log.d();
 		this.context = context;
 		this.errorManager = new LookAtMeChordErrorManager();
@@ -85,194 +82,155 @@ public class LookAtMeChordCommunicationManager implements
 
 	private IChordChannel joinPublicChannel() {
 		Log.d();
-		return chord.joinChannel(ChordManager.PUBLIC_CHANNEL,
-				new IChordChannelListener() {
+		return chord.joinChannel(ChordManager.PUBLIC_CHANNEL, new IChordChannelListener() {
 
-					@Override
-					public void onNodeLeft(String arg0, String arg1) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onNodeLeft(String arg0, String arg1) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onNodeJoined(String arg0, String arg1) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onNodeJoined(String arg0, String arg1) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileWillReceive(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileWillReceive(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileSent(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileReceived(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6, String arg7) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, String arg7) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileFailed(String arg0, String arg1,
-							String arg2, String arg3, String arg4, int arg5) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileFailed(String arg0, String arg1, String arg2, String arg3, String arg4, int arg5) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileChunkSent(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6, long arg7, long arg8) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileChunkSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7, long arg8) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileChunkReceived(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6, long arg7) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileChunkReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onDataReceived(String arg0, String arg1,
-							String arg2, byte[][] arg3) {
-						Log.d("NOT IMPLEMENTED");
-					}
-				});
+			@Override
+			public void onDataReceived(String arg0, String arg1, String arg2, byte[][] arg3) {
+				Log.d("NOT IMPLEMENTED");
+			}
+		});
 	}
 
 	private IChordChannel joinSocialChannel() {
 		Log.d();
-		return chord.joinChannel(SOCIAL_CHANNEL_NAME,
-				new IChordChannelListener() {
+		return chord.joinChannel(SOCIAL_CHANNEL_NAME, new IChordChannelListener() {
 
-					@Override
-					public void onNodeLeft(String arg0, String arg1) {
-						Log.d();
-						communicationListener.onSocialNodeLeft(arg0);
-					}
+			@Override
+			public void onNodeLeft(String arg0, String arg1) {
+				Log.d();
+				communicationListener.onSocialNodeLeft(arg0);
+			}
 
-					@Override
-					public void onNodeJoined(String arg0, String arg1) {
-						Log.d();
-						// send a preview profile request
-						sendProfilePreviewRequest(arg0);
-						// it will be notified after receive his profile
-					}
+			@Override
+			public void onNodeJoined(String arg0, String arg1) {
+				Log.d();
+				// send a preview profile request
+				sendProfilePreviewRequest(arg0);
+				// it will be notified after receive his profile
+			}
 
-					@Override
-					public void onFileWillReceive(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileWillReceive(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileSent(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileReceived(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6, String arg7) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, String arg7) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileFailed(String arg0, String arg1,
-							String arg2, String arg3, String arg4, int arg5) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileFailed(String arg0, String arg1, String arg2, String arg3, String arg4, int arg5) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileChunkSent(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6, long arg7, long arg8) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileChunkSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7, long arg8) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onFileChunkReceived(String arg0, String arg1,
-							String arg2, String arg3, String arg4, String arg5,
-							long arg6, long arg7) {
-						Log.d("NOT IMPLEMENTED");
-					}
+			@Override
+			public void onFileChunkReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7) {
+				Log.d("NOT IMPLEMENTED");
+			}
 
-					@Override
-					public void onDataReceived(String arg0, String arg1,
-							String arg2, byte[][] arg3) {
-						Log.d();
-						// here can be received profiles, previews, etc., now we
-						LookAtMeMessageType messageType = LookAtMeMessageType
-								.valueOf(arg2);
-						byte[] chordMessageByte = arg3[0];
-						LookAtMeChordMessage message = null;
-						if (chordMessageByte != null
-								&& chordMessageByte.length > 0) {
-							message = LookAtMeChordMessage.obtainChordMessage(
-									chordMessageByte, arg0);
-						}
-						switch (messageType) {
-						case PREVIEW_REQUEST:
-							// send my basic profile to arg0 node
-							sendProfilePreviewResponse(arg0);
-							break;
-						case PREVIEW:
-							BasicProfile basicProfile = (BasicProfile) message
-									.getObject(LookAtMeMessageType.PREVIEW
-											.toString());
-							LookAtMeNode previewNode = new LookAtMeNode();
-							previewNode.setId(arg0);
-							previewNode.setProfile(basicProfile);
-							communicationListener
-									.onSocialNodeJoined(previewNode);
-							break;
-						case PROFILE_REQUEST:
-							// send my full profile to arg0 node
-							sendProfileResponse(arg0);
-							break;
-						case PROFILE:
-							FullProfile fullProfile = (FullProfile) message
-									.getObject(LookAtMeMessageType.PROFILE
-											.toString());
-							LookAtMeNode profileNode = new LookAtMeNode();
-							profileNode.setId(arg0);
-							profileNode.setProfile(fullProfile);
-							communicationListener
-									.onSocialNodeProfileReceived(profileNode);
-							break;
-						case PROFILE_UPDATE:
-							BasicProfile updatedProfile = (BasicProfile) message
-									.getObject(LookAtMeMessageType.PROFILE_UPDATE
-											.toString());
-							LookAtMeNode updatedNode = new LookAtMeNode();
-							updatedNode.setId(arg0);
-							updatedNode.setProfile(updatedProfile);
-							communicationListener
-									.onSocialNodeUpdated(updatedNode);
-							break;
-						case CHAT_MESSAGE:
-							String chatMessage = (String) message
-									.getObject(LookAtMeMessageType.CHAT_MESSAGE
-											.toString());
-							communicationListener.onChatMessageReceived(arg0,
-									chatMessage);
-							break;
-						case LIKE:
-							communicationListener.onLikeReceived(arg0);
-							break;
-						default:
-							break;
-						}
-					}
-				});
+			@Override
+			public void onDataReceived(String arg0, String arg1, String arg2, byte[][] arg3) {
+				Log.d();
+				// here can be received profiles, previews, etc., now we
+				LookAtMeMessageType messageType = LookAtMeMessageType.valueOf(arg2);
+				byte[] chordMessageByte = arg3[0];
+				LookAtMeChordMessage message = null;
+				if (chordMessageByte != null && chordMessageByte.length > 0) {
+					message = LookAtMeChordMessage.obtainChordMessage(chordMessageByte, arg0);
+				}
+				switch (messageType) {
+				case PREVIEW_REQUEST:
+					// send my basic profile to arg0 node
+					sendProfilePreviewResponse(arg0);
+					break;
+				case PREVIEW:
+					BasicProfile basicProfile = (BasicProfile) message.getObject(LookAtMeMessageType.PREVIEW.toString());
+					LookAtMeNode previewNode = new LookAtMeNode();
+					previewNode.setId(arg0);
+					previewNode.setProfile(basicProfile);
+					communicationListener.onSocialNodeJoined(previewNode);
+					break;
+				case PROFILE_REQUEST:
+					// send my full profile to arg0 node
+					sendProfileResponse(arg0);
+					break;
+				case PROFILE:
+					FullProfile fullProfile = (FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString());
+					LookAtMeNode profileNode = new LookAtMeNode();
+					profileNode.setId(arg0);
+					profileNode.setProfile(fullProfile);
+					communicationListener.onSocialNodeProfileReceived(profileNode);
+					break;
+				case PROFILE_UPDATE:
+					BasicProfile updatedProfile = (BasicProfile) message.getObject(LookAtMeMessageType.PROFILE_UPDATE.toString());
+					LookAtMeNode updatedNode = new LookAtMeNode();
+					updatedNode.setId(arg0);
+					updatedNode.setProfile(updatedProfile);
+					communicationListener.onSocialNodeUpdated(updatedNode);
+					break;
+				case CHAT_MESSAGE:
+					String chatMessage = (String) message.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
+					communicationListener.onChatMessageReceived(arg0, chatMessage);
+					break;
+				case LIKE:
+					communicationListener.onLikeReceived(arg0);
+					break;
+				default:
+					break;
+				}
+			}
+		});
 	}
 
 	private int startChord() {
@@ -280,8 +238,7 @@ public class LookAtMeChordCommunicationManager implements
 		// trying to use INTERFACE_TYPE_WIFIAP, otherwise get the first
 		// available interface
 		availableWifiInterface = chord.getAvailableInterfaceTypes();
-		if (availableWifiInterface == null
-				|| availableWifiInterface.size() == 0) {
+		if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
 			return LookAtMeErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
 		}
 		if (availableWifiInterface.contains(ChordManager.INTERFACE_TYPE_WIFI)) {
@@ -297,8 +254,7 @@ public class LookAtMeChordCommunicationManager implements
 				Log.d();
 				publicChannel = joinPublicChannel();
 				socialChannel = joinSocialChannel();
-				Log.d("now chord is joined to "
-						+ chord.getJoinedChannelList().size() + " channels");
+				Log.d("now chord is joined to " + chord.getJoinedChannelList().size() + " channels");
 				// sendProfilePreviewRequestAll(); // QUI NON HA EFFETTO????
 			}
 
@@ -318,38 +274,30 @@ public class LookAtMeChordCommunicationManager implements
 	public boolean sendProfilePreviewRequestAll() {
 		Log.d();
 		List<String> socialNodeList = socialChannel.getJoinedNodeList();
-		Log.d("there are " + socialNodeList.size()
-				+ " nodes joined to social channel");
-		return socialChannel.sendDataToAll(
-				LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
+		Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
+		return socialChannel.sendDataToAll(LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
 
 	@Override
 	public boolean sendProfileRequest(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo,
-				LookAtMeMessageType.PROFILE_REQUEST.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PROFILE_REQUEST.name(), new byte[0][0]);
 	}
 
 	@Override
 	public boolean sendLike(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(),
-				new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(), new byte[0][0]);
 	}
 
 	@Override
 	public boolean sendChatMessage(String nodeTo, String message) {
 		Log.d();
-		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(
-				LookAtMeMessageType.CHAT_MESSAGE);
+		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(LookAtMeMessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(nodeTo);
-		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(),
-				message);
-		return socialChannel.sendData(nodeTo,
-				LookAtMeMessageType.CHAT_MESSAGE.name(),
-				obtainPayload(chordMessage));
+		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(), message);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.CHAT_MESSAGE.name(), obtainPayload(chordMessage));
 	}
 
 	@Override
@@ -357,17 +305,14 @@ public class LookAtMeChordCommunicationManager implements
 		Log.d();
 		LookAtMeChordMessage message = null;
 		try {
-			message = obtainMyProfileMessage(false,
-					LookAtMeMessageType.PROFILE_UPDATE, null);
+			message = obtainMyProfileMessage(false, LookAtMeMessageType.PROFILE_UPDATE, null);
 		} catch (Exception e) {
 			Log.d("failed getting my profile");
 			e.printStackTrace();
 			return false;
 		}
 		if (message != null) {
-			return socialChannel.sendDataToAll(
-					LookAtMeMessageType.PROFILE_UPDATE.toString(),
-					obtainPayload(message));
+			return socialChannel.sendDataToAll(LookAtMeMessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
 		} else {
 			return false;
 		}
@@ -375,25 +320,21 @@ public class LookAtMeChordCommunicationManager implements
 
 	private boolean sendProfilePreviewRequest(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo,
-				LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
 	}
 
 	private boolean sendProfilePreviewResponse(String nodeTo) {
 		Log.d();
 		LookAtMeChordMessage message = null;
 		try {
-			message = obtainMyProfileMessage(false,
-					LookAtMeMessageType.PREVIEW, nodeTo);
+			message = obtainMyProfileMessage(false, LookAtMeMessageType.PREVIEW, nodeTo);
 		} catch (Exception e) {
 			Log.d("failed getting my profile");
 			e.printStackTrace();
 			return false;
 		}
 		if (message != null) {
-			return socialChannel.sendData(nodeTo,
-					LookAtMeMessageType.PREVIEW.toString(),
-					obtainPayload(message));
+			return socialChannel.sendData(nodeTo, LookAtMeMessageType.PREVIEW.toString(), obtainPayload(message));
 		} else {
 			return false;
 		}
@@ -403,24 +344,20 @@ public class LookAtMeChordCommunicationManager implements
 		Log.d();
 		LookAtMeChordMessage message = null;
 		try {
-			message = obtainMyProfileMessage(true, LookAtMeMessageType.PROFILE,
-					nodeTo);
+			message = obtainMyProfileMessage(true, LookAtMeMessageType.PROFILE, nodeTo);
 		} catch (Exception e) {
 			Log.d("failed getting my profile");
 			e.printStackTrace();
 			return false;
 		}
 		if (message != null) {
-			return socialChannel.sendData(nodeTo,
-					LookAtMeMessageType.PROFILE.toString(),
-					obtainPayload(message));
+			return socialChannel.sendData(nodeTo, LookAtMeMessageType.PROFILE.toString(), obtainPayload(message));
 		} else {
 			return false;
 		}
 	}
 
-	private LookAtMeChordMessage obtainMyProfileMessage(boolean fullProfile,
-			LookAtMeMessageType type, String receiverNodeName) throws Exception {
+	private LookAtMeChordMessage obtainMyProfileMessage(boolean fullProfile, LookAtMeMessageType type, String receiverNodeName) throws Exception {
 		Log.d();
 		LookAtMeChordMessage message = new LookAtMeChordMessage(type);
 		message.setSenderNodeName(chord.getName());

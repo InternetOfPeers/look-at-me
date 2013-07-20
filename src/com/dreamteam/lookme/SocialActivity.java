@@ -51,7 +51,7 @@ public class SocialActivity extends CommonActivity {
 				setMenuItem(1);
 			}
 			// Start service
-			//TODO Controllare che il servizio non sia già acceso
+			// TODO Controllare che il servizio non sia già acceso
 			Intent intentStart = new Intent(SERVICE_PREFIX + "SERVICE_START");
 			startService(intentStart);
 			if (communicationService == null) {

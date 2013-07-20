@@ -20,29 +20,24 @@ public class Log {
 	}
 
 	public static void i(String message) {
-		android.util.Log.i(getCallingClassName(), getCallingMethod()
-				+ SEPARATOR + Strings.emptyToNull(message));
+		android.util.Log.i(getCallingClassName(), getCallingMethod() + SEPARATOR + Strings.emptyToNull(message));
 	}
 
 	public static void d(String message) {
-		android.util.Log.d(getCallingClassName(), getCallingMethod()
-				+ SEPARATOR + Strings.emptyToNull(message));
+		android.util.Log.d(getCallingClassName(), getCallingMethod() + SEPARATOR + Strings.emptyToNull(message));
 	}
 
 	public static void e(String message) {
-		android.util.Log.e(getCallingClassName(), getCallingMethod()
-				+ SEPARATOR + Strings.emptyToNull(message));
+		android.util.Log.e(getCallingClassName(), getCallingMethod() + SEPARATOR + Strings.emptyToNull(message));
 	}
 
 	private static String getCallingClassName() {
-		String[] classNameSplit = Thread.currentThread().getStackTrace()[NESTING_LEVEL]
-				.getClassName().split("\\.");
+		String[] classNameSplit = Thread.currentThread().getStackTrace()[NESTING_LEVEL].getClassName().split("\\.");
 		return classNameSplit[classNameSplit.length - 1];
 	}
 
 	private static String getCallingMethod() {
-		return Thread.currentThread().getStackTrace()[NESTING_LEVEL]
-				.getMethodName();
+		return Thread.currentThread().getStackTrace()[NESTING_LEVEL].getMethodName();
 	}
 
 }

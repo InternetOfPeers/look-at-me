@@ -40,11 +40,9 @@ public class CommunicationService extends Service {
 		return super.onStartCommand(intent, START_NOT_STICKY, startId);
 	}
 
-	public void initialize(Context context,
-			ILookAtMeCommunicationListener listener) {
+	public void initialize(Context context, ILookAtMeCommunicationListener listener) {
 		Log.d();
-		communicationManager = new LookAtMeChordCommunicationManager(context,
-				getMainLooper(), listener);
+		communicationManager = new LookAtMeChordCommunicationManager(context, getMainLooper(), listener);
 	}
 
 	public void start() throws LookAtMeException {

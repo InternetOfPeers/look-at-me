@@ -124,8 +124,8 @@ public class CommonActivity extends Activity {
 	protected void selectItem(int position) {
 		if (menuEnabled) {
 			// update selected item and title, then close the drawer
-			//mDrawerList.setItemChecked(position, true);
-			//setTitle(mPlanetTitles[position]);
+			// mDrawerList.setItemChecked(position, true);
+			// setTitle(mPlanetTitles[position]);
 			// mDrawerLayout.closeDrawer(mDrawerList);
 			menuEnabled = false;
 			Nav.startActivity(this, Nav.getActivityFromMenuPosition(position));

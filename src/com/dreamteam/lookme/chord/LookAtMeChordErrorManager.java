@@ -20,8 +20,7 @@ public class LookAtMeChordErrorManager extends LookAtMeErrorManager {
 	@Override
 	public void checkError(int result) throws LookAtMeException {
 		super.checkError(result);
-		Log.d("[LOOKATME_ERRORMANAGER]",
-				"[LookAtMeChordErrorManager] : checkError " + result);
+		Log.d("[LOOKATME_ERRORMANAGER]", "[LookAtMeChordErrorManager] : checkError " + result);
 		String message = null;
 		switch (result) {
 		case ChordManager.ERROR_FAILED:

@@ -63,8 +63,7 @@ public interface DBOpenHelper {
 	 * @return void
 	 * @throws java.lang.Exception
 	 */
-	public FullProfile saveOrUpdateProfile(FullProfile profile)
-			throws Exception;
+	public FullProfile saveOrUpdateProfile(FullProfile profile) throws Exception;
 
 	/**
 	 * Return All the Profiles present in the database
@@ -148,8 +147,7 @@ public interface DBOpenHelper {
 	 * @return List<ProfileImage>
 	 * @throws java.lang.Exception
 	 */
-	public List<ProfileImage> getProfileImages(String profileId)
-			throws Exception;
+	public List<ProfileImage> getProfileImages(String profileId) throws Exception;
 
 	/**
 	 * Return the ProfileImage set as Main by the device owner

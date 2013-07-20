@@ -8,16 +8,14 @@ import android.util.Log;
 
 public class ImageUtil {
 
-	public static int getScale(int originalWidth, int originalHeight,
-			final int requiredWidth, final int requiredHeight) {
+	public static int getScale(int originalWidth, int originalHeight, final int requiredWidth, final int requiredHeight) {
 		// a scale of 1 means the original dimensions
 		// of the image are maintained
 		int scale = 1;
 
 		// calculate scale only if the height or width of
 		// the image exceeds the required value.
-		if ((originalWidth > requiredWidth)
-				|| (originalHeight > requiredHeight)) {
+		if ((originalWidth > requiredWidth) || (originalHeight > requiredHeight)) {
 			// calculate scale with respect to
 			// the smaller dimension
 			if (originalWidth < originalHeight)
@@ -30,8 +28,7 @@ public class ImageUtil {
 		return scale;
 	}
 
-	public static BitmapFactory.Options getOptions(String filePath,
-			int requiredWidth, int requiredHeight) {
+	public static BitmapFactory.Options getOptions(String filePath, int requiredWidth, int requiredHeight) {
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		// setting inJustDecodeBounds to true
@@ -48,8 +45,7 @@ public class ImageUtil {
 		// options.outWidth and options.outHeight
 		// are the measured dimensions of the
 		// original image
-		options.inSampleSize = getScale(options.outWidth, options.outHeight,
-				requiredWidth, requiredHeight);
+		options.inSampleSize = getScale(options.outWidth, options.outHeight, requiredWidth, requiredHeight);
 
 		// set inJustDecodeBounds to false again
 		// so that we can now actually allocate the
@@ -60,11 +56,9 @@ public class ImageUtil {
 
 	}
 
-	public static Bitmap loadBitmap(String filePath, int requiredWidth,
-			int requiredHeight) {
+	public static Bitmap loadBitmap(String filePath, int requiredWidth, int requiredHeight) {
 
-		BitmapFactory.Options options = getOptions(filePath, requiredWidth,
-				requiredHeight);
+		BitmapFactory.Options options = getOptions(filePath, requiredWidth, requiredHeight);
 
 		return BitmapFactory.decodeFile(filePath, options);
 	}
@@ -96,8 +90,7 @@ public class ImageUtil {
 
 	public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
 
-		Bitmap resizedBitmap = Bitmap.createScaledBitmap(bm, newWidth,
-				newHeight, false);
+		Bitmap resizedBitmap = Bitmap.createScaledBitmap(bm, newWidth, newHeight, false);
 
 		return resizedBitmap;
 
