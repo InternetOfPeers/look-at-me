@@ -36,7 +36,7 @@ public class SplashActivity extends Activity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				Nav.startActivity(activity, ProfileActivity.class);
+				Nav.startActivity(activity, SocialActivity.class);
 			}
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
 	}
