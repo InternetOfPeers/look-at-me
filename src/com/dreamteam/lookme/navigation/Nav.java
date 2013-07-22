@@ -3,6 +3,7 @@ package com.dreamteam.lookme.navigation;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.dreamteam.lookme.MessagesActivity;
 import com.dreamteam.lookme.ProfileActivity;
 import com.dreamteam.lookme.SocialActivity;
 
@@ -21,6 +22,8 @@ public class Nav {
 			return ProfileActivity.class;
 		case 1:
 			return SocialActivity.class;
+		case 2:
+			return MessagesActivity.class;
 		default:
 			break;
 		}

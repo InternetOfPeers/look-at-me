@@ -30,8 +30,8 @@
         <activity
             android:name="com.dreamteam.lookme.SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/title_splash_activity" 
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:label="@string/title_splash_activity"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,6 +45,10 @@
         <activity
             android:name="com.dreamteam.lookme.ProfileActivity"
             android:label="@string/title_profile_activity" >
+        </activity>
+        <activity
+            android:name="com.dreamteam.lookme.MessagesActivity"
+            android:label="@string/title_messages_activity" >
         </activity>
 
         <service
