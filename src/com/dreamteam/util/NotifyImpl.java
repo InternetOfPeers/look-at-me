@@ -59,8 +59,8 @@ public class NotifyImpl implements Notify {
 	 * @param message
 	 */
 	private void notifyMessage(Activity currentActivity, Class<? extends Activity> destinationActivity, int notificationID, String title, String message) {
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(currentActivity).setSmallIcon(R.drawable.ic_launcher).setContentTitle(title)
-				.setContentText(message);
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(currentActivity).setContentTitle(title).setContentText(message)
+				.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true);
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(currentActivity, destinationActivity);
 		// The stack builder object will contain an artificial back stack for
