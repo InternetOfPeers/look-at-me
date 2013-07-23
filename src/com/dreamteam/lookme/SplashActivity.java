@@ -12,7 +12,6 @@ import com.dreamteam.lookme.navigation.Nav;
 
 public class SplashActivity extends Activity {
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

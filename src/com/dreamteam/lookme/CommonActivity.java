@@ -153,8 +153,45 @@ public class CommonActivity extends Activity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggls
+		// Pass any configuration change to the drawer toggle
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
+	/**
+	 * Notifica un messaggio di tipo chat all'utente
+	 * 
+	 * @param fromName
+	 * @param messageAbstract
+	 */
+	protected void notifyChatMessage(String fromName, String messageAbstract) {
+		Services.notify.chatMessage(this, fromName, messageAbstract);
+	}
+
+	/**
+	 * Notifica l'utente quando riceve un mi piace
+	 * 
+	 * @param fromName
+	 */
+	protected void notifyLike(String fromName) {
+		Services.notify.like(this, fromName);
+	}
+
+	/**
+	 * Notifica l'utente quando avviene un match perfetto tra il suo profilo e
+	 * quello di un'altro utente
+	 * 
+	 * @param fromName
+	 */
+	protected void notifyPerfectMatch(String fromName) {
+		Services.notify.perfectMatch(this, fromName);
+	}
+
+	/**
+	 * Notifica l'utente quando il suo profilo viene visualizzato
+	 * 
+	 * @param fromName
+	 */
+	protected void notifyProfileView(String fromName) {
+		Services.notify.profileView(this, fromName);
+	}
 }
