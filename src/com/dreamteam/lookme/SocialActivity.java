@@ -42,7 +42,7 @@ public class SocialActivity extends CommonActivity {
 		socialListFragment = (SocialListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
 		socialListFragment.setActivity(this);
 		setFragment(SocialListFragment.SOCIAL_LIST_FRAGMENT);
-		//Inizializzazione del menu
+		// Inizializzazione del menu
 		initMenu();
 		if (savedInstanceState == null) {
 			setMenuItem(1);

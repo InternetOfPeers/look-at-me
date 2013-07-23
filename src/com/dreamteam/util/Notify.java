@@ -4,6 +4,8 @@ import android.app.Activity;
 
 public interface Notify {
 
+	void clearActivityNotifications(Activity activity);
+
 	void chatMessage(Activity activity, String fromName, String message);
 
 	int getChatMessagePendingNotifications();

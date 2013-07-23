@@ -31,6 +31,9 @@ public class CommonActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Cancella le notifiche appese se l'utente proviene da fuori da un
+		// banner di notifica
+		Services.notify.clearActivityNotifications(this);
 	}
 
 	protected void initMenu() {
