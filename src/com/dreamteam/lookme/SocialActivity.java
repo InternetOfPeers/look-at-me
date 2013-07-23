@@ -42,14 +42,14 @@ public class SocialActivity extends CommonActivity {
 		socialListFragment = (SocialListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
 		socialListFragment.setActivity(this);
 		setFragment(SocialListFragment.SOCIAL_LIST_FRAGMENT);
-
+		//Inizializzazione del menu
+		initMenu();
+		if (savedInstanceState == null) {
+			setMenuItem(1);
+		}
 		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
 		// profilo
 		if (DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
-			initMenu();
-			if (savedInstanceState == null) {
-				setMenuItem(1);
-			}
 			// Start service
 			// TODO Controllare che il servizio non sia già acceso
 			Intent intentStart = new Intent(SERVICE_PREFIX + "SERVICE_START");

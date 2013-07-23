@@ -1,5 +1,8 @@
 package com.dreamteam.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,15 +17,16 @@ import com.dreamteam.lookme.R;
 
 public class NotifyImpl implements Notify {
 
-	private final int NOTIFICATION_CHAT_ID = 0;
-	private final int NOTIFICATION_PROFILE_ID = 1;
-	private final int NOTIFICATION_LIKED_ID = 2;
-	private final int NOTIFICATION_PERFECT_MATCH_ID = 3;
+	private final int CHAT_ID = 0;
+	private final int PROFILE_ID = 1;
+	private final int LIKED_ID = 2;
+	private final int PERFECT_MATCH_ID = 3;
+	private Map<Integer, Integer> counters = new HashMap<Integer, Integer>();
 
 	@Override
 	public void chatMessage(Activity currentActivity, String fromName, String message) {
 		String title = "Messagge from " + fromName;
-		notifyMessage(currentActivity, MessagesActivity.class, NOTIFICATION_CHAT_ID, title, message);
+		notifyMessage(currentActivity, MessagesActivity.class, CHAT_ID, title, message);
 	}
 
 	@Override
@@ -30,7 +34,7 @@ public class NotifyImpl implements Notify {
 		String title = "Your profile has been visited";
 		String message = "Your profile has been visited by " + fromName;
 		// TOIMPROVE Andare al profilo della persona che ti ha visitato
-		notifyMessage(currentActivity, ProfileActivity.class, NOTIFICATION_PROFILE_ID, title, message);
+		notifyMessage(currentActivity, ProfileActivity.class, PROFILE_ID, title, message);
 	}
 
 	@Override
@@ -38,7 +42,7 @@ public class NotifyImpl implements Notify {
 		String title = fromName + " liked your profile!";
 		String message = fromName + " liked your profile!";
 		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(currentActivity, ProfileActivity.class, NOTIFICATION_LIKED_ID, title, message);
+		notifyMessage(currentActivity, ProfileActivity.class, LIKED_ID, title, message);
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class NotifyImpl implements Notify {
 		String title = "Perfect match!";
 		String message = "You and " + fromName + " creates a perfect match!";
 		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(currentActivity, ProfileActivity.class, NOTIFICATION_PERFECT_MATCH_ID, title, message);
+		notifyMessage(currentActivity, ProfileActivity.class, PERFECT_MATCH_ID, title, message);
 	}
 
 	/**
@@ -60,7 +64,7 @@ public class NotifyImpl implements Notify {
 	 */
 	private void notifyMessage(Activity currentActivity, Class<? extends Activity> destinationActivity, int notificationID, String title, String message) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(currentActivity).setContentTitle(title).setContentText(message)
-				.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true);
+				.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true).setNumber(5);
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(currentActivity, destinationActivity);
 		// The stack builder object will contain an artificial back stack for
