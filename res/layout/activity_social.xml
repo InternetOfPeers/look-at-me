@@ -10,12 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
-
+        
         <fragment
             android:id="@+id/fragment_list"
             android:name="com.dreamteam.lookme.SocialListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        
+        <fragment
+            android:id="@+id/fragment_profile"
+            android:name="com.dreamteam.lookme.SocialProfileFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <!--

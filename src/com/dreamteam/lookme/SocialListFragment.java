@@ -32,10 +32,7 @@ import com.dreamteam.util.Log;
 
 public class SocialListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
-	public static final int SOCIAL_LIST_FRAGMENT = 1001;
-
 	private CommunicationService communicationService;
-	private Activity activity;
 
 	private Map<String, LookAtMeNode> socialNodeMap;
 
@@ -77,7 +74,7 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 		Log.d();
 		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int) clickedItemID);
 		communicationService.sendProfileRequest(node.getId());
-		loadingDialog = ProgressDialog.show(activity, "Loading", "Please wait...", true);
+		loadingDialog = ProgressDialog.show(this.getActivity(), "Loading", "Please wait...", true);
 	}
 
 	public void putSocialNode(LookAtMeNode node) {
@@ -104,10 +101,6 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 		this.socialNodeMap = socialNodeMap;
 	}
 
-	public void setActivity(Activity activity) {
-		this.activity = activity;
-	}
-
 	public class SocialListAdapter extends BaseAdapter {
 
 		@Override
@@ -132,7 +125,7 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 			if (convertView == null) {
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
-				LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater layoutInflater = (LayoutInflater) SocialListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = layoutInflater.inflate(R.layout.one_row_social_list, null);
 			}
 

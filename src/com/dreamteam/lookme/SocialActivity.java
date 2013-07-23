@@ -24,11 +24,15 @@ import com.dreamteam.util.Log;
 public class SocialActivity extends CommonActivity {
 
 	private static final String SERVICE_PREFIX = "com.dreamteam.lookme.service.CommunicationService.";
+	
+	public static final int SOCIAL_PROFILE_FRAGMENT = 1002;
+	public static final int SOCIAL_LIST_FRAGMENT = 1001;
 
 	private CommunicationService communicationService;
 
 	private SocialListFragment socialListFragment;
-	// private int currentFragment;
+	private SocialProfileFragment socialProfileFragment;
+	//private int currentFragment;
 	private FragmentTransaction fragmentTransaction;
 
 	// private ProgressDialog loadingDialog;
@@ -38,10 +42,10 @@ public class SocialActivity extends CommonActivity {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social);
-		// set list fragment
+		// set fragment
 		socialListFragment = (SocialListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
-		socialListFragment.setActivity(this);
-		setFragment(SocialListFragment.SOCIAL_LIST_FRAGMENT);
+		socialProfileFragment = (SocialProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
+		setFragment(SOCIAL_LIST_FRAGMENT);
 		// Inizializzazione del menu
 		initMenu();
 		if (savedInstanceState == null) {
@@ -133,12 +137,12 @@ public class SocialActivity extends CommonActivity {
 
 				@Override
 				public void onSocialNodeProfileReceived(LookAtMeNode node) {
-					Log.d("NOT IMPLEMETED");
+					Log.d();
 					// stop loading
 					socialListFragment.dismissLoadingDialog();
 					// TODO got to profile fragment
 					Toast.makeText(getApplicationContext(), node.getProfile().getNickname() + " ARRIVED!", Toast.LENGTH_LONG).show();
-
+					setFragment(SOCIAL_PROFILE_FRAGMENT);
 				}
 
 				@Override
@@ -174,9 +178,18 @@ public class SocialActivity extends CommonActivity {
 	};
 
 	private void setFragment(int currentFragment) {
-		// this.currentFragment = currentFragment;
-		this.fragmentTransaction = getFragmentManager().beginTransaction();
-		this.fragmentTransaction.show(socialListFragment);
+		//this.currentFragment = currentFragment;
+		fragmentTransaction = getFragmentManager().beginTransaction();
+		switch (currentFragment) {
+		case SOCIAL_LIST_FRAGMENT:
+			fragmentTransaction.show(socialListFragment);
+			fragmentTransaction.hide(socialProfileFragment);
+			break;
+		case SOCIAL_PROFILE_FRAGMENT:
+			fragmentTransaction.hide(socialListFragment);
+			fragmentTransaction.show(socialProfileFragment);
+			break;	
+		}
 		this.fragmentTransaction.commit();
 	}
 
