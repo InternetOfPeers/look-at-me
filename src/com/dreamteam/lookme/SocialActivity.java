@@ -142,6 +142,7 @@ public class SocialActivity extends CommonActivity {
 					socialListFragment.dismissLoadingDialog();
 					// TODO got to profile fragment
 					Toast.makeText(getApplicationContext(), node.getProfile().getNickname() + " ARRIVED!", Toast.LENGTH_LONG).show();
+					socialProfileFragment.setProfileNode(node);
 					setFragment(SOCIAL_PROFILE_FRAGMENT);
 				}
 
