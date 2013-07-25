@@ -16,6 +16,9 @@ import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.util.Log;
 
 public class CommunicationService extends Service {
+	
+	public static final int SERVICE_RUNNING = 1;
+	public static final int SERVICE_READY_TO_RUN = 0;
 
 	private ILookAtMeCommunicationManager communicationManager;
 
@@ -40,9 +43,17 @@ public class CommunicationService extends Service {
 		return super.onStartCommand(intent, START_NOT_STICKY, startId);
 	}
 
-	public void initialize(Context context, ILookAtMeCommunicationListener listener) {
+	public int initialize(Context context, ILookAtMeCommunicationListener listener) {
 		Log.d();
-		communicationManager = new LookAtMeChordCommunicationManager(context, getMainLooper(), listener);
+		if (communicationManager == null) {
+			Log.d("service is not running");
+			communicationManager = new LookAtMeChordCommunicationManager(context, getMainLooper(), listener);
+			return SERVICE_READY_TO_RUN;
+		}
+		else {
+			Log.d("service was already running");
+			return SERVICE_RUNNING;
+		}
 	}
 
 	public void start() throws LookAtMeException {

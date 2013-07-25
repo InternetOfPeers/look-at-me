@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.LookAtMeNode;
@@ -25,12 +24,12 @@ import com.dreamteam.util.Log;
 public class SocialActivity extends CommonActivity {
 
 	private static final String SERVICE_PREFIX = "com.dreamteam.lookme.service.CommunicationService.";
-	
+
 	public static final int SOCIAL_PROFILE_FRAGMENT = 1002;
 	public static final int SOCIAL_LIST_FRAGMENT = 1001;
 
 	private CommunicationService communicationService;
-
+	
 	private SocialListFragment socialListFragment;
 	private SocialProfileFragment socialProfileFragment;
 	private int currentFragment;
@@ -54,7 +53,10 @@ public class SocialActivity extends CommonActivity {
 		// profilo
 		if (DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
 			// Start service
-			// TODO Controllare che il servizio non sia già acceso
+			// Multiple requests to start the service result in multiple
+			// corresponding calls to the service's onStartCommand(). However,
+			// only one request to stop the service (with stopSelf() or
+			// stopService()) is required to stop it.
 			Intent intentStart = new Intent(SERVICE_PREFIX + "SERVICE_START");
 			startService(intentStart);
 			if (communicationService == null) {
@@ -79,13 +81,13 @@ public class SocialActivity extends CommonActivity {
 	protected void onDestroy() {
 		Log.d();
 		super.onDestroy();
-		if (communicationService != null) {
-			communicationService.stop();
-			unbindService(serviceConnection);
-		}
-		communicationService = null;
-		Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
-		stopService(intent);
+//		if (communicationService != null) {
+//			communicationService.stop();
+//			unbindService(serviceConnection);
+//		}
+//		communicationService = null;
+//		Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
+//		stopService(intent);
 	}
 
 	private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -102,7 +104,7 @@ public class SocialActivity extends CommonActivity {
 			Log.d();
 			CommunicationServiceBinder binder = (CommunicationServiceBinder) service;
 			communicationService = binder.getService();
-			communicationService.initialize(SocialActivity.this, new ILookAtMeCommunicationListener() {
+			int serviceState = communicationService.initialize(SocialActivity.this, new ILookAtMeCommunicationListener() {
 
 				@Override
 				public void onSocialNodeLeft(String nodeName) {
@@ -171,12 +173,19 @@ public class SocialActivity extends CommonActivity {
 			});
 			try {
 				socialListFragment.setCommunicationService(communicationService);
-				communicationService.start();
+				socialProfileFragment.setCommunicationService(communicationService);
+				if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
+					Log.d("service is ready to run");
+					communicationService.start();
+				}
+				else {
+					Log.d("service was already started");
+				}
 			} catch (LookAtMeException e) {
-				Log.d("communicationService.start() throws LookAtMeException: "+ e.getMessage());
+				Log.d("communicationService.start() throws LookAtMeException: " + e.getMessage());
 				e.printStackTrace();
 				showErrorDialog(e.getMessage());
-				
+
 			}
 		}
 	};
@@ -192,7 +201,7 @@ public class SocialActivity extends CommonActivity {
 		case SOCIAL_PROFILE_FRAGMENT:
 			fragmentTransaction.hide(socialListFragment);
 			fragmentTransaction.show(socialProfileFragment);
-			break;	
+			break;
 		}
 		this.fragmentTransaction.commit();
 	}
@@ -217,7 +226,7 @@ public class SocialActivity extends CommonActivity {
 
 		dialog.show();
 	}
-	
+
 	private void showErrorDialog(String message) {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.error_dialog);
@@ -235,8 +244,8 @@ public class SocialActivity extends CommonActivity {
 				Intent intent = new Intent();
 				intent.setAction(Intent.ACTION_MAIN);
 				intent.addCategory(Intent.CATEGORY_HOME);
-				SocialActivity.this.startActivity(intent); 
-				finish(); 
+				SocialActivity.this.startActivity(intent);
+				finish();
 			}
 		});
 

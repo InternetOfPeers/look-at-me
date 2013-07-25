@@ -93,6 +93,12 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	}
 
 	public void refreshFragment() {
+		Log.d("socialNodeMap is not null? " + (socialNodeMap != null));
+		Log.d("socialNodeMap size is " + socialNodeMap.size());
+		Log.d("iLike is not null? " + (iLike != null));
+		Log.d("iLike size is " + iLike.size());
+		Log.d("liked is not null? " + (liked != null));
+		Log.d("liked size is " + liked.size());
 		this.socialListAdapter.notifyDataSetChanged();
 	}
 

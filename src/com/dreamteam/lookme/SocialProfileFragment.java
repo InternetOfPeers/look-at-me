@@ -1,10 +1,5 @@
 package com.dreamteam.lookme;
 
-import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.communication.LookAtMeNode;
-import com.dreamteam.lookme.service.CommunicationService;
-import com.google.common.collect.Sets.SetView;
-
 import uk.co.senab.photoview.PhotoView;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -18,6 +13,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.communication.LookAtMeNode;
+import com.dreamteam.lookme.service.CommunicationService;
+import com.dreamteam.util.Log;
 
 public class SocialProfileFragment extends Fragment implements OnClickListener {
 	
@@ -56,6 +56,7 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		Log.d("LIKE clicked on node " + profileNode.getId());
 		communicationService.sendLike(profileNode.getId());
 		Toast.makeText(this.getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
 	}
