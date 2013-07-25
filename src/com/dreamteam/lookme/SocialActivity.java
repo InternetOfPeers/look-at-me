@@ -71,38 +71,72 @@ public class SocialActivity extends CommonActivity {
 			showDialog();
 		}
 	}
+	
+	@Override
+	protected void onStart() {
+		Log.d();
+		super.onStart();
+	}
 
 	@Override
 	protected void onResume() {
 		Log.d();
 		super.onResume();
 	}
+	
+	@Override
+	protected void onPause() {
+		Log.d();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onStop() {
+		Log.d();
+		super.onStop();
+	}
+	
+	@Override
+	protected void onRestart() {
+		Log.d();
+		super.onRestart();
+	}
 
 	@Override
 	protected void onDestroy() {
 		Log.d();
 		super.onDestroy();
-		// if (communicationService != null) {
-		// communicationService.stop();
-		// unbindService(serviceConnection);
-		// }
-		// communicationService = null;
-		// Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
-		// stopService(intent);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Log.d();
+		if (currentFragment == SOCIAL_LIST_FRAGMENT) {
+			// TODO: come si fa a simulare il pulsante HOME?
+		}
+		else if (currentFragment == SOCIAL_PROFILE_FRAGMENT) {
+			setFragment(SOCIAL_LIST_FRAGMENT);
+		}
 	}
 
 	// overridato metodo di selezione dal menù per permettere la chiusura
 	// dell'app. Andrà molto probabilmente eliminato
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (communicationService != null && item.getItemId() == R.id.action_settings) {
+		if (item.getItemId() == R.id.action_settings) {
+			stopService();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private void stopService() {
+		if (communicationService != null) {
 			communicationService.stop();
 			unbindService(serviceConnection);
 			communicationService = null;
 			Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
 			stopService(intent);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -205,8 +239,9 @@ public class SocialActivity extends CommonActivity {
 	};
 
 	private void setFragment(int fragment) {
-		Log.d("changing fragment from " + currentFragment + " to " + fragment);
+		Log.d(""+fragment);
 		if (currentFragment != fragment) {
+			Log.d("changing fragment from " + currentFragment + " to " + fragment);
 			currentFragment = fragment;
 			fragmentTransaction = getFragmentManager().beginTransaction();
 			switch (fragment) {
