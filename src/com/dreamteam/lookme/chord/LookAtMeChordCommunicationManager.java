@@ -31,6 +31,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	public static final String SOCIAL_CHANNEL_NAME = "com.dreamteam.lookme.SOCIAL_CHANNEL";
 
 	public static final String chordFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/LookAtMeTmp";
+	
+	private static byte[][] EMPTY_PAYLOAD = new byte[0][0];
 
 	private ChordManager chord;
 	private IChordChannel publicChannel;
@@ -275,19 +277,19 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		Log.d();
 		List<String> socialNodeList = socialChannel.getJoinedNodeList();
 		Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
-		return socialChannel.sendDataToAll(LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
+		return socialChannel.sendDataToAll(LookAtMeMessageType.PREVIEW_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendProfileRequest(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PROFILE_REQUEST.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendLike(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
@@ -320,7 +322,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 
 	private boolean sendProfilePreviewRequest(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PREVIEW_REQUEST.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PREVIEW_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	private boolean sendProfilePreviewResponse(String nodeTo) {
