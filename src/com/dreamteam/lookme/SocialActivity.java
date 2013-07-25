@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,7 +30,7 @@ public class SocialActivity extends CommonActivity {
 	public static final int SOCIAL_LIST_FRAGMENT = 1001;
 
 	private CommunicationService communicationService;
-	
+
 	private SocialListFragment socialListFragment;
 	private SocialProfileFragment socialProfileFragment;
 	private int currentFragment;
@@ -81,13 +82,27 @@ public class SocialActivity extends CommonActivity {
 	protected void onDestroy() {
 		Log.d();
 		super.onDestroy();
-//		if (communicationService != null) {
-//			communicationService.stop();
-//			unbindService(serviceConnection);
-//		}
-//		communicationService = null;
-//		Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
-//		stopService(intent);
+		// if (communicationService != null) {
+		// communicationService.stop();
+		// unbindService(serviceConnection);
+		// }
+		// communicationService = null;
+		// Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
+		// stopService(intent);
+	}
+
+	// overridato metodo di selezione dal menù per permettere la chiusura
+	// dell'app. Andrà molto probabilmente eliminato
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (communicationService != null && item.getItemId() == R.id.action_settings) {
+			communicationService.stop();
+			unbindService(serviceConnection);
+			communicationService = null;
+			Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
+			stopService(intent);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -177,8 +192,7 @@ public class SocialActivity extends CommonActivity {
 				if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
 					Log.d("service is ready to run");
 					communicationService.start();
-				}
-				else {
+				} else {
 					Log.d("service was already started");
 				}
 			} catch (LookAtMeException e) {
@@ -191,19 +205,26 @@ public class SocialActivity extends CommonActivity {
 	};
 
 	private void setFragment(int fragment) {
-		this.currentFragment = fragment;
-		fragmentTransaction = getFragmentManager().beginTransaction();
-		switch (fragment) {
-		case SOCIAL_LIST_FRAGMENT:
-			fragmentTransaction.show(socialListFragment);
-			fragmentTransaction.hide(socialProfileFragment);
-			break;
-		case SOCIAL_PROFILE_FRAGMENT:
-			fragmentTransaction.hide(socialListFragment);
-			fragmentTransaction.show(socialProfileFragment);
-			break;
+		Log.d("changing fragment from " + currentFragment + " to " + fragment);
+		if (currentFragment != fragment) {
+			currentFragment = fragment;
+			fragmentTransaction = getFragmentManager().beginTransaction();
+			switch (fragment) {
+			case SOCIAL_LIST_FRAGMENT:
+				fragmentTransaction.show(socialListFragment);
+				fragmentTransaction.hide(socialProfileFragment);
+				break;
+			case SOCIAL_PROFILE_FRAGMENT:
+				fragmentTransaction.hide(socialListFragment);
+				fragmentTransaction.show(socialProfileFragment);
+				break;
+			default:
+				fragmentTransaction.show(socialListFragment);
+				fragmentTransaction.hide(socialProfileFragment);
+				break;
+			}
+			this.fragmentTransaction.commit();
 		}
-		this.fragmentTransaction.commit();
 	}
 
 	private void showDialog() {

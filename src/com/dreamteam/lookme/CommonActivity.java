@@ -1,6 +1,7 @@
 package com.dreamteam.lookme;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -109,7 +110,13 @@ public class CommonActivity extends Activity {
 		// Handle action buttons
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			Toast.makeText(this, "Premuto tasto settings", Toast.LENGTH_LONG).show();
+			// modificato per chiudere l'app. Solo per scopo di sviluppo
+			Toast.makeText(this, "Exiting app", Toast.LENGTH_LONG).show();
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			this.startActivity(intent);
+			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
