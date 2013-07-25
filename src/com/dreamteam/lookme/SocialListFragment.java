@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -35,6 +36,9 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	private CommunicationService communicationService;
 
 	private Map<String, LookAtMeNode> socialNodeMap;
+	
+	private Set<String> iLike;
+	private Set<String> liked;
 
 	private ListView socialListView;
 	private SocialListAdapter socialListAdapter;
@@ -51,6 +55,9 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 		View view = inflater.inflate(R.layout.fragment_social_list, null);
 
 		socialNodeMap = new HashMap<String, LookAtMeNode>();
+		// init like structures
+		iLike = new TreeSet<String>();
+		liked = new TreeSet<String>();
 
 		refreshListButton = (Button) view.findViewById(R.id.buttonRefreshList);
 		refreshListButton.setOnClickListener(this);
@@ -99,6 +106,22 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 
 	public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {
 		this.socialNodeMap = socialNodeMap;
+	}
+	
+	public void addILike(String nodeId) {
+		iLike.add(nodeId);
+	}
+	
+	public void addLiked(String nodeId) {
+		liked.add(nodeId);
+	}
+	
+	public String getNicknameOf(String nodeId) {
+		LookAtMeNode node = (LookAtMeNode) socialNodeMap.get(nodeId);
+		if (node != null) {
+			return node.getProfile().getNickname();
+		}
+		return null;
 	}
 
 	public class SocialListAdapter extends BaseAdapter {

@@ -2,6 +2,7 @@ package com.dreamteam.lookme;
 
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.communication.LookAtMeNode;
+import com.dreamteam.lookme.service.CommunicationService;
 import com.google.common.collect.Sets.SetView;
 
 import uk.co.senab.photoview.PhotoView;
@@ -16,8 +17,11 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SocialProfileFragment extends Fragment implements OnClickListener {
+	
+	private CommunicationService communicationService;
 	
 	private ViewPager profilePhoto;
 	
@@ -52,8 +56,8 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
+		communicationService.sendLike(profileNode.getId());
+		Toast.makeText(this.getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
 	}
 	
 	public void setProfileNode(LookAtMeNode node) {
@@ -71,6 +75,10 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 		profilePhoto.setAdapter(new SamplePagerAdapter());
 	}
 	
+	public void setCommunicationService(CommunicationService communicationService) {
+		this.communicationService = communicationService;
+	}
+	
 	class SamplePagerAdapter extends PagerAdapter {
 
 		@Override
@@ -81,7 +89,7 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 		@Override
 		public View instantiateItem(ViewGroup container, int position) {
 			PhotoView photoView = new PhotoView(container.getContext());
-			photoView.setImageResource(gallery_images[position]);
+			photoView.setImageResource(gallery_images[position]);// in futuro utilizzare setImageBitmap
 
 			// Now just add PhotoView to ViewPager and return it
 			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

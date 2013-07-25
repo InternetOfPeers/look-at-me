@@ -64,5 +64,10 @@ public class CommunicationService extends Service {
 		Log.d();
 		communicationManager.sendProfileRequest(nodeTo);
 	}
+	
+	public void sendLike(String nodeTo) {
+		Log.d();
+		communicationManager.sendLike(nodeTo);
+	}
 
 }

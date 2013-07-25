@@ -14,7 +14,7 @@ public class LookAtMeErrorManager {
 		String message = null;
 		switch (result) {
 		case ERROR_NO_INTERFACE_AVAILABLE:
-			message = "prendere errore da un resource";// TODO
+			message = "NO INTERFACE AVAILABLE";// TODO
 			break;
 		default:
 			break;

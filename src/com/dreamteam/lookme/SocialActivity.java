@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
@@ -32,10 +33,8 @@ public class SocialActivity extends CommonActivity {
 
 	private SocialListFragment socialListFragment;
 	private SocialProfileFragment socialProfileFragment;
-	//private int currentFragment;
+	private int currentFragment;
 	private FragmentTransaction fragmentTransaction;
-
-	// private ProgressDialog loadingDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,17 +139,19 @@ public class SocialActivity extends CommonActivity {
 					Log.d();
 					// stop loading
 					socialListFragment.dismissLoadingDialog();
-					// TODO got to profile fragment
-					Toast.makeText(getApplicationContext(), node.getProfile().getNickname() + " ARRIVED!", Toast.LENGTH_LONG).show();
 					socialProfileFragment.setProfileNode(node);
 					setFragment(SOCIAL_PROFILE_FRAGMENT);
 				}
 
 				@Override
 				public void onLikeReceived(String nodeFrom) {
-					Log.d("NOT IMPLEMENTED");
-					// TODO Auto-generated method stub
-
+					Log.d();
+					socialListFragment.addLiked(nodeFrom);
+					socialListFragment.refreshFragment(); // to update GUI
+					String nodeNickname = socialListFragment.getNicknameOf(nodeFrom);
+					if (nodeNickname != null) {
+						SocialActivity.this.notifyLike(nodeNickname);
+					}
 				}
 
 				@Override
@@ -172,16 +173,18 @@ public class SocialActivity extends CommonActivity {
 				socialListFragment.setCommunicationService(communicationService);
 				communicationService.start();
 			} catch (LookAtMeException e) {
-				Log.d("communicationService.start() throws LookAtMeException");
+				Log.d("communicationService.start() throws LookAtMeException: "+ e.getMessage());
 				e.printStackTrace();
+				showErrorDialog(e.getMessage());
+				
 			}
 		}
 	};
 
-	private void setFragment(int currentFragment) {
-		//this.currentFragment = currentFragment;
+	private void setFragment(int fragment) {
+		this.currentFragment = fragment;
 		fragmentTransaction = getFragmentManager().beginTransaction();
-		switch (currentFragment) {
+		switch (fragment) {
 		case SOCIAL_LIST_FRAGMENT:
 			fragmentTransaction.show(socialListFragment);
 			fragmentTransaction.hide(socialProfileFragment);
@@ -209,6 +212,31 @@ public class SocialActivity extends CommonActivity {
 				SocialActivity.this.startActivity(registerIntent);
 				SocialActivity.this.finish();
 				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
+	
+	private void showErrorDialog(String message) {
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.error_dialog);
+		dialog.setTitle("Dialog popup");
+
+		Button dialogButton = (Button) dialog.findViewById(R.id.buttonClose);
+		TextView errorMsg = (TextView) dialog.findViewById(R.id.textErrorMsg);
+		errorMsg.setText(message);
+		// if button is clicked, close the custom dialog
+		dialogButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				Intent intent = new Intent();
+				intent.setAction(Intent.ACTION_MAIN);
+				intent.addCategory(Intent.CATEGORY_HOME);
+				SocialActivity.this.startActivity(intent); 
+				finish(); 
 			}
 		});
 

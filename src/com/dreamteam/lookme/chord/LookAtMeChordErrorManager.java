@@ -24,16 +24,16 @@ public class LookAtMeChordErrorManager extends LookAtMeErrorManager {
 		String message = null;
 		switch (result) {
 		case ChordManager.ERROR_FAILED:
-			message = "prendere errore da un resource";// TODO 1
+			message = "FAILED";// TODO 1
 			break;
 		case ChordManager.ERROR_INVALID_INTERFACE:
-			message = "prendere errore da un resource";// TODO 4
+			message = "INVALID INTERFACE";// TODO 4
 			break;
 		case ChordManager.ERROR_INVALID_PARAM:
-			message = "prendere errore da un resource";// TODO 2
+			message = "INVALID PARAM";// TODO 2
 			break;
 		case ChordManager.ERROR_INVALID_STATE:
-			message = "prendere errore da un resource";// TODO 3
+			message = "INVALID STATE";// TODO 3
 			break;
 		default:
 			break;
