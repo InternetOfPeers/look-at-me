@@ -63,7 +63,7 @@ public class ProfileActivity extends CommonActivity {
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 
 			if (imageView.getDrawable() == null) {
-				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.no_profile_image));
+				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
 			}
 
 			if (usernameScreen.getText() == null || usernameScreen.getText().equals(""))

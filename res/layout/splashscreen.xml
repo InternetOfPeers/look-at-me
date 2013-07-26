@@ -9,9 +9,9 @@
         android:id="@+id/image_logo"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:contentDescription="@string/splash"
+        android:contentDescription="@string/title_splashscreen"
         android:gravity="center_vertical|center_horizontal"
-        android:scaleType="centerCrop"
-        android:src="@drawable/splashcreen" />
+        android:scaleType="centerInside"
+        android:src="@drawable/splashscreen" />
 
 </LinearLayout>

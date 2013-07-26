@@ -33,7 +33,7 @@
                         android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/no_profile_image" />
+                        android:src="@drawable/ic_profile_image" />
 
                     <Button
                         android:id="@+id/btnChooseImage"

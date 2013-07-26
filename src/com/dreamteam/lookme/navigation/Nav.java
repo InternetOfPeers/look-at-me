@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.dreamteam.lookme.FeelingsActivity;
 import com.dreamteam.lookme.MessagesActivity;
 import com.dreamteam.lookme.ProfileActivity;
 import com.dreamteam.lookme.SocialActivity;
@@ -101,6 +102,8 @@ public class Nav {
 			return SocialActivity.class;
 		case 2:
 			return MessagesActivity.class;
+		case 3:
+			return FeelingsActivity.class;
 		default:
 			break;
 		}

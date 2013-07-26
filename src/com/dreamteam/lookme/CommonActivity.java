@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.navigation.Nav;
@@ -189,7 +188,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.profile, menu);
+		inflater.inflate(R.menu.common, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -205,15 +204,15 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// The action bar home/up action should open or close the drawer.
-		// ActionBarDrawerToggle will take care of this.
+		// Verifica se è stato premuta l'icona del drawer o il drawer in
+		// generale, e gestisce l'azione di conseguenza
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		// Handle action buttons
+		// Gestione delle action in alto a destra
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			Toast.makeText(this, "Exiting app", Toast.LENGTH_LONG).show();
+			Nav.startActivity(this, SettingsActivity.class);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

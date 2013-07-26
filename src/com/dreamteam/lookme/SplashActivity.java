@@ -17,12 +17,12 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// Imposto l'activity da caricare
-		setContentView(R.layout.splash);
+		setContentView(R.layout.splashscreen);
 
 		// Mostra una immagine di splash differente a seconda dell'orientamento
 		// del device
-		Drawable immagine = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? getResources().getDrawable(R.drawable.splashcreen)
-				: getResources().getDrawable(R.drawable.splashcreen_r);
+		Drawable immagine = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? getResources().getDrawable(R.drawable.splashscreen)
+				: getResources().getDrawable(R.drawable.splashscreen_r);
 
 		ImageView imageView = (ImageView) findViewById(R.id.image_logo);
 		imageView.setImageDrawable(immagine);

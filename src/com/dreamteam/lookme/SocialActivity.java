@@ -61,17 +61,6 @@ public class SocialActivity extends CommonActivity {
 		}
 	}
 
-	// overridato metodo di selezione dal menù per permettere la chiusura
-	// dell'app. Andrà molto probabilmente eliminato
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.action_settings) {
-			Log.d("Stopping service and closing application");
-			closeApplication();
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
 		Log.d();
@@ -140,7 +129,7 @@ public class SocialActivity extends CommonActivity {
 		socialListFragment.refreshFragment(); // to update GUI
 		String nodeNickname = socialListFragment.getNicknameOf(nodeFrom);
 		if (nodeNickname != null) {
-			SocialActivity.this.notifyLike(nodeNickname);
+			notifyLike(nodeNickname);
 		}
 	}
 
@@ -220,7 +209,10 @@ public class SocialActivity extends CommonActivity {
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				closeApplication();
+				// E' un pò hard chiudere l'applicazione, dobbiamo trovare una
+				// soluzione alternativa. Nel mentre in sviluppo lasciamo aperta
+				// l'app
+				// closeApplication();
 			}
 		});
 

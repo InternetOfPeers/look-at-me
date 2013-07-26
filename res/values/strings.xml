@@ -3,23 +3,23 @@
 
     <string name="app_name">Look@me</string>
     <string name="action_settings">Settings</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="title_social_activity">Nearby</string>
     <string name="title_splash_activity">Look@Me</string>
     <string name="title_profile_activity">Profile</string>
     <string name="title_messages_activity">Messages</string>
+    <string name="title_settings_activity">Settings</string>
+    <string name="title_feelings_activity">Feelings</string>
     <string name="text_name">name</string>
     <string name="text_surname">surname</string>
     <string name="text_nickname">nickname</string>
-    <string name="splash">splash</string>
+    <string name="title_splashscreen">splash</string>
 
     <!-- Drawer menu -->
     <string-array name="menu_items">
         <item>Profile</item>
         <item>Nearby</item>
         <item>Messages</item>
+        <item>Feelings</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>
