@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:contentDescription="@string/title_splashscreen"
         android:gravity="center_vertical|center_horizontal"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@drawable/splashscreen" />
 
 </LinearLayout>
