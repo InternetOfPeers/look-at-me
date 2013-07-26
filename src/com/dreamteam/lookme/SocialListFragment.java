@@ -48,6 +48,8 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SocialActivity socialActivity = (SocialActivity) this.getActivity();
+		communicationService = socialActivity.getCommunicationService();
 	}
 
 	@Override
@@ -104,10 +106,6 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 
 	public void dismissLoadingDialog() {
 		loadingDialog.dismiss();
-	}
-
-	public void setCommunicationService(CommunicationService communicationService) {
-		this.communicationService = communicationService;
 	}
 
 	public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {

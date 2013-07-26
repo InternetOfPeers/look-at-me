@@ -1,6 +1,7 @@
 package com.dreamteam.lookme;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +16,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
+import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.navigation.Nav;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
@@ -111,6 +116,18 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		CommunicationServiceBinder binder = (CommunicationServiceBinder) service;
 		communicationService = binder.getService();
 		serviceState = communicationService.initialize(this, this);
+		try {
+			if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
+				Log.d("service is ready to run");
+				communicationService.start();
+			} else {
+				Log.d("service was already started");
+			}
+		} catch (LookAtMeException e) {
+			Log.d("communicationService.start() throws LookAtMeException: " + e.getMessage());
+			e.printStackTrace();
+			showErrorDialog(e.getMessage());
+		}
 	}
 
 	@Override
@@ -128,6 +145,10 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 			Intent intent = new Intent(CommunicationService.SERVICE_STOP);
 			stopService(intent);
 		}
+	}
+	
+	protected CommunicationService getCommunicationService() {
+		return communicationService;
 	}
 
 	protected void closeApplication() {
@@ -299,5 +320,29 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	 */
 	protected void notifyProfileView(String fromName) {
 		Services.notify.profileView(this, fromName);
+	}
+	
+	private void showErrorDialog(String message) {
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.error_dialog);
+		dialog.setTitle("Dialog popup");
+
+		Button dialogButton = (Button) dialog.findViewById(R.id.buttonClose);
+		TextView errorMsg = (TextView) dialog.findViewById(R.id.textErrorMsg);
+		errorMsg.setText(message);
+		// if button is clicked, close the custom dialog
+		dialogButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				// E' un pò hard chiudere l'applicazione, dobbiamo trovare una
+				// soluzione alternativa. Nel mentre in sviluppo lasciamo aperta
+				// l'app
+				// closeApplication();
+			}
+		});
+
+		dialog.show();
 	}
 }

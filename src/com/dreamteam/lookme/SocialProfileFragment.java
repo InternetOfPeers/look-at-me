@@ -36,6 +36,8 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SocialActivity socialActivity = (SocialActivity) this.getActivity();
+		communicationService = socialActivity.getCommunicationService(); 
 	}
 
 	@Override
@@ -74,10 +76,6 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 		gallery_images[1] = R.drawable.demo_gallery_2;
 		gallery_images[2] = R.drawable.demo_gallery_3;
 		profilePhoto.setAdapter(new SamplePagerAdapter());
-	}
-
-	public void setCommunicationService(CommunicationService communicationService) {
-		this.communicationService = communicationService;
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {

@@ -2,11 +2,8 @@ package com.dreamteam.lookme;
 
 import android.app.Dialog;
 import android.app.FragmentTransaction;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,8 +11,6 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
-import com.dreamteam.lookme.error.LookAtMeException;
-import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
 
 public class SocialActivity extends CommonActivity {
@@ -58,27 +53,6 @@ public class SocialActivity extends CommonActivity {
 			// TODO: come si fa a simulare il pulsante HOME?
 		} else if (currentFragment == SOCIAL_PROFILE_FRAGMENT) {
 			setFragment(SOCIAL_LIST_FRAGMENT);
-		}
-	}
-
-	@Override
-	public void onServiceConnected(ComponentName name, IBinder service) {
-		Log.d();
-		SocialActivity.super.onServiceConnected(name, service);
-		try {
-			socialListFragment.setCommunicationService(communicationService);
-			socialProfileFragment.setCommunicationService(communicationService);
-			if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
-				Log.d("service is ready to run");
-				communicationService.start();
-			} else {
-				Log.d("service was already started");
-			}
-		} catch (LookAtMeException e) {
-			Log.d("communicationService.start() throws LookAtMeException: " + e.getMessage());
-			e.printStackTrace();
-			showErrorDialog(e.getMessage());
-
 		}
 	}
 
@@ -189,30 +163,6 @@ public class SocialActivity extends CommonActivity {
 				SocialActivity.this.startActivity(registerIntent);
 				SocialActivity.this.finish();
 				dialog.dismiss();
-			}
-		});
-
-		dialog.show();
-	}
-
-	private void showErrorDialog(String message) {
-		final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.error_dialog);
-		dialog.setTitle("Dialog popup");
-
-		Button dialogButton = (Button) dialog.findViewById(R.id.buttonClose);
-		TextView errorMsg = (TextView) dialog.findViewById(R.id.textErrorMsg);
-		errorMsg.setText(message);
-		// if button is clicked, close the custom dialog
-		dialogButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-				// E' un pò hard chiudere l'applicazione, dobbiamo trovare una
-				// soluzione alternativa. Nel mentre in sviluppo lasciamo aperta
-				// l'app
-				// closeApplication();
 			}
 		});
 
