@@ -5,20 +5,23 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.dreamteam.lookme.BusinessLogicOperations;
 import com.dreamteam.util.Log;
 
-public class SimpleCommunicationService extends Service {
+public class BusinessLogicOperationsImpl extends Service implements BusinessLogicOperations {
 
-	private static final String SERVICE_PREFIX = "com.dreamteam.lookme.service.SimpleCommunicationService.";
+	private static final String SERVICE_PREFIX = "com.dreamteam.lookme.service.BusinessLogicOperationsImpl.";
 	private static final String SERVICE_START = SERVICE_PREFIX + "SERVICE_START";
 	private static final String SERVICE_STOP = SERVICE_PREFIX + "SERVICE_STOP";
-	private static boolean isRunning;
+
+	private boolean isRunning;
 
 	/**
 	 * 
 	 * @param context
 	 */
-	public static void start(ContextWrapper context) {
+	@Override
+	public void start(ContextWrapper context) {
 		context.startService(new Intent(SERVICE_START));
 	}
 
@@ -26,7 +29,8 @@ public class SimpleCommunicationService extends Service {
 	 * 
 	 * @param context
 	 */
-	public static void stop(ContextWrapper context) {
+	@Override
+	public void stop(ContextWrapper context) {
 		context.stopService(new Intent(SERVICE_STOP));
 		isRunning = false;
 	}
@@ -35,7 +39,8 @@ public class SimpleCommunicationService extends Service {
 	 * 
 	 * @return
 	 */
-	public static boolean isRunning() {
+	@Override
+	public boolean isRunning() {
 		return isRunning;
 	}
 
@@ -63,6 +68,21 @@ public class SimpleCommunicationService extends Service {
 		Log.d();
 		isRunning = false;
 		super.onDestroy();
+	}
+
+	public BusinessLogicOperationsImpl() {
+	}
+
+	public static class Factory {
+		private static BusinessLogicOperationsImpl instance;
+
+		public static BusinessLogicOperationsImpl getBusinessLogicOperations() {
+			if (instance == null) {
+				instance = new BusinessLogicOperationsImpl();
+				instance.onCreate();
+			}
+			return instance;
+		}
 	}
 
 }

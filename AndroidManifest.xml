@@ -69,11 +69,11 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.dreamteam.lookme.service.SimpleCommunicationService"
+            android:name="com.dreamteam.lookme.service.BusinessLogicOperationsImpl"
             android:enabled="true" >
             <intent-filter>
-                <action android:name="com.dreamteam.lookme.service.SimpleCommunicationService.SERVICE_START" />
-                <action android:name="com.dreamteam.lookme.service.SimpleCommunicationService.SERVICE_STOP" />
+                <action android:name="com.dreamteam.lookme.service.BusinessLogicOperationsImpl.SERVICE_START" />
+                <action android:name="com.dreamteam.lookme.service.BusinessLogicOperationsImpl.SERVICE_STOP" />
             </intent-filter>
         </service>
     </application>

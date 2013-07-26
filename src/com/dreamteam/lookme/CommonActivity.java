@@ -27,7 +27,6 @@ import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.navigation.Nav;
 import com.dreamteam.lookme.service.CommunicationService;
-import com.dreamteam.lookme.service.SimpleCommunicationService;
 import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
 import com.dreamteam.util.Log;
 
