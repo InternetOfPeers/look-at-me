@@ -27,6 +27,7 @@ import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.navigation.Nav;
 import com.dreamteam.lookme.service.CommunicationService;
+import com.dreamteam.lookme.service.SimpleCommunicationService;
 import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
 import com.dreamteam.util.Log;
 
@@ -52,6 +53,8 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d();
+
 		// Cancella le notifiche appese se l'utente proviene da fuori da un
 		// banner di notifica
 		Services.notify.clearActivityNotifications(this);
@@ -146,7 +149,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 			stopService(intent);
 		}
 	}
-	
+
 	protected CommunicationService getCommunicationService() {
 		return communicationService;
 	}
@@ -321,7 +324,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected void notifyProfileView(String fromName) {
 		Services.notify.profileView(this, fromName);
 	}
-	
+
 	private void showErrorDialog(String message) {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.error_dialog);

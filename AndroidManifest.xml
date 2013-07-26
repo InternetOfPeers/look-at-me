@@ -14,7 +14,7 @@
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 
-	application is running, the node’s status should be set to LCD-on.
+	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -66,6 +66,14 @@
                 <action android:name="com.dreamteam.lookme.service.CommunicationService.SERVICE_START" />
                 <action android:name="com.dreamteam.lookme.service.CommunicationService.SERVICE_STOP" />
                 <action android:name="com.dreamteam.lookme.service.CommunicationService.SERVICE_BIND" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.dreamteam.lookme.service.SimpleCommunicationService"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.dreamteam.lookme.service.SimpleCommunicationService.SERVICE_START" />
+                <action android:name="com.dreamteam.lookme.service.SimpleCommunicationService.SERVICE_STOP" />
             </intent-filter>
         </service>
     </application>

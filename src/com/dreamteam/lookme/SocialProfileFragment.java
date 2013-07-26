@@ -37,7 +37,7 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SocialActivity socialActivity = (SocialActivity) this.getActivity();
-		communicationService = socialActivity.getCommunicationService(); 
+		communicationService = socialActivity.getCommunicationService();
 	}
 
 	@Override

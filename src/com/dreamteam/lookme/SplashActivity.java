@@ -1,6 +1,7 @@
 package com.dreamteam.lookme;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.navigation.Nav;
+import com.dreamteam.lookme.service.SimpleCommunicationService;
 
 public class SplashActivity extends Activity {
 
@@ -38,6 +40,9 @@ public class SplashActivity extends Activity {
 				Nav.startActivity(activity, SocialActivity.class);
 			}
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
+
+		// Start del servizio di comunicazione
+		SimpleCommunicationService.start(this);
 	}
 
 }
