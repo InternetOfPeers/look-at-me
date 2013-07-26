@@ -27,8 +27,7 @@ import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBin
 import com.dreamteam.util.Log;
 
 // ILookAtMeCommunicationListener will be implemented by every Activity so this class will be abstract
-public abstract class CommonActivity extends Activity implements
-		ServiceConnection, ILookAtMeCommunicationListener {
+public abstract class CommonActivity extends Activity implements ServiceConnection, ILookAtMeCommunicationListener {
 
 	// Service was placed here because it must be reachable from all activities.
 	// It will be started only in first activity onCreate() method.
@@ -53,7 +52,7 @@ public abstract class CommonActivity extends Activity implements
 		// banner di notifica
 		Services.notify.clearActivityNotifications(this);
 	}
-	
+
 	@Override
 	protected void onStart() {
 		Log.d();
@@ -69,7 +68,7 @@ public abstract class CommonActivity extends Activity implements
 		Intent intentBind = new Intent(CommunicationService.SERVICE_BIND);
 		bindService(intentBind, this, Context.BIND_AUTO_CREATE);
 	}
-	
+
 	@Override
 	protected void onStop() {
 		Log.d();
@@ -77,24 +76,23 @@ public abstract class CommonActivity extends Activity implements
 		try {
 			Log.d("Unbind communication service");
 			unbindService(this);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			Log.e(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		Log.d();
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		Log.d();
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onRestart() {
 		Log.d();
@@ -115,15 +113,16 @@ public abstract class CommonActivity extends Activity implements
 		communicationService = binder.getService();
 		serviceState = communicationService.initialize(this, this);
 	}
-	
+
 	@Override
 	public void onServiceDisconnected(ComponentName name) {
 		Log.d();
 		communicationService.stop();
 		communicationService = null;
 	}
+
 	// END ServiceConnection implementation
-	
+
 	protected void stopService() {
 		if (communicationService != null) {
 			unbindService(this);
@@ -131,7 +130,7 @@ public abstract class CommonActivity extends Activity implements
 			stopService(intent);
 		}
 	}
-	
+
 	protected void closeApplication() {
 		stopService();
 		Intent intent = new Intent();
@@ -150,11 +149,9 @@ public abstract class CommonActivity extends Activity implements
 
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// set up the drawer's list view with items and click listener
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.drawer_list_item, mPlanetTitles));
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
@@ -224,11 +221,9 @@ public abstract class CommonActivity extends Activity implements
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	protected class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	protected class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			selectItem(position);
 		}
 	}

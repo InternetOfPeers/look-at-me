@@ -54,13 +54,11 @@ public class CommunicationService extends Service {
 		return super.onStartCommand(intent, START_NOT_STICKY, startId);
 	}
 
-	public int initialize(Context context,
-			ILookAtMeCommunicationListener listener) {
+	public int initialize(Context context, ILookAtMeCommunicationListener listener) {
 		Log.d();
 		if (communicationManager == null) {
 			Log.d("service is not running");
-			communicationManager = new LookAtMeChordCommunicationManager(
-					context, getMainLooper(), listener);
+			communicationManager = new LookAtMeChordCommunicationManager(context, getMainLooper(), listener);
 			return SERVICE_READY_TO_RUN;
 		} else {
 			Log.d("service was already running");

@@ -50,14 +50,13 @@ public class SocialActivity extends CommonActivity {
 			showFirstTimeDialog();
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		Log.d();
 		if (currentFragment == SOCIAL_LIST_FRAGMENT) {
 			// TODO: come si fa a simulare il pulsante HOME?
-		}
-		else if (currentFragment == SOCIAL_PROFILE_FRAGMENT) {
+		} else if (currentFragment == SOCIAL_PROFILE_FRAGMENT) {
 			setFragment(SOCIAL_LIST_FRAGMENT);
 		}
 	}
@@ -72,7 +71,7 @@ public class SocialActivity extends CommonActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
 		Log.d();
@@ -93,7 +92,7 @@ public class SocialActivity extends CommonActivity {
 
 		}
 	}
-	
+
 	// START ILookAtMeCommunicationListener implementation
 	@Override
 	public void onSocialNodeLeft(String nodeName) {
@@ -159,10 +158,11 @@ public class SocialActivity extends CommonActivity {
 		socialListFragment.putSocialNode(node);
 		socialListFragment.refreshFragment();
 	}
+
 	// END ILookAtMeCommunicationListener implementation
 
 	private void setFragment(int fragment) {
-		Log.d(""+fragment);
+		Log.d("" + fragment);
 		if (currentFragment != fragment) {
 			Log.d("changing fragment from " + currentFragment + " to " + fragment);
 			currentFragment = fragment;

@@ -192,7 +192,7 @@ public class ProfileActivity extends CommonActivity {
 		Button button = (Button) findViewById(R.id.btnRegister);
 		button.setText("change my profile");
 	}
-	
+
 	// START ILookAtMeCommunicationListener implementation
 	@Override
 	public void onSocialNodeLeft(String nodeName) {

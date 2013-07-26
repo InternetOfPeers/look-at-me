@@ -17,7 +17,7 @@ public class MessagesActivity extends CommonActivity {
 			setMenuItem(2);
 		}
 	}
-	
+
 	// START ILookAtMeCommunicationListener implementation
 	@Override
 	public void onSocialNodeLeft(String nodeName) {
