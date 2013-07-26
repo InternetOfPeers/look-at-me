@@ -3,9 +3,7 @@ package com.dreamteam.lookme;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.MenuItem;
@@ -14,22 +12,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.service.CommunicationService;
-import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
 import com.dreamteam.util.Log;
 
 public class SocialActivity extends CommonActivity {
 
-	private static final String SERVICE_PREFIX = "com.dreamteam.lookme.service.CommunicationService.";
-
 	public static final int SOCIAL_PROFILE_FRAGMENT = 1002;
 	public static final int SOCIAL_LIST_FRAGMENT = 1001;
-
-	private CommunicationService communicationService;
 
 	private SocialListFragment socialListFragment;
 	private SocialProfileFragment socialProfileFragment;
@@ -52,60 +44,11 @@ public class SocialActivity extends CommonActivity {
 		}
 		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
 		// profilo
-		if (DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
-			// Start service
-			// Multiple requests to start the service result in multiple
-			// corresponding calls to the service's onStartCommand(). However,
-			// only one request to stop the service (with stopSelf() or
-			// stopService()) is required to stop it.
-			Intent intentStart = new Intent(SERVICE_PREFIX + "SERVICE_START");
-			startService(intentStart);
-			if (communicationService == null) {
-				Intent intentBind = new Intent(SERVICE_PREFIX + "SERVICE_BIND");
-				bindService(intentBind, serviceConnection, Context.BIND_AUTO_CREATE);
-			}
-
-		} else {
+		if (!DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
 			// L'utente deve compilare il profilo prima di iniziare
 			Log.d("It's the first time this app run!");
-			showDialog();
+			showFirstTimeDialog();
 		}
-	}
-	
-	@Override
-	protected void onStart() {
-		Log.d();
-		super.onStart();
-	}
-
-	@Override
-	protected void onResume() {
-		Log.d();
-		super.onResume();
-	}
-	
-	@Override
-	protected void onPause() {
-		Log.d();
-		super.onPause();
-	}
-	
-	@Override
-	protected void onStop() {
-		Log.d();
-		super.onStop();
-	}
-	
-	@Override
-	protected void onRestart() {
-		Log.d();
-		super.onRestart();
-	}
-
-	@Override
-	protected void onDestroy() {
-		Log.d();
-		super.onDestroy();
 	}
 	
 	@Override
@@ -124,119 +67,99 @@ public class SocialActivity extends CommonActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.action_settings) {
-			stopService();
+			Log.d("Stopping service and closing application");
+			closeApplication();
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private void stopService() {
-		if (communicationService != null) {
-			communicationService.stop();
-			unbindService(serviceConnection);
-			communicationService = null;
-			Intent intent = new Intent(SERVICE_PREFIX + "SERVICE_STOP");
-			stopService(intent);
+	@Override
+	public void onServiceConnected(ComponentName name, IBinder service) {
+		Log.d();
+		super.onServiceConnected(name, service);
+		try {
+			socialListFragment.setCommunicationService(communicationService);
+			socialProfileFragment.setCommunicationService(communicationService);
+			if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
+				Log.d("service is ready to run");
+				communicationService.start();
+			} else {
+				Log.d("service was already started");
+			}
+		} catch (LookAtMeException e) {
+			Log.d("communicationService.start() throws LookAtMeException: " + e.getMessage());
+			e.printStackTrace();
+			showErrorDialog(e.getMessage());
+
+		}
+	}
+	
+	// START ILookAtMeCommunicationListener implementation
+	@Override
+	public void onSocialNodeLeft(String nodeName) {
+		Log.d();
+		// remove node from socialNodeMap
+		socialListFragment.removeSocialNode(nodeName);
+		socialListFragment.refreshFragment();
+	}
+
+	@Override
+	public void onSocialNodeJoined(LookAtMeNode node) {
+		Log.d();
+		// add node to socialNodeMap
+		socialListFragment.putSocialNode(node);
+		socialListFragment.refreshFragment();
+	}
+
+	@Override
+	public void onCommunicationStopped() {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onCommunicationStarted() {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSocialNodeProfileReceived(LookAtMeNode node) {
+		Log.d();
+		// stop loading
+		socialListFragment.dismissLoadingDialog();
+		socialProfileFragment.setProfileNode(node);
+		setFragment(SOCIAL_PROFILE_FRAGMENT);
+	}
+
+	@Override
+	public void onLikeReceived(String nodeFrom) {
+		Log.d();
+		socialListFragment.addLiked(nodeFrom);
+		socialListFragment.refreshFragment(); // to update GUI
+		String nodeNickname = socialListFragment.getNicknameOf(nodeFrom);
+		if (nodeNickname != null) {
+			SocialActivity.this.notifyLike(nodeNickname);
 		}
 	}
 
-	private ServiceConnection serviceConnection = new ServiceConnection() {
+	@Override
+	public void onChatMessageReceived(String nodeFrom, String message) {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
 
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			Log.d();
-			communicationService.stop();
-			communicationService = null;
-		}
+	}
 
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			Log.d();
-			CommunicationServiceBinder binder = (CommunicationServiceBinder) service;
-			communicationService = binder.getService();
-			int serviceState = communicationService.initialize(SocialActivity.this, new ILookAtMeCommunicationListener() {
-
-				@Override
-				public void onSocialNodeLeft(String nodeName) {
-					Log.d();
-					// remove node from socialNodeMap
-					socialListFragment.removeSocialNode(nodeName);
-					socialListFragment.refreshFragment();
-				}
-
-				@Override
-				public void onSocialNodeJoined(LookAtMeNode node) {
-					Log.d();
-					// add node to socialNodeMap
-					socialListFragment.putSocialNode(node);
-					socialListFragment.refreshFragment();
-				}
-
-				@Override
-				public void onCommunicationStopped() {
-					Log.d("NOT IMPLEMENTED");
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void onCommunicationStarted() {
-					Log.d("NOT IMPLEMENTED");
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void onSocialNodeProfileReceived(LookAtMeNode node) {
-					Log.d();
-					// stop loading
-					socialListFragment.dismissLoadingDialog();
-					socialProfileFragment.setProfileNode(node);
-					setFragment(SOCIAL_PROFILE_FRAGMENT);
-				}
-
-				@Override
-				public void onLikeReceived(String nodeFrom) {
-					Log.d();
-					socialListFragment.addLiked(nodeFrom);
-					socialListFragment.refreshFragment(); // to update GUI
-					String nodeNickname = socialListFragment.getNicknameOf(nodeFrom);
-					if (nodeNickname != null) {
-						SocialActivity.this.notifyLike(nodeNickname);
-					}
-				}
-
-				@Override
-				public void onChatMessageReceived(String nodeFrom, String message) {
-					Log.d("NOT IMPLEMENTED");
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void onSocialNodeUpdated(LookAtMeNode node) {
-					Log.d();
-					// update node in socialNodeMap
-					socialListFragment.putSocialNode(node);
-					socialListFragment.refreshFragment();
-				}
-			});
-			try {
-				socialListFragment.setCommunicationService(communicationService);
-				socialProfileFragment.setCommunicationService(communicationService);
-				if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
-					Log.d("service is ready to run");
-					communicationService.start();
-				} else {
-					Log.d("service was already started");
-				}
-			} catch (LookAtMeException e) {
-				Log.d("communicationService.start() throws LookAtMeException: " + e.getMessage());
-				e.printStackTrace();
-				showErrorDialog(e.getMessage());
-
-			}
-		}
-	};
+	@Override
+	public void onSocialNodeUpdated(LookAtMeNode node) {
+		Log.d();
+		// update node in socialNodeMap
+		socialListFragment.putSocialNode(node);
+		socialListFragment.refreshFragment();
+	}
+	// END ILookAtMeCommunicationListener implementation
 
 	private void setFragment(int fragment) {
 		Log.d(""+fragment);
@@ -262,7 +185,7 @@ public class SocialActivity extends CommonActivity {
 		}
 	}
 
-	private void showDialog() {
+	private void showFirstTimeDialog() {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.first_time_dialog);
 		dialog.setTitle("Dialog popup");
@@ -297,11 +220,7 @@ public class SocialActivity extends CommonActivity {
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				Intent intent = new Intent();
-				intent.setAction(Intent.ACTION_MAIN);
-				intent.addCategory(Intent.CATEGORY_HOME);
-				SocialActivity.this.startActivity(intent);
-				finish();
+				closeApplication();
 			}
 		});
 

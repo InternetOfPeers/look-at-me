@@ -12,7 +12,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,9 +20,11 @@ import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
+import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.util.ImageUtil;
+import com.dreamteam.util.Log;
 
 public class ProfileActivity extends CommonActivity {
 	private static int RESULT_LOAD_IMAGE = 1;
@@ -47,7 +48,7 @@ public class ProfileActivity extends CommonActivity {
 				setMenuItem(0);
 			}
 		} catch (Exception e) {
-			Log.e("REGISTER", "errore during create of registration activity! error: " + e.getMessage());
+			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
 	}
 
@@ -120,7 +121,7 @@ public class ProfileActivity extends CommonActivity {
 			this.finish();
 
 		} catch (Exception e) {
-			Log.e("REGISTER", "errore during registration! error: " + e.getMessage());
+			Log.e("errore during registration! error: " + e.getMessage());
 		}
 
 	}
@@ -133,7 +134,7 @@ public class ProfileActivity extends CommonActivity {
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
 		} catch (Exception e) {
-			Log.e("REGISTER", "errore during registration! error: " + e.getMessage());
+			Log.e("errore during registration! error: " + e.getMessage());
 		}
 
 	}
@@ -166,7 +167,7 @@ public class ProfileActivity extends CommonActivity {
 			}
 
 		} catch (Exception e) {
-			Log.e("changing image", "error changing image, error: " + e.toString());
+			Log.e("error changing image, error: " + e.toString());
 			text = "ops!Unable to load image ";
 
 		}
@@ -191,5 +192,58 @@ public class ProfileActivity extends CommonActivity {
 		Button button = (Button) findViewById(R.id.btnRegister);
 		button.setText("change my profile");
 	}
+	
+	// START ILookAtMeCommunicationListener implementation
+	@Override
+	public void onSocialNodeLeft(String nodeName) {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onSocialNodeJoined(LookAtMeNode node) {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onCommunicationStopped() {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onCommunicationStarted() {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSocialNodeProfileReceived(LookAtMeNode node) {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onLikeReceived(String nodeFrom) {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onChatMessageReceived(String nodeFrom, String message) {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSocialNodeUpdated(LookAtMeNode node) {
+		Log.d("NOT IMPLEMENTED");
+		// TODO Auto-generated method stub
+	}
+	// END ILookAtMeCommunicationListener implementation
 
 }

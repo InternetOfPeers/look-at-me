@@ -1,9 +1,13 @@
 package com.dreamteam.lookme;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,9 +20,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.navigation.Nav;
+import com.dreamteam.lookme.service.CommunicationService;
+import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBinder;
+import com.dreamteam.util.Log;
 
-public class CommonActivity extends Activity {
+// ILookAtMeCommunicationListener will be implemented by every Activity so this class will be abstract
+public abstract class CommonActivity extends Activity implements
+		ServiceConnection, ILookAtMeCommunicationListener {
+
+	// Service was placed here because it must be reachable from all activities.
+	// It will be started only in first activity onCreate() method.
+	protected CommunicationService communicationService;
+	// This variable can be valued as CommunicationService.SERVICE_READY_TO_RUN
+	// or CommunicationService.SERVICE_RUNNING constants
+	protected int serviceState;
 
 	protected DrawerLayout mDrawerLayout;
 	protected ListView mDrawerList;
@@ -36,6 +53,93 @@ public class CommonActivity extends Activity {
 		// banner di notifica
 		Services.notify.clearActivityNotifications(this);
 	}
+	
+	@Override
+	protected void onStart() {
+		Log.d();
+		super.onStart();
+		// Start service
+		// Multiple requests to start the service result in multiple
+		// corresponding calls to the service's onStartCommand(). However,
+		// only one request to stop the service (with stopSelf() or
+		// stopService()) is required to stop it.
+		Intent intentStart = new Intent(CommunicationService.SERVICE_START);
+		startService(intentStart);
+		// Bind service
+		Intent intentBind = new Intent(CommunicationService.SERVICE_BIND);
+		bindService(intentBind, this, Context.BIND_AUTO_CREATE);
+	}
+	
+	@Override
+	protected void onStop() {
+		Log.d();
+		super.onStop();
+		try {
+			Log.d("Unbind communication service");
+			unbindService(this);
+		}
+		catch(Exception e) {
+			Log.e(e.getMessage());
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		Log.d();
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		Log.d();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onRestart() {
+		Log.d();
+		super.onRestart();
+	}
+
+	@Override
+	protected void onDestroy() {
+		Log.d();
+		super.onDestroy();
+	}
+
+	// START ServiceConnection implementation
+	@Override
+	public void onServiceConnected(ComponentName name, IBinder service) {
+		Log.d();
+		CommunicationServiceBinder binder = (CommunicationServiceBinder) service;
+		communicationService = binder.getService();
+		serviceState = communicationService.initialize(this, this);
+	}
+	
+	@Override
+	public void onServiceDisconnected(ComponentName name) {
+		Log.d();
+		communicationService.stop();
+		communicationService = null;
+	}
+	// END ServiceConnection implementation
+	
+	protected void stopService() {
+		if (communicationService != null) {
+			unbindService(this);
+			Intent intent = new Intent(CommunicationService.SERVICE_STOP);
+			stopService(intent);
+		}
+	}
+	
+	protected void closeApplication() {
+		stopService();
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		this.startActivity(intent);
+		finish();
+	}
 
 	protected void initMenu() {
 		menuEnabled = true;
@@ -46,9 +150,11 @@ public class CommonActivity extends Activity {
 
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
 		// set up the drawer's list view with items and click listener
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.drawer_list_item, mPlanetTitles));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
@@ -110,13 +216,7 @@ public class CommonActivity extends Activity {
 		// Handle action buttons
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			// modificato per chiudere l'app. Solo per scopo di sviluppo
 			Toast.makeText(this, "Exiting app", Toast.LENGTH_LONG).show();
-			Intent intent = new Intent();
-			intent.setAction(Intent.ACTION_MAIN);
-			intent.addCategory(Intent.CATEGORY_HOME);
-			this.startActivity(intent);
-			finish();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -124,9 +224,11 @@ public class CommonActivity extends Activity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	protected class DrawerItemClickListener implements ListView.OnItemClickListener {
+	protected class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			selectItem(position);
 		}
 	}
