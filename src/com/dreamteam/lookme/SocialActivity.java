@@ -76,7 +76,7 @@ public class SocialActivity extends CommonActivity {
 	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
 		Log.d();
-		super.onServiceConnected(name, service);
+		SocialActivity.super.onServiceConnected(name, service);
 		try {
 			socialListFragment.setCommunicationService(communicationService);
 			socialProfileFragment.setCommunicationService(communicationService);

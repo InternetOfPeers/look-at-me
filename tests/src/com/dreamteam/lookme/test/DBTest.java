@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.ProfileActivity;
 import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.jayway.android.robotium.solo.Solo;
@@ -39,25 +38,17 @@ public class DBTest extends ActivityInstrumentationTestCase2<ProfileActivity> {
 	@UiThreadTest
 	public void testRegistration() {
 
-		solo.assertCurrentActivity("Expected Register Activity",
-				"RegisterActivity");
+		solo.assertCurrentActivity("Expected Register Activity", "RegisterActivity");
 		int i = 0;
 
-		TextView name = (TextView) getActivity().findViewById(
-				com.dreamteam.lookme.R.id.reg_name);
-		TextView surname = (TextView) getActivity().findViewById(
-				com.dreamteam.lookme.R.id.reg_surname);
-		TextView nickname = (TextView) getActivity().findViewById(
-				com.dreamteam.lookme.R.id.reg_nickname);
-		Button submit = (Button) getActivity().findViewById(
-				com.dreamteam.lookme.R.id.btnRegister);
+		TextView name = (TextView) getActivity().findViewById(com.dreamteam.lookme.R.id.reg_name);
+		TextView surname = (TextView) getActivity().findViewById(com.dreamteam.lookme.R.id.reg_surname);
+		TextView nickname = (TextView) getActivity().findViewById(com.dreamteam.lookme.R.id.reg_nickname);
+		Button submit = (Button) getActivity().findViewById(com.dreamteam.lookme.R.id.btnRegister);
 
-		String oldName = name.getText() != null ? name.getText().toString()
-				: null;
-		String oldSurname = surname.getText() != null ? surname.getText()
-				.toString() : null;
-		String oldUsername = nickname.getText() != null ? nickname.getText()
-				.toString() : null;
+		String oldName = name.getText() != null ? name.getText().toString() : null;
+		String oldSurname = surname.getText() != null ? surname.getText().toString() : null;
+		String oldUsername = nickname.getText() != null ? nickname.getText().toString() : null;
 
 		name.setText("pippo");
 		surname.setText("pluto");
@@ -67,7 +58,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<ProfileActivity> {
 
 		solo.sleep(3000);
 
-		//TOFIX Test non coerente. Cosa si sta testando effettivamente?
+		// TOFIX Test non coerente. Cosa si sta testando effettivamente?
 		assertEquals(name.getText().toString(), oldName);
 		assertEquals(surname.getText().toString(), oldSurname);
 		assertEquals(nickname.getText().toString(), oldUsername);
@@ -96,16 +87,12 @@ public class DBTest extends ActivityInstrumentationTestCase2<ProfileActivity> {
 			profileToBeSaved.setName("Riccardo");
 			profileToBeSaved.setSurname("Alfrilli");
 			profileToBeSaved.setNickname("AlfaOmega83");
-			profileToBeSaved = dbOpenHelper
-					.saveOrUpdateProfile(profileToBeSaved);
-			FullProfile profileSaved = dbOpenHelper
-					.getFullProfile(profileToBeSaved.getId());
+			profileToBeSaved = dbOpenHelper.saveOrUpdateProfile(profileToBeSaved);
+			FullProfile profileSaved = dbOpenHelper.getFullProfile(profileToBeSaved.getId());
 			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
 			assertEquals(profileToBeSaved.getName(), profileSaved.getName());
-			assertEquals(profileToBeSaved.getSurname(),
-					profileSaved.getSurname());
-			assertEquals(profileToBeSaved.getNickname(),
-					profileSaved.getNickname());
+			assertEquals(profileToBeSaved.getSurname(), profileSaved.getSurname());
+			assertEquals(profileToBeSaved.getNickname(), profileSaved.getNickname());
 			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
 		} catch (Exception e) {
 			fail("error on testDB error:" + e.getMessage());
