@@ -31,7 +31,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	public static final String SOCIAL_CHANNEL_NAME = "com.dreamteam.lookme.SOCIAL_CHANNEL";
 
 	public static final String chordFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/LookAtMeTmp";
-	
+
 	private static byte[][] EMPTY_PAYLOAD = new byte[0][0];
 
 	private ChordManager chord;

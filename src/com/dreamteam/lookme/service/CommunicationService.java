@@ -16,7 +16,7 @@ import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.util.Log;
 
 public class CommunicationService extends Service {
-	
+
 	public static final int SERVICE_RUNNING = 1;
 	public static final int SERVICE_READY_TO_RUN = 0;
 
@@ -49,8 +49,7 @@ public class CommunicationService extends Service {
 			Log.d("service is not running");
 			communicationManager = new LookAtMeChordCommunicationManager(context, getMainLooper(), listener);
 			return SERVICE_READY_TO_RUN;
-		}
-		else {
+		} else {
 			Log.d("service was already running");
 			return SERVICE_RUNNING;
 		}
@@ -75,7 +74,7 @@ public class CommunicationService extends Service {
 		Log.d();
 		communicationManager.sendProfileRequest(nodeTo);
 	}
-	
+
 	public void sendLike(String nodeTo) {
 		Log.d();
 		communicationManager.sendLike(nodeTo);

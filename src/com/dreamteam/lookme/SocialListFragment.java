@@ -36,7 +36,7 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	private CommunicationService communicationService;
 
 	private Map<String, LookAtMeNode> socialNodeMap;
-	
+
 	private Set<String> iLike;
 	private Set<String> liked;
 
@@ -113,15 +113,15 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {
 		this.socialNodeMap = socialNodeMap;
 	}
-	
+
 	public void addILike(String nodeId) {
 		iLike.add(nodeId);
 	}
-	
+
 	public void addLiked(String nodeId) {
 		liked.add(nodeId);
 	}
-	
+
 	public String getNicknameOf(String nodeId) {
 		LookAtMeNode node = (LookAtMeNode) socialNodeMap.get(nodeId);
 		if (node != null) {
