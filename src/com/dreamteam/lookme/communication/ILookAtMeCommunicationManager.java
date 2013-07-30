@@ -7,12 +7,7 @@
  */
 package com.dreamteam.lookme.communication;
 
-import java.util.List;
-import java.util.Map;
-
-import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.error.LookAtMeException;
-import com.samsung.chord.IChordChannel;
 
 public interface ILookAtMeCommunicationManager {
 
@@ -32,22 +27,23 @@ public interface ILookAtMeCommunicationManager {
 											 * profile is updated
 											 */
 
-	public IChordChannel joinChannel(String channelName);
-	
-	public boolean sendChatMessage(LookAtMeNode nodeTo, String message,String channelName);
-	
-	
+	// public IChordChannel joinChannel(String channelName);
+
+	public boolean sendChatMessage(String nodeTo, String message, String channelName);
+
+	public boolean sendStartChatMessage(String nodeTo);
 
 	public boolean sendLike(String nodeTo);
-	
-	public boolean sendPrivateChatMessage(String nodeTo, String message,String channelName);
-	
-	public IChordChannel getChannel(String channelName);
-	
-	public List<MessageItem> getChat(String channelName);
-	
-	public Map<String,IChordChannel> getOpenChannels();
-	
-	public Map<String,List<MessageItem>> getOpenedChat();
+
+	// public boolean sendPrivateChatMessage(String nodeTo, String
+	// message,String channelName);
+
+	// public IChordChannel getChannel(String channelName);
+
+	// public List<MessageItem> getChat(String channelName);
+
+	// public Map<String,IChordChannel> getOpenChannels();
+
+	// public Map<String,List<MessageItem>> getOpenedChat();
 
 }

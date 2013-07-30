@@ -97,8 +97,5 @@ public class BusinessLogicOperationsImpl extends Service implements BusinessLogi
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
-	
 
 }

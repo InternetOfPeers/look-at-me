@@ -3,23 +3,22 @@
  */
 package com.dreamteam.lookme.service;
 
-import java.util.List;
-import java.util.Map;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.chord.LookAtMeChordCommunicationManager;
+import com.dreamteam.lookme.communication.EventBusProvider;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
+import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.error.LookAtMeException;
+import com.dreamteam.lookme.event.LookAtMeEvent;
+import com.dreamteam.lookme.event.LookAtMeEventType;
 import com.dreamteam.util.Log;
-import com.samsung.chord.IChordChannel;
 
 public class CommunicationService extends Service {
 
@@ -60,11 +59,75 @@ public class CommunicationService extends Service {
 		return super.onStartCommand(intent, START_NOT_STICKY, startId);
 	}
 
-	public int initialize(Context context, ILookAtMeCommunicationListener listener) {
+	public int initialize(Context context) {
 		Log.d();
 		if (communicationManager == null) {
 			Log.d("service is not running");
-			communicationManager = new LookAtMeChordCommunicationManager(context, getMainLooper(), listener);
+			communicationManager = new LookAtMeChordCommunicationManager(context, getMainLooper(), new ILookAtMeCommunicationListener() {
+
+				@Override
+				public void onCommunicationStarted() {
+					// TODO Auto-generated method stub
+					Log.d();
+
+				}
+
+				@Override
+				public void onCommunicationStopped() {
+					// TODO Auto-generated method stub
+					Log.d();
+
+				}
+
+				@Override
+				public void onSocialNodeUpdated(LookAtMeNode node) {
+					// TODO Auto-generated method stub
+					Log.d();
+
+				}
+
+				@Override
+				public void onSocialNodeProfileReceived(LookAtMeNode node) {
+					Log.d();
+					LookAtMeCommunicationRepository.getInstance().setProfileViewed(node);
+					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.PROFILE_RECEIVED, node.getId()));
+				}
+
+				@Override
+				public void onSocialNodeLeft(String nodeName) {
+					Log.d();
+					LookAtMeCommunicationRepository.getInstance().removeSocialNodeFromMap(nodeName);
+					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.NODE_LEFT, nodeName));
+				}
+
+				@Override
+				public void onSocialNodeJoined(LookAtMeNode node) {
+					Log.d();
+					LookAtMeCommunicationRepository.getInstance().putSocialNodeInMap(node);
+					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.NODE_JOINED, node.getId()));
+				}
+
+				@Override
+				public void onLikeReceived(String nodeFrom) {
+					Log.d();
+					LookAtMeCommunicationRepository.getInstance().addLikedToSet(nodeFrom);
+					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.LIKE_RECEIVED, nodeFrom));
+				}
+
+				@Override
+				public void onStartChatMessageReceived(String nodeFrom, String channelName) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onChatMessageReceived(String nodeFrom, String message) {
+					Log.d();
+					// creo il MessageItem
+					// metto il messaggio nella map
+					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
+				}
+			});
 			return SERVICE_READY_TO_RUN;
 		} else {
 			Log.d("service was already running");
@@ -96,37 +159,36 @@ public class CommunicationService extends Service {
 		Log.d();
 		communicationManager.sendLike(nodeTo);
 	}
-	
-	public IChordChannel joinChannel(String channelName)
-	{
+
+	// public IChordChannel joinChannel(String channelName) {
+	// Log.d();
+	// return communicationManager.joinChannel(channelName);
+	// }
+
+	public boolean sendStartChatMessage(String nodeTo) {
 		Log.d();
-		return communicationManager.joinChannel(channelName);
-	}
-	
-	public boolean sendChatMessage(LookAtMeNode nodeTo,String message,String channel)
-	{
-		Log.d();
-		return communicationManager.sendChatMessage(nodeTo, message,channel);
-	}
-	
-	public IChordChannel getChannel(String channelName)
-	{
-		return communicationManager.getChannel(channelName);
-	}
-	
-	public List<MessageItem> getChat(String channelName){
-		return communicationManager.getChat(channelName);
-	}
-	
-	public Map<String,IChordChannel> getOpenChannels()
-	{
-		return communicationManager.getOpenChannels();
-	}
-	
-	public Map<String,List<MessageItem>> getOpenedChat()
-	{
-		return communicationManager.getOpenedChat();
+		return communicationManager.sendStartChatMessage(nodeTo);
 	}
 
+	public boolean sendChatMessage(String nodeTo, String message, String channel) {
+		Log.d();
+		return communicationManager.sendChatMessage(nodeTo, message, channel);
+	}
+
+	// public IChordChannel getChannel(String channelName) {
+	// return communicationManager.getChannel(channelName);
+	// }
+	//
+	// public List<MessageItem> getChat(String channelName) {
+	// return communicationManager.getChat(channelName);
+	// }
+	//
+	// public Map<String, IChordChannel> getOpenChannels() {
+	// return communicationManager.getOpenChannels();
+	// }
+	//
+	// public Map<String, List<MessageItem>> getOpenedChat() {
+	// return communicationManager.getOpenedChat();
+	// }
 
 }

@@ -2,9 +2,7 @@ package com.dreamteam.lookme;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.util.Log;
 
@@ -13,7 +11,7 @@ public class MessagesActivity extends CommonActivity {
 	public static final int SOCIAL_PROFILE_FRAGMENT = 1002;
 	public static final int MESSAGE_LIST_FRAGMENT = 1001;
 
-	private MessageListFragment messageListFragment;	
+	private MessageListFragment messageListFragment;
 	private int currentFragment;
 	private FragmentTransaction fragmentTransaction;
 
@@ -48,58 +46,6 @@ public class MessagesActivity extends CommonActivity {
 		}
 	}
 
-	// START ILookAtMeCommunicationListener implementation
-	@Override
-	public void onSocialNodeLeft(String nodeName) {
-		Log.d();
-	}
-
-	@Override
-	public void onSocialNodeJoined(LookAtMeNode node) {
-		Log.d();
-		// add node to socialNodeMap
-	}
-
-	@Override
-	public void onCommunicationStopped() {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onCommunicationStarted() {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSocialNodeProfileReceived(LookAtMeNode node) {
-		Log.d();
-		// stop loading
-	}
-
-	@Override
-	public void onLikeReceived(String nodeFrom) {
-		Log.d();		
-	}
-
-	@Override
-	public void onChatMessageReceived(String nodeFrom, String message) {
-		Log.d("NOT IMPLEMENTED");
-		Toast.makeText(getApplicationContext(), nodeFrom + " Want to talk!", Toast.LENGTH_LONG).show();
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSocialNodeUpdated(LookAtMeNode node) {
-		Log.d();
-	}
-
-	// END ILookAtMeCommunicationListener implementation
-
 	private void setFragment(int fragment) {
 		Log.d("" + fragment);
 		if (currentFragment != fragment) {
@@ -108,7 +54,7 @@ public class MessagesActivity extends CommonActivity {
 			fragmentTransaction = getFragmentManager().beginTransaction();
 			switch (fragment) {
 			case MESSAGE_LIST_FRAGMENT:
-				fragmentTransaction.show(messageListFragment);				
+				fragmentTransaction.show(messageListFragment);
 				break;
 			default:
 				fragmentTransaction.show(messageListFragment);
@@ -116,10 +62,5 @@ public class MessagesActivity extends CommonActivity {
 			}
 			this.fragmentTransaction.commit();
 		}
-	}
-
-	@Override
-	public void onChatMessageReceived(LookAtMeNode nodeFrom, String message) {		
-		Log.d("NOT IMPLEMENTED");
 	}
 }

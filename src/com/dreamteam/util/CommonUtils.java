@@ -4,11 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import com.dreamteam.lookme.db.DBOpenHelper;
-import com.dreamteam.lookme.db.DBOpenHelperImpl;
-
 public class CommonUtils {
-	
+
 	public static byte[] getBytes(Object obj) {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		final ObjectOutputStream os;
@@ -22,16 +19,13 @@ public class CommonUtils {
 
 		return out.toByteArray();
 	}
-	
-	
-	public static String generateChannelName(String nodeTo,String nodeFrom) 
-	{
-		if(nodeFrom.compareTo(nodeTo)<0)
+
+	public static String generateChannelName(String nodeTo, String nodeFrom) {
+		if (nodeFrom.compareTo(nodeTo) < 0)
 			return nodeFrom + "_" + nodeTo;
-		else return nodeTo + "_" + nodeFrom;
-		
-		
+		else
+			return nodeTo + "_" + nodeFrom;
+
 	}
-	
 
 }

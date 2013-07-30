@@ -3,11 +3,7 @@
  */
 package com.dreamteam.lookme.chord;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.os.Environment;
@@ -16,7 +12,6 @@ import android.os.Looper;
 import com.dreamteam.lookme.CommonActivity;
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
@@ -39,10 +34,12 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	public static final String chordFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/LookAtMeTmp";
 
 	private static byte[][] EMPTY_PAYLOAD = new byte[0][0];
-	
-	public static Map <String,IChordChannel> chatChannelMap=new HashMap<String,IChordChannel>();
-	
-	public static Map<String,List<MessageItem>> messagesHistoryMap= new HashMap<String, List<MessageItem>>();
+
+	// public static Map <String,IChordChannel> chatChannelMap=new
+	// HashMap<String,IChordChannel>();
+	//
+	// public static Map<String,List<MessageItem>> messagesHistoryMap= new
+	// HashMap<String, List<MessageItem>>();
 
 	private ChordManager chord;
 	private IChordChannel publicChannel;
@@ -231,19 +228,33 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					updatedNode.setProfile(updatedProfile);
 					communicationListener.onSocialNodeUpdated(updatedNode);
 					break;
-				case CHAT_MESSAGE:
-					String chatMessage = (String) message.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
-					communicationListener.onChatMessageReceived(arg0, chatMessage);
+				// questo caso non capita in quanto i messaggi di chat saranno
+				// recuperati dal listener del canale privato
+				// case CHAT_MESSAGE:
+				// String chatMessage = (String)
+				// message.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
+				// communicationListener.onChatMessageReceived(arg0,
+				// chatMessage);
+				// break;
+				case START_CHAT_MESSAGE:
+					// String startChatMessage = (String)
+					// message.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
+					// chatChannelMap.put(CommonUtils.generateChannelName(arg0,
+					// getMyBasicProfile().getId()),
+					// joinChannel(CommonUtils.generateChannelName(arg0,
+					// getMyBasicProfile().getId())));
+					// List <MessageItem>chat = new ArrayList<MessageItem>();
+					// MessageItem messageItem = new MessageItem(null, "prova",
+					// true);
+					// chat.add(messageItem);
+					// messagesHistoryMap.put(CommonUtils.generateChannelName(arg0,
+					// getMyBasicProfile().getId()), chat);
+					// avvio il join al canale privato e comunico il nome del
+					// canale
+					String chatChannelName = CommonUtils.generateChannelName(arg0, getMyBasicProfile().getId());
+					joinChatChannel(chatChannelName);
+					communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
 					break;
-				case START_CHAT_MESSAGE:						
-					String startChatMessage = (String) message.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
-					chatChannelMap.put(CommonUtils.generateChannelName(arg0, getMyBasicProfile().getId()), joinChannel(CommonUtils.generateChannelName(arg0, getMyBasicProfile().getId())));					 
-					List <MessageItem>chat = new ArrayList<MessageItem>();					
-					MessageItem messageItem = new MessageItem(null, "prova", true);
-					chat.add(messageItem);
-					messagesHistoryMap.put(CommonUtils.generateChannelName(arg0, getMyBasicProfile().getId()), chat);
-					communicationListener.onChatMessageReceived(arg0, startChatMessage);
-					break;					
 				case LIKE:
 					communicationListener.onLikeReceived(arg0);
 					break;
@@ -253,24 +264,19 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			}
 		});
 	}
-	
-	@Override
-	public IChordChannel joinChannel(String channelName) {
+
+	private IChordChannel joinChatChannel(String channelName) {
 		Log.d();
 		return chord.joinChannel(channelName, new IChordChannelListener() {
 
 			@Override
 			public void onNodeLeft(String arg0, String arg1) {
-				Log.d();
-				communicationListener.onSocialNodeLeft(arg0);
+				Log.d("NOT IMPLEMENTED");
 			}
 
 			@Override
 			public void onNodeJoined(String arg0, String arg1) {
-				Log.d();
-				// send a preview profile request
-				sendProfilePreviewRequest(arg0);
-				// it will be notified after receive his profile
+				Log.d("NOT IMPLEMENTED");
 			}
 
 			@Override
@@ -305,7 +311,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 
 			@Override
 			public void onDataReceived(String arg0, String arg1, String arg2, byte[][] arg3) {
-				Log.d();				
+				Log.d();
 				// here can be received profiles, previews, etc., now we
 				LookAtMeMessageType messageType = LookAtMeMessageType.valueOf(arg2);
 				byte[] chordMessageByte = arg3[0];
@@ -314,48 +320,16 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					message = LookAtMeChordMessage.obtainChordMessage(chordMessageByte, arg0);
 				}
 				switch (messageType) {
-				case PREVIEW_REQUEST:
-					// send my basic profile to arg0 node
-					sendProfilePreviewResponse(arg0);
-					break;
-				case PREVIEW:
-					BasicProfile basicProfile = (BasicProfile) message.getObject(LookAtMeMessageType.PREVIEW.toString());
-					LookAtMeNode previewNode = new LookAtMeNode();
-					previewNode.setId(arg0);
-					previewNode.setProfile(basicProfile);
-					communicationListener.onSocialNodeJoined(previewNode);
-					break;
-				case PROFILE_REQUEST:
-					// send my full profile to arg0 node
-					sendProfileResponse(arg0);
-					break;
-				case PROFILE:
-					FullProfile fullProfile = (FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString());
-					LookAtMeNode profileNode = new LookAtMeNode();
-					profileNode.setId(arg0);
-					profileNode.setProfile(fullProfile);
-					communicationListener.onSocialNodeProfileReceived(profileNode);
-					break;
-				case PROFILE_UPDATE:
-					BasicProfile updatedProfile = (BasicProfile) message.getObject(LookAtMeMessageType.PROFILE_UPDATE.toString());
-					LookAtMeNode updatedNode = new LookAtMeNode();
-					updatedNode.setId(arg0);
-					updatedNode.setProfile(updatedProfile);
-					communicationListener.onSocialNodeUpdated(updatedNode);
-					break;
 				case CHAT_MESSAGE:
 					String chatMessage = (String) message.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
 					communicationListener.onChatMessageReceived(arg0, chatMessage);
-					break;
-				case LIKE:
-					communicationListener.onLikeReceived(arg0);
 					break;
 				default:
 					break;
 				}
 			}
 		});
-	}		
+	}
 
 	private int startChord() {
 		Log.d();
@@ -401,7 +375,6 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
 		return socialChannel.sendDataToAll(LookAtMeMessageType.PREVIEW_REQUEST.name(), EMPTY_PAYLOAD);
 	}
-
 
 	@Override
 	public boolean sendProfilePreviewAll() {
@@ -483,115 +456,128 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		payload[0] = message.getBytes();
 		return payload;
 	}
-	
-	private byte[][] obtainPayload(List arguments) {
-		Iterator iter = arguments.iterator();
-		int i = 0;
-		byte[][] payload = new byte[1][arguments.size()];
-		while(iter.hasNext())
-		{
-			payload[0] = CommonUtils.getBytes(iter.next());
-			i++;
-		}				
-		return payload;
-	}
-	
+
+	// private byte[][] obtainPayload(List arguments) {
+	// Iterator iter = arguments.iterator();
+	// int i = 0;
+	// byte[][] payload = new byte[1][arguments.size()];
+	// while(iter.hasNext())
+	// {
+	// payload[0] = CommonUtils.getBytes(iter.next());
+	// i++;
+	// }
+	// return payload;
+	// }
+
 	@Override
 	public boolean sendProfileRequest(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PROFILE_REQUEST.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendLike(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(), new byte[0][0]);
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
-	public boolean sendChatMessage(LookAtMeNode nodeTo, String message,String channelName) {
-		Log.d();		
-		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(LookAtMeMessageType.CHAT_MESSAGE);
-		chordMessage.setSenderNodeName(chord.getName());
-		chordMessage.setReceiverNodeName(nodeTo.getId());
-		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(), message);
-		if(channelName.equals(AppSettings.SOCIAL_CHANNEL_NAME))
-		{
-			Profile nodeFrom = null;
-			try{
-				DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this.context);
-				
-				nodeFrom = dbOpenHelper.getMyBasicProfile();
-			}catch(Exception e)
-			{
-				Log.e("error while sending chat message on social channel,nodeTo: "+nodeTo+" message: "+message);
-			}			
-			return socialChannel.sendData(nodeTo.getId(), LookAtMeMessageType.START_CHAT_MESSAGE.name(), obtainPayload(chordMessage));
-		}			
-		else
-		{			
-			//TODO:GENERARE QUA IL CHANNEL NAME
-			if (chatChannelMap.get(channelName)==null)
-			{
-				chatChannelMap.put(channelName,joinChannel(channelName));
-			}				
-			IChordChannel selectedChannel = chatChannelMap.get(channelName);
-			if(selectedChannel!=null)			
-				return selectedChannel.sendData(nodeTo.getId(), LookAtMeMessageType.CHAT_MESSAGE.name(), obtainPayload(chordMessage));
-			else
-			{
-				android.util.Log.d("Error", "sendChatMessage channel not found");
-				return false;
-			}
-		}
+	public boolean sendStartChatMessage(String nodeTo) {
+		Log.d();
+		;
+		return socialChannel.sendData(nodeTo, LookAtMeMessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
-	
+
 	@Override
-	public boolean sendPrivateChatMessage(String nodeTo, String message,String channelName) {
+	public boolean sendChatMessage(String nodeTo, String message, String channelName) {
 		Log.d();
 		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(LookAtMeMessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(nodeTo);
 		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(), message);
-		IChordChannel selectedChannel = chatChannelMap.get(channelName);
-		if(selectedChannel!=null)			
-			return selectedChannel.sendData(nodeTo, LookAtMeMessageType.CHAT_MESSAGE.name(), obtainPayload(chordMessage));
-		else return false;
-	}	
-	
-	@Override
-	public IChordChannel getChannel(String channelName)
-	{
-		return chatChannelMap.get(channelName);
-	}
-	
-	@Override
-	public Map<String,IChordChannel> getOpenChannels()
-	{
-		List <IChordChannel>openChannels = new ArrayList<IChordChannel>();
-		openChannels.addAll(chatChannelMap.values());
-		return chatChannelMap;
-		
-	}	
-	
-	
-	public Map<String,List<MessageItem>> getOpenedChat()
-	{
-		return messagesHistoryMap;
-	}
-	
-	@Override
-	public List<MessageItem> getChat(String channelName)
-	{
-		return messagesHistoryMap.get(channelName);
+		IChordChannel chatChannel = chord.getJoinedChannel(channelName);
+		return chatChannel.sendData(nodeTo, LookAtMeMessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
+		// if(channelName.equals(AppSettings.SOCIAL_CHANNEL_NAME))
+		// {
+		// Profile nodeFrom = null;
+		// try{
+		// DBOpenHelper dbOpenHelper =
+		// DBOpenHelperImpl.getInstance(this.context);
+		//
+		// nodeFrom = dbOpenHelper.getMyBasicProfile();
+		// }catch(Exception e)
+		// {
+		// Log.e("error while sending chat message on social channel,nodeTo: "+nodeTo+" message: "+message);
+		// }
+		// return socialChannel.sendData(nodeTo.getId(),
+		// LookAtMeMessageType.START_CHAT_MESSAGE.name(),
+		// obtainPayload(chordMessage));
+		// }
+		// else
+		// {
+		// //TODO:GENERARE QUA IL CHANNEL NAME
+		// if (chatChannelMap.get(channelName)==null)
+		// {
+		// chatChannelMap.put(channelName,joinChannel(channelName));
+		// }
+		// IChordChannel selectedChannel = chatChannelMap.get(channelName);
+		// if(selectedChannel!=null)
+		// return selectedChannel.sendData(nodeTo.getId(),
+		// LookAtMeMessageType.CHAT_MESSAGE.name(),
+		// obtainPayload(chordMessage));
+		// else
+		// {
+		// android.util.Log.d("Error", "sendChatMessage channel not found");
+		// return false;
+		// }
+		// }
 	}
 
-	
-	private static Profile getMyBasicProfile()
-	{
+	// @Override
+	// public boolean sendPrivateChatMessage(String nodeTo, String
+	// message,String channelName) {
+	// Log.d();
+	// LookAtMeChordMessage chordMessage = new
+	// LookAtMeChordMessage(LookAtMeMessageType.CHAT_MESSAGE);
+	// chordMessage.setSenderNodeName(chord.getName());
+	// chordMessage.setReceiverNodeName(nodeTo);
+	// chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(),
+	// message);
+	// IChordChannel selectedChannel = chatChannelMap.get(channelName);
+	// if(selectedChannel!=null)
+	// return selectedChannel.sendData(nodeTo,
+	// LookAtMeMessageType.CHAT_MESSAGE.name(), obtainPayload(chordMessage));
+	// else return false;
+	// }
+
+	// @Override
+	// public IChordChannel getChannel(String channelName)
+	// {
+	// return chatChannelMap.get(channelName);
+	// }
+
+	// @Override
+	// public Map<String,IChordChannel> getOpenChannels()
+	// {
+	// List <IChordChannel>openChannels = new ArrayList<IChordChannel>();
+	// openChannels.addAll(chatChannelMap.values());
+	// return chatChannelMap;
+	//
+	// }
+
+	// public Map<String,List<MessageItem>> getOpenedChat()
+	// {
+	// return messagesHistoryMap;
+	// }
+
+	// @Override
+	// public List<MessageItem> getChat(String channelName)
+	// {
+	// return messagesHistoryMap.get(channelName);
+	// }
+
+	private static Profile getMyBasicProfile() {
 		return CommonActivity.myProfile;
 	}
-	
-	
 
 }

@@ -6,21 +6,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ViewHolder {
-    TextView myNodeName;
+	TextView myNodeName;
 
-    LinearLayout chatLayout;
+	LinearLayout chatLayout;
 
-    TextView chatMessage;
+	TextView chatMessage;
 
-    LinearLayout fileLayout;
+	LinearLayout fileLayout;
 
-    LinearLayout progressLayout;
+	LinearLayout progressLayout;
 
-    ProgressBar progressBar;
+	ProgressBar progressBar;
 
-    Button fileCancelBtn;
+	Button fileCancelBtn;
 
-    TextView yourNodeName;
+	TextView yourNodeName;
 
 	public TextView getMyNodeName() {
 		return myNodeName;

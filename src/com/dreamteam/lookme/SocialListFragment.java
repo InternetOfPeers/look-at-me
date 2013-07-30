@@ -30,14 +30,12 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.communication.LookAtMeNode;
-import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
-import com.squareup.otto.Subscribe;
 
 public class SocialListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
-//	private CommunicationService communicationService;
+	// private CommunicationService communicationService;
 
 	public static Map<String, LookAtMeNode> socialNodeMap;
 
@@ -48,22 +46,22 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
 	private ProgressDialog loadingDialog;
-	
-//	@Override
-//	public void onResume() {	
-//		super.onResume();
-//		communicationService = getCommunicationService();
-//	}	
-	
-	@Subscribe
-	public void handleButtonPress(ButtonEvent event) {
-		
-	}
+
+	// @Override
+	// public void onResume() {
+	// super.onResume();
+	// communicationService = getCommunicationService();
+	// }
+
+	// @Subscribe
+	// public void handleButtonPress(ButtonEvent event) {
+	//
+	// }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//getCommunicationService();
+		// getCommunicationService();
 	}
 
 	private CommunicationService getCommunicationService() {
@@ -104,30 +102,31 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 		final Activity activity = this.getActivity();
 		final Dialog dialog = new Dialog(this.getActivity());
 		arg1.setAlpha(1);
-		//tell the Dialog to use the dialog.xml as it's layout description
+		// tell the Dialog to use the dialog.xml as it's layout description
 		dialog.setContentView(R.layout.chosed_profile_dialog);
 		dialog.setTitle("What do u wanna do?");
 		TextView txt = (TextView) dialog.findViewById(R.id.nickname_txt);
 		txt.setText(node.getProfile().getNickname());
-//		txt = (TextView) dialog.findViewById(R.id.age_txt);
-//		txt.setText(node.getProfile().getAge());
-		
+		// txt = (TextView) dialog.findViewById(R.id.age_txt);
+		// txt.setText(node.getProfile().getAge());
+
 		txt = (TextView) dialog.findViewById(R.id.gender_txt);
-		txt.setText(node.getProfile().getGender());				
+		txt.setText(node.getProfile().getGender());
 		txt = (TextView) dialog.findViewById(R.id.matching_score_txt);
-		txt.setText("90%");		
+		txt.setText("90%");
 		Button dialogButton = (Button) dialog.findViewById(R.id.startChat_btn);
-		dialogButton.setOnClickListener(new OnClickListener() {		
-        @Override
-	    public void onClick(View v) {      	        	
-        	dialog.dismiss();
-			BasicProfile myBasicProfile = ((CommonActivity)activity).getMyBasicProfile();			
-			getCommunicationService().sendChatMessage(node, "START",AppSettings.SOCIAL_CHANNEL_NAME);			
-			//TODO: entrare nella chat privata
-			
-	    }
-		
-		});		
+		dialogButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				// BasicProfile myBasicProfile =
+				// ((CommonActivity)activity).getMyBasicProfile();
+				getCommunicationService().sendStartChatMessage(node.getId());
+				// TODO: entrare nella chat privata
+
+			}
+
+		});
 		dialog.show();
 	}
 
@@ -156,10 +155,10 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {
 		this.socialNodeMap = socialNodeMap;
 	}
-	
+
 	public LookAtMeNode getSocialNode(String nodeId) {
 		return this.socialNodeMap.get(nodeId);
-	}	
+	}
 
 	public void addILike(String nodeId) {
 		iLike.add(nodeId);

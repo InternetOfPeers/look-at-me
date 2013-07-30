@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.Profile;
-import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.error.LookAtMeException;
@@ -35,7 +34,7 @@ import com.dreamteam.lookme.service.CommunicationService.CommunicationServiceBin
 import com.dreamteam.util.Log;
 
 // ILookAtMeCommunicationListener will be implemented by every Activity so this class will be abstract
-public abstract class CommonActivity extends Activity implements ServiceConnection, ILookAtMeCommunicationListener {
+public abstract class CommonActivity extends Activity implements ServiceConnection {
 
 	// Service was placed here because it must be reachable from all activities.
 	// It will be started only in first activity onCreate() method.
@@ -61,19 +60,17 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		Log.d();
 
 		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
-		
-		try{
-			myProfile=dbOpenHelper.getMyFullProfile();
-		}catch(Exception e)
-		{
-			
+
+		try {
+			myProfile = dbOpenHelper.getMyFullProfile();
+		} catch (Exception e) {
+
 		}
-		
+
 		// Cancella le notifiche appese se l'utente proviene da fuori da un
 		// banner di notifica
 		Services.notify.clearActivityNotifications(this);
 	}
-
 
 	@Override
 	protected void onStart() {
@@ -109,12 +106,11 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		super.onResume();
 
 		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
-		
-		try{
-			myProfile=dbOpenHelper.getMyFullProfile();
-		}catch(Exception e)
-		{
-			
+
+		try {
+			myProfile = dbOpenHelper.getMyFullProfile();
+		} catch (Exception e) {
+
 		}
 	}
 
@@ -142,7 +138,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		Log.d();
 		CommunicationServiceBinder binder = (CommunicationServiceBinder) service;
 		communicationService = binder.getService();
-		serviceState = communicationService.initialize(this, this);
+		serviceState = communicationService.initialize(this);
 		try {
 			if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
 				Log.d("service is ready to run");
@@ -252,7 +248,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Verifica se è stato premuta l'icona del drawer o il drawer in
+		// Verifica se ï¿½ stato premuta l'icona del drawer o il drawer in
 		// generale, e gestisce l'azione di conseguenza
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
@@ -363,7 +359,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				// E' un pò hard chiudere l'applicazione, dobbiamo trovare una
+				// E' un pï¿½ hard chiudere l'applicazione, dobbiamo trovare una
 				// soluzione alternativa. Nel mentre in sviluppo lasciamo aperta
 				// l'app
 				// closeApplication();
@@ -371,22 +367,19 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		});
 
 		dialog.show();
-	}	
-	
-
-	public BasicProfile getMyBasicProfile()
-	{
-		try{
-			return dbOpenHelper.getMyBasicProfile();
-    	}catch(Exception e)
-    	{
-    		android.util.Log.e("ERROR", "Error during loading myBasicProfile");
-    	}
-		return null;
-		
 	}
-	
+
+	public BasicProfile getMyBasicProfile() {
+		try {
+			return dbOpenHelper.getMyBasicProfile();
+		} catch (Exception e) {
+			android.util.Log.e("ERROR", "Error during loading myBasicProfile");
+		}
+		return null;
+
+	}
+
 	public DBOpenHelper getDbOpenHelper() {
 		return dbOpenHelper;
-	}	
+	}
 }

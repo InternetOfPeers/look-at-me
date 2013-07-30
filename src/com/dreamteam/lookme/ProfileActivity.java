@@ -20,9 +20,6 @@ import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
-import com.dreamteam.lookme.communication.LookAtMeNode;
-import com.dreamteam.lookme.db.DBOpenHelper;
-import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
 
@@ -30,14 +27,14 @@ public class ProfileActivity extends CommonActivity {
 	private static int RESULT_LOAD_IMAGE = 1;
 
 	private static final int PICK_IMAGE = 1;
-	
+
 	String imageFilePath = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try {
-			
+
 			setContentView(R.layout.activity_profile);
 			FullProfile oldProfile = dbOpenHelper.getMyFullProfile();
 			if (oldProfile != null) {
@@ -192,64 +189,4 @@ public class ProfileActivity extends CommonActivity {
 		Button button = (Button) findViewById(R.id.btnRegister);
 		button.setText("change my profile");
 	}
-
-	// START ILookAtMeCommunicationListener implementation
-	@Override
-	public void onSocialNodeLeft(String nodeName) {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onSocialNodeJoined(LookAtMeNode node) {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onCommunicationStopped() {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onCommunicationStarted() {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSocialNodeProfileReceived(LookAtMeNode node) {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onLikeReceived(String nodeFrom) {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onChatMessageReceived(String nodeFrom, String message) {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSocialNodeUpdated(LookAtMeNode node) {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-	}
-	// END ILookAtMeCommunicationListener implementation
-
-	@Override
-	public void onChatMessageReceived(LookAtMeNode nodeFrom, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

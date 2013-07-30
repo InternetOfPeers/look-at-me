@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
@@ -56,74 +55,6 @@ public class SocialActivity extends CommonActivity {
 		}
 	}
 
-	// START ILookAtMeCommunicationListener implementation
-	@Override
-	public void onSocialNodeLeft(String nodeName) {
-		Log.d();
-		// remove node from socialNodeMap
-		socialListFragment.removeSocialNode(nodeName);
-		socialListFragment.refreshFragment();
-	}
-
-	@Override
-	public void onSocialNodeJoined(LookAtMeNode node) {
-		Log.d();
-		// add node to socialNodeMap
-		socialListFragment.putSocialNode(node);
-		socialListFragment.refreshFragment();
-	}
-
-	@Override
-	public void onCommunicationStopped() {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onCommunicationStarted() {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSocialNodeProfileReceived(LookAtMeNode node) {
-		Log.d();
-		// stop loading
-		socialListFragment.dismissLoadingDialog();
-		socialProfileFragment.setProfileNode(node);
-		setFragment(SOCIAL_PROFILE_FRAGMENT);
-	}
-
-	@Override
-	public void onLikeReceived(String nodeFrom) {
-		Log.d();
-		socialListFragment.addLiked(nodeFrom);
-		socialListFragment.refreshFragment(); // to update GUI
-		String nodeNickname = socialListFragment.getNicknameOf(nodeFrom);
-		if (nodeNickname != null) {
-			notifyLike(nodeNickname);
-		}
-	}
-
-	@Override
-	public void onChatMessageReceived(String nodeFrom, String message) {
-		Log.d("NOT IMPLEMENTED");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSocialNodeUpdated(LookAtMeNode node) {
-		Log.d();
-		// update node in socialNodeMap
-		socialListFragment.putSocialNode(node);
-		socialListFragment.refreshFragment();
-	}
-
-	// END ILookAtMeCommunicationListener implementation
-
 	private void setFragment(int fragment) {
 		Log.d("" + fragment);
 		if (currentFragment != fragment) {
@@ -168,17 +99,18 @@ public class SocialActivity extends CommonActivity {
 
 		dialog.show();
 	}
-	
-	public LookAtMeNode getNodeProfile(String nodeID)
-	{
+
+	public LookAtMeNode getNodeProfile(String nodeID) {
 		return socialListFragment.getSocialNode(nodeID);
 	}
 
-	@Override
-	public void onChatMessageReceived(LookAtMeNode nodeFrom, String message) {
-		Log.d("NOT IMPLEMENTED");
-		Toast.makeText(getApplicationContext(), nodeFrom + " Want to talk!", Toast.LENGTH_LONG).show();
-		
-	}
+	// @Override
+	// public void onChatMessageReceived(LookAtMeNode nodeFrom, String message)
+	// {
+	// Log.d("NOT IMPLEMENTED");
+	// Toast.makeText(getApplicationContext(), nodeFrom + " Want to talk!",
+	// Toast.LENGTH_LONG).show();
+	//
+	// }
 
 }

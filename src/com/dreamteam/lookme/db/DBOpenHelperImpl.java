@@ -22,9 +22,8 @@ import com.google.common.base.Optional;
 
 public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
+	public static final int DATABASE_VERSION = 4;
 
-	public static final int DATABASE_VERSION = 4;	
-	
 	private SQLiteDatabase database;
 
 	private TelephonyManager tm;
@@ -478,7 +477,6 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		return profile;
 	}
 
-	
 	/**
 	 * TOIMPROVE Rendere il metodo più preciso per la decisione se il profilo è
 	 * sufficientemente completo per poter continuare ad utilizzare l'app
