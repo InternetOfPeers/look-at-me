@@ -15,8 +15,10 @@ public enum LookAtMeMessageType {
 								 * used to send all nodes new profile if it is
 								 * updated
 								 */
-	PREVIEW_REQUEST, /* request minimal profile data */
-	PROFILE_REQUEST; /* request complete profile data */
+	PREVIEW_REQUEST, /* request minimal profile data */	
+	PROFILE_REQUEST, /* request complete profile data */
+	START_CHAT_MESSAGE; /* request minimal profile data */
+	
 
 	@Override
 	public String toString() {

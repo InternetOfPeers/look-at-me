@@ -23,7 +23,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
+import com.dreamteam.lookme.db.DBOpenHelper;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.lookme.navigation.Nav;
 import com.dreamteam.lookme.service.CommunicationService;
@@ -40,6 +44,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	// or CommunicationService.SERVICE_RUNNING constants
 	protected int serviceState;
 
+	public static Profile myProfile;
 	protected DrawerLayout mDrawerLayout;
 	protected ListView mDrawerList;
 	protected ActionBarDrawerToggle mDrawerToggle;
@@ -48,16 +53,27 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected CharSequence mTitle;
 	protected String[] mPlanetTitles;
 	protected boolean menuEnabled;
+	protected DBOpenHelper dbOpenHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d();
 
+		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
+		
+		try{
+			myProfile=dbOpenHelper.getMyFullProfile();
+		}catch(Exception e)
+		{
+			
+		}
+		
 		// Cancella le notifiche appese se l'utente proviene da fuori da un
 		// banner di notifica
 		Services.notify.clearActivityNotifications(this);
 	}
+
 
 	@Override
 	protected void onStart() {
@@ -91,6 +107,15 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected void onResume() {
 		Log.d();
 		super.onResume();
+
+		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
+		
+		try{
+			myProfile=dbOpenHelper.getMyFullProfile();
+		}catch(Exception e)
+		{
+			
+		}
 	}
 
 	@Override
@@ -346,5 +371,22 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		});
 
 		dialog.show();
+	}	
+	
+
+	public BasicProfile getMyBasicProfile()
+	{
+		try{
+			return dbOpenHelper.getMyBasicProfile();
+    	}catch(Exception e)
+    	{
+    		android.util.Log.e("ERROR", "Error during loading myBasicProfile");
+    	}
+		return null;
+		
 	}
+	
+	public DBOpenHelper getDbOpenHelper() {
+		return dbOpenHelper;
+	}	
 }

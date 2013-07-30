@@ -86,4 +86,10 @@ public class SettingsActivity extends CommonActivity {
 		return this;
 	}
 
+	@Override
+	public void onChatMessageReceived(LookAtMeNode nodeFrom, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

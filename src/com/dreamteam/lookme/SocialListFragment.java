@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -28,14 +30,16 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.communication.LookAtMeNode;
+import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
+import com.squareup.otto.Subscribe;
 
 public class SocialListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
-	private CommunicationService communicationService;
+//	private CommunicationService communicationService;
 
-	private Map<String, LookAtMeNode> socialNodeMap;
+	public static Map<String, LookAtMeNode> socialNodeMap;
 
 	private Set<String> iLike;
 	private Set<String> liked;
@@ -44,12 +48,27 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
 	private ProgressDialog loadingDialog;
+	
+//	@Override
+//	public void onResume() {	
+//		super.onResume();
+//		communicationService = getCommunicationService();
+//	}	
+	
+	@Subscribe
+	public void handleButtonPress(ButtonEvent event) {
+		
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//getCommunicationService();
+	}
+
+	private CommunicationService getCommunicationService() {
 		SocialActivity socialActivity = (SocialActivity) this.getActivity();
-		communicationService = socialActivity.getCommunicationService();
+		return socialActivity.getCommunicationService();
 	}
 
 	@Override
@@ -75,15 +94,41 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	@Override
 	public void onClick(View arg0) {
 		Log.d();
-		communicationService.refreshSocialList();
+		getCommunicationService().refreshSocialList();
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int clickedItemPosition, long clickedItemID) {
 		Log.d();
-		LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int) clickedItemID);
-		communicationService.sendProfileRequest(node.getId());
-		loadingDialog = ProgressDialog.show(this.getActivity(), "Loading", "Please wait...", true);
+		final LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int) clickedItemID);
+		final Activity activity = this.getActivity();
+		final Dialog dialog = new Dialog(this.getActivity());
+		arg1.setAlpha(1);
+		//tell the Dialog to use the dialog.xml as it's layout description
+		dialog.setContentView(R.layout.chosed_profile_dialog);
+		dialog.setTitle("What do u wanna do?");
+		TextView txt = (TextView) dialog.findViewById(R.id.nickname_txt);
+		txt.setText(node.getProfile().getNickname());
+//		txt = (TextView) dialog.findViewById(R.id.age_txt);
+//		txt.setText(node.getProfile().getAge());
+		
+		txt = (TextView) dialog.findViewById(R.id.gender_txt);
+		txt.setText(node.getProfile().getGender());				
+		txt = (TextView) dialog.findViewById(R.id.matching_score_txt);
+		txt.setText("90%");		
+		Button dialogButton = (Button) dialog.findViewById(R.id.startChat_btn);
+		dialogButton.setOnClickListener(new OnClickListener() {		
+        @Override
+	    public void onClick(View v) {      	        	
+        	dialog.dismiss();
+			BasicProfile myBasicProfile = ((CommonActivity)activity).getMyBasicProfile();			
+			getCommunicationService().sendChatMessage(node, "START",AppSettings.SOCIAL_CHANNEL_NAME);			
+			//TODO: entrare nella chat privata
+			
+	    }
+		
+		});		
+		dialog.show();
 	}
 
 	public void putSocialNode(LookAtMeNode node) {
@@ -111,6 +156,10 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {
 		this.socialNodeMap = socialNodeMap;
 	}
+	
+	public LookAtMeNode getSocialNode(String nodeId) {
+		return this.socialNodeMap.get(nodeId);
+	}	
 
 	public void addILike(String nodeId) {
 		iLike.add(nodeId);

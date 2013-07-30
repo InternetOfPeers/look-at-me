@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+     <ImageView
+        android:id="@+id/imgView"
+        android:contentDescription="profile selected image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_profile_image"/>
+     
+     <TextView
+         android:id="@+id/nickname_lbl"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/text_nickname"
+       android:textColor="#372c24"
+       android:layout_toRightOf="@+id/imgView" />
+
+     <TextView 
+         android:id="@+id/nickname_txt"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"   
+         android:layout_marginLeft="2dp"      
+         android:layout_toRightOf="@+id/nickname_lbl"
+         />
+     
+     <TextView
+         android:id="@+id/gender_lbl"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/text_gender"
+       android:textColor="#372c24"
+       android:layout_toRightOf="@+id/imgView"
+       android:layout_below="@+id/nickname_lbl" />     
+       
+     <TextView
+         android:id="@+id/gender_txt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="2dp"
+       android:layout_marginRight="2dp"
+       android:textColor="#372c24"
+       android:layout_toRightOf="@+id/gender_lbl"
+       android:layout_below="@+id/nickname_txt"
+        />   
+        
+     <TextView
+         android:id="@+id/age_lbl"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/text_age"
+       android:textColor="#372c24"
+       android:layout_toRightOf="@+id/gender_txt"
+       android:layout_below="@+id/nickname_lbl" />  
+       
+     <TextView
+         android:id="@+id/age_txt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="2dp"
+       android:layout_marginRight="2dp"       
+       android:textColor="#372c24"
+       android:layout_toRightOf="@+id/age_lbl"
+       android:layout_below="@+id/nickname_lbl" /> 
+        
+     <TextView
+         android:id="@+id/matching_score_lbl"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="matching score"
+       android:textColor="#372c24"       
+       android:layout_below="@+id/gender_lbl"
+       android:layout_alignLeft="@+id/gender_lbl"
+        />
+     
+     <TextView
+         android:id="@+id/matching_score_txt"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="2dp"
+       android:layout_marginRight="2dp"        
+       android:textColor="#372c24"       
+       android:layout_below="@+id/gender_lbl"
+       android:layout_toRightOf="@+id/matching_score_lbl"
+        />                    
+
+     <Button
+         android:id="@+id/startChat_btn"
+         android:layout_width="100dp"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/imgView"
+         android:layout_below="@+id/imgView"
+         android:layout_marginTop="20dp"
+         android:text="@string/chat_btn" />
+
+     <Button
+         android:id="@+id/viewFullProfile_btn"
+         android:layout_width="100dp"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/startChat_btn"
+         android:layout_alignTop="@+id/startChat_btn"
+         android:layout_toRightOf="@+id/startChat_btn"
+         android:text="@string/viewFullProfile_btn" />
+
+     <Button
+         android:id="@+id/vote_btn"
+         android:layout_width="100dp"
+         android:layout_height="wrap_content"
+         android:layout_alignBaseline="@+id/viewFullProfile_btn"
+         android:layout_alignBottom="@+id/viewFullProfile_btn"
+         android:layout_toRightOf="@+id/viewFullProfile_btn"
+         android:text="@string/vote_btn" />
+
+</RelativeLayout>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.dreamteam.lookme.BusinessLogicOperations;
+import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.util.Log;
 
 public class BusinessLogicOperationsImpl extends Service implements BusinessLogicOperations {
@@ -84,5 +85,20 @@ public class BusinessLogicOperationsImpl extends Service implements BusinessLogi
 			return instance;
 		}
 	}
+
+	@Override
+	public boolean joinChannel(String channelName) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean sendChatMessage(LookAtMeNode toNode) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	
+	
 
 }

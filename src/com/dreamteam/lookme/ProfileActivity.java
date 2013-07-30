@@ -30,14 +30,14 @@ public class ProfileActivity extends CommonActivity {
 	private static int RESULT_LOAD_IMAGE = 1;
 
 	private static final int PICK_IMAGE = 1;
-	private DBOpenHelper dbOpenHelper;
+	
 	String imageFilePath = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try {
-			dbOpenHelper = DBOpenHelperImpl.getInstance(this);
+			
 			setContentView(R.layout.activity_profile);
 			FullProfile oldProfile = dbOpenHelper.getMyFullProfile();
 			if (oldProfile != null) {
@@ -245,5 +245,11 @@ public class ProfileActivity extends CommonActivity {
 		// TODO Auto-generated method stub
 	}
 	// END ILookAtMeCommunicationListener implementation
+
+	@Override
+	public void onChatMessageReceived(LookAtMeNode nodeFrom, String message) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

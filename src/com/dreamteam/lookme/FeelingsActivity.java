@@ -64,4 +64,10 @@ public class FeelingsActivity extends CommonActivity {
 
 	}
 
+	@Override
+	public void onChatMessageReceived(LookAtMeNode nodeFrom, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

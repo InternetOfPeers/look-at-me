@@ -5,9 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-
-   	<!--  QUI VA IL LAYOUT DELLE CONVERSAZIONI -->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
         
+        <fragment
+            android:id="@+id/fragment_message_list"
+            android:name="com.dreamteam.lookme.MessageListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        
+        <fragment
+            android:id="@+id/fragment_message_chat"
+            android:name="com.dreamteam.lookme.MessageListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />        
+        
+
+    </LinearLayout>
 
     <!--
          android:layout_gravity="start" tells DrawerLayout to treat

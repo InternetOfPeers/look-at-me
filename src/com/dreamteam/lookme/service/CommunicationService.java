@@ -3,17 +3,23 @@
  */
 package com.dreamteam.lookme.service;
 
+import java.util.List;
+import java.util.Map;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.chord.LookAtMeChordCommunicationManager;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
+import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.error.LookAtMeException;
 import com.dreamteam.util.Log;
+import com.samsung.chord.IChordChannel;
 
 public class CommunicationService extends Service {
 
@@ -90,5 +96,37 @@ public class CommunicationService extends Service {
 		Log.d();
 		communicationManager.sendLike(nodeTo);
 	}
+	
+	public IChordChannel joinChannel(String channelName)
+	{
+		Log.d();
+		return communicationManager.joinChannel(channelName);
+	}
+	
+	public boolean sendChatMessage(LookAtMeNode nodeTo,String message,String channel)
+	{
+		Log.d();
+		return communicationManager.sendChatMessage(nodeTo, message,channel);
+	}
+	
+	public IChordChannel getChannel(String channelName)
+	{
+		return communicationManager.getChannel(channelName);
+	}
+	
+	public List<MessageItem> getChat(String channelName){
+		return communicationManager.getChat(channelName);
+	}
+	
+	public Map<String,IChordChannel> getOpenChannels()
+	{
+		return communicationManager.getOpenChannels();
+	}
+	
+	public Map<String,List<MessageItem>> getOpenedChat()
+	{
+		return communicationManager.getOpenedChat();
+	}
+
 
 }

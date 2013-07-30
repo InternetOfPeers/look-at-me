@@ -12,6 +12,8 @@
     <string name="text_name">name</string>
     <string name="text_surname">surname</string>
     <string name="text_nickname">nickname</string>
+    <string name="text_age">age</string>
+    <string name="text_gender">gender</string>    
     <string name="title_splashscreen">splash</string>
 
     <!-- Drawer menu -->
@@ -25,5 +27,13 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="button_toggle_service">Communication service</string>
+    
+        <!-- channel list dialog start -->
+    <string name="text_matching_score">matching score</string>
+    <string name="chat_btn">chat</string>
+    <string name="viewFullProfile_btn">profile</string>
+    <string name="blink_btn">blink!</string>
+    <string name="vote_btn">vote</string>    
+    <!-- channel list dialog end -->
 
 </resources>

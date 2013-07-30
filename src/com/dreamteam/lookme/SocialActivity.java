@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
@@ -166,6 +167,18 @@ public class SocialActivity extends CommonActivity {
 		});
 
 		dialog.show();
+	}
+	
+	public LookAtMeNode getNodeProfile(String nodeID)
+	{
+		return socialListFragment.getSocialNode(nodeID);
+	}
+
+	@Override
+	public void onChatMessageReceived(LookAtMeNode nodeFrom, String message) {
+		Log.d("NOT IMPLEMENTED");
+		Toast.makeText(getApplicationContext(), nodeFrom + " Want to talk!", Toast.LENGTH_LONG).show();
+		
 	}
 
 }
