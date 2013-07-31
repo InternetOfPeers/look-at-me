@@ -34,9 +34,10 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 
 	// Service was placed here because it must be reachable from all activities.
 	// It will be started only in first activity onCreate() method.
+
 	protected CommunicationService communicationService;
 
-	//public static Profile myProfile;
+	// public static Profile myProfile;
 	protected DrawerLayout mDrawerLayout;
 	protected ListView mDrawerList;
 	protected ActionBarDrawerToggle mDrawerToggle;
@@ -45,7 +46,8 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected CharSequence mTitle;
 	protected String[] mPlanetTitles;
 	protected boolean menuEnabled;
-	//protected DBOpenHelper dbOpenHelper;
+
+	// protected DBOpenHelper dbOpenHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +227,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Verifica se � stato premuta l'icona del drawer o il drawer in
+		// Verifica se ��� stato premuta l'icona del drawer o il drawer in
 		// generale, e gestisce l'azione di conseguenza
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
@@ -336,7 +338,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				// E' un p� hard chiudere l'applicazione, dobbiamo trovare una
+				// E' un p��� hard chiudere l'applicazione, dobbiamo trovare una
 				// soluzione alternativa. Nel mentre in sviluppo lasciamo aperta
 				// l'app
 				// closeApplication();

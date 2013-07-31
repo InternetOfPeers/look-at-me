@@ -12,9 +12,9 @@ import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.MessageItem;
 
 public class LookAtMeCommunicationRepository {
-	
+
 	private static FullProfile myFullProfile;
-	
+
 	private static BasicProfile myBasicProfile;
 
 	private static LookAtMeCommunicationRepository instance;
@@ -38,19 +38,19 @@ public class LookAtMeCommunicationRepository {
 		}
 		return instance;
 	}
-	
+
 	public FullProfile getMyFullProfile() {
 		return myFullProfile;
 	}
-	
+
 	public void setMyFullProfile(FullProfile profile) {
 		this.myFullProfile = profile;
 	}
-	
+
 	public BasicProfile getMyBasicProfile() {
 		return myBasicProfile;
 	}
-	
+
 	public void setMyBasicProfile(BasicProfile profile) {
 		this.myBasicProfile = profile;
 	}

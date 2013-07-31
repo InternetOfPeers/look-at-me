@@ -40,9 +40,9 @@ public class CommunicationService extends Service {
 	}
 
 	private final IBinder binder = new CommunicationServiceBinder();
-	
+
 	/***************************************************/
-	/**               SERVICE OVERRIDE                **/
+	/** SERVICE OVERRIDE **/
 	/***************************************************/
 
 	@Override
@@ -62,9 +62,9 @@ public class CommunicationService extends Service {
 		Log.d();
 		return super.onStartCommand(intent, START_NOT_STICKY, startId);
 	}
-	
+
 	/***************************************************/
-	/**             INIT / START / STOP               **/
+	/** INIT / START / STOP **/
 	/***************************************************/
 
 	public int initialize(Context context) {
@@ -152,9 +152,9 @@ public class CommunicationService extends Service {
 		Log.d();
 		communicationManager.stopCommunication();
 	}
-	
+
 	/***************************************************/
-	/**               SERVICE METHODS                 **/
+	/** SERVICE METHODS **/
 	/***************************************************/
 
 	public void refreshSocialList() {

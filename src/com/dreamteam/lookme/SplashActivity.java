@@ -21,7 +21,7 @@ public class SplashActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// carico il mio profilo sia basic che full nel repository statico
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
@@ -59,7 +59,7 @@ public class SplashActivity extends Activity {
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
 
 		// Start del servizio di comunicazione
-		//Services.communication.start(this);
+		// Services.communication.start(this);
 	}
 
 }

@@ -213,11 +213,12 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					break;
 				case PROFILE_UPDATE:
 					// TODO
-//					BasicProfile updatedProfile = (BasicProfile) message.getObject(LookAtMeMessageType.PROFILE_UPDATE.toString());
-//					LookAtMeNode updatedNode = new LookAtMeNode();
-//					updatedNode.setId(arg0);
-//					updatedNode.setProfile(updatedProfile);
-//					communicationListener.onSocialNodeUpdated(updatedNode);
+					// BasicProfile updatedProfile = (BasicProfile)
+					// message.getObject(LookAtMeMessageType.PROFILE_UPDATE.toString());
+					// LookAtMeNode updatedNode = new LookAtMeNode();
+					// updatedNode.setId(arg0);
+					// updatedNode.setProfile(updatedProfile);
+					// communicationListener.onSocialNodeUpdated(updatedNode);
 					break;
 				case START_CHAT_MESSAGE:
 					String chatChannelName = CommonUtils.generateChannelName(arg0, LookAtMeCommunicationRepository.getInstance().getMyBasicProfile().getId());
@@ -349,19 +350,22 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		// TODO
 		Log.d();
 		return false;
-//		LookAtMeChordMessage message = obtainMyProfileMessage(BASIC_PROFILE, LookAtMeMessageType.PROFILE_UPDATE, null);
-//		if (message != null) {
-//			return socialChannel.sendDataToAll(LookAtMeMessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
-//		} else {
-//			return false;
-//		}
+		// LookAtMeChordMessage message = obtainMyProfileMessage(BASIC_PROFILE,
+		// LookAtMeMessageType.PROFILE_UPDATE, null);
+		// if (message != null) {
+		// return
+		// socialChannel.sendDataToAll(LookAtMeMessageType.PROFILE_UPDATE.toString(),
+		// obtainPayload(message));
+		// } else {
+		// return false;
+		// }
 	}
 
 	private boolean sendBasicProfileRequest(String nodeTo) {
 		Log.d();
 		return socialChannel.sendData(nodeTo, LookAtMeMessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
-	
+
 	private boolean sendBasicProfileResponse(String nodeTo) {
 		Log.d();
 		LookAtMeChordMessage message = obtainMyProfileMessage(LookAtMeCommunicationRepository.getInstance().getMyBasicProfile(), LookAtMeMessageType.BASIC_PROFILE, nodeTo);

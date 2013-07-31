@@ -44,14 +44,14 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 		Log.d();
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onStart() {
 		Log.d();
 		EventBusProvider.getIntance().register(this);
 		super.onStart();
 	}
-	
+
 	@Subscribe
 	public void onNodeMovment(LookAtMeEvent event) {
 		Log.d(event.getEventType().toString());
@@ -99,14 +99,14 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 		// tell the Dialog to use the dialog.xml as it's layout description
 		dialog.setContentView(R.layout.chosed_profile_dialog);
 		dialog.setTitle("What do u wanna do?");
-		
+
 		TextView txt = (TextView) dialog.findViewById(R.id.nickname_txt);
 		txt.setText(node.getProfile().getNickname());
 		txt = (TextView) dialog.findViewById(R.id.gender_txt);
 		txt.setText(node.getProfile().getGender());
 		txt = (TextView) dialog.findViewById(R.id.matching_score_txt);
 		txt.setText("90%");
-		
+
 		Button dialogButton = (Button) dialog.findViewById(R.id.startChat_btn);
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -120,7 +120,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			}
 
 		});
-		
+
 		Button viewFullProfileButton = (Button) dialog.findViewById(R.id.viewFullProfile_btn);
 		viewFullProfileButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -142,7 +142,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 	}
 
 	public class SocialListAdapter extends BaseAdapter {
-		
+
 		Map<String, LookAtMeNode> socialNodeMap = LookAtMeCommunicationRepository.getInstance().getSocialNodeMap();
 
 		@Override

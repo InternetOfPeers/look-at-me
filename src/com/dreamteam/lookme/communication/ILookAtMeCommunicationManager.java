@@ -16,16 +16,16 @@ public interface ILookAtMeCommunicationManager {
 	public void stopCommunication();
 
 	public boolean sendBasicProfileRequestAll(); /*
-													 * Maybe not necessary (to
-													 * testing)
-													 */
+												 * Maybe not necessary (to
+												 * testing)
+												 */
 
 	public boolean sendFullProfileRequest(String nodeTo);
 
 	public boolean sendBasicProfileAll(); /*
-											 * to communicate all nodes my
-											 * profile is updated
-											 */
+										 * to communicate all nodes my profile
+										 * is updated
+										 */
 
 	public boolean sendChatMessage(String nodeTo, String message, String channelName);
 

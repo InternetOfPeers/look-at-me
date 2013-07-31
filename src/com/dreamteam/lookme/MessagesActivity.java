@@ -4,12 +4,11 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.util.Log;
 
 public class MessagesActivity extends CommonActivity {
 
-	//public static final int SOCIAL_PROFILE_FRAGMENT = 2002;
+	// public static final int SOCIAL_PROFILE_FRAGMENT = 2002;
 	public static final int MESSAGE_LIST_FRAGMENT = 2001;
 
 	private MessageListFragment messageListFragment;
@@ -31,10 +30,10 @@ public class MessagesActivity extends CommonActivity {
 		}
 		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
 		// profilo
-//		if (!DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
-//			// L'utente deve compilare il profilo prima di iniziare
-//			Log.d("It's the first time this app run!");
-//		}
+		// if (!DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
+		// // L'utente deve compilare il profilo prima di iniziare
+		// Log.d("It's the first time this app run!");
+		// }
 	}
 
 	@Override
