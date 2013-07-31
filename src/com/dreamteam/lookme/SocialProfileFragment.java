@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
@@ -31,7 +32,6 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 	private Button buttonLike;
 
 	private int[] gallery_images;
-	private LookAtMeNode profileNode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,30 +52,29 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 		buttonLike.setOnClickListener(this);
 
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
+		
+		if (LookAtMeCommunicationRepository.getInstance().getProfileViewed() != null) {
+			FullProfile profile = (FullProfile) (LookAtMeCommunicationRepository.getInstance().getProfileViewed()).getProfile();
+			textNickname.setText(profile.getNickname());
+			textName.setText(profile.getName());
+			textSurname.setText(profile.getSurname());
+	
+			gallery_images = new int[3];
+			gallery_images[0] = R.drawable.demo_gallery_1;
+			gallery_images[1] = R.drawable.demo_gallery_2;
+			gallery_images[2] = R.drawable.demo_gallery_3;
+			profilePhoto.setAdapter(new SamplePagerAdapter());
+		}
 
 		return view;
 	}
 
 	@Override
 	public void onClick(View v) {
+		LookAtMeNode profileNode = LookAtMeCommunicationRepository.getInstance().getProfileViewed();
 		Log.d("LIKE clicked on node " + profileNode.getId());
 		communicationService.sendLike(profileNode.getId());
 		Toast.makeText(this.getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
-	}
-
-	public void setProfileNode(LookAtMeNode node) {
-		this.profileNode = node;
-		FullProfile profile = (FullProfile) this.profileNode.getProfile();
-
-		textNickname.setText(profile.getNickname());
-		textName.setText(profile.getName());
-		textSurname.setText(profile.getSurname());
-
-		gallery_images = new int[3];
-		gallery_images[0] = R.drawable.demo_gallery_1;
-		gallery_images[1] = R.drawable.demo_gallery_2;
-		gallery_images[2] = R.drawable.demo_gallery_3;
-		profilePhoto.setAdapter(new SamplePagerAdapter());
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {

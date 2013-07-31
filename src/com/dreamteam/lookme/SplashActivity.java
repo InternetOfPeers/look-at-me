@@ -7,7 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.constants.AppSettings;
+import com.dreamteam.lookme.db.DBOpenHelper;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.navigation.Nav;
 
 public class SplashActivity extends Activity {
@@ -15,6 +20,17 @@ public class SplashActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// carico il mio profilo sia basic che full
+		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
+		try {
+			FullProfile myFullProfile = dbOpenHelper.getMyFullProfile();
+			BasicProfile myBasicProfile = dbOpenHelper.getMyBasicProfile();
+			LookAtMeCommunicationRepository.getInstance().setMyBasicProfile(myBasicProfile);
+			LookAtMeCommunicationRepository.getInstance().setMyFullProfile(myFullProfile);
+		} catch (Exception e) {
+
+		}
 
 		// Imposto l'activity da caricare
 		setContentView(R.layout.splashscreen);

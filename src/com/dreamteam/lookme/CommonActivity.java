@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.Profile;
+import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.error.LookAtMeException;
@@ -39,11 +40,8 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	// Service was placed here because it must be reachable from all activities.
 	// It will be started only in first activity onCreate() method.
 	protected CommunicationService communicationService;
-	// This variable can be valued as CommunicationService.SERVICE_READY_TO_RUN
-	// or CommunicationService.SERVICE_RUNNING constants
-	//protected int serviceState;
 
-	public static Profile myProfile;
+	//public static Profile myProfile;
 	protected DrawerLayout mDrawerLayout;
 	protected ListView mDrawerList;
 	protected ActionBarDrawerToggle mDrawerToggle;
@@ -59,13 +57,13 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		super.onCreate(savedInstanceState);
 		Log.d();
 
-		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
-
-		try {
-			myProfile = dbOpenHelper.getMyFullProfile();
-		} catch (Exception e) {
-
-		}
+//		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
+//
+//		try {
+//			myProfile = dbOpenHelper.getMyFullProfile();
+//		} catch (Exception e) {
+//
+//		}
 
 		// Cancella le notifiche appese se l'utente proviene da fuori da un
 		// banner di notifica
@@ -98,14 +96,14 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected void onResume() {
 		Log.d();
 		super.onResume();
-
-		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
-
-		try {
-			myProfile = dbOpenHelper.getMyFullProfile();
-		} catch (Exception e) {
-
-		}
+//
+//		dbOpenHelper = DBOpenHelperImpl.getInstance(this);
+//
+//		try {
+//			myProfile = dbOpenHelper.getMyFullProfile();
+//		} catch (Exception e) {
+//
+//		}
 	}
 
 	@Override

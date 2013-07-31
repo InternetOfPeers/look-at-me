@@ -7,11 +7,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.MessageItem;
 
 public class LookAtMeCommunicationRepository {
-
-	// private static ILookAtMeCommunicationListener listener = null;
+	
+	private static FullProfile myFullProfile;
+	
+	private static BasicProfile myBasicProfile;
 
 	private static LookAtMeCommunicationRepository instance;
 
@@ -33,6 +37,22 @@ public class LookAtMeCommunicationRepository {
 			instance = new LookAtMeCommunicationRepository();
 		}
 		return instance;
+	}
+	
+	public FullProfile getMyFullProfile() {
+		return myFullProfile;
+	}
+	
+	public void setMyFullProfile(FullProfile profile) {
+		this.myFullProfile = profile;
+	}
+	
+	public BasicProfile getMyBasicProfile() {
+		return myBasicProfile;
+	}
+	
+	public void setMyBasicProfile(BasicProfile profile) {
+		this.myBasicProfile = profile;
 	}
 
 	public Map<String, List<MessageItem>> getMessagesHistoryMap() {
@@ -92,94 +112,5 @@ public class LookAtMeCommunicationRepository {
 	public void setProfileViewed(LookAtMeNode node) {
 		profileViewed = node;
 	}
-
-	// public static ILookAtMeCommunicationListener getInstance()
-	// {
-	// if(listener == null)
-	// {
-	// listener = new ILookAtMeCommunicationListener() {
-	//
-	// @Override
-	// public void onSocialNodeUpdated(LookAtMeNode node) {
-	// Log.d();
-	// // TODO Auto-generated method stub
-	// socialNodeMap.remove(node.getId());
-	// socialNodeMap.put(node.getId(),node);
-	//
-	// }
-	//
-	// @Override
-	// public void onSocialNodeProfileReceived(LookAtMeNode node) {
-	// Log.d();
-	// profileViewed=node;
-	// onSocialNodeProfileProduced(node);
-	// }
-	//
-	// @Produce
-	// public SocialNodeProfileReceivedEvent
-	// onSocialNodeProfileProduced(LookAtMeNode node) {
-	// Log.d();
-	// return new SocialNodeProfileReceivedEvent(node);
-	// }
-	//
-	// @Override
-	// public void onSocialNodeLeft(String nodeName) {
-	// Log.d();
-	// // remove node from socialNodeMap
-	// socialNodeMap.remove(nodeName);
-	//
-	// }
-	//
-	// @Override
-	// public void onSocialNodeJoined(LookAtMeNode node) {
-	// Log.d();
-	// socialNodeMap.put(node.getId(),node);
-	//
-	// }
-	//
-	// @Override
-	// public void onLikeReceived(String nodeFrom) {
-	// Log.d();
-	// liked.add(nodeFrom);
-	// }
-	//
-	// @Override
-	// public void onCommunicationStopped() {
-	// Log.d();
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void onCommunicationStarted() {
-	// Log.d();
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void onChatMessageReceived(LookAtMeNode nodeFrom, String message)
-	// {
-	// Log.d();
-	// String
-	// channelName=CommonUtils.generateChannelName(nodeFrom.getProfile().getId(),
-	// CommonActivity.myProfile.getId());
-	// MessageItem messageItem= new MessageItem(nodeFrom, message, false);
-	// messagesHistoryMap.get(channelName).add(messageItem);
-	// }
-	//
-	// @Override
-	// public void onChatMessageReceived(String nodeFrom, String message) {
-	// Log.d();
-	// String channelName=CommonUtils.generateChannelName(nodeFrom,
-	// CommonActivity.myProfile.getId());
-	// MessageItem messageItem= new MessageItem(socialNodeMap.get(nodeFrom),
-	// message, false);
-	// messagesHistoryMap.get(channelName).add(messageItem);
-	// }
-	// };
-	// }
-	// return listener;
-	// }
 
 }

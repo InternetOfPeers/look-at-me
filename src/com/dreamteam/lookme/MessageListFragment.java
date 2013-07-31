@@ -39,8 +39,6 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 
 	//public static final int CHAT_LIST_FRAGMENT = 1002;
 
-	//private LookAtMeCommunicationRepository communicationRepository = LookAtMeCommunicationRepository.getInstance();
-
 	private Activity activity;
 
 	private ListView messageListView;

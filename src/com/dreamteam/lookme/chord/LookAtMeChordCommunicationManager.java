@@ -15,6 +15,7 @@ import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
 import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
+import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.communication.LookAtMeMessageType;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.constants.AppSettings;
@@ -251,7 +252,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					// getMyBasicProfile().getId()), chat);
 					// avvio il join al canale privato e comunico il nome del
 					// canale
-					String chatChannelName = CommonUtils.generateChannelName(arg0, getMyBasicProfile().getId());
+					//String chatChannelName = CommonUtils.generateChannelName(arg0, getMyBasicProfile().getId());
+					String chatChannelName = CommonUtils.generateChannelName(arg0, LookAtMeCommunicationRepository.getInstance().getMyBasicProfile().getId());
 					joinChatChannel(chatChannelName);
 					communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
 					break;
@@ -576,8 +578,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	// return messagesHistoryMap.get(channelName);
 	// }
 
-	private static Profile getMyBasicProfile() {
-		return CommonActivity.myProfile;
-	}
+//	private static Profile getMyBasicProfile() {
+//		return CommonActivity.myProfile;
+//	}
 
 }
