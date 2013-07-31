@@ -32,8 +32,6 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	public static final String chordFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ChordTmp";
 
 	private static final byte[][] EMPTY_PAYLOAD = new byte[0][0];
-	private static final int FULL_PROFILE = 0;
-	private static final int BASIC_PROFILE = 1;
 
 	private ChordManager chord;
 	private IChordChannel publicChannel;
@@ -363,10 +361,10 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		Log.d();
 		return socialChannel.sendData(nodeTo, LookAtMeMessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
-
+	
 	private boolean sendBasicProfileResponse(String nodeTo) {
 		Log.d();
-		LookAtMeChordMessage message = obtainMyProfileMessage(BASIC_PROFILE, LookAtMeMessageType.BASIC_PROFILE, nodeTo);
+		LookAtMeChordMessage message = obtainMyProfileMessage(LookAtMeCommunicationRepository.getInstance().getMyBasicProfile(), LookAtMeMessageType.BASIC_PROFILE, nodeTo);
 		if (message != null) {
 			return socialChannel.sendData(nodeTo, LookAtMeMessageType.BASIC_PROFILE.toString(), obtainPayload(message));
 		} else {
@@ -374,9 +372,9 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		}
 	}
 
-	private boolean sendFullProfileResponse(String nodeTo) {
+	public boolean sendFullProfileResponse(String nodeTo) {
 		Log.d();
-		LookAtMeChordMessage message = obtainMyProfileMessage(FULL_PROFILE, LookAtMeMessageType.FULL_PROFILE, nodeTo);
+		LookAtMeChordMessage message = obtainMyProfileMessage(LookAtMeCommunicationRepository.getInstance().getMyFullProfile(), LookAtMeMessageType.FULL_PROFILE, nodeTo);
 		if (message != null) {
 			return socialChannel.sendData(nodeTo, LookAtMeMessageType.FULL_PROFILE.toString(), obtainPayload(message));
 		} else {
@@ -384,21 +382,11 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		}
 	}
 
-	private LookAtMeChordMessage obtainMyProfileMessage(int profileType, LookAtMeMessageType type, String receiverNodeName) {
+	private LookAtMeChordMessage obtainMyProfileMessage(Profile myProfile, LookAtMeMessageType type, String receiverNodeName) {
 		Log.d();
 		LookAtMeChordMessage message = new LookAtMeChordMessage(type);
 		message.setSenderNodeName(chord.getName());
 		message.setReceiverNodeName(receiverNodeName); // this maybe null
-		// getting my profile
-		Profile myProfile = null;
-		switch (profileType) {
-		case BASIC_PROFILE:
-			myProfile = LookAtMeCommunicationRepository.getInstance().getMyBasicProfile();
-			break;
-		case FULL_PROFILE:
-			myProfile = LookAtMeCommunicationRepository.getInstance().getMyFullProfile();
-			break;
-		}
 		message.putObject(type.toString(), myProfile);
 		return message;
 	}

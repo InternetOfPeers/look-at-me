@@ -40,6 +40,10 @@ public class CommunicationService extends Service {
 	}
 
 	private final IBinder binder = new CommunicationServiceBinder();
+	
+	/***************************************************/
+	/**               SERVICE OVERRIDE                **/
+	/***************************************************/
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -58,6 +62,10 @@ public class CommunicationService extends Service {
 		Log.d();
 		return super.onStartCommand(intent, START_NOT_STICKY, startId);
 	}
+	
+	/***************************************************/
+	/**             INIT / START / STOP               **/
+	/***************************************************/
 
 	public int initialize(Context context) {
 		Log.d();
@@ -80,17 +88,17 @@ public class CommunicationService extends Service {
 				}
 
 				@Override
-				public void onFullProfileNodeReceived(LookAtMeNode node) {
-					Log.d();
-					LookAtMeCommunicationRepository.getInstance().setProfileViewed(node);
-					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.PROFILE_RECEIVED, node.getId()));
-				}
-
-				@Override
 				public void onBasicProfileNodeReceived(LookAtMeNode node) {
 					Log.d();
 					LookAtMeCommunicationRepository.getInstance().putSocialNodeInMap(node);
 					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.NODE_JOINED, node.getId()));
+				}
+
+				@Override
+				public void onFullProfileNodeReceived(LookAtMeNode node) {
+					Log.d();
+					LookAtMeCommunicationRepository.getInstance().setProfileViewed(node);
+					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.PROFILE_RECEIVED, node.getId()));
 				}
 
 				@Override
@@ -144,6 +152,10 @@ public class CommunicationService extends Service {
 		Log.d();
 		communicationManager.stopCommunication();
 	}
+	
+	/***************************************************/
+	/**               SERVICE METHODS                 **/
+	/***************************************************/
 
 	public void refreshSocialList() {
 		Log.d();
