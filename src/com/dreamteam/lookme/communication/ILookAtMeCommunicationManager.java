@@ -15,35 +15,22 @@ public interface ILookAtMeCommunicationManager {
 
 	public void stopCommunication();
 
-	public boolean sendProfilePreviewRequestAll(); /*
+	public boolean sendBasicProfileRequestAll(); /*
 													 * Maybe not necessary (to
 													 * testing)
 													 */
 
-	public boolean sendProfileRequest(String nodeTo);
+	public boolean sendFullProfileRequest(String nodeTo);
 
-	public boolean sendProfilePreviewAll(); /*
+	public boolean sendBasicProfileAll(); /*
 											 * to communicate all nodes my
 											 * profile is updated
 											 */
-
-	// public IChordChannel joinChannel(String channelName);
 
 	public boolean sendChatMessage(String nodeTo, String message, String channelName);
 
 	public boolean sendStartChatMessage(String nodeTo);
 
 	public boolean sendLike(String nodeTo);
-
-	// public boolean sendPrivateChatMessage(String nodeTo, String
-	// message,String channelName);
-
-	// public IChordChannel getChannel(String channelName);
-
-	// public List<MessageItem> getChat(String channelName);
-
-	// public Map<String,IChordChannel> getOpenChannels();
-
-	// public Map<String,List<MessageItem>> getOpenedChat();
 
 }

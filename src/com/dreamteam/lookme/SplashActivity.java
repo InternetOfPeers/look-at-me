@@ -14,6 +14,7 @@ import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.navigation.Nav;
+import com.dreamteam.util.Log;
 
 public class SplashActivity extends Activity {
 
@@ -24,12 +25,14 @@ public class SplashActivity extends Activity {
 		// carico il mio profilo sia basic che full nel repository statico
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
-			FullProfile myFullProfile = dbOpenHelper.getMyFullProfile();
-			BasicProfile myBasicProfile = dbOpenHelper.getMyBasicProfile();
-			LookAtMeCommunicationRepository.getInstance().setMyBasicProfile(myBasicProfile);
-			LookAtMeCommunicationRepository.getInstance().setMyFullProfile(myFullProfile);
+			if (dbOpenHelper.isProfileCompiled()) {
+				FullProfile myFullProfile = dbOpenHelper.getMyFullProfile();
+				BasicProfile myBasicProfile = dbOpenHelper.getMyBasicProfile();
+				LookAtMeCommunicationRepository.getInstance().setMyBasicProfile(myBasicProfile);
+				LookAtMeCommunicationRepository.getInstance().setMyFullProfile(myFullProfile);
+			}
 		} catch (Exception e) {
-
+			Log.e("Errore nel recupero del profilo");
 		}
 
 		// Imposto l'activity da caricare

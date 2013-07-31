@@ -20,21 +20,21 @@ public class ChordMessageTest extends TestCase {
 	}
 
 	public void testPutObject() {
-		LookAtMeMessage message = new LookAtMeChordMessage(LookAtMeMessageType.PREVIEW);
+		LookAtMeMessage message = new LookAtMeChordMessage(LookAtMeMessageType.BASIC_PROFILE);
 		profile = new FullProfile();
 		profile.setName("pippo");
 		profile.setSurname("paperino");
-		message.putObject(LookAtMeMessageType.PROFILE.toString(), profile);
-		assertEquals(profile, message.getObject(LookAtMeMessageType.PROFILE.toString()));
-		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString())).getName(), "pippo");
-		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString())).getSurname(), "paperino");
+		message.putObject(LookAtMeMessageType.FULL_PROFILE.toString(), profile);
+		assertEquals(profile, message.getObject(LookAtMeMessageType.FULL_PROFILE.toString()));
+		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.FULL_PROFILE.toString())).getName(), "pippo");
+		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.FULL_PROFILE.toString())).getSurname(), "paperino");
 
 		profile = new FullProfile();
 		profile.setName("pluto");
 		profile.setSurname("topolino");
-		message.putObject(LookAtMeMessageType.PROFILE.toString(), profile);
-		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString())).getName(), "pluto");
-		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.PROFILE.toString())).getSurname(), "topolino");
+		message.putObject(LookAtMeMessageType.FULL_PROFILE.toString(), profile);
+		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.FULL_PROFILE.toString())).getName(), "pluto");
+		assertEquals(((FullProfile) message.getObject(LookAtMeMessageType.FULL_PROFILE.toString())).getSurname(), "topolino");
 	}
 
 }

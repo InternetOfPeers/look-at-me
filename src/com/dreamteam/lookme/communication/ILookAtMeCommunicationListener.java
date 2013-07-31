@@ -9,11 +9,11 @@ public interface ILookAtMeCommunicationListener {
 
 	public void onCommunicationStopped();
 
-	public void onSocialNodeJoined(LookAtMeNode node);
+	public void onBasicProfileNodeReceived(LookAtMeNode node);
 
-	public void onSocialNodeLeft(String nodeName);
+	public void onNodeLeft(String nodeName);
 
-	public void onSocialNodeProfileReceived(LookAtMeNode node);
+	public void onFullProfileNodeReceived(LookAtMeNode node);
 
 	public void onLikeReceived(String nodeFrom);
 
@@ -21,6 +21,6 @@ public interface ILookAtMeCommunicationListener {
 
 	public void onStartChatMessageReceived(String nodeFrom, String channelName);
 
-	public void onSocialNodeUpdated(LookAtMeNode node);
+	public void onProfileNodeUpdated(LookAtMeNode node);
 
 }

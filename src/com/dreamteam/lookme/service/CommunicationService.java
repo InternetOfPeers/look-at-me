@@ -80,31 +80,31 @@ public class CommunicationService extends Service {
 				}
 
 				@Override
-				public void onSocialNodeUpdated(LookAtMeNode node) {
-					// TODO Auto-generated method stub
-					Log.d();
-
-				}
-
-				@Override
-				public void onSocialNodeProfileReceived(LookAtMeNode node) {
+				public void onFullProfileNodeReceived(LookAtMeNode node) {
 					Log.d();
 					LookAtMeCommunicationRepository.getInstance().setProfileViewed(node);
 					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.PROFILE_RECEIVED, node.getId()));
 				}
 
 				@Override
-				public void onSocialNodeLeft(String nodeName) {
+				public void onBasicProfileNodeReceived(LookAtMeNode node) {
+					Log.d();
+					LookAtMeCommunicationRepository.getInstance().putSocialNodeInMap(node);
+					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.NODE_JOINED, node.getId()));
+				}
+
+				@Override
+				public void onNodeLeft(String nodeName) {
 					Log.d();
 					LookAtMeCommunicationRepository.getInstance().removeSocialNodeFromMap(nodeName);
 					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.NODE_LEFT, nodeName));
 				}
 
 				@Override
-				public void onSocialNodeJoined(LookAtMeNode node) {
+				public void onProfileNodeUpdated(LookAtMeNode node) {
+					// TODO Auto-generated method stub
 					Log.d();
-					LookAtMeCommunicationRepository.getInstance().putSocialNodeInMap(node);
-					EventBusProvider.getIntance().post(new LookAtMeEvent(LookAtMeEventType.NODE_JOINED, node.getId()));
+
 				}
 
 				@Override
@@ -147,23 +147,18 @@ public class CommunicationService extends Service {
 
 	public void refreshSocialList() {
 		Log.d();
-		communicationManager.sendProfilePreviewRequestAll();
+		communicationManager.sendBasicProfileRequestAll();
 	}
 
-	public void sendProfileRequest(String nodeTo) {
+	public void sendFullProfileRequest(String nodeTo) {
 		Log.d();
-		communicationManager.sendProfileRequest(nodeTo);
+		communicationManager.sendFullProfileRequest(nodeTo);
 	}
 
 	public void sendLike(String nodeTo) {
 		Log.d();
 		communicationManager.sendLike(nodeTo);
 	}
-
-	// public IChordChannel joinChannel(String channelName) {
-	// Log.d();
-	// return communicationManager.joinChannel(channelName);
-	// }
 
 	public boolean sendStartChatMessage(String nodeTo) {
 		Log.d();
@@ -174,21 +169,5 @@ public class CommunicationService extends Service {
 		Log.d();
 		return communicationManager.sendChatMessage(nodeTo, message, channel);
 	}
-
-	// public IChordChannel getChannel(String channelName) {
-	// return communicationManager.getChannel(channelName);
-	// }
-	//
-	// public List<MessageItem> getChat(String channelName) {
-	// return communicationManager.getChat(channelName);
-	// }
-	//
-	// public Map<String, IChordChannel> getOpenChannels() {
-	// return communicationManager.getOpenChannels();
-	// }
-	//
-	// public Map<String, List<MessageItem>> getOpenedChat() {
-	// return communicationManager.getOpenedChat();
-	// }
 
 }

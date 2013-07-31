@@ -8,15 +8,13 @@ package com.dreamteam.lookme.communication;
 
 public enum LookAtMeMessageType {
 
-	PREVIEW, /* Minimal profile data */
-	PROFILE, /* Complete profile data */
+	BASIC_PROFILE, /* Minimal profile data */
+	FULL_PROFILE, /* Complete profile data */
 	LIKE, /* Love game */
-	CHAT_MESSAGE, PROFILE_UPDATE, /*
-								 * used to send all nodes new profile if it is
-								 * updated
-								 */
-	PREVIEW_REQUEST, /* request minimal profile data */
-	PROFILE_REQUEST, /* request complete profile data */
+	CHAT_MESSAGE, /* Chat message over private channel */
+	PROFILE_UPDATE, /* TODO: used to send all nodes new profile if it is updated */
+	BASIC_PROFILE_REQUEST, /* request minimal profile data */
+	FULL_PROFILE_REQUEST, /* request complete profile data */
 	START_CHAT_MESSAGE; /* request a chat session */
 
 	@Override
