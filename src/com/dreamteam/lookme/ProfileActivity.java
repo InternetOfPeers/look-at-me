@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
+import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
+import com.dreamteam.lookme.db.DBOpenHelper;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
 
@@ -36,7 +39,7 @@ public class ProfileActivity extends CommonActivity {
 		try {
 
 			setContentView(R.layout.activity_profile);
-			FullProfile oldProfile = dbOpenHelper.getMyFullProfile();
+			FullProfile oldProfile = LookAtMeCommunicationRepository.getInstance().getMyFullProfile();
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
 			}
@@ -72,7 +75,7 @@ public class ProfileActivity extends CommonActivity {
 
 			FullProfile profile = null;
 
-			profile = dbOpenHelper.getMyFullProfile();
+			profile = LookAtMeCommunicationRepository.getInstance().getMyFullProfile();
 
 			if (profile == null)
 				profile = new FullProfile();
@@ -108,7 +111,9 @@ public class ProfileActivity extends CommonActivity {
 
 			}
 
+			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
+			LookAtMeCommunicationRepository.getInstance().setMyFullProfile(savedProfile);
 			switchToUpdateAccount(savedProfile);
 			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
 			toast.show();

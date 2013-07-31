@@ -50,7 +50,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected CharSequence mTitle;
 	protected String[] mPlanetTitles;
 	protected boolean menuEnabled;
-	protected DBOpenHelper dbOpenHelper;
+	//protected DBOpenHelper dbOpenHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -367,17 +367,17 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		dialog.show();
 	}
 
-	public BasicProfile getMyBasicProfile() {
-		try {
-			return dbOpenHelper.getMyBasicProfile();
-		} catch (Exception e) {
-			android.util.Log.e("ERROR", "Error during loading myBasicProfile");
-		}
-		return null;
-
-	}
-
-	public DBOpenHelper getDbOpenHelper() {
-		return dbOpenHelper;
-	}
+//	public BasicProfile getMyBasicProfile() {
+//		try {
+//			return dbOpenHelper.getMyBasicProfile();
+//		} catch (Exception e) {
+//			android.util.Log.e("ERROR", "Error during loading myBasicProfile");
+//		}
+//		return null;
+//
+//	}
+//
+//	public DBOpenHelper getDbOpenHelper() {
+//		return dbOpenHelper;
+//	}
 }

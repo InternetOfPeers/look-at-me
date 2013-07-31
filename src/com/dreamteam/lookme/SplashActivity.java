@@ -21,7 +21,7 @@ public class SplashActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// carico il mio profilo sia basic che full
+		// carico il mio profilo sia basic che full nel repository statico
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
 			FullProfile myFullProfile = dbOpenHelper.getMyFullProfile();
