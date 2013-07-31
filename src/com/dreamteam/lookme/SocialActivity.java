@@ -54,7 +54,7 @@ public class SocialActivity extends CommonActivity {
 		}
 	}
 
-	private void setFragment(int fragment) {
+	protected void setFragment(int fragment) {
 		Log.d("" + fragment);
 		if (currentFragment != fragment) {
 			Log.d("changing fragment from " + currentFragment + " to " + fragment);
@@ -66,6 +66,7 @@ public class SocialActivity extends CommonActivity {
 				fragmentTransaction.hide(socialProfileFragment);
 				break;
 			case SOCIAL_PROFILE_FRAGMENT:
+				socialProfileFragment.setProfileData();
 				fragmentTransaction.hide(socialListFragment);
 				fragmentTransaction.show(socialProfileFragment);
 				break;
@@ -98,18 +99,5 @@ public class SocialActivity extends CommonActivity {
 
 		dialog.show();
 	}
-
-//	public LookAtMeNode getNodeProfile(String nodeID) {
-//		return socialListFragment.getSocialNode(nodeID);
-//	}
-
-	// @Override
-	// public void onChatMessageReceived(LookAtMeNode nodeFrom, String message)
-	// {
-	// Log.d("NOT IMPLEMENTED");
-	// Toast.makeText(getApplicationContext(), nodeFrom + " Want to talk!",
-	// Toast.LENGTH_LONG).show();
-	//
-	// }
 
 }

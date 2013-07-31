@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -26,26 +25,51 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.communication.EventBusProvider;
 import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.communication.LookAtMeNode;
+import com.dreamteam.lookme.event.LookAtMeEvent;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
+import com.squareup.otto.Subscribe;
 
-public class SocialListFragment extends Fragment implements OnClickListener, OnItemClickListener {
+public class SocialListFragment extends Fragment implements OnItemClickListener {
 
 	private ListView socialListView;
 	private SocialListAdapter socialListAdapter;
-	private Button refreshListButton;
 	private ProgressDialog loadingDialog;
-
-	// @Subscribe
-	// public void handleButtonPress(ButtonEvent event) {
-	//
-	// }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.d();
 		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public void onStart() {
+		Log.d();
+		EventBusProvider.getIntance().register(this);
+		super.onStart();
+	}
+	
+	@Subscribe
+	public void onNodeMovment(LookAtMeEvent event) {
+		Log.d(event.getEventType().toString());
+		switch (event.getEventType()) {
+		case NODE_JOINED:
+			socialListAdapter.notifyDataSetChanged();
+			break;
+		case NODE_LEFT:
+			socialListAdapter.notifyDataSetChanged();
+			break;
+		case PROFILE_RECEIVED:
+			dismissLoadingDialog();
+			SocialActivity activity = (SocialActivity) this.getActivity();
+			activity.setFragment(SocialActivity.SOCIAL_PROFILE_FRAGMENT);
+			break;
+		default:
+			break;
+		}
 	}
 
 	private CommunicationService getCommunicationService() {
@@ -55,10 +79,8 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.d();
 		View view = inflater.inflate(R.layout.fragment_social_list, null);
-
-		refreshListButton = (Button) view.findViewById(R.id.buttonRefreshList);
-		refreshListButton.setOnClickListener(this);
 
 		socialListAdapter = new SocialListAdapter();
 		socialListView = (ListView) view.findViewById(R.id.socialListView);
@@ -69,30 +91,22 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	}
 
 	@Override
-	public void onClick(View arg0) {
-		Log.d();
-		getCommunicationService().refreshSocialList();
-	}
-
-	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int clickedItemPosition, long clickedItemID) {
 		Log.d();
 		final LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int) clickedItemID);
-		final Activity activity = this.getActivity();
 		final Dialog dialog = new Dialog(this.getActivity());
 		arg1.setAlpha(1);
 		// tell the Dialog to use the dialog.xml as it's layout description
 		dialog.setContentView(R.layout.chosed_profile_dialog);
 		dialog.setTitle("What do u wanna do?");
+		
 		TextView txt = (TextView) dialog.findViewById(R.id.nickname_txt);
 		txt.setText(node.getProfile().getNickname());
-		// txt = (TextView) dialog.findViewById(R.id.age_txt);
-		// txt.setText(node.getProfile().getAge());
-
 		txt = (TextView) dialog.findViewById(R.id.gender_txt);
 		txt.setText(node.getProfile().getGender());
 		txt = (TextView) dialog.findViewById(R.id.matching_score_txt);
 		txt.setText("90%");
+		
 		Button dialogButton = (Button) dialog.findViewById(R.id.startChat_btn);
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -106,24 +120,25 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 			}
 
 		});
-		dialog.show();
-	}
+		
+		Button viewFullProfileButton = (Button) dialog.findViewById(R.id.viewFullProfile_btn);
+		viewFullProfileButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				getCommunicationService().sendFullProfileRequest(node.getId());
+				// entro in attesa
+				loadingDialog = new ProgressDialog(SocialListFragment.this.getActivity());
+				loadingDialog.setTitle("Loading profile");
+				loadingDialog.show();
+			}
 
-	public void refreshFragment() {
-		Log.d();
-		this.socialListAdapter.notifyDataSetChanged();
+		});
+		dialog.show();
 	}
 
 	public void dismissLoadingDialog() {
 		loadingDialog.dismiss();
-	}
-
-	public String getNicknameOf(String nodeId) {
-		LookAtMeNode node = (LookAtMeNode) LookAtMeCommunicationRepository.getInstance().getSocialNodeMap().get(nodeId);
-		if (node != null) {
-			return node.getProfile().getNickname();
-		}
-		return null;
 	}
 
 	public class SocialListAdapter extends BaseAdapter {

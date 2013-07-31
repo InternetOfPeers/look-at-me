@@ -22,8 +22,6 @@ import com.dreamteam.util.Log;
 
 public class SocialProfileFragment extends Fragment implements OnClickListener {
 
-	private CommunicationService communicationService;
-
 	private ViewPager profilePhoto;
 
 	private TextView textNickname;
@@ -35,13 +33,13 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.d();
 		super.onCreate(savedInstanceState);
-		SocialActivity socialActivity = (SocialActivity) this.getActivity();
-		communicationService = socialActivity.getCommunicationService();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.d();
 		View view = inflater.inflate(R.layout.fragment_social_profile, null);
 
 		textNickname = (TextView) view.findViewById(R.id.textNickname);
@@ -53,6 +51,10 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
 		
+		return view;
+	}
+	
+	public void setProfileData() {
 		if (LookAtMeCommunicationRepository.getInstance().getProfileViewed() != null) {
 			FullProfile profile = (FullProfile) (LookAtMeCommunicationRepository.getInstance().getProfileViewed()).getProfile();
 			textNickname.setText(profile.getNickname());
@@ -65,15 +67,14 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 			gallery_images[2] = R.drawable.demo_gallery_3;
 			profilePhoto.setAdapter(new SamplePagerAdapter());
 		}
-
-		return view;
 	}
 
 	@Override
 	public void onClick(View v) {
 		LookAtMeNode profileNode = LookAtMeCommunicationRepository.getInstance().getProfileViewed();
 		Log.d("LIKE clicked on node " + profileNode.getId());
-		communicationService.sendLike(profileNode.getId());
+		SocialActivity activity = (SocialActivity) this.getActivity();
+		activity.getCommunicationService().sendLike(profileNode.getId());
 		Toast.makeText(this.getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
 	}
 
