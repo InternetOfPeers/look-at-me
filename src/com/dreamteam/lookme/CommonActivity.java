@@ -41,7 +41,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected CommunicationService communicationService;
 	// This variable can be valued as CommunicationService.SERVICE_READY_TO_RUN
 	// or CommunicationService.SERVICE_RUNNING constants
-	protected int serviceState;
+	//protected int serviceState;
 
 	public static Profile myProfile;
 	protected DrawerLayout mDrawerLayout;
@@ -92,12 +92,6 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	protected void onStop() {
 		Log.d();
 		super.onStop();
-		try {
-			Log.d("Unbind communication service");
-			unbindService(this);
-		} catch (Exception e) {
-			Log.e(e.getMessage());
-		}
 	}
 
 	@Override
@@ -129,6 +123,12 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 	@Override
 	protected void onDestroy() {
 		Log.d();
+		try {
+			Log.d("Unbind communication service");
+			unbindService(this);
+		} catch (Exception e) {
+			Log.e(e.getMessage());
+		}
 		super.onDestroy();
 	}
 
@@ -138,7 +138,7 @@ public abstract class CommonActivity extends Activity implements ServiceConnecti
 		Log.d();
 		CommunicationServiceBinder binder = (CommunicationServiceBinder) service;
 		communicationService = binder.getService();
-		serviceState = communicationService.initialize(this);
+		int serviceState = communicationService.initialize(this);
 		try {
 			if (serviceState == CommunicationService.SERVICE_READY_TO_RUN) {
 				Log.d("service is ready to run");

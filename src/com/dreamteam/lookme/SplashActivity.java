@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
 
 		// Start del servizio di comunicazione
-		Services.communication.start(this);
+		//Services.communication.start(this);
 	}
 
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.util.Log;
 
@@ -100,9 +99,9 @@ public class SocialActivity extends CommonActivity {
 		dialog.show();
 	}
 
-	public LookAtMeNode getNodeProfile(String nodeID) {
-		return socialListFragment.getSocialNode(nodeID);
-	}
+//	public LookAtMeNode getNodeProfile(String nodeID) {
+//		return socialListFragment.getSocialNode(nodeID);
+//	}
 
 	// @Override
 	// public void onChatMessageReceived(LookAtMeNode nodeFrom, String message)

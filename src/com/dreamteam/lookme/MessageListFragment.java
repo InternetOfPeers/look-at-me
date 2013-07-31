@@ -1,8 +1,6 @@
 package com.dreamteam.lookme;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -37,11 +35,11 @@ import com.dreamteam.util.Log;
 
 public class MessageListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
-	private Map<String, List<MessageItem>> messagesHistoryMap = new HashMap<String, List<MessageItem>>();
+	//private Map<String, List<MessageItem>> messagesHistoryMap = new HashMap<String, List<MessageItem>>();
 
-	public static final int CHAT_LIST_FRAGMENT = 1002;
+	//public static final int CHAT_LIST_FRAGMENT = 1002;
 
-	private LookAtMeCommunicationRepository communicationRepository = LookAtMeCommunicationRepository.getInstance();
+	//private LookAtMeCommunicationRepository communicationRepository = LookAtMeCommunicationRepository.getInstance();
 
 	private Activity activity;
 
@@ -81,7 +79,7 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	public void onActivityCreated(Bundle savedInstanceState) {
 		android.util.Log.e("onActivityCreated", "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-		messagesHistoryMap = communicationRepository.getMessagesHistoryMap();
+		//messagesHistoryMap = communicationRepository.getMessagesHistoryMap();
 		messageListAdapter.notifyDataSetChanged();
 	}
 
@@ -99,17 +97,17 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 		// chatListAdapter.setChatListHistory(chatListHistory);
 	}
 
-	public void putMessageNode(LookAtMeNode node) {
-		messagesHistoryMap.put("", new ArrayList<MessageItem>());
-	}
-
-	public void removeMessageNode(String nodeName) {
-		messagesHistoryMap.remove(nodeName);
-	}
-
-	public List<MessageItem> getMessageNode(String nodeName) {
-		return messagesHistoryMap.get(nodeName);
-	}
+//	public void putMessageNode(LookAtMeNode node) {
+//		messagesHistoryMap.put("", new ArrayList<MessageItem>());
+//	}
+//
+//	public void removeMessageNode(String nodeName) {
+//		messagesHistoryMap.remove(nodeName);
+//	}
+//
+//	public List<MessageItem> getMessageNode(String nodeName) {
+//		return messagesHistoryMap.get(nodeName);
+//	}
 
 	public void refreshFragment() {
 		this.messageListAdapter.notifyDataSetChanged();
@@ -132,6 +130,8 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	// }
 
 	public class MessagesListAdapter extends BaseAdapter {
+		
+		Map<String, List<MessageItem>> messagesHistoryMap = LookAtMeCommunicationRepository.getInstance().getMessagesHistoryMap();
 
 		@Override
 		public int getCount() {

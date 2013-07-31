@@ -29,29 +29,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.service.CommunicationService;
 import com.dreamteam.util.Log;
 
 public class SocialListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
-	// private CommunicationService communicationService;
-
-	public static Map<String, LookAtMeNode> socialNodeMap;
-
-	private Set<String> iLike;
-	private Set<String> liked;
-
 	private ListView socialListView;
 	private SocialListAdapter socialListAdapter;
 	private Button refreshListButton;
 	private ProgressDialog loadingDialog;
-
-	// @Override
-	// public void onResume() {
-	// super.onResume();
-	// communicationService = getCommunicationService();
-	// }
 
 	// @Subscribe
 	// public void handleButtonPress(ButtonEvent event) {
@@ -61,7 +49,6 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// getCommunicationService();
 	}
 
 	private CommunicationService getCommunicationService() {
@@ -72,11 +59,6 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_social_list, null);
-
-		socialNodeMap = new HashMap<String, LookAtMeNode>();
-		// init like structures
-		iLike = new TreeSet<String>();
-		liked = new TreeSet<String>();
 
 		refreshListButton = (Button) view.findViewById(R.id.buttonRefreshList);
 		refreshListButton.setOnClickListener(this);
@@ -130,21 +112,8 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 		dialog.show();
 	}
 
-	public void putSocialNode(LookAtMeNode node) {
-		socialNodeMap.put(node.getId(), node);
-	}
-
-	public void removeSocialNode(String nodeName) {
-		socialNodeMap.remove(nodeName);
-	}
-
 	public void refreshFragment() {
-		Log.d("socialNodeMap is not null? " + (socialNodeMap != null));
-		Log.d("socialNodeMap size is " + socialNodeMap.size());
-		Log.d("iLike is not null? " + (iLike != null));
-		Log.d("iLike size is " + iLike.size());
-		Log.d("liked is not null? " + (liked != null));
-		Log.d("liked size is " + liked.size());
+		Log.d();
 		this.socialListAdapter.notifyDataSetChanged();
 	}
 
@@ -152,24 +121,8 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 		loadingDialog.dismiss();
 	}
 
-	public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {
-		this.socialNodeMap = socialNodeMap;
-	}
-
-	public LookAtMeNode getSocialNode(String nodeId) {
-		return this.socialNodeMap.get(nodeId);
-	}
-
-	public void addILike(String nodeId) {
-		iLike.add(nodeId);
-	}
-
-	public void addLiked(String nodeId) {
-		liked.add(nodeId);
-	}
-
 	public String getNicknameOf(String nodeId) {
-		LookAtMeNode node = (LookAtMeNode) socialNodeMap.get(nodeId);
+		LookAtMeNode node = (LookAtMeNode) LookAtMeCommunicationRepository.getInstance().getSocialNodeMap().get(nodeId);
 		if (node != null) {
 			return node.getProfile().getNickname();
 		}
@@ -177,6 +130,8 @@ public class SocialListFragment extends Fragment implements OnClickListener, OnI
 	}
 
 	public class SocialListAdapter extends BaseAdapter {
+		
+		Map<String, LookAtMeNode> socialNodeMap = LookAtMeCommunicationRepository.getInstance().getSocialNodeMap();
 
 		@Override
 		public int getCount() {
