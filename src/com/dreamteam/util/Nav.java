@@ -114,6 +114,6 @@ public class Nav {
 	 * @return
 	 */
 	public static int getMenuPositionFromActivityClass(Class<? extends Activity> activity) {
-		return map.get(activity);
+		return map.containsKey(activity) ? map.get(activity) : -1;
 	}
 }

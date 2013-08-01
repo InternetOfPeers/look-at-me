@@ -86,7 +86,7 @@ public abstract class CommonActivity extends Activity {
 		// Imposta la selezione del menu item corrente in base all'activity
 		if (savedInstanceState == null) {
 			int position = Nav.getMenuPositionFromActivityClass(activityClass);
-			if (position > 0)
+			if (position >= 0)
 				setMenuItem(position);
 		}
 	}
