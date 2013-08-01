@@ -56,32 +56,31 @@
                         android:text="@string/text_nickname"
                         android:textColor="#372c24" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/reg_nickname"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dip"
                         android:layout_marginTop="5dip"
-                        android:inputType="text"
                         android:singleLine="true" />
 
                     <TextView
+                        android:id="@+id/prova"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/text_name"
                         android:textColor="#372c24" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/reg_name"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dip"
                         android:layout_marginTop="5dip"
-                        android:inputType="text"
                         android:singleLine="true" >
 
                         <requestFocus />
-                    </EditText>
+                    </TextView>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -89,13 +88,12 @@
                         android:text="@string/text_surname"
                         android:textColor="#372c24" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/reg_surname"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dip"
                         android:layout_marginTop="5dip"
-                        android:inputType="text"
                         android:singleLine="true" />
 
                     <Button

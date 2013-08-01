@@ -47,6 +47,14 @@
             android:label="@string/title_profile_activity" >
         </activity>
         <activity
+            android:name="com.dreamteam.lookme.EditProfileActivity"
+            android:label="@string/title_profile_activity" >
+        </activity>
+        <activity
+            android:name="com.dreamteam.lookme.ManageInterestActivity"
+            android:label="@string/title_manage_interest_activity" >
+        </activity>
+        <activity
             android:name="com.dreamteam.lookme.MessagesActivity"
             android:label="@string/title_messages_activity" >
         </activity>

@@ -6,6 +6,8 @@
     <string name="title_social_activity">Nearby</string>
     <string name="title_splash_activity">Look@Me</string>
     <string name="title_profile_activity">Profile</string>
+    <string name="title_edit_profile_activity">MyProfile</string>
+    <string name="title_manage_interest_activity">Interest</string>
     <string name="title_messages_activity">Messages</string>
     <string name="title_settings_activity">Settings</string>
     <string name="title_feelings_activity">Feelings</string>
@@ -14,6 +16,7 @@
     <string name="text_nickname">nickname</string>
     <string name="text_age">age</string>
     <string name="text_gender">gender</string>    
+    <string name="text_interest">interest</string>    
     <string name="title_splashscreen">splash</string>
 
     <!-- Drawer menu -->
