@@ -25,6 +25,7 @@ import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
+import com.dreamteam.util.Nav;
 
 public class ProfileActivity extends CommonActivity {
 	private static int RESULT_LOAD_IMAGE = 1;
@@ -116,9 +117,10 @@ public class ProfileActivity extends CommonActivity {
 			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
 			toast.show();
 
-			Intent mainIntent = new Intent(this, SocialActivity.class);
-			this.startActivity(mainIntent);
-			this.finish();
+			Nav.startActivity(this, SocialActivity.class);
+//			Intent mainIntent = new Intent(this, SocialActivity.class);
+//			this.startActivity(mainIntent);
+//			this.finish();
 
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());

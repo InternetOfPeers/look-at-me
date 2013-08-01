@@ -2,7 +2,6 @@ package com.dreamteam.lookme;
 
 import android.app.Dialog;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +9,7 @@ import android.widget.Button;
 
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
+import com.dreamteam.util.Nav;
 
 public class SocialActivity extends CommonActivity {
 
@@ -90,9 +90,7 @@ public class SocialActivity extends CommonActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent registerIntent = new Intent(SocialActivity.this, ProfileActivity.class);
-				SocialActivity.this.startActivity(registerIntent);
-				SocialActivity.this.finish();
+				Nav.startActivity(SocialActivity.this, ProfileActivity.class);
 				dialog.dismiss();
 			}
 		});
