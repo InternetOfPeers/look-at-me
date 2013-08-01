@@ -22,7 +22,7 @@ public interface CommunicationManager {
 									 * updated
 									 */
 
-	boolean sendChatMessage(String nodeTo, String message, String channelName);
+	boolean sendChatMessage(String nodeTo, String message);
 
 	boolean sendStartChatMessage(String nodeTo);
 

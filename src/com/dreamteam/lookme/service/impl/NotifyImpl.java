@@ -98,7 +98,7 @@ public class NotifyImpl implements Notify {
 		vibrationPattern[0] = 5;
 		// Crea la notifica da inviare
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(message).setSmallIcon(R.drawable.ic_launcher)
-				.setAutoCancel(true).setNumber(counters.get(notificationID)).setVibrate(vibrationPattern);
+				.setAutoCancel(true).setNumber(counters.get(notificationID));
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(context, destinationActivity);
 		resultIntent.putExtra(NOTIFICATION_KEY_ID, notificationID);

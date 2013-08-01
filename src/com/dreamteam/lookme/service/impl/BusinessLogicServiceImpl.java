@@ -131,9 +131,9 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	@Override
-	public boolean sendChatMessage(String nodeTo, String message, String channel) {
+	public boolean sendChatMessage(String nodeTo, String message) {
 		Log.d();
-		return communicationManager.sendChatMessage(nodeTo, message, channel);
+		return communicationManager.sendChatMessage(nodeTo, message);
 	}
 
 }

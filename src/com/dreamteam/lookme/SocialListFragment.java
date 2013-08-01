@@ -65,8 +65,12 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			activity.setFragment(SocialActivity.SOCIAL_PROFILE_FRAGMENT);
 			break;
 		case LIKE_RECEIVED:
-			Toast toast = Toast.makeText(Services.currentState.getContext(), (String) event.getEventObject() + " send you a LIKE", Toast.LENGTH_LONG);
-			toast.show();
+			Toast likeToast = Toast.makeText(Services.currentState.getContext(), (String) event.getEventObject() + " send you a LIKE", Toast.LENGTH_LONG);
+			likeToast.show();
+			break;
+		case CHAT_MESSAGE_RECEIVED:
+			Toast chatToast = Toast.makeText(Services.currentState.getContext(), (String) event.getEventObject() + " sent you a message", Toast.LENGTH_LONG);
+			chatToast.show();
 			break;
 		default:
 			break;
@@ -110,7 +114,13 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 				dialog.dismiss();
 				Services.businessLogic.sendStartChatMessage(node.getId());
 				// TODO: entrare nella chat privata
-
+				// a scopo di test invio un messaggio dopo 3 secondi
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				Services.businessLogic.sendChatMessage(node.getId(), "Ciao! come stai?");
 			}
 
 		});

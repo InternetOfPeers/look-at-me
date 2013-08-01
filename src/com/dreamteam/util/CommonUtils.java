@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import com.dreamteam.lookme.service.Services;
+
 public class CommonUtils {
 
 	public static byte[] getBytes(Object obj) {
@@ -20,11 +22,11 @@ public class CommonUtils {
 		return out.toByteArray();
 	}
 
-	public static String generateChannelName(String nodeTo, String nodeFrom) {
-		if (nodeFrom.compareTo(nodeTo) < 0)
-			return nodeFrom + "_" + nodeTo;
+	public static String generateChannelName(String myId, String profileId) {
+		if (myId.compareTo(profileId) < 0)
+			return myId + "_" + profileId;
 		else
-			return nodeTo + "_" + nodeFrom;
+			return profileId + "_" + myId;
 
 	}
 

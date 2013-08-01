@@ -293,13 +293,13 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 				mViewHolder.getYourNodeName().setVisibility(View.GONE);
 
 				mViewHolder.getMyNodeName().setVisibility(View.VISIBLE);
-				mViewHolder.getMyNodeName().setText(messageItem.getNickName());
+				mViewHolder.getMyNodeName().setText(Services.currentState.getMyBasicProfile().getNickname());
 				// mViewHolder.chatLayout.setBackgroundResource(R.drawable.sentmessage);
 			} else {
 				mViewHolder.getMyNodeName().setVisibility(View.GONE);
 
 				mViewHolder.getYourNodeName().setVisibility(View.VISIBLE);
-				mViewHolder.getYourNodeName().setText(messageItem.getNickName());
+				mViewHolder.getYourNodeName().setText(Services.currentState.getSocialNodeMap().get(messageItem.getNodeId()).getProfile().getNickname());
 				// mViewHolder.chatLayout.setBackgroundResource(R.drawable.receivedmessage);
 			}
 

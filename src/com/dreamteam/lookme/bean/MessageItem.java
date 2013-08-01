@@ -3,10 +3,10 @@ package com.dreamteam.lookme.bean;
 import java.util.Date;
 
 public class MessageItem {
+	
 	private boolean isMine;
 
-	// private LookAtMeNode node;
-	private String nickName;
+	private String nodeId;
 
 	private String message = "";
 
@@ -14,13 +14,8 @@ public class MessageItem {
 
 	private Date creationTime = new Date(System.currentTimeMillis());
 
-	// public MessageItem(LookAtMeNode node, String message,boolean isMine) {
-	// this.node = node;
-	// this.message = message;
-	// }
-
-	public MessageItem(String nickName, String message, boolean isMine) {
-		this.nickName = nickName;
+	public MessageItem(String nodeId, String message, boolean isMine) {
+		this.nodeId = nodeId;
 		this.message = message;
 	}
 
@@ -32,20 +27,14 @@ public class MessageItem {
 		return message;
 	}
 
-	// public LookAtMeNode getLookAtMeNode() {
-	// if(isMine)
-	// return null;
-	// return node;
-	// }
-
-	public String getNickName() {
+	public String getNodeId() {
 		if (isMine)
 			return null;
-		return nickName;
+		return nodeId;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setNodeId(String nodeId) {
+		this.nodeId = nodeId;
 	}
 
 	public FileItem getFileItem() {
@@ -63,14 +52,6 @@ public class MessageItem {
 	public void setMine(boolean isMine) {
 		this.isMine = isMine;
 	}
-
-	// public LookAtMeNode getNode() {
-	// return node;
-	// }
-	//
-	// public void setNode(LookAtMeNode node) {
-	// this.node = node;
-	// }
 
 	public Date getCreationTime() {
 		return creationTime;

@@ -59,14 +59,16 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	@Override
 	public void onStartChatMessageReceived(String nodeFrom, String channelName) {
 		// TODO Auto-generated method stub
-
+		Log.d("Silently join to private channel");
 	}
 
 	@Override
 	public void onChatMessageReceived(String nodeFrom, String message) {
-		Log.d();
+		Log.d("node " + nodeFrom + " says: " + message);
 		// creo il MessageItem
 		// metto il messaggio nella map
 		Services.eventBus.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
+		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
+		Services.notify.chatMessage(Services.currentState.getContext(), nickName, message);
 	}
 }

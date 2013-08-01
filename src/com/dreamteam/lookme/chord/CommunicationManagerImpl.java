@@ -67,7 +67,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		for (IChordChannel channel : chord.getJoinedChannelList()) {
 			joinedChannelName.add(channel.getName());
 		}
-		// Da capire perchè ritorna sempre il messaggio:
+		// Da capire perchï¿½ ritorna sempre il messaggio:
 		// "can't find channel (com.dreamteam.lookme.SOCIAL_CHANNEL)"
 		for (String channelName : joinedChannelName) {
 			Log.d("leaving channel " + channelName);
@@ -220,7 +220,9 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					// communicationListener.onSocialNodeUpdated(updatedNode);
 					break;
 				case START_CHAT_MESSAGE:
-					String chatChannelName = CommonUtils.generateChannelName(arg0, Services.currentState.getMyBasicProfile().getId());
+					String myId = Services.currentState.getMyBasicProfile().getId();
+					String profileId = Services.currentState.getSocialNodeMap().get(arg0).getProfile().getId();
+					String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
 					joinChatChannel(chatChannelName);
 					communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
 					break;
@@ -420,13 +422,19 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean sendChatMessage(String nodeTo, String message, String channelName) {
+	public boolean sendChatMessage(String nodeTo, String message) {
 		Log.d();
 		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(nodeTo);
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), message);
-		IChordChannel chatChannel = chord.getJoinedChannel(channelName);
+		String myId = Services.currentState.getMyBasicProfile().getId();
+		String profileId = Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId();
+		String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
+		IChordChannel chatChannel = chord.getJoinedChannel(chatChannelName);
+		if (chatChannel == null) {
+			joinChatChannel(chatChannelName);
+		}
 		return chatChannel.sendData(nodeTo, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 	}
 
