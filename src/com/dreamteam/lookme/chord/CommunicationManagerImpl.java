@@ -1,5 +1,6 @@
 package com.dreamteam.lookme.chord;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -59,11 +60,18 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	@Override
 	public void stopCommunication() {
 		Log.d();
-		if (publicChannel != null) {
-			chord.leaveChannel(ChordManager.PUBLIC_CHANNEL);
-		}
+		// Se chiudo i canali direttamente va in concurrent modification
+		// exception per cui mi serve un astruttura di appoggio da cui prendere
+		// i nomi dei canali
+		List<String> joinedChannelName = new ArrayList<String>();
 		for (IChordChannel channel : chord.getJoinedChannelList()) {
-			chord.leaveChannel(channel.getName());
+			joinedChannelName.add(channel.getName());
+		}
+		// Da capire perchè ritorna sempre il messaggio:
+		// "can't find channel (com.dreamteam.lookme.SOCIAL_CHANNEL)"
+		for (String channelName : joinedChannelName) {
+			Log.d("leaving channel " + channelName);
+			chord.leaveChannel(channelName);
 		}
 		chord.stop();
 		// notify stopped communication

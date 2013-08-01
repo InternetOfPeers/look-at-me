@@ -1,6 +1,5 @@
 package com.dreamteam.lookme;
 
-import android.app.Activity;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
@@ -25,17 +24,13 @@ public class SettingsActivity extends CommonActivity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean enable) {
 				if (enable) {
 					// Start del servizio di comunicazione
-					Services.businessLogic.start(getInstance());
+					Services.businessLogic.start(getApplicationContext());
 				} else {
 					// Stop del servizio di comunicazione
-					Services.businessLogic.stop(getInstance());
+					Services.businessLogic.stop(getApplicationContext());
 				}
 			}
 		});
 	};
-
-	private Activity getInstance() {
-		return this;
-	}
 
 }

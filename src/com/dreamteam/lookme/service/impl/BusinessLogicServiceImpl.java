@@ -45,11 +45,9 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	 */
 	@Override
 	public void stop(Context context) {
+		communicationManager.stopCommunication();
 		context.stopService(new Intent(SERVICE_STOP));
 		isRunning = false;
-		// TODO Il servizio chord va in eccezione alla chiusura, da capire
-		// perché
-		communicationManager.stopCommunication();
 	}
 
 	/**

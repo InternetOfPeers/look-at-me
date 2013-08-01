@@ -23,10 +23,10 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// Salvo un contesto di utilità
-		Services.currentState.setContext(this);
+		Services.currentState.setContext(getApplicationContext());
 
 		// carico il mio profilo sia basic che full nel repository statico
-		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
+		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getApplicationContext());
 		try {
 			if (dbOpenHelper.isProfileCompiled()) {
 				FullProfile myFullProfile = dbOpenHelper.getMyFullProfile();

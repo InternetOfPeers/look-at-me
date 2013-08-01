@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.dreamteam.lookme.db.DBOpenHelperImpl;
+import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 
 public class SocialActivity extends CommonActivity {
@@ -35,7 +35,7 @@ public class SocialActivity extends CommonActivity {
 
 		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
 		// profilo
-		if (!DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
+		if (Services.currentState.getMyBasicProfile() ==  null) {
 			// L'utente deve compilare il profilo prima di iniziare
 			Log.d("It's the first time this app run!");
 			showFirstTimeDialog();
@@ -47,6 +47,7 @@ public class SocialActivity extends CommonActivity {
 		Log.d();
 		if (currentFragment == SOCIAL_LIST_FRAGMENT) {
 			// TODO: come si fa a simulare il pulsante HOME?
+			super.onBackPressed();
 		} else if (currentFragment == SOCIAL_PROFILE_FRAGMENT) {
 			setFragment(SOCIAL_LIST_FRAGMENT);
 		}
@@ -64,6 +65,7 @@ public class SocialActivity extends CommonActivity {
 				fragmentTransaction.hide(socialProfileFragment);
 				break;
 			case SOCIAL_PROFILE_FRAGMENT:
+				// necessario per impostare il profilo richiesto nella vista
 				socialProfileFragment.setProfileData();
 				fragmentTransaction.hide(socialListFragment);
 				fragmentTransaction.show(socialProfileFragment);
