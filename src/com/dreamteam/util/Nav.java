@@ -8,6 +8,7 @@ import com.dreamteam.lookme.FeelingsActivity;
 import com.dreamteam.lookme.MessagesActivity;
 import com.dreamteam.lookme.ProfileActivity;
 import com.dreamteam.lookme.SocialActivity;
+import com.google.common.collect.HashBiMap;
 
 /**
  * Classe di utilità per la gestione della navigazione tra le varie activity
@@ -17,6 +18,14 @@ public class Nav {
 
 	private static final String STRING_VOID = "";
 	private static final String STRING_KEY = "string_key";
+	private static final HashBiMap<Class<? extends Activity>, Integer> map;
+	static {
+		map = HashBiMap.create();
+		map.put(ProfileActivity.class, 0);
+		map.put(SocialActivity.class, 1);
+		map.put(MessagesActivity.class, 2);
+		map.put(FeelingsActivity.class, 3);
+	}
 
 	/**
 	 * Avvia un'activity
@@ -95,18 +104,16 @@ public class Nav {
 	 * @return
 	 */
 	public static Class<? extends Activity> getActivityFromMenuPosition(int position) {
-		switch (position) {
-		case 0:
-			return ProfileActivity.class;
-		case 1:
-			return SocialActivity.class;
-		case 2:
-			return MessagesActivity.class;
-		case 3:
-			return FeelingsActivity.class;
-		default:
-			break;
-		}
-		return null;
+		return map.inverse().get(position);
+	}
+
+	/**
+	 * Recupera la posizione dell'activity all'interno delle voci di menu
+	 * 
+	 * @param activity
+	 * @return
+	 */
+	public static int getMenuPositionFromActivityClass(Class<? extends Activity> activity) {
+		return map.get(activity);
 	}
 }

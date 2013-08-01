@@ -31,10 +31,8 @@ public class SocialActivity extends CommonActivity {
 		socialProfileFragment = (SocialProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		setFragment(SOCIAL_LIST_FRAGMENT);
 		// Inizializzazione del menu
-		initMenu();
-		if (savedInstanceState == null) {
-			setMenuItem(1);
-		}
+		initMenu(savedInstanceState, this.getClass());
+
 		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
 		// profilo
 		if (!DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {

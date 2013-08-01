@@ -24,10 +24,7 @@ public class MessagesActivity extends CommonActivity {
 		messageListFragment = (MessageListFragment) getFragmentManager().findFragmentById(R.id.fragment_message_list);
 		setFragment(MESSAGE_LIST_FRAGMENT);
 		// Inizializzazione del menu
-		initMenu();
-		if (savedInstanceState == null) {
-			setMenuItem(2);
-		}
+		initMenu(savedInstanceState, this.getClass());
 	}
 
 	@Override

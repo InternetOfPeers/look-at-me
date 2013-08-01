@@ -44,7 +44,7 @@ public abstract class CommonActivity extends Activity {
 		Services.notify.clearActivityNotifications(this);
 	}
 
-	protected void initMenu() {
+	protected void initMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass) {
 		menuEnabled = true;
 		mTitle = mDrawerTitle = getTitle();
 		mPlanetTitles = getResources().getStringArray(R.array.menu_items);
@@ -83,6 +83,12 @@ public abstract class CommonActivity extends Activity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		// Imposta la selezione del menu item corrente in base all'activity
+		if (savedInstanceState == null) {
+			int position = Nav.getMenuPositionFromActivityClass(activityClass);
+			if (position > 0)
+				setMenuItem(position);
+		}
 	}
 
 	protected void setMenuItem(int position) {

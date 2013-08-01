@@ -43,10 +43,7 @@ public class ProfileActivity extends CommonActivity {
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
 			}
-			initMenu();
-			if (savedInstanceState == null) {
-				setMenuItem(0);
-			}
+			initMenu(savedInstanceState, this.getClass());
 		} catch (Exception e) {
 			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
