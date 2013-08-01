@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.chord.Node;
@@ -62,6 +63,10 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			dismissLoadingDialog();
 			SocialActivity activity = (SocialActivity) this.getActivity();
 			activity.setFragment(SocialActivity.SOCIAL_PROFILE_FRAGMENT);
+			break;
+		case LIKE_RECEIVED:
+			Toast toast = Toast.makeText(Services.currentState.getContext(), (String) event.getEventObject() + " send you a LIKE", Toast.LENGTH_LONG);
+			toast.show();
 			break;
 		default:
 			break;
