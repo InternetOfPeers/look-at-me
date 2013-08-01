@@ -18,7 +18,7 @@ public class SocialActivity extends CommonActivity {
 
 	private SocialListFragment socialListFragment;
 	private SocialProfileFragment socialProfileFragment;
-	private int currentFragment;
+	private static int currentFragment;
 	private FragmentTransaction fragmentTransaction;
 
 	@Override
@@ -29,7 +29,7 @@ public class SocialActivity extends CommonActivity {
 		// set fragment
 		socialListFragment = (SocialListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
 		socialProfileFragment = (SocialProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
-		setFragment(SOCIAL_LIST_FRAGMENT);
+		setFragment(currentFragment);
 		// Inizializzazione del menu
 		initMenu(savedInstanceState, this.getClass());
 
@@ -55,28 +55,26 @@ public class SocialActivity extends CommonActivity {
 
 	protected void setFragment(int fragment) {
 		Log.d("" + fragment);
-		if (currentFragment != fragment) {
-			Log.d("changing fragment from " + currentFragment + " to " + fragment);
-			currentFragment = fragment;
-			fragmentTransaction = getFragmentManager().beginTransaction();
-			switch (fragment) {
-			case SOCIAL_LIST_FRAGMENT:
-				fragmentTransaction.show(socialListFragment);
-				fragmentTransaction.hide(socialProfileFragment);
-				break;
-			case SOCIAL_PROFILE_FRAGMENT:
-				// necessario per impostare il profilo richiesto nella vista
-				socialProfileFragment.setProfileData();
-				fragmentTransaction.hide(socialListFragment);
-				fragmentTransaction.show(socialProfileFragment);
-				break;
-			default:
-				fragmentTransaction.show(socialListFragment);
-				fragmentTransaction.hide(socialProfileFragment);
-				break;
-			}
-			this.fragmentTransaction.commit();
+		Log.d("changing fragment from " + currentFragment + " to " + fragment);
+		currentFragment = fragment;
+		fragmentTransaction = getFragmentManager().beginTransaction();
+		switch (fragment) {
+		case SOCIAL_LIST_FRAGMENT:
+			fragmentTransaction.show(socialListFragment);
+			fragmentTransaction.hide(socialProfileFragment);
+			break;
+		case SOCIAL_PROFILE_FRAGMENT:
+			// necessario per impostare il profilo richiesto nella vista
+			socialProfileFragment.setProfileData();
+			fragmentTransaction.hide(socialListFragment);
+			fragmentTransaction.show(socialProfileFragment);
+			break;
+		default:
+			fragmentTransaction.show(socialListFragment);
+			fragmentTransaction.hide(socialProfileFragment);
+			break;
 		}
+		this.fragmentTransaction.commit();
 	}
 
 	private void showFirstTimeDialog() {
