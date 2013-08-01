@@ -1,11 +1,11 @@
 /**
  * Author: Carlo Tassi
  */
-package com.dreamteam.lookme.communication;
+package com.dreamteam.lookme.chord;
 
 import com.dreamteam.lookme.bean.Profile;
 
-public class LookAtMeNode {
+public class Node {
 
 	private String id;
 	private Profile profile;

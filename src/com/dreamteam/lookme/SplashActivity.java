@@ -9,12 +9,12 @@ import android.widget.ImageView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
 import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
-import com.dreamteam.lookme.navigation.Nav;
+import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
+import com.dreamteam.util.Nav;
 
 public class SplashActivity extends Activity {
 
@@ -22,14 +22,17 @@ public class SplashActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Salvo un contesto di utilità
+		Services.currentState.setContext(this);
+
 		// carico il mio profilo sia basic che full nel repository statico
 		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 		try {
 			if (dbOpenHelper.isProfileCompiled()) {
 				FullProfile myFullProfile = dbOpenHelper.getMyFullProfile();
 				BasicProfile myBasicProfile = dbOpenHelper.getMyBasicProfile();
-				LookAtMeCommunicationRepository.getInstance().setMyBasicProfile(myBasicProfile);
-				LookAtMeCommunicationRepository.getInstance().setMyFullProfile(myFullProfile);
+				Services.currentState.setMyBasicProfile(myBasicProfile);
+				Services.currentState.setMyFullProfile(myFullProfile);
 			}
 		} catch (Exception e) {
 			Log.e("Errore nel recupero del profilo");
@@ -58,8 +61,8 @@ public class SplashActivity extends Activity {
 			}
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
 
-		// Start del servizio di comunicazione
-		// Services.communication.start(this);
+		// Start del servizio di business logic
+		Services.businessLogic.start(Services.currentState.getContext());
 	}
 
 }

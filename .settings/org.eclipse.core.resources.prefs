@@ -2,4 +2,4 @@ eclipse.preferences.version=1
 encoding//src/com/dreamteam/lookme/CommonActivity.java=UTF-8
 encoding//src/com/dreamteam/lookme/SocialActivity.java=UTF-8
 encoding//src/com/dreamteam/lookme/db/DBOpenHelperImpl.java=UTF-8
-encoding//src/com/dreamteam/lookme/navigation/Nav.java=UTF-8
+encoding//src/com/dreamteam/util/Nav.java=UTF-8

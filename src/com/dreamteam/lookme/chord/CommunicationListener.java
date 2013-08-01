@@ -1,19 +1,16 @@
-/**
- * Author: Carlo Tassi
- */
-package com.dreamteam.lookme.communication;
+package com.dreamteam.lookme.chord;
 
-public interface ILookAtMeCommunicationListener {
+public interface CommunicationListener {
 
 	public void onCommunicationStarted();
 
 	public void onCommunicationStopped();
 
-	public void onBasicProfileNodeReceived(LookAtMeNode node);
+	public void onBasicProfileNodeReceived(Node node);
 
 	public void onNodeLeft(String nodeName);
 
-	public void onFullProfileNodeReceived(LookAtMeNode node);
+	public void onFullProfileNodeReceived(Node node);
 
 	public void onLikeReceived(String nodeFrom);
 
@@ -21,6 +18,6 @@ public interface ILookAtMeCommunicationListener {
 
 	public void onStartChatMessageReceived(String nodeFrom, String channelName);
 
-	public void onProfileNodeUpdated(LookAtMeNode node);
+	public void onProfileNodeUpdated(Node node);
 
 }

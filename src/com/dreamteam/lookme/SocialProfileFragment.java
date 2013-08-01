@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
-import com.dreamteam.lookme.communication.LookAtMeNode;
+import com.dreamteam.lookme.chord.Node;
+import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 
 public class SocialProfileFragment extends Fragment implements OnClickListener {
@@ -54,8 +54,8 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 	}
 
 	public void setProfileData() {
-		if (LookAtMeCommunicationRepository.getInstance().getProfileViewed() != null) {
-			FullProfile profile = (FullProfile) (LookAtMeCommunicationRepository.getInstance().getProfileViewed()).getProfile();
+		if (Services.currentState.getProfileViewed() != null) {
+			FullProfile profile = (FullProfile) (Services.currentState.getProfileViewed()).getProfile();
 			textNickname.setText(profile.getNickname());
 			textName.setText(profile.getName());
 			textSurname.setText(profile.getSurname());
@@ -70,10 +70,9 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		LookAtMeNode profileNode = LookAtMeCommunicationRepository.getInstance().getProfileViewed();
+		Node profileNode = Services.currentState.getProfileViewed();
 		Log.d("LIKE clicked on node " + profileNode.getId());
-		SocialActivity activity = (SocialActivity) this.getActivity();
-		activity.getCommunicationService().sendLike(profileNode.getId());
+		Services.businessLogic.sendLike(profileNode.getId());
 		Toast.makeText(this.getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
 	}
 

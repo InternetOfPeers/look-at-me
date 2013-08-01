@@ -26,14 +26,8 @@ public class MessagesActivity extends CommonActivity {
 		// Inizializzazione del menu
 		initMenu();
 		if (savedInstanceState == null) {
-			setMenuItem(1);
+			setMenuItem(2);
 		}
-		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
-		// profilo
-		// if (!DBOpenHelperImpl.getInstance(this).isProfileCompiled()) {
-		// // L'utente deve compilare il profilo prima di iniziare
-		// Log.d("It's the first time this app run!");
-		// }
 	}
 
 	@Override

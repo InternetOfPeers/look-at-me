@@ -8,17 +8,15 @@ package com.dreamteam.lookme.chord;
 
 import android.util.Log;
 
-import com.dreamteam.lookme.error.LookAtMeErrorManager;
-import com.dreamteam.lookme.error.LookAtMeException;
 import com.samsung.chord.ChordManager;
 
-public class LookAtMeChordErrorManager extends LookAtMeErrorManager {
+public class ChordErrorManager extends ErrorManager {
 
 	/**
 	 * specify chord error code in switch case
 	 */
 	@Override
-	public void checkError(int result) throws LookAtMeException {
+	public void checkError(int result) throws CustomException {
 		super.checkError(result);
 		Log.d("[LOOKATME_ERRORMANAGER]", "[LookAtMeChordErrorManager] : checkError " + result);
 		String message = null;
@@ -39,7 +37,7 @@ public class LookAtMeChordErrorManager extends LookAtMeErrorManager {
 			break;
 		}
 		if (message != null) {
-			throw new LookAtMeException(message);
+			throw new CustomException(message);
 		}
 	}
 

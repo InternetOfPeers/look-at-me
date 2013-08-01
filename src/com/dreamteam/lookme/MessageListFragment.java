@@ -28,9 +28,8 @@ import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FileItem;
 import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.bean.ViewHolder;
-import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
-import com.dreamteam.lookme.communication.LookAtMeNode;
-import com.dreamteam.lookme.service.CommunicationService;
+import com.dreamteam.lookme.chord.Node;
+import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 
 public class MessageListFragment extends Fragment implements OnClickListener, OnItemClickListener {
@@ -48,16 +47,6 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	private ProgressDialog loadingDialog;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	private CommunicationService getCommunicationService() {
-		MessagesActivity socialActivity = (MessagesActivity) this.getActivity();
-		return socialActivity.getCommunicationService();
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_message_list, null);
 		messageListAdapter = new MessagesListAdapter();
@@ -65,13 +54,6 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 		messageListView.setAdapter(messageListAdapter);
 		messageListView.setOnItemClickListener(this);
 		return view;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		android.util.Log.e("ONATTACH", "ONATTACH");
-		super.onAttach(activity);
-
 	}
 
 	@Override
@@ -85,7 +67,6 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	@Override
 	public void onClick(View arg0) {
 		Log.d();
-		getCommunicationService().refreshSocialList();
 	}
 
 	@Override
@@ -130,7 +111,7 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 
 	public class MessagesListAdapter extends BaseAdapter {
 
-		Map<String, List<MessageItem>> messagesHistoryMap = LookAtMeCommunicationRepository.getInstance().getMessagesHistoryMap();
+		Map<String, List<MessageItem>> messagesHistoryMap = Services.currentState.getMessagesHistoryMap();
 
 		@Override
 		public int getCount() {
@@ -166,7 +147,7 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 				convertView = layoutInflater.inflate(R.layout.one_row_social_list, null);
 			}
 
-			LookAtMeNode node = (LookAtMeNode) this.getItem(position);
+			Node node = (Node) this.getItem(position);
 			BasicProfile profile = (BasicProfile) node.getProfile();
 
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
@@ -216,7 +197,7 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 			return 0;
 		}
 
-		public void addChat(LookAtMeNode node, String message, boolean isMine) {
+		public void addChat(Node node, String message, boolean isMine) {
 			MessageItem item = new MessageItem(node.getProfile().getNickname(), message, isMine);
 			mMessageItemList.add(item);
 			notifyDataSetChanged();

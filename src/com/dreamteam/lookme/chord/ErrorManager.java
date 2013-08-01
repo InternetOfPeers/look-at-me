@@ -1,16 +1,16 @@
 /**
  * Author: Carlo Tassi
  */
-package com.dreamteam.lookme.error;
+package com.dreamteam.lookme.chord;
 
-public class LookAtMeErrorManager {
+public class ErrorManager {
 
 	/*
 	 * Add here all app custom error code
 	 */
 	public static final int ERROR_NO_INTERFACE_AVAILABLE = 1001;
 
-	public void checkError(int result) throws LookAtMeException {
+	public void checkError(int result) throws CustomException {
 		String message = null;
 		switch (result) {
 		case ERROR_NO_INTERFACE_AVAILABLE:
@@ -20,7 +20,7 @@ public class LookAtMeErrorManager {
 			break;
 		}
 		if (message != null) {
-			throw new LookAtMeException(message);
+			throw new CustomException(message);
 		}
 	}
 }

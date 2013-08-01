@@ -1,4 +1,4 @@
-package com.dreamteam.lookme.navigation;
+package com.dreamteam.util;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -35,5 +35,7 @@
     <string name="blink_btn">blink!</string>
     <string name="vote_btn">vote</string>    
     <!-- channel list dialog end -->
+    
+    <string name="btn_label_close">Close</string>
 
 </resources>

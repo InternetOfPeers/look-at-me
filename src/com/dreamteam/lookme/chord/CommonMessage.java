@@ -1,22 +1,19 @@
-/**
- * Author: Carlo Tassi
- */
-package com.dreamteam.lookme.communication;
+package com.dreamteam.lookme.chord;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LookAtMeMessage implements Serializable {
+public abstract class CommonMessage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final LookAtMeMessageType type; /* Message type */
+	private final MessageType type; /* Message type */
 	private final Map<String, Object> payload; /* Data to transfer */
 	private String senderNodeName; /* Name of sender node */
 	private String receiverNodeName; /* Name of receiver node */
 
-	public LookAtMeMessage(LookAtMeMessageType type) {
+	public CommonMessage(MessageType type) {
 		this.type = type;
 		this.payload = new HashMap<String, Object>();
 	}
@@ -45,7 +42,7 @@ public class LookAtMeMessage implements Serializable {
 		return payload.get(key);
 	}
 
-	public LookAtMeMessageType getType() {
+	public MessageType getType() {
 		return type;
 	}
 

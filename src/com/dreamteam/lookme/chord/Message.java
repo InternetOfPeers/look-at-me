@@ -9,14 +9,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.dreamteam.lookme.communication.LookAtMeMessage;
-import com.dreamteam.lookme.communication.LookAtMeMessageType;
-
-public class LookAtMeChordMessage extends LookAtMeMessage {
+public class Message extends CommonMessage {
 
 	private static final long serialVersionUID = 1L;
 
-	public LookAtMeChordMessage(LookAtMeMessageType type) {
+	public Message(MessageType type) {
 		super(type);
 	}
 
@@ -37,14 +34,14 @@ public class LookAtMeChordMessage extends LookAtMeMessage {
 	/**
 	 * Recreates LookAtMeChordMessage from the byte array and sender node name
 	 */
-	public static LookAtMeChordMessage obtainChordMessage(byte[] data, String senderNodeName) {
+	public static Message obtainChordMessage(byte[] data, String senderNodeName) {
 		final ByteArrayInputStream in = new ByteArrayInputStream(data);
 		final ObjectInputStream is;
-		LookAtMeChordMessage message = null;
+		Message message = null;
 
 		try {
 			is = new ObjectInputStream(in);
-			message = (LookAtMeChordMessage) is.readObject();
+			message = (Message) is.readObject();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

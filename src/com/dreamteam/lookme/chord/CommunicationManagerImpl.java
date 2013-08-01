@@ -1,6 +1,3 @@
-/**
- * Author: Carlo Tassi
- */
 package com.dreamteam.lookme.chord;
 
 import java.util.List;
@@ -12,14 +9,8 @@ import android.os.Looper;
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
-import com.dreamteam.lookme.communication.ILookAtMeCommunicationListener;
-import com.dreamteam.lookme.communication.ILookAtMeCommunicationManager;
-import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
-import com.dreamteam.lookme.communication.LookAtMeMessageType;
-import com.dreamteam.lookme.communication.LookAtMeNode;
 import com.dreamteam.lookme.constants.AppSettings;
-import com.dreamteam.lookme.error.LookAtMeErrorManager;
-import com.dreamteam.lookme.error.LookAtMeException;
+import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.Log;
 import com.samsung.chord.ChordManager;
@@ -27,7 +18,7 @@ import com.samsung.chord.IChordChannel;
 import com.samsung.chord.IChordChannelListener;
 import com.samsung.chord.IChordManagerListener;
 
-public class LookAtMeChordCommunicationManager implements ILookAtMeCommunicationManager {
+public class CommunicationManagerImpl implements CommunicationManager {
 
 	public static final String chordFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ChordTmp";
 
@@ -40,22 +31,22 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	private List<Integer> availableWifiInterface;
 	private int currentWifiInterface;
 
-	private LookAtMeChordErrorManager errorManager;
+	private ChordErrorManager errorManager;
 
-	private ILookAtMeCommunicationListener communicationListener;
+	private CommunicationListener communicationListener;
 
 	private Context context;
 	private Looper looper;
 
-	public LookAtMeChordCommunicationManager(Context context, Looper looper, ILookAtMeCommunicationListener communicationListener) {
+	public CommunicationManagerImpl(Context context, CommunicationListener communicationListener) {
 		Log.d();
 		this.context = context;
-		this.errorManager = new LookAtMeChordErrorManager();
+		this.errorManager = new ChordErrorManager();
 		this.communicationListener = communicationListener;
 	}
 
 	@Override
-	public void startCommunication() throws LookAtMeException {
+	public void startCommunication() throws CustomException {
 		Log.d();
 		chord = ChordManager.getInstance(context);
 		// this.chord.setTempDirectory(chordFilePath);
@@ -182,11 +173,11 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			public void onDataReceived(String arg0, String arg1, String arg2, byte[][] arg3) {
 				Log.d();
 				// here can be received profiles, previews, etc.
-				LookAtMeMessageType messageType = LookAtMeMessageType.valueOf(arg2);
+				MessageType messageType = MessageType.valueOf(arg2);
 				byte[] chordMessageByte = arg3[0];
-				LookAtMeChordMessage message = null;
+				Message message = null;
 				if (chordMessageByte != null && chordMessageByte.length > 0) {
-					message = LookAtMeChordMessage.obtainChordMessage(chordMessageByte, arg0);
+					message = Message.obtainChordMessage(chordMessageByte, arg0);
 				}
 				switch (messageType) {
 				case BASIC_PROFILE_REQUEST:
@@ -194,8 +185,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					sendBasicProfileResponse(arg0);
 					break;
 				case BASIC_PROFILE:
-					BasicProfile basicProfile = (BasicProfile) message.getObject(LookAtMeMessageType.BASIC_PROFILE.toString());
-					LookAtMeNode basicNode = new LookAtMeNode();
+					BasicProfile basicProfile = (BasicProfile) message.getObject(MessageType.BASIC_PROFILE.toString());
+					Node basicNode = new Node();
 					basicNode.setId(arg0);
 					basicNode.setProfile(basicProfile);
 					communicationListener.onBasicProfileNodeReceived(basicNode);
@@ -205,8 +196,8 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					sendFullProfileResponse(arg0);
 					break;
 				case FULL_PROFILE:
-					FullProfile fullProfile = (FullProfile) message.getObject(LookAtMeMessageType.FULL_PROFILE.toString());
-					LookAtMeNode fullNode = new LookAtMeNode();
+					FullProfile fullProfile = (FullProfile) message.getObject(MessageType.FULL_PROFILE.toString());
+					Node fullNode = new Node();
 					fullNode.setId(arg0);
 					fullNode.setProfile(fullProfile);
 					communicationListener.onFullProfileNodeReceived(fullNode);
@@ -221,7 +212,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 					// communicationListener.onSocialNodeUpdated(updatedNode);
 					break;
 				case START_CHAT_MESSAGE:
-					String chatChannelName = CommonUtils.generateChannelName(arg0, LookAtMeCommunicationRepository.getInstance().getMyBasicProfile().getId());
+					String chatChannelName = CommonUtils.generateChannelName(arg0, Services.currentState.getMyBasicProfile().getId());
 					joinChatChannel(chatChannelName);
 					communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
 					break;
@@ -283,15 +274,15 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 			public void onDataReceived(String arg0, String arg1, String arg2, byte[][] arg3) {
 				Log.d();
 				// here can be received only chat messages
-				LookAtMeMessageType messageType = LookAtMeMessageType.valueOf(arg2);
+				MessageType messageType = MessageType.valueOf(arg2);
 				switch (messageType) {
 				case CHAT_MESSAGE:
 					byte[] chordMessageByte = arg3[0];
-					LookAtMeChordMessage message = null;
+					Message message = null;
 					if (chordMessageByte != null && chordMessageByte.length > 0) {
-						message = LookAtMeChordMessage.obtainChordMessage(chordMessageByte, arg0);
+						message = Message.obtainChordMessage(chordMessageByte, arg0);
 					}
-					String chatMessage = (String) message.getObject(LookAtMeMessageType.CHAT_MESSAGE.toString());
+					String chatMessage = (String) message.getObject(MessageType.CHAT_MESSAGE.toString());
 					communicationListener.onChatMessageReceived(arg0, chatMessage);
 					break;
 				default:
@@ -307,7 +298,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		// available interface
 		availableWifiInterface = chord.getAvailableInterfaceTypes();
 		if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
-			return LookAtMeErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
+			return ErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
 		}
 		if (availableWifiInterface.contains(ChordManager.INTERFACE_TYPE_WIFI)) {
 			currentWifiInterface = ChordManager.INTERFACE_TYPE_WIFI;
@@ -342,7 +333,7 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 		Log.d();
 		List<String> socialNodeList = socialChannel.getJoinedNodeList();
 		Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
-		return socialChannel.sendDataToAll(LookAtMeMessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
+		return socialChannel.sendDataToAll(MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
@@ -363,39 +354,40 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 
 	private boolean sendBasicProfileRequest(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
+		return socialChannel.sendData(nodeTo, MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	private boolean sendBasicProfileResponse(String nodeTo) {
 		Log.d();
-		LookAtMeChordMessage message = obtainMyProfileMessage(LookAtMeCommunicationRepository.getInstance().getMyBasicProfile(), LookAtMeMessageType.BASIC_PROFILE, nodeTo);
+		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.BASIC_PROFILE, nodeTo);
 		if (message != null) {
-			return socialChannel.sendData(nodeTo, LookAtMeMessageType.BASIC_PROFILE.toString(), obtainPayload(message));
+			return socialChannel.sendData(nodeTo, MessageType.BASIC_PROFILE.toString(), obtainPayload(message));
 		} else {
 			return false;
 		}
 	}
 
+	@Override
 	public boolean sendFullProfileResponse(String nodeTo) {
 		Log.d();
-		LookAtMeChordMessage message = obtainMyProfileMessage(LookAtMeCommunicationRepository.getInstance().getMyFullProfile(), LookAtMeMessageType.FULL_PROFILE, nodeTo);
+		Message message = obtainMyProfileMessage(Services.currentState.getMyFullProfile(), MessageType.FULL_PROFILE, nodeTo);
 		if (message != null) {
-			return socialChannel.sendData(nodeTo, LookAtMeMessageType.FULL_PROFILE.toString(), obtainPayload(message));
+			return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE.toString(), obtainPayload(message));
 		} else {
 			return false;
 		}
 	}
 
-	private LookAtMeChordMessage obtainMyProfileMessage(Profile myProfile, LookAtMeMessageType type, String receiverNodeName) {
+	private Message obtainMyProfileMessage(Profile myProfile, MessageType type, String receiverNodeName) {
 		Log.d();
-		LookAtMeChordMessage message = new LookAtMeChordMessage(type);
+		Message message = new Message(type);
 		message.setSenderNodeName(chord.getName());
 		message.setReceiverNodeName(receiverNodeName); // this maybe null
 		message.putObject(type.toString(), myProfile);
 		return message;
 	}
 
-	private byte[][] obtainPayload(LookAtMeChordMessage message) {
+	private byte[][] obtainPayload(Message message) {
 		byte[][] payload = new byte[1][1];
 		payload[0] = message.getBytes();
 		return payload;
@@ -404,31 +396,30 @@ public class LookAtMeChordCommunicationManager implements ILookAtMeCommunication
 	@Override
 	public boolean sendFullProfileRequest(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.FULL_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
+		return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendLike(String nodeTo) {
 		Log.d();
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.LIKE.name(), EMPTY_PAYLOAD);
+		return socialChannel.sendData(nodeTo, MessageType.LIKE.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendStartChatMessage(String nodeTo) {
 		Log.d();
-		;
-		return socialChannel.sendData(nodeTo, LookAtMeMessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
+		return socialChannel.sendData(nodeTo, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendChatMessage(String nodeTo, String message, String channelName) {
 		Log.d();
-		LookAtMeChordMessage chordMessage = new LookAtMeChordMessage(LookAtMeMessageType.CHAT_MESSAGE);
+		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(nodeTo);
-		chordMessage.putString(LookAtMeMessageType.CHAT_MESSAGE.toString(), message);
+		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), message);
 		IChordChannel chatChannel = chord.getJoinedChannel(channelName);
-		return chatChannel.sendData(nodeTo, LookAtMeMessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
+		return chatChannel.sendData(nodeTo, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 	}
 
 }

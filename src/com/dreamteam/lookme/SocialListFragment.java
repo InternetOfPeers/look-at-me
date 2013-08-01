@@ -25,11 +25,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.communication.EventBusProvider;
-import com.dreamteam.lookme.communication.LookAtMeCommunicationRepository;
-import com.dreamteam.lookme.communication.LookAtMeNode;
-import com.dreamteam.lookme.event.LookAtMeEvent;
-import com.dreamteam.lookme.service.CommunicationService;
+import com.dreamteam.lookme.chord.Node;
+import com.dreamteam.lookme.service.Event;
+import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 import com.squareup.otto.Subscribe;
 
@@ -48,17 +46,15 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 	@Override
 	public void onStart() {
 		Log.d();
-		EventBusProvider.getIntance().register(this);
 		super.onStart();
+		Services.eventBus.register(this);
 	}
 
 	@Subscribe
-	public void onNodeMovment(LookAtMeEvent event) {
+	public void onNodeMovment(Event event) {
 		Log.d(event.getEventType().toString());
 		switch (event.getEventType()) {
 		case NODE_JOINED:
-			socialListAdapter.notifyDataSetChanged();
-			break;
 		case NODE_LEFT:
 			socialListAdapter.notifyDataSetChanged();
 			break;
@@ -70,11 +66,6 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 		default:
 			break;
 		}
-	}
-
-	private CommunicationService getCommunicationService() {
-		SocialActivity socialActivity = (SocialActivity) this.getActivity();
-		return socialActivity.getCommunicationService();
 	}
 
 	@Override
@@ -93,7 +84,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int clickedItemPosition, long clickedItemID) {
 		Log.d();
-		final LookAtMeNode node = (LookAtMeNode) socialListAdapter.getItem((int) clickedItemID);
+		final Node node = (Node) socialListAdapter.getItem((int) clickedItemID);
 		final Dialog dialog = new Dialog(this.getActivity());
 		arg1.setAlpha(1);
 		// tell the Dialog to use the dialog.xml as it's layout description
@@ -112,9 +103,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				// BasicProfile myBasicProfile =
-				// ((CommonActivity)activity).getMyBasicProfile();
-				getCommunicationService().sendStartChatMessage(node.getId());
+				Services.businessLogic.sendStartChatMessage(node.getId());
 				// TODO: entrare nella chat privata
 
 			}
@@ -126,7 +115,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				getCommunicationService().sendFullProfileRequest(node.getId());
+				Services.businessLogic.sendFullProfileRequest(node.getId());
 				// entro in attesa
 				loadingDialog = new ProgressDialog(SocialListFragment.this.getActivity());
 				loadingDialog.setTitle("Loading profile");
@@ -143,7 +132,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 
 	public class SocialListAdapter extends BaseAdapter {
 
-		Map<String, LookAtMeNode> socialNodeMap = LookAtMeCommunicationRepository.getInstance().getSocialNodeMap();
+		Map<String, Node> socialNodeMap = Services.currentState.getSocialNodeMap();
 
 		@Override
 		public int getCount() {
@@ -152,8 +141,8 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 
 		@Override
 		public Object getItem(int arg0) {
-			List<LookAtMeNode> nodeList = new ArrayList<LookAtMeNode>(socialNodeMap.values());
-			LookAtMeNode node = (LookAtMeNode) nodeList.get(arg0);
+			List<Node> nodeList = new ArrayList<Node>(socialNodeMap.values());
+			Node node = (Node) nodeList.get(arg0);
 			return node;
 		}
 
@@ -171,7 +160,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 				convertView = layoutInflater.inflate(R.layout.one_row_social_list, null);
 			}
 
-			LookAtMeNode node = (LookAtMeNode) this.getItem(position);
+			Node node = (Node) this.getItem(position);
 			BasicProfile profile = (BasicProfile) node.getProfile();
 
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
