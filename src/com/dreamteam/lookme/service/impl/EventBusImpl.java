@@ -1,6 +1,7 @@
 package com.dreamteam.lookme.service.impl;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 public class EventBusImpl {
 
@@ -11,7 +12,7 @@ public class EventBusImpl {
 		private static Bus instance;
 
 		public static Bus getEventBus() {
-			return instance == null ? instance = new Bus() : instance;
+			return instance == null ? instance = new Bus(ThreadEnforcer.ANY) : instance;
 		}
 	}
 
