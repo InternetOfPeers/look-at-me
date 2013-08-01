@@ -24,21 +24,36 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	public void onBasicProfileNodeReceived(Node node) {
 		Log.d();
 		Services.currentState.putSocialNodeInMap(node);
-		Services.eventBus.post(new Event(EventType.NODE_JOINED, node.getId()));
+		try {
+			Services.eventBus.post(new Event(EventType.NODE_JOINED, node.getId()));
+		}
+		catch (Exception e) {
+			Log.e(e.getMessage());
+		}
 	}
 
 	@Override
 	public void onFullProfileNodeReceived(Node node) {
 		Log.d();
 		Services.currentState.setProfileViewed(node);
-		Services.eventBus.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
+		try {
+			Services.eventBus.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
+		}
+		catch (Exception e) {
+			Log.e(e.getMessage());
+		}
 	}
 
 	@Override
 	public void onNodeLeft(String nodeName) {
 		Log.d();
 		Services.currentState.removeSocialNodeFromMap(nodeName);
-		Services.eventBus.post(new Event(EventType.NODE_LEFT, nodeName));
+		try {
+			Services.eventBus.post(new Event(EventType.NODE_LEFT, nodeName));
+		}
+		catch (Exception e) {
+			Log.e(e.getMessage());
+		}
 	}
 
 	@Override
@@ -52,7 +67,12 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	public void onLikeReceived(String nodeFrom) {
 		Log.d();
 		Services.currentState.addLikedToSet(nodeFrom);
-		Services.eventBus.post(new Event(EventType.LIKE_RECEIVED, nodeFrom));
+		try {
+			Services.eventBus.post(new Event(EventType.LIKE_RECEIVED, nodeFrom));
+		}
+		catch (Exception e) {
+			Log.e(e.getMessage());
+		}
 		Services.notify.like(Services.currentState.getContext(), nodeFrom);
 	}
 
@@ -67,7 +87,12 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Log.d("node " + nodeFrom + " says: " + message);
 		// creo il MessageItem
 		// metto il messaggio nella map
-		Services.eventBus.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
+		try {
+			Services.eventBus.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
+		}
+		catch (Exception e) {
+			Log.e(e.getMessage());
+		}
 		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
 		Services.notify.chatMessage(Services.currentState.getContext(), nickName, message);
 	}

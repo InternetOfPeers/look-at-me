@@ -433,7 +433,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
 		IChordChannel chatChannel = chord.getJoinedChannel(chatChannelName);
 		if (chatChannel == null) {
-			joinChatChannel(chatChannelName);
+			chatChannel = joinChatChannel(chatChannelName);
 		}
 		return chatChannel.sendData(nodeTo, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 	}
