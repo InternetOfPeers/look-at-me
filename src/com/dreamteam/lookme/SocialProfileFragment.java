@@ -2,6 +2,9 @@ package com.dreamteam.lookme;
 
 import uk.co.senab.photoview.PhotoView;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.bean.ProfileImage;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
@@ -28,7 +32,8 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 	private TextView textSurname;
 	private Button buttonLike;
 
-	private int[] gallery_images;
+//	private int[] gallery_images;
+	private Bitmap[] gallery_images;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,10 +64,22 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 			textName.setText(profile.getName());
 			textSurname.setText(profile.getSurname());
 
-			gallery_images = new int[3];
-			gallery_images[0] = R.drawable.demo_gallery_1;
-			gallery_images[1] = R.drawable.demo_gallery_2;
-			gallery_images[2] = R.drawable.demo_gallery_3;
+//			gallery_images = new int[3];
+//			gallery_images[0] = R.drawable.demo_gallery_1;
+//			gallery_images[1] = R.drawable.demo_gallery_2;
+//			gallery_images[2] = R.drawable.demo_gallery_3;
+			
+			gallery_images = new Bitmap[0];
+			if (profile.getProfileImages() != null) {
+				gallery_images = new Bitmap[profile.getProfileImages().size()];
+				int i = 0;
+				for (ProfileImage image : profile.getProfileImages()) {
+					Bitmap bMap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length - 1);
+					gallery_images[i] = bMap;
+					i++;
+				}	
+			}
+			
 			profilePhoto.setAdapter(new SamplePagerAdapter());
 			
 			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
@@ -88,10 +105,10 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 		@Override
 		public View instantiateItem(ViewGroup container, int position) {
 			PhotoView photoView = new PhotoView(container.getContext());
-			photoView.setImageResource(gallery_images[position]);// in futuro
+//			photoView.setImageResource(gallery_images[position]);// in futuro
 																	// utilizzare
 																	// setImageBitmap
-
+			photoView.setImageBitmap(gallery_images[position]);
 			// Now just add PhotoView to ViewPager and return it
 			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
