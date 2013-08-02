@@ -116,7 +116,7 @@ public class SocialActivity extends CommonActivity {
 
 			@Override
 			public void onClick(View v) {
-				Nav.startActivity(SocialActivity.this, ProfileActivity.class);
+				Nav.startActivity(SocialActivity.this, EditProfileActivity.class);
 				dialog.dismiss();
 			}
 		});

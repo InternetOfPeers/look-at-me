@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.dreamteam.lookme.EditProfileActivity;
 import com.dreamteam.lookme.FeelingsActivity;
 import com.dreamteam.lookme.MessagesActivity;
-import com.dreamteam.lookme.ProfileActivity;
 import com.dreamteam.lookme.SocialActivity;
 import com.google.common.collect.HashBiMap;
 
@@ -21,7 +21,7 @@ public class Nav {
 	private static final HashBiMap<Class<? extends Activity>, Integer> map;
 	static {
 		map = HashBiMap.create();
-		map.put(ProfileActivity.class, 0);
+		map.put(EditProfileActivity.class, 0);
 		map.put(SocialActivity.class, 1);
 		map.put(MessagesActivity.class, 2);
 		map.put(FeelingsActivity.class, 3);
