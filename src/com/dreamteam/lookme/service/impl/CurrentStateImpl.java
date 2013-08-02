@@ -153,6 +153,6 @@ public class CurrentStateImpl implements CurrentState {
 	
 	@Override
 	public boolean checkLikeMatch(String nodeId) {
-		return getILikeSet().contains(nodeId);
+		return getILikeSet().contains(nodeId) && getLikedSet().contains(nodeId);
 	}
 }
