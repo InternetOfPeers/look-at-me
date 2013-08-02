@@ -213,13 +213,12 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					communicationListener.onFullProfileNodeReceived(fullNode);
 					break;
 				case PROFILE_UPDATE:
-					// TODO
-					// BasicProfile updatedProfile = (BasicProfile)
-					// message.getObject(LookAtMeMessageType.PROFILE_UPDATE.toString());
-					// LookAtMeNode updatedNode = new LookAtMeNode();
-					// updatedNode.setId(arg0);
-					// updatedNode.setProfile(updatedProfile);
-					// communicationListener.onSocialNodeUpdated(updatedNode);
+					BasicProfile updatedProfile = (BasicProfile)
+					message.getObject(MessageType.PROFILE_UPDATE.toString());
+					Node updatedNode = new Node();
+					updatedNode.setId(arg0);
+					updatedNode.setProfile(updatedProfile);
+					communicationListener.onBasicProfileNodeReceived(updatedNode);
 					break;
 				case START_CHAT_MESSAGE:
 					String myId = Services.currentState.getMyBasicProfile().getId();
@@ -349,19 +348,14 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean sendBasicProfileAll() {
-		// TODO
+	public boolean sendMyNewBasicProfileAll() {
 		Log.d();
-		return false;
-		// LookAtMeChordMessage message = obtainMyProfileMessage(BASIC_PROFILE,
-		// LookAtMeMessageType.PROFILE_UPDATE, null);
-		// if (message != null) {
-		// return
-		// socialChannel.sendDataToAll(LookAtMeMessageType.PROFILE_UPDATE.toString(),
-		// obtainPayload(message));
-		// } else {
-		// return false;
-		// }
+		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.PROFILE_UPDATE, null);
+		if (message != null) {
+			return socialChannel.sendDataToAll(MessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
+		} else {
+			return false;
+		}
 	}
 
 	private boolean sendBasicProfileRequest(String nodeTo) {

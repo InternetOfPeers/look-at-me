@@ -138,5 +138,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		Log.d();
 		return communicationManager.sendChatMessage(nodeTo, message);
 	}
+	
+	@Override
+	public void sendMyNewBasicProfileAll() {
+		Log.d();
+		communicationManager.sendMyNewBasicProfileAll();
+	}
 
 }

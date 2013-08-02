@@ -115,6 +115,7 @@ public class EditProfileActivity extends CommonActivity {
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 			Services.currentState.setMyFullProfile(savedProfile);
 			Services.currentState.setMyBasicProfile(dbOpenHelper.getMyBasicProfile());
+			Services.businessLogic.sendMyNewBasicProfileAll();
 			switchToUpdateAccount(savedProfile);
 			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
 			toast.show();
