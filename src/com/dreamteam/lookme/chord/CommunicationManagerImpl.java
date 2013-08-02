@@ -189,8 +189,10 @@ public class CommunicationManagerImpl implements CommunicationManager {
 				}
 				switch (messageType) {
 				case BASIC_PROFILE_REQUEST:
-					// send my basic profile to arg0 node
-					sendBasicProfileResponse(arg0);
+					// send my basic profile to arg0 node only if exists
+					if (Services.currentState.getMyBasicProfile() != null) {
+						sendBasicProfileResponse(arg0);
+					}
 					break;
 				case BASIC_PROFILE:
 					BasicProfile basicProfile = (BasicProfile) message.getObject(MessageType.BASIC_PROFILE.toString());

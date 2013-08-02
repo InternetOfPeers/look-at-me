@@ -13,7 +13,9 @@ import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.chord.Node;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.CurrentState;
+import com.dreamteam.util.Log;
 
 public class CurrentStateImpl implements CurrentState {
 
@@ -35,6 +37,14 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public FullProfile getMyFullProfile() {
+		if (myFullProfile == null) {
+			try {
+				myFullProfile = DBOpenHelperImpl.getInstance(getContext()).getMyFullProfile();
+			} catch (Exception e) {
+				Log.e("Error getting my full profile");
+				e.printStackTrace();
+			}
+		}
 		return myFullProfile;
 	}
 
@@ -45,6 +55,14 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public BasicProfile getMyBasicProfile() {
+		if (myBasicProfile == null) {
+		try {
+			myBasicProfile = DBOpenHelperImpl.getInstance(getContext()).getMyBasicProfile();
+		} catch (Exception e) {
+			Log.e("Error getting my basic profile");
+			e.printStackTrace();
+		}
+	}
 		return myBasicProfile;
 	}
 
