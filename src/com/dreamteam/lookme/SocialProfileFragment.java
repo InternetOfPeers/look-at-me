@@ -64,6 +64,8 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 			gallery_images[1] = R.drawable.demo_gallery_2;
 			gallery_images[2] = R.drawable.demo_gallery_3;
 			profilePhoto.setAdapter(new SamplePagerAdapter());
+			
+			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
 		}
 	}
 
@@ -72,6 +74,7 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 		Node profileNode = Services.currentState.getProfileViewed();
 		Log.d("LIKE clicked on node " + profileNode.getId());
 		Services.businessLogic.sendLike(profileNode.getId());
+		buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
 		Toast.makeText(this.getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
 	}
 
@@ -105,5 +108,9 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 			return view == object;
 		}
 
+	}
+	
+	private boolean likeButtonIsEnabledFor(String nodeId) {
+		return !Services.currentState.getILikeSet().contains(nodeId);
 	}
 }

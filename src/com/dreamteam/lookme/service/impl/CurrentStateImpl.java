@@ -150,4 +150,9 @@ public class CurrentStateImpl implements CurrentState {
 	public String getNickname(String nodeId) {
 		return getSocialNodeMap().get(nodeId).getProfile().getNickname();
 	}
+	
+	@Override
+	public boolean checkLikeMatch(String nodeId) {
+		return getILikeSet().contains(nodeId);
+	}
 }

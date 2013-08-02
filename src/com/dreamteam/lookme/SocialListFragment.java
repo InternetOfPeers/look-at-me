@@ -79,6 +79,9 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			Toast chatToast = Toast.makeText(Services.currentState.getContext(), (String) event.getEventObject() + " sent you a message", Toast.LENGTH_LONG);
 			chatToast.show();
 			break;
+		case LIKE_MATCH:
+			Toast likeMatchToast = Toast.makeText(Services.currentState.getContext(), (String) event.getEventObject() + " exchanged a LIKE", Toast.LENGTH_LONG);
+			likeMatchToast.show();
 		default:
 			break;
 		}

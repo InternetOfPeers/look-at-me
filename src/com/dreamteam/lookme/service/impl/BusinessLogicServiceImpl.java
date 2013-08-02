@@ -10,6 +10,7 @@ import com.dreamteam.lookme.chord.CommunicationManager;
 import com.dreamteam.lookme.chord.CommunicationManagerImpl;
 import com.dreamteam.lookme.chord.CustomException;
 import com.dreamteam.lookme.service.BusinessLogicService;
+import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 
 public class BusinessLogicServiceImpl extends Service implements BusinessLogicService {
@@ -109,7 +110,9 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public void sendLike(String nodeId) {
 		Log.d();
-		communicationManager.sendLike(nodeId);
+		if (communicationManager.sendLike(nodeId)) {
+			Services.currentState.addILikeToSet(nodeId);
+		}
 	}
 
 	@Override

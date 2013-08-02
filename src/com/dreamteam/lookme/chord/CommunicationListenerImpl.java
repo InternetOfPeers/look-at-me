@@ -67,6 +67,10 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.currentState.addLikedToSet(fromNode);
 		try {
 			Services.eventBus.post(new Event(EventType.LIKE_RECEIVED, fromNode));
+			if (Services.currentState.checkLikeMatch(fromNode)) {
+				Services.eventBus.post(new Event(EventType.LIKE_MATCH, fromNode));
+				Services.notify.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNode));
+			}
 		} catch (Exception e) {
 			Log.e(e.getMessage());
 		}
