@@ -69,7 +69,8 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 //			gallery_images[1] = R.drawable.demo_gallery_2;
 //			gallery_images[2] = R.drawable.demo_gallery_3;
 			
-			gallery_images = new Bitmap[0];
+			gallery_images = new Bitmap[1];
+			gallery_images[0] = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image);
 			if (profile.getProfileImages() != null) {
 				gallery_images = new Bitmap[profile.getProfileImages().size()];
 				int i = 0;
