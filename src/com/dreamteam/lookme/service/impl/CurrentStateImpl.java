@@ -21,8 +21,6 @@ public class CurrentStateImpl implements CurrentState {
 
 	private BasicProfile myBasicProfile;
 
-	private static CurrentState instance;
-
 	private Map<String, List<MessageItem>> messagesHistoryMap = new HashMap<String, List<MessageItem>>();
 
 	private Map<String, Node> socialNodeMap = new HashMap<String, Node>();
@@ -35,67 +33,31 @@ public class CurrentStateImpl implements CurrentState {
 
 	private Context currentContext;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dreamteam.lookme.service.CurrentState#getMyFullProfile()
-	 */
 	@Override
 	public FullProfile getMyFullProfile() {
 		return myFullProfile;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#setMyFullProfile(com.dreamteam
-	 * .lookme.bean.FullProfile)
-	 */
 	@Override
 	public void setMyFullProfile(FullProfile profile) {
 		this.myFullProfile = profile;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dreamteam.lookme.service.CurrentState#getMyBasicProfile()
-	 */
 	@Override
 	public BasicProfile getMyBasicProfile() {
 		return myBasicProfile;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#setMyBasicProfile(com.dreamteam
-	 * .lookme.bean.BasicProfile)
-	 */
 	@Override
 	public void setMyBasicProfile(BasicProfile profile) {
 		this.myBasicProfile = profile;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dreamteam.lookme.service.CurrentState#getMessagesHistoryMap()
-	 */
 	@Override
 	public Map<String, List<MessageItem>> getMessagesHistoryMap() {
 		return messagesHistoryMap;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#putMessageInHistoryMap(java
-	 * .lang.String, com.dreamteam.lookme.bean.MessageItem)
-	 */
 	@Override
 	public void putMessageInHistoryMap(String id, MessageItem messageItem) {
 		if (messagesHistoryMap.containsKey(id)) {
@@ -107,123 +69,56 @@ public class CurrentStateImpl implements CurrentState {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dreamteam.lookme.service.CurrentState#getSocialNodeMap()
-	 */
 	@Override
 	public Map<String, Node> getSocialNodeMap() {
 		return socialNodeMap;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#putSocialNodeInMap(com.dreamteam
-	 * .lookme.chord.Node)
-	 */
 	@Override
 	public void putSocialNodeInMap(Node node) {
 		socialNodeMap.put(node.getId(), node);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#removeSocialNodeFromMap(java
-	 * .lang.String)
-	 */
 	@Override
 	public void removeSocialNodeFromMap(String nodeName) {
 		socialNodeMap.remove(nodeName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dreamteam.lookme.service.CurrentState#getILikeSet()
-	 */
 	@Override
 	public Set<String> getILikeSet() {
 		return iLikeSet;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#addILikeToSet(java.lang.String)
-	 */
 	@Override
 	public void addILikeToSet(String nodeName) {
 		iLikeSet.add(nodeName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#removeILikeFromSet(java.lang
-	 * .String)
-	 */
 	@Override
 	public void removeILikeFromSet(String nodeName) {
 		iLikeSet.remove(nodeName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dreamteam.lookme.service.CurrentState#getLikedSet()
-	 */
 	@Override
 	public Set<String> getLikedSet() {
 		return likedSet;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#addLikedToSet(java.lang.String)
-	 */
 	@Override
 	public void addLikedToSet(String nodeName) {
 		likedSet.add(nodeName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#removeLikedFromSet(java.lang
-	 * .String)
-	 */
 	@Override
 	public void removeLikedFromSet(String nodeName) {
 		likedSet.remove(nodeName);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dreamteam.lookme.service.CurrentState#getProfileViewed()
-	 */
 	@Override
 	public Node getProfileViewed() {
 		return profileViewed;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dreamteam.lookme.service.CurrentState#setProfileViewed(com.dreamteam
-	 * .lookme.chord.Node)
-	 */
 	@Override
 	public void setProfileViewed(Node node) {
 		profileViewed = node;
@@ -249,5 +144,10 @@ public class CurrentStateImpl implements CurrentState {
 	@Override
 	public Context getContext() {
 		return currentContext;
+	}
+
+	@Override
+	public String getNickname(String nodeId) {
+		return getSocialNodeMap().get(nodeId).getProfile().getNickname();
 	}
 }

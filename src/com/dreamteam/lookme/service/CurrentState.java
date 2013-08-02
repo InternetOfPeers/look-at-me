@@ -51,4 +51,6 @@ public interface CurrentState {
 
 	Context getContext();
 
+	String getNickname(String nodeId);
+
 }

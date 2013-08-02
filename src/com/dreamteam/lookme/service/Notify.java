@@ -5,6 +5,13 @@ import android.content.Context;
 
 public interface Notify {
 
+	final String NOTIFICATION_KEY_ID = "notification_key_id";
+	final String NODE_KEY_ID = "node_key_id";
+	final int CHAT_ID = 0;
+	final int PROFILE_ID = 1;
+	final int LIKED_ID = 2;
+	final int PERFECT_MATCH_ID = 3;
+
 	void clearActivityNotifications(Activity context);
 
 	void chatMessage(Context context, String fromName, String message);
@@ -15,7 +22,7 @@ public interface Notify {
 
 	int getProfileViewPendingNotifications();
 
-	void like(Context context, String fromName);
+	void like(Context context, String fromName, String fromNode);
 
 	int getLikePendingNotifications();
 

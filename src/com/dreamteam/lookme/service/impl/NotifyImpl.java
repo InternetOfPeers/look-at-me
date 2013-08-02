@@ -10,17 +10,12 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.SparseIntArray;
 
 import com.dreamteam.lookme.MessagesActivity;
-import com.dreamteam.lookme.ProfileActivity;
 import com.dreamteam.lookme.R;
+import com.dreamteam.lookme.SocialActivity;
 import com.dreamteam.lookme.service.Notify;
 
 public class NotifyImpl implements Notify {
 
-	private final String NOTIFICATION_KEY_ID = "notification_key_id";
-	private final int CHAT_ID = 0;
-	private final int PROFILE_ID = 1;
-	private final int LIKED_ID = 2;
-	private final int PERFECT_MATCH_ID = 3;
 	private SparseIntArray counters = new SparseIntArray();
 
 	@Override
@@ -34,15 +29,15 @@ public class NotifyImpl implements Notify {
 		String title = "Your profile has been visited";
 		String message = "Your profile has been visited by " + fromName;
 		// TOIMPROVE Andare al profilo della persona che ti ha visitato
-		notifyMessage(context, ProfileActivity.class, PROFILE_ID, title, message);
+		notifyMessage(context, SocialActivity.class, PROFILE_ID, title, message);
 	}
 
 	@Override
-	public void like(Context context, String fromName) {
+	public void like(Context context, String fromName, String fromNode) {
 		String title = fromName + " liked your profile!";
 		String message = fromName + " liked your profile!";
 		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(context, ProfileActivity.class, LIKED_ID, title, message);
+		notifyMessage(context, SocialActivity.class, LIKED_ID, title, message, fromNode);
 	}
 
 	@Override
@@ -50,7 +45,7 @@ public class NotifyImpl implements Notify {
 		String title = "Perfect match!";
 		String message = "You and " + fromName + " creates a perfect match!";
 		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(context, ProfileActivity.class, PERFECT_MATCH_ID, title, message);
+		notifyMessage(context, SocialActivity.class, PERFECT_MATCH_ID, title, message);
 	}
 
 	@Override
@@ -92,16 +87,19 @@ public class NotifyImpl implements Notify {
 	 * @param message
 	 */
 	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message) {
+		notifyMessage(context, destinationActivity, notificationID, title, message, null);
+	}
+
+	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message, String fromNode) {
 		// Aumenta il counter per il tipo di notifica selezionato
 		counters.put(notificationID, counters.get(notificationID) + 1);
-		long[] vibrationPattern = new long[1];
-		vibrationPattern[0] = 5;
 		// Crea la notifica da inviare
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(message).setSmallIcon(R.drawable.ic_launcher)
 				.setAutoCancel(true).setNumber(counters.get(notificationID));
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(context, destinationActivity);
 		resultIntent.putExtra(NOTIFICATION_KEY_ID, notificationID);
+		resultIntent.putExtra(NODE_KEY_ID, fromNode);
 		// The stack builder object will contain an artificial back stack for
 		// the started Activity. This ensures that navigating backward from the
 		// Activity leads out of your application to the Home screen.

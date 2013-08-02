@@ -1,6 +1,3 @@
-/**
- * Author: Carlo Tassi
- */
 package com.dreamteam.lookme.chord;
 
 import com.dreamteam.lookme.bean.Profile;

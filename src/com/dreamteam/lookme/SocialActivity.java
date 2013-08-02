@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.service.Notify;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
+import com.google.common.base.Optional;
 
 public class SocialActivity extends CommonActivity {
 
@@ -26,16 +29,36 @@ public class SocialActivity extends CommonActivity {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social);
-		// set fragment
 		socialListFragment = (SocialListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
 		socialProfileFragment = (SocialProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
-		setFragment(currentFragment);
+		if (Optional.fromNullable(extras.getString(Notify.NODE_KEY_ID)).isPresent()) {
+			// Recupero il profilo se ancora esistente il nodo corrispondente
+			// TODO Poiché il profile full non viene memorizzato nello state,
+			// non posso recuperare faclimente il profilo come credevo
+			// inizialmente: va fatta una richiesta ad hoc
+			// FullProfile profile = (FullProfile)
+			// Services.currentState.getSocialNodeMap().get(extras.getString(Notify.NODE_KEY_ID)).getProfile();
+			// FullProfile profile = null;
+			// Carica la schermata visualizzando il profilo dell'utente che
+			// corrisponde al nodo passato
+			// setFragment(SOCIAL_PROFILE_FRAGMENT, profile);
+
+			setFragment(SOCIAL_PROFILE_FRAGMENT);
+			Services.businessLogic.sendFullProfileRequest(extras.getString(Notify.NODE_KEY_ID));
+			// entro in attesa
+			// ProgressDialog loadingDialog = new ProgressDialog(this);
+			// loadingDialog.setTitle("Loading profile");
+			// loadingDialog.show();
+
+		} else {
+			// carica l'activity l'ultimo fragment impostato
+			setFragment(currentFragment);
+		}
 		// Inizializzazione del menu
 		initMenu(savedInstanceState, this.getClass());
-
-		// Controllo che l'utente abbia compilato almeno i campi obbilgatori del
-		// profilo
-		if (Services.currentState.getMyBasicProfile() ==  null) {
+		// Controllo che l'utente abbia compilato almeno i campi obbilgatori
+		// del profilo
+		if (Services.currentState.getMyBasicProfile() == null) {
 			// L'utente deve compilare il profilo prima di iniziare
 			Log.d("It's the first time this app run!");
 			showFirstTimeDialog();
@@ -54,6 +77,11 @@ public class SocialActivity extends CommonActivity {
 	}
 
 	protected void setFragment(int fragment) {
+		FullProfile profile = Services.currentState.getProfileViewed() != null ? (FullProfile) Services.currentState.getProfileViewed().getProfile() : null;
+		setFragment(fragment, profile);
+	}
+
+	protected void setFragment(int fragment, FullProfile profile) {
 		Log.d("" + fragment);
 		Log.d("changing fragment from " + currentFragment + " to " + fragment);
 		currentFragment = fragment;
@@ -65,7 +93,7 @@ public class SocialActivity extends CommonActivity {
 			break;
 		case SOCIAL_PROFILE_FRAGMENT:
 			// necessario per impostare il profilo richiesto nella vista
-			socialProfileFragment.setProfileData();
+			socialProfileFragment.prepareProfileAttributes(profile);
 			fragmentTransaction.hide(socialListFragment);
 			fragmentTransaction.show(socialProfileFragment);
 			break;

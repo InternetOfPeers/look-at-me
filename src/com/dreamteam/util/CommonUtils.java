@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import com.dreamteam.lookme.service.Services;
-
 public class CommonUtils {
 
 	public static byte[] getBytes(Object obj) {

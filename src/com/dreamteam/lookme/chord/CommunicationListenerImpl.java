@@ -6,6 +6,7 @@ import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 
 public class CommunicationListenerImpl implements CommunicationListener {
+
 	@Override
 	public void onCommunicationStarted() {
 		// TODO Auto-generated method stub
@@ -26,8 +27,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.currentState.putSocialNodeInMap(node);
 		try {
 			Services.eventBus.post(new Event(EventType.NODE_JOINED, node.getId()));
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			Log.e(e.getMessage());
 		}
 	}
@@ -38,8 +38,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.currentState.setProfileViewed(node);
 		try {
 			Services.eventBus.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			Log.e(e.getMessage());
 		}
 	}
@@ -50,8 +49,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.currentState.removeSocialNodeFromMap(nodeName);
 		try {
 			Services.eventBus.post(new Event(EventType.NODE_LEFT, nodeName));
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			Log.e(e.getMessage());
 		}
 	}
@@ -64,16 +62,15 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	}
 
 	@Override
-	public void onLikeReceived(String nodeFrom) {
+	public void onLikeReceived(String fromNode) {
 		Log.d();
-		Services.currentState.addLikedToSet(nodeFrom);
+		Services.currentState.addLikedToSet(fromNode);
 		try {
-			Services.eventBus.post(new Event(EventType.LIKE_RECEIVED, nodeFrom));
-		}
-		catch (Exception e) {
+			Services.eventBus.post(new Event(EventType.LIKE_RECEIVED, fromNode));
+		} catch (Exception e) {
 			Log.e(e.getMessage());
 		}
-		Services.notify.like(Services.currentState.getContext(), nodeFrom);
+		Services.notify.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNode), fromNode);
 	}
 
 	@Override
@@ -89,8 +86,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		// metto il messaggio nella map
 		try {
 			Services.eventBus.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			Log.e(e.getMessage());
 		}
 		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();

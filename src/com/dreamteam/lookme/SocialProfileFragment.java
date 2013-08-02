@@ -53,9 +53,8 @@ public class SocialProfileFragment extends Fragment implements OnClickListener {
 		return view;
 	}
 
-	public void setProfileData() {
-		if (Services.currentState.getProfileViewed() != null) {
-			FullProfile profile = (FullProfile) (Services.currentState.getProfileViewed()).getProfile();
+	public void prepareProfileAttributes(FullProfile profile) {
+		if (profile != null) {
 			textNickname.setText(profile.getNickname());
 			textName.setText(profile.getName());
 			textSurname.setText(profile.getSurname());

@@ -118,9 +118,9 @@ public class ProfileActivity extends CommonActivity {
 			toast.show();
 
 			Nav.startActivity(this, SocialActivity.class);
-//			Intent mainIntent = new Intent(this, SocialActivity.class);
-//			this.startActivity(mainIntent);
-//			this.finish();
+			// Intent mainIntent = new Intent(this, SocialActivity.class);
+			// this.startActivity(mainIntent);
+			// this.finish();
 
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());

@@ -33,12 +33,14 @@ public abstract class CommonActivity extends Activity {
 	protected CharSequence mTitle;
 	protected String[] mPlanetTitles;
 	protected boolean menuEnabled;
+	protected Bundle extras;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d();
-
+		// Preparo gli eventuali extra passati da chi ha chiamato l'activity
+		extras = getIntent().getExtras() != null ? getIntent().getExtras() : new Bundle();
 		// Cancella le notifiche appese se l'utente proviene da fuori l'app ed a
 		// premuto su un banner di notifica
 		Services.notify.clearActivityNotifications(this);
@@ -172,44 +174,6 @@ public abstract class CommonActivity extends Activity {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggle
 		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
-
-	/**
-	 * Notifica un messaggio di tipo chat all'utente
-	 * 
-	 * @param fromName
-	 * @param messageAbstract
-	 */
-	protected void notifyChatMessage(String fromName, String messageAbstract) {
-		Services.notify.chatMessage(this, fromName, messageAbstract);
-	}
-
-	/**
-	 * Notifica l'utente quando riceve un mi piace
-	 * 
-	 * @param fromName
-	 */
-	protected void notifyLike(String fromName) {
-		Services.notify.like(this, fromName);
-	}
-
-	/**
-	 * Notifica l'utente quando avviene un match perfetto tra il suo profilo e
-	 * quello di un'altro utente
-	 * 
-	 * @param fromName
-	 */
-	protected void notifyPerfectMatch(String fromName) {
-		Services.notify.perfectMatch(this, fromName);
-	}
-
-	/**
-	 * Notifica l'utente quando il suo profilo viene visualizzato
-	 * 
-	 * @param fromName
-	 */
-	protected void notifyProfileView(String fromName) {
-		Services.notify.profileView(this, fromName);
 	}
 
 	protected void showErrorDialog(String message) {

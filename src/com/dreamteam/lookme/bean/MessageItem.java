@@ -3,7 +3,7 @@ package com.dreamteam.lookme.bean;
 import java.util.Date;
 
 public class MessageItem {
-	
+
 	private boolean isMine;
 
 	private String nodeId;

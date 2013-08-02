@@ -50,7 +50,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 		super.onStart();
 		Services.eventBus.register(this);
 	}
-	
+
 	@Override
 	public void onStop() {
 		Log.d();
