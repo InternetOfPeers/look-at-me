@@ -197,7 +197,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 				Drawable noPhoto = getResources().getDrawable(R.drawable.ic_profile_image);
 				photoImage.setImageDrawable(noPhoto);
 			} else {
-				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length - 1);
+				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length);
 				photoImage.setImageBitmap(bMap);
 			}
 
