@@ -126,8 +126,7 @@ public class ChatListFragment extends Fragment  implements OnClickListener, OnIt
 			break;
 		case LIKE_RECEIVED:
 			break;
-		case CHAT_MESSAGE_RECEIVED:
-			
+		case CHAT_MESSAGE_RECEIVED:			
 			chatListAdapter = new ChatListAdapter();
 			messageListView.setAdapter(chatListAdapter);				
 			chatListAdapter.notifyDataSetChanged();
@@ -221,7 +220,7 @@ public class ChatListFragment extends Fragment  implements OnClickListener, OnIt
 			if (profile.getMainProfileImage() == null || profile.getMainProfileImage().getImage() == null) {
 				Drawable noPhoto = getResources().getDrawable(R.drawable.ic_profile_image);
 				photoImage.setImageDrawable(noPhoto);
-			} else {
+			} else {				
 				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length - 1);
 				photoImage.setImageBitmap(bMap);
 			}			

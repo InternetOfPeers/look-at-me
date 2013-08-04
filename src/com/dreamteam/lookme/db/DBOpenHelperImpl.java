@@ -305,7 +305,6 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 					tempProfile = new BasicProfile();
 					valorizeProfile(tempProfile, cursor);
 					tempProfile.setMainProfileImage(getProfileMainImage(contactID));
-					//TODO: set the main image
 					return tempProfile;
 				} while (cursor.moveToNext());
 

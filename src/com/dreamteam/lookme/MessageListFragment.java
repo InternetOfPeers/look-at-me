@@ -3,6 +3,7 @@ package com.dreamteam.lookme;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -148,11 +149,12 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
 			nickNameText.setText("conversation to: "+node.getProfile().getNickname());
 			
-			TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
-			lastMessageText.setText(message.getMessage());			
+//			TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
+//			lastMessageText.setText(message.getMessage());			
 			
 			TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
-			lastMessageDate.setText(DateFormat.getDateTimeInstance().format(message.getCreationTime()));
+			String timeElapsed=CommonUtils.timeElapsed(message.getCreationTime(),new Date(System.currentTimeMillis()));
+			lastMessageDate.setText(timeElapsed);
 
 			// Problemi con il recupero dell'immagine del profilo
 			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
