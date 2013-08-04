@@ -16,12 +16,7 @@
             android:name="com.dreamteam.lookme.MessageListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        
-        <fragment
-            android:id="@+id/fragment_message_chat"
-            android:name="com.dreamteam.lookme.MessageListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />        
+
         
 
     </LinearLayout>

@@ -1,8 +1,13 @@
 package com.dreamteam.lookme.chord;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.EventType;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.Log;
 
 public class CommunicationListenerImpl implements CommunicationListener {
@@ -80,7 +85,17 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	@Override
 	public void onStartChatMessageReceived(String nodeFrom, String channelName) {
 		// TODO Auto-generated method stub
-		Log.d("Silently join to private channel");
+		Log.d("Silently join to private channel");			
+		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();		
+		String nodeId=Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
+		String deviceId=Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
+		List <MessageItem> messagesList = Services.currentState.getMessagesHistoryMap().get(channelName);
+		if(messagesList==null||messagesList.isEmpty())
+			messagesList= new ArrayList<MessageItem>();
+//		MessageItem messageItem = new MessageItem(nodeId,deviceId, "", false);
+//		messagesList.add(messageItem);
+		Services.currentState.getMessagesHistoryMap().put(channelName, messagesList);		
+
 	}
 
 	@Override
@@ -92,8 +107,18 @@ public class CommunicationListenerImpl implements CommunicationListener {
 			Services.eventBus.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
 		} catch (Exception e) {
 			Log.e(e.getMessage());
-		}
-		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
+		}		
+		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();		
+		String nodeId=Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
+		String deviceId=Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
+		String channelName= CommonUtils.generateChannelName(deviceId, Services.currentState.getMyBasicProfile().getId());
+		List <MessageItem> messagesList = Services.currentState.getMessagesHistoryMap().get(channelName);
+		if(messagesList==null||messagesList.isEmpty())
+			messagesList= new ArrayList<MessageItem>();
+		MessageItem messageItem = new MessageItem(nodeId,deviceId, message, false);
+		messagesList.add(messageItem);
+		Services.currentState.getMessagesHistoryMap().put(channelName, messagesList);		
+				
 		Services.notify.chatMessage(Services.currentState.getContext(), nickName, message);
 	}
 }

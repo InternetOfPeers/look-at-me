@@ -9,6 +9,7 @@ import android.os.Looper;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.service.Services;
@@ -222,10 +223,18 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					break;
 				case START_CHAT_MESSAGE:
 					String myId = Services.currentState.getMyBasicProfile().getId();
-					String profileId = Services.currentState.getSocialNodeMap().get(arg0).getProfile().getId();
-					String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
-					joinChatChannel(chatChannelName);
-					communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
+					Node nodeTo = Services.currentState.getSocialNodeMap().get(arg0);
+					if(nodeTo!=null)
+					{
+						String profileId = Services.currentState.getSocialNodeMap().get(arg0).getProfile().getId();
+						String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
+						joinChatChannel(chatChannelName);
+						communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
+					}else
+					{
+						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");						
+					}
+
 					break;
 				case LIKE:
 					communicationListener.onLikeReceived(arg0);
@@ -413,7 +422,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public boolean sendStartChatMessage(String nodeTo) {
-		Log.d();
+		Log.d();		
+		Services.currentState.getMessagesHistoryMap().put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()), new ArrayList<MessageItem>());
 		return socialChannel.sendData(nodeTo, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
@@ -431,7 +441,12 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		if (chatChannel == null) {
 			chatChannel = joinChatChannel(chatChannelName);
 		}
+		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
+		MessageItem messageItem = new MessageItem(null, null, message, true);
+		listMessage.add(messageItem);
+		Services.currentState.getMessagesHistoryMap().put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()), listMessage);		
 		return chatChannel.sendData(nodeTo, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
+		
 	}
 
 }
