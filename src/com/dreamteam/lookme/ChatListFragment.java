@@ -66,7 +66,8 @@ public class ChatListFragment extends Fragment  implements OnClickListener, OnIt
 					{
 						Services.businessLogic.sendChatMessage(CommonUtils.getNodeFromChannelName(Nav.getStringParameter(ChatListFragment.this.getActivity())).getId(), text);
 						 mInputEditText.getText().clear();
-						 chatListAdapter.notifyDataSetChanged();						
+						 chatListAdapter.notifyDataSetChanged();
+						 scrollMyListViewToBottom();
 					}
 					else
 					{						
@@ -100,17 +101,53 @@ public class ChatListFragment extends Fragment  implements OnClickListener, OnIt
 		loadingDialog.dismiss();
 	}
 	
+	@Override
+	public void onStart() {
+		Log.d();
+		super.onStart();
+		Services.eventBus.register(this);
+	}
+
+	@Override
+	public void onStop() {
+		Log.d();
+		super.onStop();
+		Services.eventBus.unregister(this);
+	}
+	
 	@Subscribe
-	public void onMessageReceived(Event event) {
+	public void onNodeMovment(Event event) {
 		Log.d(event.getEventType().toString());
 		switch (event.getEventType()) {
-		case NODE_JOINED:break;
+		case NODE_JOINED:
+		case NODE_LEFT:
+			break;
+		case PROFILE_RECEIVED:
+			break;
+		case LIKE_RECEIVED:
+			break;
 		case CHAT_MESSAGE_RECEIVED:
+			
+			chatListAdapter = new ChatListAdapter();
+			messageListView.setAdapter(chatListAdapter);				
 			chatListAdapter.notifyDataSetChanged();
-			//scrollMyListViewToBottom();
+			scrollMyListViewToBottom();
+			break;
+		case LIKE_MATCH:
+		default:
 			break;
 		}
 	}
+	
+//	@Subscribe
+//	public void onMessageReceived(Event event) {
+//		Log.d(event.getEventType().toString());
+//		switch (event.getEventType()) {
+//		case NODE_JOINED:break;
+//
+//		}
+//	}
+
 
 
 	public class ChatListAdapter extends BaseAdapter {		

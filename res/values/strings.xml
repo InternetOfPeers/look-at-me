@@ -22,6 +22,8 @@
     
     
     <string name="unable_to_send_chat_message">unable to comunicate to chosed user</string>
+    <string name="send_btn">Send</string>
+    <string name="text_hint_txt">message text</string>
 
     <!-- Drawer menu -->
     <string-array name="menu_items">

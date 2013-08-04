@@ -422,8 +422,11 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public boolean sendStartChatMessage(String nodeTo) {
-		Log.d();		
-		Services.currentState.getMessagesHistoryMap().put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()), new ArrayList<MessageItem>());
+		Log.d();				
+		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
+		
+		if(listMessage==null)
+			Services.currentState.getMessagesHistoryMap().put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()), new ArrayList<MessageItem>());
 		return socialChannel.sendData(nodeTo, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
