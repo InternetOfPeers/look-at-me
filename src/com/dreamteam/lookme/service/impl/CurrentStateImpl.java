@@ -11,6 +11,7 @@ import android.content.Context;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
@@ -35,6 +36,8 @@ public class CurrentStateImpl implements CurrentState {
 
 	private Context currentContext;
 
+	private Set<Interest> interestList = new TreeSet<Interest>();
+	
 	@Override
 	public FullProfile getMyFullProfile() {
 		if (myFullProfile == null) {
@@ -173,4 +176,13 @@ public class CurrentStateImpl implements CurrentState {
 	public boolean checkLikeMatch(String nodeId) {
 		return getILikeSet().contains(nodeId) && getLikedSet().contains(nodeId);
 	}
+
+	public Set<Interest> getInterestList() {
+		return interestList;
+	}
+
+	public void setInterestList(Set<Interest> interestList) {
+		this.interestList = interestList;
+	}
+	
 }

@@ -16,41 +16,21 @@
             android:layout_height="wrap_content"
             android:background="#fff" >
 
-            <!-- Header  Starts -->
+            <ListView
+                android:id="@+id/myInterestListView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <Button
+                android:id="@+id/button1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="I N T E R E S T"
-                        android:textColor="#372c24" />
-
-                    
-
-            </LinearLayout>
-            <!-- Header Ends -->
-            <!-- Footer Start -->
-            <!--
-        LinearLayout android:id="@+id/footer"
-            android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="90dip"
-                android:background="@layout/footer"
-                android:layout_alignParentBottom="true">
-        </LinearLayout
-            -->
-            <!-- Footer Ends -->
-
-
-            <!-- Registration Form -->
-            <!-- Registration Form Ends -->
-
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="311dp"
+                android:layout_marginLeft="59dp"
+                android:onClick="onAddInterest"
+                android:text="Aggiungi Interessi" />
         </RelativeLayout>
     </ScrollView>
 

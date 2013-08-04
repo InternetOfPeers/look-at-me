@@ -1,6 +1,10 @@
 package com.dreamteam.lookme.service;
 
+import java.util.Set;
+
 import android.content.Context;
+
+import com.dreamteam.lookme.bean.Interest;
 
 public interface BusinessLogicService {
 
@@ -21,5 +25,7 @@ public interface BusinessLogicService {
 	boolean sendChatMessage(String nodeTo, String message);
 	
 	void sendMyNewBasicProfileAll();
+	
+	Set<Interest> getFullInterestList();
 
 }

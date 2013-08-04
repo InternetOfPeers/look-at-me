@@ -2,6 +2,8 @@ package com.dreamteam.lookme.bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class FullProfile extends Profile {
 
@@ -22,6 +24,8 @@ public class FullProfile extends Profile {
 	private String job;
 	private String myDescription;
 	private String motto;
+
+	private Set<Interest> interestList = new TreeSet<Interest>();
 
 	public String getName() {
 		return name;
@@ -145,6 +149,23 @@ public class FullProfile extends Profile {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Set<Interest> getInterestList() {
+		return interestList;
+	}
+
+	public void setInterestList(Set<Interest> interestList) {
+		this.interestList = interestList;
+	}
+
+	public void addInterest(Interest interest) {
+		this.interestList.add(interest);
+	}
+
+	public void removeInterest(Interest interest) {
+		this.interestList.remove(interest);
+		
 	}
 
 }

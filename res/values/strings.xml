@@ -8,9 +8,11 @@
     <string name="title_profile_activity">Profile</string>
     <string name="title_edit_profile_activity">MyProfile</string>
     <string name="title_manage_interest_activity">Interest</string>
+    <string name="title_add_interest_activity">Add Interest</string>
     <string name="title_messages_activity">Messages</string>
     <string name="title_settings_activity">Settings</string>
     <string name="title_feelings_activity">Feelings</string>
+    <string name="title_chat_activity">Chat</string>
     <string name="text_name">name</string>
     <string name="text_surname">surname</string>
     <string name="text_nickname">nickname</string>
@@ -18,6 +20,11 @@
     <string name="text_gender">gender</string>    
     <string name="text_interest">interest</string>    
     <string name="title_splashscreen">splash</string>
+    
+    
+    <string name="unable_to_send_chat_message">unable to comunicate to chosed user</string>
+    <string name="send_btn">Send</string>
+    <string name="text_hint_txt">message text</string>
 
     <!-- Drawer menu -->
     <string-array name="menu_items">

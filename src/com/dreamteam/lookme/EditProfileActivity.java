@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.bean.ProfileImage;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
@@ -197,7 +198,15 @@ public class EditProfileActivity extends CommonActivity {
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length));
 		
 		TextView interest = (TextView) findViewById(R.id.reg_interest);
-		interest.setText("GNAPPY");
+		StringBuilder sb = new StringBuilder();
+		
+		for (Interest inter : Services.currentState.getMyFullProfile().getInterestList()) {
+			sb.append(inter.getDesc()+" ");
+		}
+		
+		
+		
+		interest.setText(sb.toString());
 
 		
 		interest.setOnFocusChangeListener(new InterestOnFocusListner(this));

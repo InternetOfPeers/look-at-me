@@ -18,114 +18,26 @@
 
             <!-- Header  Starts -->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <LinearLayout
+            
+  
+             
+               
+                <ListView
+                    android:id="@+id/interestListView"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content" />
+                
+                  <Button
+                 android:id="@+id/buttonAddInterest"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="311dp"
+                 android:layout_marginLeft="59dp"
+                 android:onClick="onAddInterestToProfile"
+                 android:text="Aggiungi Interessi" />
+              
+               
 
-                    <ImageView
-                        android:id="@+id/imgView"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/ic_profile_image" />
-                    
-                    
-
-                    <Button
-                        android:id="@+id/btnChooseImage"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginTop="10dip"
-                        android:onClick="onChooseImage"
-                        android:text="choose image" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dip" >
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_nickname"
-                        android:textColor="#372c24" />
-
-                    <EditText
-                        android:id="@+id/reg_nickname"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginTop="5dip"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_name"
-                        android:textColor="#372c24" />
-
-                    <EditText
-                        android:id="@+id/reg_name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginTop="5dip"
-                        android:inputType="text"
-                        android:singleLine="true" >
-
-                        <requestFocus />
-                    </EditText>
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_surname"
-                        android:textColor="#372c24" />
-
-                    <EditText
-                        android:id="@+id/reg_surname"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginTop="5dip"
-                        android:inputType="text"
-                        android:singleLine="true" />
-                    
-                    
-                     <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_interest"
-                        android:textColor="#372c24" />
-
-                    <EditText
-                        android:id="@+id/reg_interest"
-                        android:layout_width="fill_parent"
-                        android:onClick="onClickInterest"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginTop="5dip"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                    <Button
-                        android:id="@+id/btnRegister"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dip"
-                        android:onClick="onRegister"
-                        android:text="Register New Account" />
-                </LinearLayout>
-            </LinearLayout>
             <!-- Header Ends -->
             <!-- Footer Start -->
             <!--

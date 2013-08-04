@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.chord.Node;
 
@@ -52,7 +53,11 @@ public interface CurrentState {
 	Context getContext();
 
 	String getNickname(String nodeId);
-	
+
 	boolean checkLikeMatch(String nodeId);
+
+	Set<Interest> getInterestList();
+
+	void setInterestList(Set<Interest> interestList);
 
 }

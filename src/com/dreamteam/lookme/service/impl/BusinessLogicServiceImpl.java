@@ -1,10 +1,14 @@
 package com.dreamteam.lookme.service.impl;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.chord.CommunicationListenerImpl;
 import com.dreamteam.lookme.chord.CommunicationManager;
 import com.dreamteam.lookme.chord.CommunicationManagerImpl;
@@ -138,11 +142,25 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		Log.d();
 		return communicationManager.sendChatMessage(nodeTo, message);
 	}
-	
+
 	@Override
 	public void sendMyNewBasicProfileAll() {
 		Log.d();
 		communicationManager.sendMyNewBasicProfileAll();
+	}
+
+	@Override
+	public Set<Interest> getFullInterestList() {
+
+		Set<Interest> interestList = new TreeSet<Interest>();
+
+		interestList.add(new Interest(1,"INTEREST 1", false));
+		interestList.add(new Interest(2,"INTEREST 2", false));
+		interestList.add(new Interest(3,"INTEREST 3", false));
+		interestList.add(new Interest(4,"INTEREST 4", false));
+		interestList.add(new Interest(5,"INTEREST 5", false));
+
+		return interestList;
 	}
 
 }
