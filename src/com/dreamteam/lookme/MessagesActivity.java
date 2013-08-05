@@ -7,40 +7,19 @@ import com.dreamteam.util.Log;
 
 public class MessagesActivity extends CommonActivity {
 
-	// public static final int SOCIAL_PROFILE_FRAGMENT = 2002;
-	public static final int MESSAGE_LIST_FRAGMENT = 2001;
-
-	private MessagesListFragment messageListFragment;
-	private int currentFragment;
-	private FragmentTransaction fragmentTransaction;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_messages_conversations);
-		// set fragment
-		messageListFragment = (MessagesListFragment) getFragmentManager().findFragmentById(R.id.fragment_message_list);
-		setFragment(MESSAGE_LIST_FRAGMENT);
+		// Imposto il fragment da utilizzare
+		// TODO Secondo me qui un fragment non serve, ma per ora teniamolo dato
+		// che è già stato fatto così
+//		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//		fragmentTransaction.add(R.id.fragment_message_list, new MessagesListFragment());
+//		fragmentTransaction.commit();
 		// Inizializzazione del menu
 		initMenu(savedInstanceState, this.getClass());
 	}
 
-	private void setFragment(int fragment) {
-		Log.d("" + fragment);
-		if (currentFragment != fragment) {
-			Log.d("changing fragment from " + currentFragment + " to " + fragment);
-			currentFragment = fragment;
-			fragmentTransaction = getFragmentManager().beginTransaction();
-			switch (fragment) {
-			case MESSAGE_LIST_FRAGMENT:
-				fragmentTransaction.show(messageListFragment);
-				break;
-			default:
-				fragmentTransaction.show(messageListFragment);
-				break;
-			}
-			this.fragmentTransaction.commit();
-		}
-	}
 }

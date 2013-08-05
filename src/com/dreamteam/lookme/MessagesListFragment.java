@@ -38,7 +38,7 @@ public class MessagesListFragment extends Fragment implements OnClickListener, O
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_message_list, null);
+		View view = inflater.inflate(R.layout.fragment_message_list, container, false);
 		messageListAdapter = new MessagesListAdapter();
 		messageListView = (ListView) view.findViewById(R.id.messageListView);
 		messageListView.setAdapter(messageListAdapter);
