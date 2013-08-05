@@ -128,7 +128,6 @@ public class ProfileActivity extends CommonActivity {
 
 	}
 
-
 	public void onChooseImage(View view) {
 		try {
 
@@ -188,7 +187,7 @@ public class ProfileActivity extends CommonActivity {
 		surnameScreen.setText(profile.getSurname());
 		TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
 		usernameScreen.setText(profile.getNickname());
-				
+
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length));
 

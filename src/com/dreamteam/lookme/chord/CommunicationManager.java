@@ -18,9 +18,9 @@ public interface CommunicationManager {
 	boolean sendFullProfileRequest(String nodeTo);
 
 	boolean sendMyNewBasicProfileAll(); /*
-									 * to communicate all nodes my profile is
-									 * updated
-									 */
+										 * to communicate all nodes my profile
+										 * is updated
+										 */
 
 	boolean sendChatMessage(String nodeTo, String message);
 

@@ -91,10 +91,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	/**
-	 * Poiché il costruttore viene referenziato da Android (anche se non avviato
-	 * direttamente) non è possibile impostare il costruttore come privato. Ad
-	 * ogni modo, per accedere correttamente all'istanza dall'applicazione
-	 * bisogna utilizzare la factory apposita.
+	 * Poiché il costruttore viene referenziato da Android (anche se non
+	 * avviato direttamente) non è possibile impostare il costruttore come
+	 * privato. Ad ogni modo, per accedere correttamente all'istanza
+	 * dall'applicazione bisogna utilizzare la factory apposita.
 	 */
 	public BusinessLogicServiceImpl() {
 	}
@@ -154,11 +154,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 		Set<Interest> interestList = new TreeSet<Interest>();
 
-		interestList.add(new Interest(1,"INTEREST 1", false));
-		interestList.add(new Interest(2,"INTEREST 2", false));
-		interestList.add(new Interest(3,"INTEREST 3", false));
-		interestList.add(new Interest(4,"INTEREST 4", false));
-		interestList.add(new Interest(5,"INTEREST 5", false));
+		interestList.add(new Interest(1, "INTEREST 1", false));
+		interestList.add(new Interest(2, "INTEREST 2", false));
+		interestList.add(new Interest(3, "INTEREST 3", false));
+		interestList.add(new Interest(4, "INTEREST 4", false));
+		interestList.add(new Interest(5, "INTEREST 5", false));
 
 		return interestList;
 	}

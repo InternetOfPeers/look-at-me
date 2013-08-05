@@ -30,11 +30,11 @@ public class MessagesActivity extends CommonActivity {
 	@Override
 	public void onBackPressed() {
 		Log.d();
-		//if (currentFragment == MESSAGE_LIST_FRAGMENT) {
-			Intent registerIntent = new Intent(this, MessagesActivity.class);
-			this.startActivity(registerIntent);
-			this.finish();
-		//}
+		// if (currentFragment == MESSAGE_LIST_FRAGMENT) {
+		Intent registerIntent = new Intent(this, MessagesActivity.class);
+		this.startActivity(registerIntent);
+		this.finish();
+		// }
 	}
 
 	private void setFragment(int fragment) {

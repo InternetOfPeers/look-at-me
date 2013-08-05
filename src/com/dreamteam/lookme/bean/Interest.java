@@ -7,7 +7,7 @@ public class Interest implements Comparable<Interest> {
 	private Interest parent;
 
 	private boolean selected;
-	
+
 	private String desc;
 
 	public Interest(int id, String desc, boolean selected) {
@@ -47,8 +47,6 @@ public class Interest implements Comparable<Interest> {
 		result = prime * result + id;
 		return result;
 	}
-	
-	
 
 	public String getDesc() {
 		return desc;

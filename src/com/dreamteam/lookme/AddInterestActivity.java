@@ -96,17 +96,18 @@ public class AddInterestActivity extends CommonActivity {
 
 				holder = new ViewHolder();
 				holder.code = (TextView) convertView.findViewById(R.id.interestId);
-//				holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+				// holder.name = (CheckBox)
+				// convertView.findViewById(R.id.checkBox1);
 				convertView.setTag(holder);
 
-//				holder.name.setOnClickListener(new View.OnClickListener() {
-//					public void onClick(View v) {
-//						CheckBox cb = (CheckBox) v;
-//						Interest interest = (Interest) cb.getTag();
-//
-//						interest.setSelected(cb.isChecked());
-//					}
-//				});
+				// holder.name.setOnClickListener(new View.OnClickListener() {
+				// public void onClick(View v) {
+				// CheckBox cb = (CheckBox) v;
+				// Interest interest = (Interest) cb.getTag();
+				//
+				// interest.setSelected(cb.isChecked());
+				// }
+				// });
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
@@ -114,9 +115,9 @@ public class AddInterestActivity extends CommonActivity {
 			ArrayList<Interest> list = new ArrayList<Interest>(interestList);
 			Interest interest = list.get(position);
 			holder.code.setText(" (" + interest.getId() + ")");
-			//holder.name.setText(interest.getDesc());
-			//holder.name.setChecked(interest.isSelected());
-			//holder.name.setTag(interest);
+			// holder.name.setText(interest.getDesc());
+			// holder.name.setChecked(interest.isSelected());
+			// holder.name.setTag(interest);
 
 			return convertView;
 

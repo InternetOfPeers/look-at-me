@@ -37,7 +37,7 @@ public class CurrentStateImpl implements CurrentState {
 	private Context currentContext;
 
 	private Set<Interest> interestList = new TreeSet<Interest>();
-	
+
 	@Override
 	public FullProfile getMyFullProfile() {
 		if (myFullProfile == null) {
@@ -59,13 +59,13 @@ public class CurrentStateImpl implements CurrentState {
 	@Override
 	public BasicProfile getMyBasicProfile() {
 		if (myBasicProfile == null) {
-		try {
-			myBasicProfile = DBOpenHelperImpl.getInstance(getContext()).getMyBasicProfile();
-		} catch (Exception e) {
-			Log.e("Error getting my basic profile");
-			e.printStackTrace();
+			try {
+				myBasicProfile = DBOpenHelperImpl.getInstance(getContext()).getMyBasicProfile();
+			} catch (Exception e) {
+				Log.e("Error getting my basic profile");
+				e.printStackTrace();
+			}
 		}
-	}
 		return myBasicProfile;
 	}
 
@@ -171,7 +171,7 @@ public class CurrentStateImpl implements CurrentState {
 	public String getNickname(String nodeId) {
 		return getSocialNodeMap().get(nodeId).getProfile().getNickname();
 	}
-	
+
 	@Override
 	public boolean checkLikeMatch(String nodeId) {
 		return getILikeSet().contains(nodeId) && getLikedSet().contains(nodeId);
@@ -184,5 +184,5 @@ public class CurrentStateImpl implements CurrentState {
 	public void setInterestList(Set<Interest> interestList) {
 		this.interestList = interestList;
 	}
-	
+
 }

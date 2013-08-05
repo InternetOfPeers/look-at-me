@@ -48,11 +48,13 @@ public class ManageInterestActivity extends CommonActivity {
 
 				Services.currentState.getMyFullProfile().removeInterest(interest);
 
-				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size() + " **********************************");
+				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size()
+						+ " **********************************");
 				Toast.makeText(
 						getApplicationContext(),
-						"Removed: " + interest.getDesc() + "TO YOUR INTEREST, NOW YOU HAVE " + Services.currentState.getMyFullProfile().getInterestList().size()+ "interests", Toast.LENGTH_SHORT).show();
-				 
+						"Removed: " + interest.getDesc() + "TO YOUR INTEREST, NOW YOU HAVE " + Services.currentState.getMyFullProfile().getInterestList().size()
+								+ "interests", Toast.LENGTH_SHORT).show();
+
 				interestAdapter = new InterestAdapter(activity, R.layout.interest_info, R.id.interestId, Services.currentState.getMyFullProfile().getInterestList());
 				listView.setAdapter(interestAdapter);
 				interestAdapter.notifyDataSetChanged();
@@ -86,7 +88,7 @@ public class ManageInterestActivity extends CommonActivity {
 		public Set<Interest> getInterestList() {
 			return interestList;
 		}
-		
+
 		public void setInterestList(Set<Interest> interestList) {
 			this.interestList = interestList;
 		}
@@ -107,17 +109,18 @@ public class ManageInterestActivity extends CommonActivity {
 
 				holder = new ViewHolder();
 				holder.code = (TextView) convertView.findViewById(R.id.interestId);
-//				holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+				// holder.name = (CheckBox)
+				// convertView.findViewById(R.id.checkBox1);
 				convertView.setTag(holder);
 
-//				holder.name.setOnClickListener(new View.OnClickListener() {
-//					public void onClick(View v) {
-//						CheckBox cb = (CheckBox) v;
-//						Interest interest = (Interest) cb.getTag();
-//
-//						interest.setSelected(cb.isChecked());
-//					}
-//				});
+				// holder.name.setOnClickListener(new View.OnClickListener() {
+				// public void onClick(View v) {
+				// CheckBox cb = (CheckBox) v;
+				// Interest interest = (Interest) cb.getTag();
+				//
+				// interest.setSelected(cb.isChecked());
+				// }
+				// });
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
@@ -125,9 +128,9 @@ public class ManageInterestActivity extends CommonActivity {
 			ArrayList<Interest> list = new ArrayList<Interest>(interestList);
 			Interest interest = list.get(position);
 			holder.code.setText(" (" + interest.getDesc() + ")");
-//			holder.name.setText(interest.getDesc());
-//			holder.name.setChecked(interest.isSelected());
-//			holder.name.setTag(interest);
+			// holder.name.setText(interest.getDesc());
+			// holder.name.setChecked(interest.isSelected());
+			// holder.name.setTag(interest);
 
 			return convertView;
 

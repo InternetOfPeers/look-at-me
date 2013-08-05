@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.dreamteam.util.Log;
-import com.dreamteam.util.Nav;
 
-public class ChatActivity extends CommonActivity{
-	
+public class ChatActivity extends CommonActivity {
+
 	// public static final int SOCIAL_PROFILE_FRAGMENT = 2002;
 	public static final int CHAT_LIST_FRAGMENT = 2004;
 
@@ -21,7 +20,7 @@ public class ChatActivity extends CommonActivity{
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_messages_chat);
-		// set fragment		
+		// set fragment
 		messageListFragment = (ChatListFragment) getFragmentManager().findFragmentById(R.id.fragment_chat_list);
 		setFragment(CHAT_LIST_FRAGMENT);
 		// Inizializzazione del menu
@@ -31,11 +30,11 @@ public class ChatActivity extends CommonActivity{
 	@Override
 	public void onBackPressed() {
 		Log.d();
-		//if (currentFragment == MESSAGE_LIST_FRAGMENT) {
-			Intent registerIntent = new Intent(this, ChatActivity.class);
-			this.startActivity(registerIntent);
-			this.finish();
-		//}
+		// if (currentFragment == MESSAGE_LIST_FRAGMENT) {
+		Intent registerIntent = new Intent(this, ChatActivity.class);
+		this.startActivity(registerIntent);
+		this.finish();
+		// }
 	}
 
 	private void setFragment(int fragment) {

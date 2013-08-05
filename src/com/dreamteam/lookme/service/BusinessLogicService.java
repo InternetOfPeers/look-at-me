@@ -23,9 +23,9 @@ public interface BusinessLogicService {
 	void refreshSocialList();
 
 	boolean sendChatMessage(String nodeTo, String message);
-	
+
 	void sendMyNewBasicProfileAll();
-	
+
 	Set<Interest> getFullInterestList();
 
 }

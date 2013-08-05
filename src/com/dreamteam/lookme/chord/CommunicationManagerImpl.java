@@ -214,8 +214,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					communicationListener.onFullProfileNodeReceived(fullNode);
 					break;
 				case PROFILE_UPDATE:
-					BasicProfile updatedProfile = (BasicProfile)
-					message.getObject(MessageType.PROFILE_UPDATE.toString());
+					BasicProfile updatedProfile = (BasicProfile) message.getObject(MessageType.PROFILE_UPDATE.toString());
 					Node updatedNode = new Node();
 					updatedNode.setId(arg0);
 					updatedNode.setProfile(updatedProfile);
@@ -224,15 +223,13 @@ public class CommunicationManagerImpl implements CommunicationManager {
 				case START_CHAT_MESSAGE:
 					String myId = Services.currentState.getMyBasicProfile().getId();
 					Node nodeTo = Services.currentState.getSocialNodeMap().get(arg0);
-					if(nodeTo!=null)
-					{
+					if (nodeTo != null) {
 						String profileId = Services.currentState.getSocialNodeMap().get(arg0).getProfile().getId();
 						String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
 						joinChatChannel(chatChannelName);
 						communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
-					}else
-					{
-						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");						
+					} else {
+						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
 					}
 
 					break;
@@ -422,11 +419,15 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public boolean sendStartChatMessage(String nodeTo) {
-		Log.d();				
-		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
-		
-		if(listMessage==null)
-			Services.currentState.getMessagesHistoryMap().put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()), new ArrayList<MessageItem>());
+		Log.d();
+		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(
+				CommonUtils
+						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
+
+		if (listMessage == null)
+			Services.currentState.getMessagesHistoryMap().put(
+					CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile()
+							.getId()), new ArrayList<MessageItem>());
 		return socialChannel.sendData(nodeTo, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
@@ -444,12 +445,16 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		if (chatChannel == null) {
 			chatChannel = joinChatChannel(chatChannelName);
 		}
-		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
+		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(
+				CommonUtils
+						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
 		MessageItem messageItem = new MessageItem(null, null, message, true);
 		listMessage.add(messageItem);
-		Services.currentState.getMessagesHistoryMap().put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()), listMessage);		
+		Services.currentState.getMessagesHistoryMap()
+				.put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile()
+						.getId()), listMessage);
 		return chatChannel.sendData(nodeTo, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
-		
+
 	}
 
 }

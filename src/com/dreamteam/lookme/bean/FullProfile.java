@@ -165,7 +165,7 @@ public class FullProfile extends Profile {
 
 	public void removeInterest(Interest interest) {
 		this.interestList.remove(interest);
-		
+
 	}
 
 }

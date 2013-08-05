@@ -144,9 +144,7 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 	}
-	
-	
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Context context = getApplicationContext();
@@ -196,37 +194,35 @@ public class EditProfileActivity extends CommonActivity {
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length));
-		
+
 		TextView interest = (TextView) findViewById(R.id.reg_interest);
 		StringBuilder sb = new StringBuilder();
-		
+
 		for (Interest inter : Services.currentState.getMyFullProfile().getInterestList()) {
-			sb.append(inter.getDesc()+" ");
+			sb.append(inter.getDesc() + " ");
 		}
-		
-		
-		
+
 		interest.setText(sb.toString());
 
-		
 		interest.setOnFocusChangeListener(new InterestOnFocusListner(this));
-		
+
 		Button button = (Button) findViewById(R.id.btnRegister);
 		button.setText("change my profile");
 	}
-	
-	private class InterestOnFocusListner implements OnFocusChangeListener{
+
+	private class InterestOnFocusListner implements OnFocusChangeListener {
 		private Activity activity;
-		
-		public InterestOnFocusListner(Activity activity){
+
+		public InterestOnFocusListner(Activity activity) {
 			this.activity = activity;
 		}
+
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
-			if(hasFocus){
-		    	Nav.startActivity(activity, ManageInterestActivity.class);
-		    }
+			if (hasFocus) {
+				Nav.startActivity(activity, ManageInterestActivity.class);
+			}
 		}
-		
+
 	}
 }

@@ -1,12 +1,8 @@
 package com.dreamteam.lookme;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -41,7 +37,7 @@ import com.squareup.otto.Subscribe;
 public class MessageListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
 	private ListView messageListView;
-	private MessagesListAdapter messageListAdapter;	
+	private MessagesListAdapter messageListAdapter;
 	private ProgressDialog loadingDialog;
 
 	@Override
@@ -69,14 +65,17 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int clickedItemPosition, long clickedItemID) {
 		Log.d();
-		//NELLA LISTA DEI MESSAGGI DEVE ESSERCI SEMPRE UN MESSAGGIO CON IL NODEID DEL NODO CON CUI STO CONVERSANDO
+		// NELLA LISTA DEI MESSAGGI DEVE ESSERCI SEMPRE UN MESSAGGIO CON IL
+		// NODEID DEL NODO CON CUI STO CONVERSANDO
 		final MessageItem message = (MessageItem) messageListAdapter.getItem((int) clickedItemID);
 		final Dialog dialog = new Dialog(this.getActivity());
 		final Activity activity = this.getActivity();
 		Node node = Services.currentState.getSocialNodeMap().get(message.getNodeId());
-		Nav.startActivityWithString(this.getActivity(), ChatActivity.class, CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(),node.getProfile().getId()));
-		//TODO: apripre la chat corrispondente
-//		MessageItem messageItem = (MessageItem) messageListAdapter.getItem(clickedItemPosition);
+		Nav.startActivityWithString(this.getActivity(), ChatActivity.class,
+				CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
+		// TODO: apripre la chat corrispondente
+		// MessageItem messageItem = (MessageItem)
+		// messageListAdapter.getItem(clickedItemPosition);
 	}
 
 	public void refreshFragment() {
@@ -86,12 +85,13 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	public void dismissLoadingDialog() {
 		loadingDialog.dismiss();
 	}
-	
+
 	@Subscribe
 	public void onMessageReceived(Event event) {
 		Log.d(event.getEventType().toString());
 		switch (event.getEventType()) {
-		case NODE_JOINED:break;
+		case NODE_JOINED:
+			break;
 		case CHAT_MESSAGE_RECEIVED:
 			messageListAdapter.notifyDataSetChanged();
 			break;
@@ -114,16 +114,16 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 		}
 
 		@Override
-		public Object getItem(int arg0) {			
+		public Object getItem(int arg0) {
 			Node node = CommonUtils.getNodeFromChannelName(channelList.get(arg0));
-			//Node node = Services.currentState.getSocialNodeMap().get(CommonUtils.getNodeFromChannelName(channelList.get(arg0)));
-			List<MessageItem> messageList= Services.currentState.getMessagesHistoryMap().get(channelList.get(arg0));
+			// Node node =
+			// Services.currentState.getSocialNodeMap().get(CommonUtils.getNodeFromChannelName(channelList.get(arg0)));
+			List<MessageItem> messageList = Services.currentState.getMessagesHistoryMap().get(channelList.get(arg0));
 			MessageItem fakeMessage = new MessageItem(node.getId(), node.getProfile().getId(), "", false);
-			if(messageList!=null && !messageList.isEmpty())
-			{
-				fakeMessage.setMessage(messageList.get(messageList.size()-1).getMessage());
-			}				
-			 
+			if (messageList != null && !messageList.isEmpty()) {
+				fakeMessage.setMessage(messageList.get(messageList.size() - 1).getMessage());
+			}
+
 			return fakeMessage;
 		}
 
@@ -142,18 +142,19 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 			}
 
 			MessageItem message = (MessageItem) this.getItem(position);
-			Node node =Services.currentState.getSocialNodeMap().get(message.getNodeId());
+			Node node = Services.currentState.getSocialNodeMap().get(message.getNodeId());
 
 			BasicProfile profile = (BasicProfile) node.getProfile();
 
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
-			nickNameText.setText("conversation to: "+node.getProfile().getNickname());
-			
-//			TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
-//			lastMessageText.setText(message.getMessage());			
-			
+			nickNameText.setText("conversation to: " + node.getProfile().getNickname());
+
+			// TextView lastMessageText = (TextView)
+			// convertView.findViewById(R.id.lastMessageText);
+			// lastMessageText.setText(message.getMessage());
+
 			TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
-			String timeElapsed=CommonUtils.timeElapsed(message.getCreationTime(),new Date(System.currentTimeMillis()));
+			String timeElapsed = CommonUtils.timeElapsed(message.getCreationTime(), new Date(System.currentTimeMillis()));
 			lastMessageDate.setText(timeElapsed);
 
 			// Problemi con il recupero dell'immagine del profilo
@@ -168,15 +169,12 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 
 			return convertView;
 		}
-		
-		private List<String> getListFromMessageMap()
-		{
+
+		private List<String> getListFromMessageMap() {
 			List<String> list = new ArrayList<String>();
-			list.addAll(Services.currentState.getMessagesHistoryMap().keySet());												
+			list.addAll(Services.currentState.getMessagesHistoryMap().keySet());
 			return list;
 		}
 	}
-
-
 
 }

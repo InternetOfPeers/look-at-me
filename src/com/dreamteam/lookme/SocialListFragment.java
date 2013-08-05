@@ -127,7 +127,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			public void onClick(View v) {
 				dialog.dismiss();
 				Services.businessLogic.sendStartChatMessage(node.getId());
-				
+
 				// TODO: entrare nella chat privata
 				// a scopo di test invio un messaggio dopo 3 secondi
 				try {
@@ -135,8 +135,10 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				Nav.startActivityWithString(activity, ChatActivity.class, CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(),node.getProfile().getId()));
-				//Services.businessLogic.sendChatMessage(node.getId(), "Ciao! come stai?");
+				Nav.startActivityWithString(activity, ChatActivity.class,
+						CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
+				// Services.businessLogic.sendChatMessage(node.getId(),
+				// "Ciao! come stai?");
 			}
 
 		});
