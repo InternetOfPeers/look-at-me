@@ -5,24 +5,25 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.dreamteam.util.Log;
+import com.dreamteam.util.Nav;
 
-public class MessagesActivity extends CommonActivity {
-
+public class ChatActivity extends CommonActivity{
+	
 	// public static final int SOCIAL_PROFILE_FRAGMENT = 2002;
-	public static final int MESSAGE_LIST_FRAGMENT = 2001;
+	public static final int CHAT_LIST_FRAGMENT = 2004;
 
-	private MessageListFragment messageListFragment;
+	private ChatListFragment messageListFragment;
 	private int currentFragment;
-	private FragmentTransaction fragmentTransaction;
+	private FragmentTransaction chatListFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d();
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_messages_conversations);
-		// set fragment
-		messageListFragment = (MessageListFragment) getFragmentManager().findFragmentById(R.id.fragment_message_list);
-		setFragment(MESSAGE_LIST_FRAGMENT);
+		setContentView(R.layout.activity_messages_chat);
+		// set fragment		
+		messageListFragment = (ChatListFragment) getFragmentManager().findFragmentById(R.id.fragment_chat_list);
+		setFragment(CHAT_LIST_FRAGMENT);
 		// Inizializzazione del menu
 		initMenu(savedInstanceState, this.getClass());
 	}
@@ -31,7 +32,7 @@ public class MessagesActivity extends CommonActivity {
 	public void onBackPressed() {
 		Log.d();
 		//if (currentFragment == MESSAGE_LIST_FRAGMENT) {
-			Intent registerIntent = new Intent(this, MessagesActivity.class);
+			Intent registerIntent = new Intent(this, ChatActivity.class);
 			this.startActivity(registerIntent);
 			this.finish();
 		//}
@@ -42,16 +43,17 @@ public class MessagesActivity extends CommonActivity {
 		if (currentFragment != fragment) {
 			Log.d("changing fragment from " + currentFragment + " to " + fragment);
 			currentFragment = fragment;
-			fragmentTransaction = getFragmentManager().beginTransaction();
+			chatListFragment = getFragmentManager().beginTransaction();
 			switch (fragment) {
-			case MESSAGE_LIST_FRAGMENT:
-				fragmentTransaction.show(messageListFragment);
+			case CHAT_LIST_FRAGMENT:
+				chatListFragment.show(messageListFragment);
 				break;
 			default:
-				fragmentTransaction.show(messageListFragment);
+				chatListFragment.show(messageListFragment);
 				break;
 			}
-			this.fragmentTransaction.commit();
+			this.chatListFragment.commit();
 		}
 	}
+
 }

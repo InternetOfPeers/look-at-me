@@ -7,16 +7,20 @@ public class MessageItem {
 	private boolean isMine;
 
 	private String nodeId;
+	
+	private String profileId;
 
-	private String message = "";
+	private String message = "";	
 
 	private FileItem fileItem = null;
 
 	private Date creationTime = new Date(System.currentTimeMillis());
 
-	public MessageItem(String nodeId, String message, boolean isMine) {
+	public MessageItem(String nodeId,String profileId, String message, boolean isMine) {
 		this.nodeId = nodeId;
+		this.profileId = profileId;
 		this.message = message;
+		this.isMine = isMine;
 	}
 
 	public void setMessage(String message) {
@@ -59,6 +63,14 @@ public class MessageItem {
 
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
+	}
+
+	public String getProfileId() {
+		return profileId;
+	}
+
+	public void setProfileId(String profileId) {
+		this.profileId = profileId;
 	}
 
 }

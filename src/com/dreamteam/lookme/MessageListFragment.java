@@ -1,11 +1,15 @@
 package com.dreamteam.lookme;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,25 +29,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.FileItem;
 import com.dreamteam.lookme.bean.MessageItem;
-import com.dreamteam.lookme.bean.ViewHolder;
 import com.dreamteam.lookme.chord.Node;
+import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.Log;
+import com.dreamteam.util.Nav;
+import com.squareup.otto.Subscribe;
 
 public class MessageListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
-	// private Map<String, List<MessageItem>> messagesHistoryMap = new
-	// HashMap<String, List<MessageItem>>();
-
-	// public static final int CHAT_LIST_FRAGMENT = 1002;
-
-	private Activity activity;
-
 	private ListView messageListView;
-	private MessagesListAdapter messageListAdapter;
-	private MessageListAdapter chatListAdapter;
+	private MessagesListAdapter messageListAdapter;	
 	private ProgressDialog loadingDialog;
 
 	@Override
@@ -60,7 +58,6 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	public void onActivityCreated(Bundle savedInstanceState) {
 		android.util.Log.e("onActivityCreated", "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-		// messagesHistoryMap = communicationRepository.getMessagesHistoryMap();
 		messageListAdapter.notifyDataSetChanged();
 	}
 
@@ -71,23 +68,16 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int clickedItemPosition, long clickedItemID) {
-		MessageItem messageItem = (MessageItem) messageListAdapter.getItem(clickedItemPosition);
-		// List<MessageItem>
-		// chatListHistory=getCommunicationService().getChat("");
-		// chatListAdapter.setChatListHistory(chatListHistory);
+		Log.d();
+		//NELLA LISTA DEI MESSAGGI DEVE ESSERCI SEMPRE UN MESSAGGIO CON IL NODEID DEL NODO CON CUI STO CONVERSANDO
+		final MessageItem message = (MessageItem) messageListAdapter.getItem((int) clickedItemID);
+		final Dialog dialog = new Dialog(this.getActivity());
+		final Activity activity = this.getActivity();
+		Node node = Services.currentState.getSocialNodeMap().get(message.getNodeId());
+		Nav.startActivityWithString(this.getActivity(), ChatActivity.class, CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(),node.getProfile().getId()));
+		//TODO: apripre la chat corrispondente
+//		MessageItem messageItem = (MessageItem) messageListAdapter.getItem(clickedItemPosition);
 	}
-
-	// public void putMessageNode(LookAtMeNode node) {
-	// messagesHistoryMap.put("", new ArrayList<MessageItem>());
-	// }
-	//
-	// public void removeMessageNode(String nodeName) {
-	// messagesHistoryMap.remove(nodeName);
-	// }
-	//
-	// public List<MessageItem> getMessageNode(String nodeName) {
-	// return messagesHistoryMap.get(nodeName);
-	// }
 
 	public void refreshFragment() {
 		this.messageListAdapter.notifyDataSetChanged();
@@ -96,41 +86,45 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 	public void dismissLoadingDialog() {
 		loadingDialog.dismiss();
 	}
-
-	// public void setSocialNodeMap(Map<String, LookAtMeNode> socialNodeMap) {
-	// this.socialNodeMap = socialNodeMap;
-	// }
-
-	public void setActivity(Activity activity) {
-		this.activity = activity;
+	
+	@Subscribe
+	public void onMessageReceived(Event event) {
+		Log.d(event.getEventType().toString());
+		switch (event.getEventType()) {
+		case NODE_JOINED:break;
+		case CHAT_MESSAGE_RECEIVED:
+			messageListAdapter.notifyDataSetChanged();
+			break;
+		case PROFILE_RECEIVED:
+			break;
+		case LIKE_RECEIVED:
+			break;
+		default:
+			break;
+		}
 	}
-
-	// public LookAtMeNode getSocialNode(String id) {
-	// return chatHistoryMapMap.get(id);
-	// }
 
 	public class MessagesListAdapter extends BaseAdapter {
 
-		Map<String, List<MessageItem>> messagesHistoryMap = Services.currentState.getMessagesHistoryMap();
+		List<String> channelList = getListFromMessageMap();
 
 		@Override
 		public int getCount() {
-			return messagesHistoryMap.size();
+			return channelList.size();
 		}
 
 		@Override
-		public Object getItem(int arg0) {
-			Collection<List<MessageItem>> nodeList = messagesHistoryMap.values();
-			Iterator<List<MessageItem>> iter = nodeList.iterator();
-			MessageItem tempMessage = null;
-			int i = 0;
-			while (iter.hasNext()) {
-				List<MessageItem> tempList = iter.next();
-				tempMessage = tempList.get(0);
-				if (i == arg0)
-					break;
-			}
-			return tempMessage;
+		public Object getItem(int arg0) {			
+			Node node = CommonUtils.getNodeFromChannelName(channelList.get(arg0));
+			//Node node = Services.currentState.getSocialNodeMap().get(CommonUtils.getNodeFromChannelName(channelList.get(arg0)));
+			List<MessageItem> messageList= Services.currentState.getMessagesHistoryMap().get(channelList.get(arg0));
+			MessageItem fakeMessage = new MessageItem(node.getId(), node.getProfile().getId(), "", false);
+			if(messageList!=null && !messageList.isEmpty())
+			{
+				fakeMessage.setMessage(messageList.get(messageList.size()-1).getMessage());
+			}				
+			 
+			return fakeMessage;
 		}
 
 		@Override
@@ -144,14 +138,23 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
 				LayoutInflater layoutInflater = (LayoutInflater) MessageListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = layoutInflater.inflate(R.layout.one_row_social_list, null);
+				convertView = layoutInflater.inflate(R.layout.one_row_message_list, null);
 			}
 
-			Node node = (Node) this.getItem(position);
+			MessageItem message = (MessageItem) this.getItem(position);
+			Node node =Services.currentState.getSocialNodeMap().get(message.getNodeId());
+
 			BasicProfile profile = (BasicProfile) node.getProfile();
 
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
-			nickNameText.setText(node.getProfile().getNickname());
+			nickNameText.setText("conversation to: "+node.getProfile().getNickname());
+			
+//			TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
+//			lastMessageText.setText(message.getMessage());			
+			
+			TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
+			String timeElapsed=CommonUtils.timeElapsed(message.getCreationTime(),new Date(System.currentTimeMillis()));
+			lastMessageDate.setText(timeElapsed);
 
 			// Problemi con il recupero dell'immagine del profilo
 			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
@@ -165,166 +168,15 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 
 			return convertView;
 		}
+		
+		private List<String> getListFromMessageMap()
+		{
+			List<String> list = new ArrayList<String>();
+			list.addAll(Services.currentState.getMessagesHistoryMap().keySet());												
+			return list;
+		}
 	}
 
-	public class MessageListAdapter extends BaseAdapter {
-		private static final String TAG = "[Chord][ApiTest]";
 
-		private static final String TAGClass = "ChatListAdapter : ";
-
-		private List<MessageItem> mMessageItemList = null;
-
-		private LayoutInflater mInflater = null;
-
-		private ViewHolder mViewHolder = null;
-
-		// private ICancelFileButtonListener mCancelFileButtonListener = null;
-
-		@Override
-		public int getCount() {
-			return mMessageItemList.size();
-		}
-
-		@Override
-		public MessageItem getItem(int position) {
-			// TODO Auto-generated method stub
-			return mMessageItemList.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		public void addChat(Node node, String message, boolean isMine) {
-			MessageItem item = new MessageItem(node.getProfile().getNickname(), message, isMine);
-			mMessageItemList.add(item);
-			notifyDataSetChanged();
-		}
-
-		private MessageItem getItemByExchangeId(String exchangeId) {
-			if (mMessageItemList.isEmpty()) {
-				Log.d(TAGClass + "getItemByExchangeId : List is Empty >" + exchangeId);
-				return null;
-			}
-
-			for (MessageItem i : mMessageItemList) {
-				FileItem file = i.getFileItem();
-				if (null != file && file.getExchangeId().equals(exchangeId)) {
-					return i;
-				}
-			}
-
-			return null;
-		}
-
-		public void addFileLog(boolean bMine, String nodeName, int progress, String exchangeId, String message) {
-			MessageItem item = getItemByExchangeId(exchangeId);
-			if (null == item) {
-				item = null;// new ChatItem( nodeName, message,false);
-				item.setFileItem(new FileItem(exchangeId));
-				mMessageItemList.add(item);
-			}
-
-			item.getFileItem().setProgress(progress);
-			notifyDataSetChanged();
-		}
-
-		public void addFileCompleteLog(boolean bMine, String nodeName, String message, String exchangeId) {
-			MessageItem item = getItemByExchangeId(exchangeId);
-			if (null == item) {
-				Log.d(TAGClass + "addFileCompleteLog : new > " + exchangeId);
-				item = null;// new ChatItem( nodeName, message,bMine);
-				mMessageItemList.add(item);
-			} else {
-				Log.d(TAGClass + "addFileCompleteLog : update > " + exchangeId);
-				item.setFileItem(null);
-				item.setMessage(message);
-			}
-
-			notifyDataSetChanged();
-		}
-
-		public void clearAll() {
-			mMessageItemList.clear();
-			notifyDataSetChanged();
-		}
-
-		public void setChatListHistory(List<MessageItem> chatListHistory) {
-			this.mMessageItemList = chatListHistory;
-		}
-
-		public List<MessageItem> getChatListHistory() {
-			return mMessageItemList;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			View v = convertView;
-			if (v == null) {
-				mViewHolder = new ViewHolder();
-				// v = mInflater.inflate(R.layout.chat_listitem, parent, false);
-				// mViewHolder.yourNodeName =
-				// (TextView)v.findViewById(R.id.yourNodeName);
-				// mViewHolder.chatMessage =
-				// (TextView)v.findViewById(R.id.chatMessage);
-				// mViewHolder.myNodeName =
-				// (TextView)v.findViewById(R.id.myNodeName);
-				// mViewHolder.fileLayout =
-				// (LinearLayout)v.findViewById(R.id.fileLayout);
-				// mViewHolder.progressLayout =
-				// (LinearLayout)v.findViewById(R.id.progressLayout);
-				// mViewHolder.progressBar =
-				// (ProgressBar)v.findViewById(R.id.progressBar);
-				// mViewHolder.fileCancelBtn =
-				// (Button)v.findViewById(R.id.fileCancelBtn);
-				// mViewHolder.chatLayout =
-				// (LinearLayout)v.findViewById(R.id.chatLayout);
-				v.setTag(mViewHolder);
-			} else {
-				mViewHolder = (ViewHolder) v.getTag();
-			}
-
-			MessageItem messageItem = mMessageItemList.get(position);
-
-			if (messageItem.isMine()) {
-				mViewHolder.getYourNodeName().setVisibility(View.GONE);
-
-				mViewHolder.getMyNodeName().setVisibility(View.VISIBLE);
-				mViewHolder.getMyNodeName().setText(Services.currentState.getMyBasicProfile().getNickname());
-				// mViewHolder.chatLayout.setBackgroundResource(R.drawable.sentmessage);
-			} else {
-				mViewHolder.getMyNodeName().setVisibility(View.GONE);
-
-				mViewHolder.getYourNodeName().setVisibility(View.VISIBLE);
-				mViewHolder.getYourNodeName().setText(Services.currentState.getSocialNodeMap().get(messageItem.getNodeId()).getProfile().getNickname());
-				// mViewHolder.chatLayout.setBackgroundResource(R.drawable.receivedmessage);
-			}
-
-			mViewHolder.getChatMessage().setText(messageItem.getMessage());
-
-			FileItem fileItem = messageItem.getFileItem();
-			if (null == fileItem) {
-				mViewHolder.getFileLayout().setVisibility(View.GONE);
-			} else {
-				final String exchangeId = fileItem.getExchangeId();
-				mViewHolder.getFileLayout().setVisibility(View.VISIBLE);
-				mViewHolder.getProgressBar().setProgress(fileItem.getProgress());
-				mViewHolder.getFileCancelBtn().setTag(exchangeId);
-				mViewHolder.getFileCancelBtn().setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						// mCancelFileButtonListener.onCancelFileButtonClick(exchangeId);
-					}
-				});
-			}
-
-			return v;
-		}
-
-	}
 
 }

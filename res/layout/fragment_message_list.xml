@@ -17,12 +17,4 @@
 
     </ListView>
 
-    <Button
-        android:id="@+id/buttonRefreshList"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/socialListView"
-        android:text="Refresh" />
-
 </RelativeLayout>

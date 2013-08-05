@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -29,7 +30,9 @@ import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.Log;
+import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
 public class SocialListFragment extends Fragment implements OnItemClickListener {
@@ -105,6 +108,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 		Log.d();
 		final Node node = (Node) socialListAdapter.getItem((int) clickedItemID);
 		final Dialog dialog = new Dialog(this.getActivity());
+		final Activity activity = this.getActivity();
 		arg1.setAlpha(1);
 		// tell the Dialog to use the dialog.xml as it's layout description
 		dialog.setContentView(R.layout.chosed_profile_dialog);
@@ -123,6 +127,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			public void onClick(View v) {
 				dialog.dismiss();
 				Services.businessLogic.sendStartChatMessage(node.getId());
+				
 				// TODO: entrare nella chat privata
 				// a scopo di test invio un messaggio dopo 3 secondi
 				try {
@@ -130,7 +135,8 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				Services.businessLogic.sendChatMessage(node.getId(), "Ciao! come stai?");
+				Nav.startActivityWithString(activity, ChatActivity.class, CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(),node.getProfile().getId()));
+				//Services.businessLogic.sendChatMessage(node.getId(), "Ciao! come stai?");
 			}
 
 		});
