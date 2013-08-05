@@ -28,7 +28,7 @@ public class NearbyActivity extends CommonActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d();
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_social);
+		setContentView(R.layout.activity_nearby);
 		socialListFragment = (NearbyListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
 		socialProfileFragment = (NearbyProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		if (Optional.fromNullable(extras.getString(Notify.NODE_KEY_ID)).isPresent()) {

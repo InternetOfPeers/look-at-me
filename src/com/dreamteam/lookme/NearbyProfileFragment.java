@@ -40,7 +40,7 @@ public class NearbyProfileFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
-		View view = inflater.inflate(R.layout.fragment_social_profile, null);
+		View view = inflater.inflate(R.layout.fragment_nearby_profile, null);
 		textNickname = (TextView) view.findViewById(R.id.textNickname);
 		textName = (TextView) view.findViewById(R.id.textName);
 		textSurname = (TextView) view.findViewById(R.id.textSurname);

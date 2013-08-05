@@ -21,7 +21,6 @@ public class SplashActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// Salvo un contesto di utilità
 		Services.currentState.setContext(getApplicationContext());
 
@@ -39,18 +38,14 @@ public class SplashActivity extends Activity {
 		} catch (Exception e) {
 			Log.e("Errore nel recupero del profilo");
 		}
-
 		// Imposto l'activity da caricare
 		setContentView(R.layout.splashscreen);
-
 		// Mostra una immagine di splash differente a seconda dell'orientamento
 		// del device
 		Drawable immagine = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ? getResources().getDrawable(R.drawable.splashscreen)
 				: getResources().getDrawable(R.drawable.splashscreen_r);
-
 		ImageView imageView = (ImageView) findViewById(R.id.image_logo);
 		imageView.setImageDrawable(immagine);
-
 		final Activity activity = this;
 		/*
 		 * New Handler to start the Menu-Activity and close this Splash-Screen
@@ -62,7 +57,6 @@ public class SplashActivity extends Activity {
 				Nav.startActivity(activity, NearbyActivity.class);
 			}
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
-
 		// Start del servizio di business logic
 		Services.businessLogic.start(Services.currentState.getContext());
 	}
