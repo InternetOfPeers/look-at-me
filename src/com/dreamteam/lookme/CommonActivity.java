@@ -44,6 +44,8 @@ public abstract class CommonActivity extends Activity {
 		// Cancella le notifiche appese se l'utente proviene da fuori l'app ed a
 		// premuto su un banner di notifica
 		Services.notify.clearActivityNotifications(this);
+		// Imposto l'activity di base come senza parent
+		getActionBar().setHomeButtonEnabled(false);
 	}
 
 	protected void initMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass) {
@@ -117,12 +119,12 @@ public abstract class CommonActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Verifica se è stato premuta l'icona del drawer o il drawer in
+		// Verifica se è stata premuta l'icona del drawer o il drawer in
 		// generale, e gestisce l'azione di conseguenza
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		// Gestione delle action in alto a destra
+		// Verifica quale elemento è stato premunto
 		switch (item.getItemId()) {
 		case R.id.action_settings:
 			Nav.startActivity(this, SettingsActivity.class);

@@ -1,7 +1,6 @@
 package com.dreamteam.lookme;
 
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.dreamteam.util.Log;
@@ -25,16 +24,6 @@ public class MessagesActivity extends CommonActivity {
 		setFragment(MESSAGE_LIST_FRAGMENT);
 		// Inizializzazione del menu
 		initMenu(savedInstanceState, this.getClass());
-	}
-
-	@Override
-	public void onBackPressed() {
-		Log.d();
-		// if (currentFragment == MESSAGE_LIST_FRAGMENT) {
-		Intent registerIntent = new Intent(this, MessagesActivity.class);
-		this.startActivity(registerIntent);
-		this.finish();
-		// }
 	}
 
 	private void setFragment(int fragment) {

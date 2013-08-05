@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dreamteam.lookme"
     android:versionCode="1"
-    android:versionName="0.5" >
+    android:versionName="0.6" >
 
     <!-- Necessary to chord framework -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +14,7 @@
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 
-	application is running, the node’s status should be set to LCD-on.
+	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -28,9 +28,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.dreamteam.lookme.SplashActivity"
+            android:name=".SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_splash_activity"
+            android:noHistory="true"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,39 +40,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.NearbyActivity"
+            android:name=".NearbyActivity"
             android:label="@string/title_social_activity" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.ProfileActivity"
+            android:name=".ProfileActivity"
             android:label="@string/title_profile_activity" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.EditProfileActivity"
+            android:name=".EditProfileActivity"
             android:label="@string/title_profile_activity" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.ManageInterestActivity"
+            android:name=".ManageInterestActivity"
             android:label="@string/title_manage_interest_activity" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.AddInterestActivity"
+            android:name=".AddInterestActivity"
             android:label="@string/title_add_interest_activity" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.MessagesActivity"
+            android:name=".MessagesActivity"
             android:label="@string/title_messages_activity" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.ChatActivity"
-            android:label="@string/title_chat_activity" >
-        </activity>  
+            android:name=".ChatActivity"
+            android:label="@string/title_chat_activity"
+            android:parentActivityName=".MessagesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MessagesActivity" />
+        </activity>
         <activity
-            android:name="com.dreamteam.lookme.FeelingsActivity"
+            android:name=".FeelingsActivity"
             android:label="@string/title_feelings_activity" >
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_settings_activity" >
         </activity>
 

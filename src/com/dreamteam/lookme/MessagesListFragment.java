@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -50,7 +48,7 @@ public class MessagesListFragment extends Fragment implements OnClickListener, O
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		android.util.Log.e("onActivityCreated", "onActivityCreated");
+		Log.d();
 		super.onActivityCreated(savedInstanceState);
 		messageListAdapter.notifyDataSetChanged();
 	}
@@ -65,15 +63,9 @@ public class MessagesListFragment extends Fragment implements OnClickListener, O
 		Log.d();
 		// NELLA LISTA DEI MESSAGGI DEVE ESSERCI SEMPRE UN MESSAGGIO CON IL
 		// NODEID DEL NODO CON CUI STO CONVERSANDO
-		final MessageItem message = (MessageItem) messageListAdapter.getItem((int) clickedItemID);
-		final Dialog dialog = new Dialog(this.getActivity());
-		final Activity activity = this.getActivity();
-		Node node = Services.currentState.getSocialNodeMap().get(message.getNodeId());
-		Nav.startActivityWithString(this.getActivity(), ChatActivity.class,
-				CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
-		// TODO: apripre la chat corrispondente
-		// MessageItem messageItem = (MessageItem)
-		// messageListAdapter.getItem(clickedItemPosition);
+		MessageItem message = (MessageItem) messageListAdapter.getItem((int) clickedItemID);
+		String profileId = Services.currentState.getSocialNodeMap().get(message.getNodeId()).getProfile().getId();
+		Nav.startActivityWithString(this.getActivity(), ChatActivity.class, CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), profileId));
 	}
 
 	public void refreshFragment() {

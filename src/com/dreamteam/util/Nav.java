@@ -62,7 +62,6 @@ public class Nav {
 			Intent intent = new Intent(currentActivity, destinationActivity).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			intent.putExtras(bundle);
 			currentActivity.startActivity(intent);
-			currentActivity.finish();
 		}
 	}
 

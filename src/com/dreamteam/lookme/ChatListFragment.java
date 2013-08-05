@@ -78,7 +78,7 @@ public class ChatListFragment extends Fragment implements OnClickListener, OnIte
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		android.util.Log.e("onActivityCreated", "onActivityCreated");
+		Log.d();
 		super.onActivityCreated(savedInstanceState);
 		chatListAdapter.notifyDataSetChanged();
 	}
