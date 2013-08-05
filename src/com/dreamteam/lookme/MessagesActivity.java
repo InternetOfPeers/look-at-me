@@ -11,7 +11,7 @@ public class MessagesActivity extends CommonActivity {
 	// public static final int SOCIAL_PROFILE_FRAGMENT = 2002;
 	public static final int MESSAGE_LIST_FRAGMENT = 2001;
 
-	private MessageListFragment messageListFragment;
+	private MessagesListFragment messageListFragment;
 	private int currentFragment;
 	private FragmentTransaction fragmentTransaction;
 
@@ -21,7 +21,7 @@ public class MessagesActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_messages_conversations);
 		// set fragment
-		messageListFragment = (MessageListFragment) getFragmentManager().findFragmentById(R.id.fragment_message_list);
+		messageListFragment = (MessagesListFragment) getFragmentManager().findFragmentById(R.id.fragment_message_list);
 		setFragment(MESSAGE_LIST_FRAGMENT);
 		// Inizializzazione del menu
 		initMenu(savedInstanceState, this.getClass());

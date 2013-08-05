@@ -14,13 +14,13 @@ import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.google.common.base.Optional;
 
-public class SocialActivity extends CommonActivity {
+public class NearbyActivity extends CommonActivity {
 
 	public static final int SOCIAL_PROFILE_FRAGMENT = 1002;
 	public static final int SOCIAL_LIST_FRAGMENT = 1001;
 
-	private SocialListFragment socialListFragment;
-	private SocialProfileFragment socialProfileFragment;
+	private NearbyListFragment socialListFragment;
+	private NearbyProfileFragment socialProfileFragment;
 	private static int currentFragment;
 	private FragmentTransaction fragmentTransaction;
 
@@ -29,8 +29,8 @@ public class SocialActivity extends CommonActivity {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social);
-		socialListFragment = (SocialListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
-		socialProfileFragment = (SocialProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
+		socialListFragment = (NearbyListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
+		socialProfileFragment = (NearbyProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		if (Optional.fromNullable(extras.getString(Notify.NODE_KEY_ID)).isPresent()) {
 			// Recupero il profilo se ancora esistente il nodo corrispondente
 			// TODO Poiché il profile full non viene memorizzato nello state,
@@ -116,7 +116,7 @@ public class SocialActivity extends CommonActivity {
 
 			@Override
 			public void onClick(View v) {
-				Nav.startActivity(SocialActivity.this, EditProfileActivity.class);
+				Nav.startActivity(NearbyActivity.this, EditProfileActivity.class);
 				dialog.dismiss();
 			}
 		});

@@ -22,7 +22,7 @@ public class SplashActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Salvo un contesto di utilit√†
+		// Salvo un contesto di utilit‡
 		Services.currentState.setContext(getApplicationContext());
 
 		Services.currentState.setInterestList(Services.businessLogic.getFullInterestList());
@@ -59,7 +59,7 @@ public class SplashActivity extends Activity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				Nav.startActivity(activity, SocialActivity.class);
+				Nav.startActivity(activity, NearbyActivity.class);
 			}
 		}, AppSettings.SPLASH_DISPLAY_LENGHT);
 

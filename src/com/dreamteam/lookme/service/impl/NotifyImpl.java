@@ -10,8 +10,8 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.SparseIntArray;
 
 import com.dreamteam.lookme.MessagesActivity;
+import com.dreamteam.lookme.NearbyActivity;
 import com.dreamteam.lookme.R;
-import com.dreamteam.lookme.SocialActivity;
 import com.dreamteam.lookme.service.Notify;
 
 public class NotifyImpl implements Notify {
@@ -29,7 +29,7 @@ public class NotifyImpl implements Notify {
 		String title = "Your profile has been visited";
 		String message = "Your profile has been visited by " + fromName;
 		// TOIMPROVE Andare al profilo della persona che ti ha visitato
-		notifyMessage(context, SocialActivity.class, PROFILE_ID, title, message);
+		notifyMessage(context, NearbyActivity.class, PROFILE_ID, title, message);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class NotifyImpl implements Notify {
 		String title = fromName + " liked your profile!";
 		String message = fromName + " liked your profile!";
 		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(context, SocialActivity.class, LIKED_ID, title, message, fromNode);
+		notifyMessage(context, NearbyActivity.class, LIKED_ID, title, message, fromNode);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class NotifyImpl implements Notify {
 		String title = "Perfect match!";
 		String message = "You and " + fromName + " creates a perfect match!";
 		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(context, SocialActivity.class, PERFECT_MATCH_ID, title, message);
+		notifyMessage(context, NearbyActivity.class, PERFECT_MATCH_ID, title, message);
 	}
 
 	@Override

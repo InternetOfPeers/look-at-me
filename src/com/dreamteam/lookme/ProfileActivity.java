@@ -117,7 +117,7 @@ public class ProfileActivity extends CommonActivity {
 			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
 			toast.show();
 
-			Nav.startActivity(this, SocialActivity.class);
+			Nav.startActivity(this, NearbyActivity.class);
 			// Intent mainIntent = new Intent(this, SocialActivity.class);
 			// this.startActivity(mainIntent);
 			// this.finish();

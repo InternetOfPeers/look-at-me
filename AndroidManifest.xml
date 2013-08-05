@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dreamteam.lookme.SocialActivity"
+            android:name="com.dreamteam.lookme.NearbyActivity"
             android:label="@string/title_social_activity" >
         </activity>
         <activity

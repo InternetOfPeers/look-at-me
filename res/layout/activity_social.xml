@@ -13,13 +13,13 @@
         
         <fragment
             android:id="@+id/fragment_list"
-            android:name="com.dreamteam.lookme.SocialListFragment"
+            android:name="com.dreamteam.lookme.NearbyListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         
         <fragment
             android:id="@+id/fragment_profile"
-            android:name="com.dreamteam.lookme.SocialProfileFragment"
+            android:name="com.dreamteam.lookme.NearbyProfileFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

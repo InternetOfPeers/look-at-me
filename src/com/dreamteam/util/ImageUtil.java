@@ -2,9 +2,14 @@ package com.dreamteam.util;
 
 import java.io.ByteArrayOutputStream;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.dreamteam.lookme.R;
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.ProfileImage;
 
 public class ImageUtil {
 
@@ -22,9 +27,7 @@ public class ImageUtil {
 				scale = Math.round((float) originalWidth / requiredWidth);
 			else
 				scale = Math.round((float) originalHeight / requiredHeight);
-
 		}
-
 		return scale;
 	}
 
@@ -89,11 +92,17 @@ public class ImageUtil {
 	}
 
 	public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+		return Bitmap.createScaledBitmap(bm, newWidth, newHeight, false);
+	}
 
-		Bitmap resizedBitmap = Bitmap.createScaledBitmap(bm, newWidth, newHeight, false);
-
-		return resizedBitmap;
-
+	public static Bitmap getBitmapProfileImage(Resources resources, BasicProfile profile) {
+		ProfileImage profileImage = profile.getMainProfileImage();
+		byte[] profileImageByteArray = profileImage.getImage();
+		if (profileImage == null || profileImageByteArray == null) {
+			return BitmapFactory.decodeResource(resources, R.drawable.ic_profile_image);
+		} else {
+			return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
+		}
 	}
 
 }

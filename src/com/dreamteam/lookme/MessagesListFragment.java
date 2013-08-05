@@ -9,9 +9,6 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,11 +27,12 @@ import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
+import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
-public class MessageListFragment extends Fragment implements OnClickListener, OnItemClickListener {
+public class MessagesListFragment extends Fragment implements OnClickListener, OnItemClickListener {
 
 	private ListView messageListView;
 	private MessagesListAdapter messageListAdapter;
@@ -137,36 +135,23 @@ public class MessageListFragment extends Fragment implements OnClickListener, On
 			if (convertView == null) {
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
-				LayoutInflater layoutInflater = (LayoutInflater) MessageListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater layoutInflater = (LayoutInflater) MessagesListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = layoutInflater.inflate(R.layout.one_row_message_list, null);
 			}
-
 			MessageItem message = (MessageItem) this.getItem(position);
 			Node node = Services.currentState.getSocialNodeMap().get(message.getNodeId());
-
-			BasicProfile profile = (BasicProfile) node.getProfile();
-
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
 			nickNameText.setText("conversation to: " + node.getProfile().getNickname());
-
 			// TextView lastMessageText = (TextView)
 			// convertView.findViewById(R.id.lastMessageText);
 			// lastMessageText.setText(message.getMessage());
-
 			TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
 			String timeElapsed = CommonUtils.timeElapsed(message.getCreationTime(), new Date(System.currentTimeMillis()));
 			lastMessageDate.setText(timeElapsed);
-
-			// Problemi con il recupero dell'immagine del profilo
+			// Imposto l'immagine del profilo
 			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
-			if (profile.getMainProfileImage() == null || profile.getMainProfileImage().getImage() == null) {
-				Drawable noPhoto = getResources().getDrawable(R.drawable.ic_profile_image);
-				photoImage.setImageDrawable(noPhoto);
-			} else {
-				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length - 1);
-				photoImage.setImageBitmap(bMap);
-			}
-
+			BasicProfile profile = (BasicProfile) node.getProfile();
+			photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(getResources(), profile));
 			return convertView;
 		}
 

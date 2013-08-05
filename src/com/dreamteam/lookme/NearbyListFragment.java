@@ -9,9 +9,6 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +28,12 @@ import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
+import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
-public class SocialListFragment extends Fragment implements OnItemClickListener {
+public class NearbyListFragment extends Fragment implements OnItemClickListener {
 
 	private ListView socialListView;
 	private SocialListAdapter socialListAdapter;
@@ -71,8 +69,8 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			break;
 		case PROFILE_RECEIVED:
 			dismissLoadingDialog();
-			SocialActivity activity = (SocialActivity) this.getActivity();
-			activity.setFragment(SocialActivity.SOCIAL_PROFILE_FRAGMENT);
+			NearbyActivity activity = (NearbyActivity) this.getActivity();
+			activity.setFragment(NearbyActivity.SOCIAL_PROFILE_FRAGMENT);
 			break;
 		case LIKE_RECEIVED:
 			Toast likeToast = Toast.makeText(Services.currentState.getContext(), (String) event.getEventObject() + " send you a LIKE", Toast.LENGTH_LONG);
@@ -150,7 +148,7 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 				dialog.dismiss();
 				Services.businessLogic.sendFullProfileRequest(node.getId());
 				// entro in attesa
-				loadingDialog = new ProgressDialog(SocialListFragment.this.getActivity());
+				loadingDialog = new ProgressDialog(NearbyListFragment.this.getActivity());
 				loadingDialog.setTitle("Loading profile");
 				loadingDialog.show();
 			}
@@ -189,26 +187,16 @@ public class SocialListFragment extends Fragment implements OnItemClickListener 
 			if (convertView == null) {
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
-				LayoutInflater layoutInflater = (LayoutInflater) SocialListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater layoutInflater = (LayoutInflater) NearbyListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = layoutInflater.inflate(R.layout.one_row_social_list, null);
 			}
-
 			Node node = (Node) this.getItem(position);
-			BasicProfile profile = (BasicProfile) node.getProfile();
-
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
 			nickNameText.setText(node.getProfile().getNickname());
-
-			// Problemi con il recupero dell'immagine del profilo
+			// Imposto l'immagine del profilo
 			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
-			if (profile.getMainProfileImage() == null || profile.getMainProfileImage().getImage() == null) {
-				Drawable noPhoto = getResources().getDrawable(R.drawable.ic_profile_image);
-				photoImage.setImageDrawable(noPhoto);
-			} else {
-				Bitmap bMap = BitmapFactory.decodeByteArray(profile.getMainProfileImage().getImage(), 0, profile.getMainProfileImage().getImage().length);
-				photoImage.setImageBitmap(bMap);
-			}
-
+			BasicProfile profile = (BasicProfile) node.getProfile();
+			photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(getResources(), profile));
 			return convertView;
 		}
 	}
