@@ -188,7 +188,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
 				LayoutInflater layoutInflater = (LayoutInflater) NearbyListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = layoutInflater.inflate(R.layout.one_row_social_list, null);
+				convertView = layoutInflater.inflate(R.layout.fragment_nearby_list_single_row, null);
 			}
 			Node node = (Node) this.getItem(position);
 			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);

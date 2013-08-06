@@ -48,7 +48,7 @@ public abstract class CommonActivity extends Activity {
 		getActionBar().setHomeButtonEnabled(false);
 	}
 
-	protected void initMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass) {
+	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass) {
 		menuEnabled = true;
 		mTitle = mDrawerTitle = getTitle();
 		mPlanetTitles = getResources().getStringArray(R.array.menu_items);

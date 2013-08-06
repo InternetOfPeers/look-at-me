@@ -14,7 +14,7 @@ public class SettingsActivity extends CommonActivity {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
-		initMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass());
 
 		// Verifica lo stato del servizio
 		Switch button = (Switch) findViewById(R.id.btn_toggle_communication_service);

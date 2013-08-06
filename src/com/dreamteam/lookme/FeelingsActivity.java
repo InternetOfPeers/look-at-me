@@ -9,6 +9,6 @@ public class FeelingsActivity extends CommonActivity {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feeling);
-		initMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass());
 	};
 }

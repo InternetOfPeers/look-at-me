@@ -47,7 +47,7 @@ public class EditProfileActivity extends CommonActivity {
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
 			}
-			initMenu(savedInstanceState, this.getClass());
+			initDrawerMenu(savedInstanceState, this.getClass());
 		} catch (Exception e) {
 			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}

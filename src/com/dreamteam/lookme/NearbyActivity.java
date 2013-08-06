@@ -55,7 +55,7 @@ public class NearbyActivity extends CommonActivity {
 			setFragment(currentFragment);
 		}
 		// Inizializzazione del menu
-		initMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass());
 		// Controllo che l'utente abbia compilato almeno i campi obbilgatori
 		// del profilo
 		if (Services.currentState.getMyBasicProfile() == null) {

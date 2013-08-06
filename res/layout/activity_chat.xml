@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-
-   	<!--  QUI VA IL LAYOUT DELLA CHAT CON UNO SPECIFICO UTENTE -->
-        
+    <fragment
+        android:id="@+id/fragment_chat_list"
+        android:name="com.dreamteam.lookme.ChatListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <!--
          android:layout_gravity="start" tells DrawerLayout to treat
@@ -28,12 +30,4 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" />
 
-    
-            
-        <fragment
-            android:id="@+id/fragment_chat_list"
-            android:name="com.dreamteam.lookme.ChatListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />        
-            
 </android.support.v4.widget.DrawerLayout>

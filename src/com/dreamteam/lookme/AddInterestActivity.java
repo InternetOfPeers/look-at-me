@@ -31,7 +31,7 @@ public class AddInterestActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_add_interest);
-		initMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass());
 
 		// create an ArrayAdaptar from the String Array
 		interestAdapter = new InterestAdapter(this, R.layout.interest_info, R.id.interestId, Services.currentState.getInterestList());
