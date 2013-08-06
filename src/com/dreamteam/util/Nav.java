@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.dreamteam.lookme.ConversationsActivity;
 import com.dreamteam.lookme.EditProfileActivity;
 import com.dreamteam.lookme.FeelingsActivity;
-import com.dreamteam.lookme.ConversationsActivity;
 import com.dreamteam.lookme.NearbyActivity;
 import com.google.common.collect.HashBiMap;
 

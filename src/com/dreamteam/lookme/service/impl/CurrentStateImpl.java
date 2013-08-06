@@ -2,7 +2,6 @@ package com.dreamteam.lookme.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -10,17 +9,17 @@ import java.util.TreeSet;
 import android.content.Context;
 
 import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.ChatConversation;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.CurrentState;
-import com.dreamteam.util.Log;
 
 public class CurrentStateImpl implements CurrentState {
 
-	private Map<String, List<ChatMessage>> messagesHistoryMap = new HashMap<String, List<ChatMessage>>();
+	private Map<String, ChatConversation> conversationsStore = new HashMap<String, ChatConversation>();
 
 	private Map<String, Node> socialNodeMap = new HashMap<String, Node>();
 
@@ -45,19 +44,16 @@ public class CurrentStateImpl implements CurrentState {
 	}
 
 	@Override
-	public Map<String, List<ChatMessage>> getConversationsStore() {
-		return messagesHistoryMap;
+	public Map<String, ChatConversation> getConversationsStore() {
+		return conversationsStore;
 	}
 
 	@Override
-	public void storeChatMessage(String id, ChatMessage messageItem) {
-		if (messagesHistoryMap.containsKey(id)) {
-			messagesHistoryMap.get(id).add(messageItem);
-		} else {
-			List<ChatMessage> listMessageItem = new ArrayList<ChatMessage>();
-			listMessageItem.add(messageItem);
-			messagesHistoryMap.put(id, listMessageItem);
+	public void storeChatMessage(String conversationId, ChatMessage message) {
+		if (!conversationsStore.containsKey(conversationId)) {
+			conversationsStore.put(conversationId, (ChatConversation) new ArrayList<ChatMessage>());
 		}
+		conversationsStore.get(conversationId).add(message);
 	}
 
 	@Override

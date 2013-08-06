@@ -1,7 +1,6 @@
 package com.dreamteam.lookme;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,31 +9,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.dreamteam.lookme.bean.ChatConversation;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Nav;
 
 public class ChatListAdapter extends BaseAdapter {
-	private List<ChatMessage> chatMessageList;
+	private ChatConversation chatConversation;
 	private Activity activity;
 
 	public ChatListAdapter(Activity activity) {
 		this.activity = activity;
-		chatMessageList = Services.currentState.getConversationsStore().get(Nav.getStringParameter(activity));
+		chatConversation = Services.currentState.getConversationsStore().get(Nav.getStringParameter(activity));
 		// Poiché sulla variabile fanno affidamento altri metodi, mi assicuro
 		// che non sia null
-		if (chatMessageList == null)
-			chatMessageList = new ArrayList<ChatMessage>();
+		if (chatConversation == null)
+			chatConversation = (ChatConversation) new ArrayList<ChatMessage>();
 	}
 
 	@Override
 	public int getCount() {
-		return chatMessageList.size();
+		return chatConversation.size();
 	}
 
 	@Override
 	public ChatMessage getItem(int position) {
-		return chatMessageList.get(position);
+		return chatConversation.get(position);
 	}
 
 	@Override

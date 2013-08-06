@@ -29,7 +29,7 @@ public class CommonUtils {
 		return out.toByteArray();
 	}
 
-	public static String generateChannelName(String myId, String profileId) {
+	public static String generateChannelId(String myId, String profileId) {
 		if (myId.compareTo(profileId) < 0)
 			return myId + "_" + profileId;
 		else
@@ -37,7 +37,7 @@ public class CommonUtils {
 
 	}
 
-	public static Node getNodeFromChannelName(String channelName) {
+	public static Node getNodeFromChannelId(String channelName) {
 		String[] nodes = channelName.split("_");
 		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
 			return getNodeFromProfileId(nodes[0]);

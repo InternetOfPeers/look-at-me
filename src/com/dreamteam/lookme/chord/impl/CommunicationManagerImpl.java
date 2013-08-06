@@ -8,8 +8,9 @@ import android.os.Environment;
 import android.os.Looper;
 
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.FullProfile;
+import com.dreamteam.lookme.bean.ChatConversation;
 import com.dreamteam.lookme.bean.ChatMessage;
+import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.chord.ChordErrorManager;
 import com.dreamteam.lookme.chord.CommunicationListener;
@@ -233,9 +234,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					Node nodeTo = Services.currentState.getSocialNodeMap().get(arg0);
 					if (nodeTo != null) {
 						String profileId = Services.currentState.getSocialNodeMap().get(arg0).getProfile().getId();
-						String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
+						String chatChannelName = CommonUtils.generateChannelId(myId, profileId);
 						joinChatChannel(chatChannelName);
-						communicationListener.onStartChatMessageReceived(arg0, chatChannelName);
 					} else {
 						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
 					}
@@ -436,13 +436,12 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	public boolean sendStartChatMessage(String toNode) {
 		Log.d();
 		List<ChatMessage> listMessage = Services.currentState.getConversationsStore().get(
-				CommonUtils
-						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
+				CommonUtils.generateChannelId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
 
 		if (listMessage == null)
 			Services.currentState.getConversationsStore().put(
-					CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile()
-							.getId()), new ArrayList<ChatMessage>());
+					CommonUtils.generateChannelId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile()
+							.getId()), (ChatConversation) new ArrayList<ChatMessage>());
 		return socialChannel.sendData(toNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
@@ -455,20 +454,20 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
 		String myId = Services.currentState.getMyBasicProfile().getId();
 		String profileId = Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId();
-		String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
+		// TODO Continua a generare il channelid?
+		String chatChannelName = CommonUtils.generateChannelId(myId, profileId);
 		IChordChannel chatChannel = chord.getJoinedChannel(chatChannelName);
 		if (chatChannel == null) {
 			chatChannel = joinChatChannel(chatChannelName);
 		}
-		List<ChatMessage> listMessage = Services.currentState.getConversationsStore().get(
-				CommonUtils
-						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
-		//ChatMessage messageItem = new ChatMessage(null, null, text, true);
+		ChatConversation listMessage = Services.currentState.getConversationsStore().get(
+				CommonUtils.generateChannelId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
+		// ChatMessage messageItem = new ChatMessage(null, null, text, true);
 		ChatMessage messageItem = new ChatMessage(null, null, text);
 		listMessage.add(messageItem);
-		Services.currentState.getConversationsStore()
-				.put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile()
-						.getId()), listMessage);
+		Services.currentState.getConversationsStore().put(
+				CommonUtils.generateChannelId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()),
+				listMessage);
 		return chatChannel.sendData(toNode, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 
 	}

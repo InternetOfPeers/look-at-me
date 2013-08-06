@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.ChatConversation;
+import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
@@ -24,20 +24,14 @@ import com.dreamteam.util.ImageUtil;
 public class ConversationsListAdapter extends BaseAdapter {
 
 	private Activity activity;
-	private List<String> channelList;
 
 	public ConversationsListAdapter(Activity activity) {
 		this.activity = activity;
-		channelList = getListFromMessageMap();
-		// Poiché sulla variabile fanno affidamento altri metodi, mi assicuro
-		// che non sia null
-		if (channelList == null)
-			channelList = new ArrayList<String>();
 	}
 
 	@Override
 	public int getCount() {
-		return channelList.size();
+		return Services.currentState.getConversationsStore().size();
 	}
 
 	@Override
@@ -47,14 +41,19 @@ public class ConversationsListAdapter extends BaseAdapter {
 
 	@Override
 	public ChatConversation getItem(int position) {
-		Node node = CommonUtils.getNodeFromChannelName(channelList.get(position));
-		List<ChatMessage> conversation = Services.currentState.getConversationsStore().get(channelList.get(position));
-	
-//		return conversation.get(conversation.size() -1);
-//		ChatMessage fakeMessage = new ChatMessage(node.getId(), node.getProfile().getId(), "", false);
-//		if (conversation != null && !conversation.isEmpty()) {
-//			fakeMessage.setText(conversation.get(conversation.size() - 1).getText());
-//		}
+		List<String> channelNameList = new ArrayList<String>();
+		channelNameList.addAll(Services.currentState.getConversationsStore().keySet());
+		String channelName = channelNameList.get(position);
+		Node node = CommonUtils.getNodeFromChannelId(channelName);
+		List<ChatMessage> conversation = Services.currentState.getConversationsStore().get(channelName);
+
+		// return conversation.get(conversation.size() -1);
+		// ChatMessage fakeMessage = new ChatMessage(node.getId(),
+		// node.getProfile().getId(), "", false);
+		// if (conversation != null && !conversation.isEmpty()) {
+		// fakeMessage.setText(conversation.get(conversation.size() -
+		// 1).getText());
+		// }
 		return null;
 	}
 
@@ -66,9 +65,9 @@ public class ConversationsListAdapter extends BaseAdapter {
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = layoutInflater.inflate(R.layout.fragment_message_list_single_row, null);
 		}
-		//ChatMessage message = (ChatMessage) getItem(position);
+		// ChatMessage message = (ChatMessage) getItem(position);
 		ChatMessage message = null;
-		
+
 		Node node = Services.currentState.getSocialNodeMap().get(message.getFrom());
 		TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
 		nickNameText.setText("conversation to: " + node.getProfile().getNickname());
@@ -85,9 +84,4 @@ public class ConversationsListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private List<String> getListFromMessageMap() {
-		List<String> list = new ArrayList<String>();
-		list.addAll(Services.currentState.getConversationsStore().keySet());
-		return list;
-	}
 }

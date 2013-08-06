@@ -38,10 +38,10 @@ public class ChatListFragment extends Fragment {
 			public void onClick(View v) {
 				String text = mInputEditText.getText().toString();
 				if (text != null && !text.isEmpty()) {
-					Node node = CommonUtils.getNodeFromChannelName(Nav.getStringParameter(ChatListFragment.this.getActivity()));
+					Node node = CommonUtils.getNodeFromChannelId(Nav.getStringParameter(ChatListFragment.this.getActivity()));
 					if (node != null && node.getId() != null && !node.getId().isEmpty() && node.getProfile() != null && node.getProfile().getId() != null
 							&& !node.getProfile().getId().isEmpty() && !mInputEditText.getText().toString().isEmpty()) {
-						Services.businessLogic.sendChatMessage(CommonUtils.getNodeFromChannelName(Nav.getStringParameter(ChatListFragment.this.getActivity())).getId(), text);
+						Services.businessLogic.sendChatMessage(CommonUtils.getNodeFromChannelId(Nav.getStringParameter(ChatListFragment.this.getActivity())).getId(), text);
 						mInputEditText.getText().clear();
 						ChatListFragment.this.refreshFragment();
 						scrollMyListViewToBottom();

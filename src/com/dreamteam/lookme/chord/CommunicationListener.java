@@ -16,8 +16,6 @@ public interface CommunicationListener {
 
 	public void onChatMessageReceived(String nodeFrom, String message);
 
-	public void onStartChatMessageReceived(String nodeFrom, String channelName);
-
 	public void onProfileNodeUpdated(Node node);
 
 }

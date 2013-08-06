@@ -9,11 +9,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
-import com.dreamteam.util.CommonUtils;
-import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
 public class ConversationsListFragment extends Fragment implements OnItemClickListener {
@@ -64,11 +61,14 @@ public class ConversationsListFragment extends Fragment implements OnItemClickLi
 	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
 		// NELLA LISTA DEI MESSAGGI DEVE ESSERCI SEMPRE UN MESSAGGIO CON IL
 		// NODEID DEL NODO CON CUI STO CONVERSANDO
-		
-		
-//		ChatMessage message = (ChatMessage) conversationsListAdapter.getItem((int) clickedItemID);
-//		String profileId = Services.currentState.getSocialNodeMap().get(message.getFromNodeId()).getProfile().getId();
-//		Nav.startActivityWithString(getActivity(), ChatActivity.class, CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), profileId));
+
+		// ChatMessage message = (ChatMessage)
+		// conversationsListAdapter.getItem((int) clickedItemID);
+		// String profileId =
+		// Services.currentState.getSocialNodeMap().get(message.getFromNodeId()).getProfile().getId();
+		// Nav.startActivityWithString(getActivity(), ChatActivity.class,
+		// CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(),
+		// profileId));
 	}
 
 	private void refreshFragment() {

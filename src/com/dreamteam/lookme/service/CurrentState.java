@@ -1,15 +1,15 @@
 package com.dreamteam.lookme.service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
 
 import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.ChatConversation;
+import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
-import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.chord.Node;
 
 public interface CurrentState {
@@ -18,7 +18,7 @@ public interface CurrentState {
 
 	BasicProfile getMyBasicProfile();
 
-	Map<String, List<ChatMessage>> getConversationsStore();
+	Map<String, ChatConversation> getConversationsStore();
 
 	void storeChatMessage(String id, ChatMessage chatMessage);
 

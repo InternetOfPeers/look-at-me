@@ -1,8 +1,8 @@
 package com.dreamteam.lookme.chord.impl;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import com.dreamteam.lookme.bean.ChatConversation;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.chord.CommunicationListener;
 import com.dreamteam.lookme.chord.Node;
@@ -79,21 +79,6 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	}
 
 	@Override
-	public void onStartChatMessageReceived(String nodeFrom, String channelName) {
-		Log.d("Silently join to private channel");
-		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
-		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
-		String deviceId = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
-		List<ChatMessage> messagesList = Services.currentState.getConversationsStore().get(channelName);
-		if (messagesList == null || messagesList.isEmpty())
-			messagesList = new ArrayList<ChatMessage>();
-		// MessageItem messageItem = new MessageItem(nodeId,deviceId, "",
-		// false);
-		// messagesList.add(messageItem);
-		Services.currentState.getConversationsStore().put(channelName, messagesList);
-	}
-
-	@Override
 	public void onChatMessageReceived(String nodeFrom, String message) {
 		Log.d("node " + nodeFrom + " says: " + message);
 		try {
@@ -104,11 +89,12 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
 		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
 		String deviceId = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
-		String channelName = CommonUtils.generateChannelName(deviceId, Services.currentState.getMyBasicProfile().getId());
-		List<ChatMessage> messagesList = Services.currentState.getConversationsStore().get(channelName);
+		// TODO il channelid è generato in modo diverso rispetto all'on click
+		// del nearby
+		String channelName = CommonUtils.generateChannelId(deviceId, Services.currentState.getMyBasicProfile().getId());
+		ChatConversation messagesList = Services.currentState.getConversationsStore().get(channelName);
 		if (messagesList == null || messagesList.isEmpty())
-			messagesList = new ArrayList<ChatMessage>();
-		//ChatMessage messageItem = new ChatMessage(nodeId, deviceId, message, false);
+			messagesList = (ChatConversation) new ArrayList<ChatMessage>();
 		ChatMessage messageItem = new ChatMessage(nodeId, deviceId, message);
 		messagesList.add(messageItem);
 		Services.currentState.getConversationsStore().put(channelName, messagesList);
