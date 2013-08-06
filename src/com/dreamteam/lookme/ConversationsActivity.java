@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.dreamteam.util.Log;
 
-public class MessagesActivity extends CommonActivity {
+public class ConversationsActivity extends CommonActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

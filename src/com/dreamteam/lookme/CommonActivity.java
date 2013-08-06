@@ -43,7 +43,7 @@ public abstract class CommonActivity extends Activity {
 		extras = getIntent().getExtras() != null ? getIntent().getExtras() : new Bundle();
 		// Cancella le notifiche appese se l'utente proviene da fuori l'app ed a
 		// premuto su un banner di notifica
-		Services.notify.clearActivityNotifications(this);
+		Services.notification.clearActivityNotifications(this);
 		// Imposto l'activity di base come senza parent
 		getActionBar().setHomeButtonEnabled(false);
 	}
@@ -177,6 +177,14 @@ public abstract class CommonActivity extends Activity {
 		// Pass any configuration change to the drawer toggle
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+
+	@Override
+	public void onBackPressed() {
+		Log.d();
+		// Come comportamento di default faccio l'override della gestione
+		// automatica dei back e lascio alle singole activity decidere se sono
+		// figlie o madri
+	};
 
 	protected void showErrorDialog(String message) {
 		final Dialog dialog = new Dialog(this);

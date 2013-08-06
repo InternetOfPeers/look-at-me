@@ -3,7 +3,7 @@ package com.dreamteam.lookme.service;
 import android.app.Activity;
 import android.content.Context;
 
-public interface Notify {
+public interface NotificationService {
 
 	final String NOTIFICATION_KEY_ID = "notification_key_id";
 	final String NODE_KEY_ID = "node_key_id";

@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.service.Notify;
+import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
@@ -31,7 +31,7 @@ public class NearbyActivity extends CommonActivity {
 		setContentView(R.layout.activity_nearby);
 		socialListFragment = (NearbyListFragment) getFragmentManager().findFragmentById(R.id.fragment_list);
 		socialProfileFragment = (NearbyProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
-		if (Optional.fromNullable(extras.getString(Notify.NODE_KEY_ID)).isPresent()) {
+		if (Optional.fromNullable(extras.getString(NotificationService.NODE_KEY_ID)).isPresent()) {
 			// Recupero il profilo se ancora esistente il nodo corrispondente
 			// TODO Poiché il profile full non viene memorizzato nello state,
 			// non posso recuperare faclimente il profilo come credevo
@@ -44,7 +44,7 @@ public class NearbyActivity extends CommonActivity {
 			// setFragment(SOCIAL_PROFILE_FRAGMENT, profile);
 
 			setFragment(SOCIAL_PROFILE_FRAGMENT);
-			Services.businessLogic.requestFullProfile(extras.getString(Notify.NODE_KEY_ID));
+			Services.businessLogic.requestFullProfile(extras.getString(NotificationService.NODE_KEY_ID));
 			// entro in attesa
 			// ProgressDialog loadingDialog = new ProgressDialog(this);
 			// loadingDialog.setTitle("Loading profile");
@@ -69,7 +69,6 @@ public class NearbyActivity extends CommonActivity {
 	public void onBackPressed() {
 		Log.d();
 		if (currentFragment == SOCIAL_LIST_FRAGMENT) {
-			// TODO: come si fa a simulare il pulsante HOME?
 			super.onBackPressed();
 		} else if (currentFragment == SOCIAL_PROFILE_FRAGMENT) {
 			setFragment(SOCIAL_LIST_FRAGMENT);

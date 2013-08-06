@@ -29,7 +29,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Log.d();
 		Services.currentState.putSocialNodeInMap(node);
 		try {
-			Services.eventBus.post(new Event(EventType.NODE_JOINED, node.getId()));
+			Services.event.post(new Event(EventType.NODE_JOINED, node.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,7 +40,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Log.d();
 		Services.currentState.setProfileViewed(node);
 		try {
-			Services.eventBus.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
+			Services.event.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,7 +51,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Log.d();
 		Services.currentState.removeSocialNodeFromMap(nodeName);
 		try {
-			Services.eventBus.post(new Event(EventType.NODE_LEFT, nodeName));
+			Services.event.post(new Event(EventType.NODE_LEFT, nodeName));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,15 +67,15 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Log.d();
 		Services.currentState.addLikedToSet(fromNode);
 		try {
-			Services.eventBus.post(new Event(EventType.LIKE_RECEIVED, fromNode));
+			Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNode));
 			if (Services.currentState.checkLikeMatch(fromNode)) {
-				Services.eventBus.post(new Event(EventType.LIKE_MATCH, fromNode));
-				Services.notify.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNode));
+				Services.event.post(new Event(EventType.LIKE_MATCH, fromNode));
+				Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNode));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Services.notify.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNode), fromNode);
+		Services.notification.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNode), fromNode);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	public void onChatMessageReceived(String nodeFrom, String message) {
 		Log.d("node " + nodeFrom + " says: " + message);
 		try {
-			Services.eventBus.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
+			Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,6 +111,6 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		MessageItem messageItem = new MessageItem(nodeId, deviceId, message, false);
 		messagesList.add(messageItem);
 		Services.currentState.getMessagesHistoryMap().put(channelName, messagesList);
-		Services.notify.chatMessage(Services.currentState.getContext(), nickName, message);
+		Services.notification.chatMessage(Services.currentState.getContext(), nickName, message);
 	}
 }

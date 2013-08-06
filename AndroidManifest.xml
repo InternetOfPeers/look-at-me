@@ -68,13 +68,13 @@
                 android:value=".ManageInterestActivity" />
         </activity>
         <activity
-            android:name=".MessagesActivity"
+            android:name=".ConversationsActivity"
             android:label="@string/title_messages_activity" >
         </activity>
         <activity
             android:name=".ChatActivity"
             android:label="@string/title_chat_activity"
-            android:parentActivityName=".MessagesActivity" >
+            android:parentActivityName=".ConversationsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MessagesActivity" />

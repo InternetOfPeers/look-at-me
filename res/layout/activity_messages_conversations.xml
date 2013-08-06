@@ -13,7 +13,7 @@
 
         <fragment
             android:id="@+id/fragment_message_list"
-            android:name="com.dreamteam.lookme.MessagesListFragment"
+            android:name="com.dreamteam.lookme.ConversationsListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

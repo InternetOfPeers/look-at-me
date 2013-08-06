@@ -9,19 +9,19 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.SparseIntArray;
 
-import com.dreamteam.lookme.MessagesActivity;
+import com.dreamteam.lookme.ChatActivity;
 import com.dreamteam.lookme.NearbyActivity;
 import com.dreamteam.lookme.R;
-import com.dreamteam.lookme.service.Notify;
+import com.dreamteam.lookme.service.NotificationService;
 
-public class NotifyImpl implements Notify {
+public class NotificationServiceImpl implements NotificationService {
 
 	private SparseIntArray counters = new SparseIntArray();
 
 	@Override
 	public void chatMessage(Context context, String fromName, String message) {
 		String title = "Messagge from " + fromName;
-		notifyMessage(context, MessagesActivity.class, CHAT_ID, title, message);
+		notifyMessage(context, ChatActivity.class, CHAT_ID, title, message);
 	}
 
 	@Override
@@ -119,15 +119,15 @@ public class NotifyImpl implements Notify {
 		return counters.get(notificationID);
 	}
 
-	private NotifyImpl() {
+	private NotificationServiceImpl() {
 
 	}
 
 	public static class Factory {
-		private static NotifyImpl instance;
+		private static NotificationServiceImpl instance;
 
-		public static NotifyImpl getNotify() {
-			return instance == null ? instance = new NotifyImpl() : instance;
+		public static NotificationServiceImpl getNotificationService() {
+			return instance == null ? instance = new NotificationServiceImpl() : instance;
 		}
 	}
 

@@ -28,7 +28,7 @@ import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
-public class MessagesListFragment extends Fragment implements OnItemClickListener {
+public class ConversationsListFragment extends Fragment implements OnItemClickListener {
 
 	private MessagesListAdapter messageListAdapter;
 
@@ -53,18 +53,18 @@ public class MessagesListFragment extends Fragment implements OnItemClickListene
 	public void onStart() {
 		Log.d();
 		super.onStart();
-		Services.eventBus.register(this);
+		Services.event.register(this);
 	}
 
 	@Override
 	public void onStop() {
 		Log.d();
 		super.onStop();
-		Services.eventBus.unregister(this);
+		Services.event.unregister(this);
 	}
 
 	@Subscribe
-	public void onMessageReceived(Event event) {
+	public void onEventReceived(Event event) {
 		switch (event.getEventType()) {
 		case CHAT_MESSAGE_RECEIVED:
 		case PROFILE_RECEIVED:
@@ -103,6 +103,9 @@ public class MessagesListFragment extends Fragment implements OnItemClickListene
 			Node node = CommonUtils.getNodeFromChannelName(channelList.get(position));
 			// Node node =
 			// Services.currentState.getSocialNodeMap().get(CommonUtils.getNodeFromChannelName(channelList.get(arg0)));
+			
+			//TODO gestire i null pointer exception
+			
 			List<MessageItem> messageList = Services.currentState.getMessagesHistoryMap().get(channelList.get(position));
 			MessageItem fakeMessage = new MessageItem(node.getId(), node.getProfile().getId(), "", false);
 			if (messageList != null && !messageList.isEmpty()) {
@@ -121,7 +124,7 @@ public class MessagesListFragment extends Fragment implements OnItemClickListene
 			if (convertView == null) {
 				// LayoutInflater class is used to instantiate layout XML file
 				// into its corresponding View objects.
-				LayoutInflater layoutInflater = (LayoutInflater) MessagesListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater layoutInflater = (LayoutInflater) ConversationsListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = layoutInflater.inflate(R.layout.one_row_message_list, null);
 			}
 			MessageItem message = (MessageItem) getItem(position);

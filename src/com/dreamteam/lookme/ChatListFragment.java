@@ -100,18 +100,18 @@ public class ChatListFragment extends Fragment implements OnClickListener, OnIte
 	public void onStart() {
 		Log.d();
 		super.onStart();
-		Services.eventBus.register(this);
+		Services.event.register(this);
 	}
 
 	@Override
 	public void onStop() {
 		Log.d();
 		super.onStop();
-		Services.eventBus.unregister(this);
+		Services.event.unregister(this);
 	}
 
 	@Subscribe
-	public void onNodeMovment(Event event) {
+	public void onEventReceived(Event event) {
 		Log.d(event.getEventType().toString());
 		switch (event.getEventType()) {
 		case NODE_JOINED:
@@ -147,6 +147,7 @@ public class ChatListFragment extends Fragment implements OnClickListener, OnIte
 
 		@Override
 		public int getCount() {
+			//TODO Gestire null pointer exception
 			return chatHistoryList.size();
 		}
 
