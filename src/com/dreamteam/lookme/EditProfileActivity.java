@@ -116,7 +116,7 @@ public class EditProfileActivity extends CommonActivity {
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 			Services.currentState.setMyFullProfile(savedProfile);
 			Services.currentState.setMyBasicProfile(dbOpenHelper.getMyBasicProfile());
-			Services.businessLogic.sendMyNewBasicProfileAll();
+			Services.businessLogic.notifyMyProfileIsUpdated();
 			switchToUpdateAccount(savedProfile);
 			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
 			toast.show();
@@ -128,6 +128,7 @@ public class EditProfileActivity extends CommonActivity {
 
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -141,6 +142,7 @@ public class EditProfileActivity extends CommonActivity {
 			startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

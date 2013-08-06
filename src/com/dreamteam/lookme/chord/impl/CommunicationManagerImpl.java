@@ -1,4 +1,4 @@
-package com.dreamteam.lookme.chord;
+package com.dreamteam.lookme.chord.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,14 @@ import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.MessageItem;
 import com.dreamteam.lookme.bean.Profile;
+import com.dreamteam.lookme.chord.ChordErrorManager;
+import com.dreamteam.lookme.chord.CommunicationListener;
+import com.dreamteam.lookme.chord.CommunicationManager;
+import com.dreamteam.lookme.chord.CustomException;
+import com.dreamteam.lookme.chord.ErrorManager;
+import com.dreamteam.lookme.chord.Message;
+import com.dreamteam.lookme.chord.MessageType;
+import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
@@ -68,7 +76,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		for (IChordChannel channel : chord.getJoinedChannelList()) {
 			joinedChannelName.add(channel.getName());
 		}
-		// Da capire perchï¿½ ritorna sempre il messaggio:
+		// Da capire perchè ritorna sempre il messaggio:
 		// "can't find channel (com.dreamteam.lookme.SOCIAL_CHANNEL)"
 		for (String channelName : joinedChannelName) {
 			Log.d("leaving channel " + channelName);
@@ -346,15 +354,22 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean sendBasicProfileRequestAll() {
+	public boolean requestAllProfiles() {
 		Log.d();
-		List<String> socialNodeList = socialChannel.getJoinedNodeList();
-		Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
-		return socialChannel.sendDataToAll(MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
+		if (isSocialChannelReady()) {
+			List<String> socialNodeList = socialChannel.getJoinedNodeList();
+			Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
+			return socialChannel.sendDataToAll(MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
+		} else
+			return false;
+	}
+
+	private boolean isSocialChannelReady() {
+		return socialChannel != null;
 	}
 
 	@Override
-	public boolean sendMyNewBasicProfileAll() {
+	public boolean notifyMyProfileIsUpdated() {
 		Log.d();
 		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.PROFILE_UPDATE, null);
 		if (message != null) {
@@ -406,7 +421,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean sendFullProfileRequest(String nodeTo) {
+	public boolean requestFullProfile(String nodeTo) {
 		Log.d();
 		return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}

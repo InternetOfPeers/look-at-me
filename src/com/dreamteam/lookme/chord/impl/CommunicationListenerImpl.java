@@ -1,9 +1,11 @@
-package com.dreamteam.lookme.chord;
+package com.dreamteam.lookme.chord.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dreamteam.lookme.bean.MessageItem;
+import com.dreamteam.lookme.chord.CommunicationListener;
+import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.EventType;
 import com.dreamteam.lookme.service.Services;
@@ -14,16 +16,12 @@ public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
 	public void onCommunicationStarted() {
-		// TODO Auto-generated method stub
 		Log.d();
-
 	}
 
 	@Override
 	public void onCommunicationStopped() {
-		// TODO Auto-generated method stub
 		Log.d();
-
 	}
 
 	@Override
@@ -33,7 +31,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		try {
 			Services.eventBus.post(new Event(EventType.NODE_JOINED, node.getId()));
 		} catch (Exception e) {
-			Log.e(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -44,7 +42,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		try {
 			Services.eventBus.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
 		} catch (Exception e) {
-			Log.e(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -55,15 +53,13 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		try {
 			Services.eventBus.post(new Event(EventType.NODE_LEFT, nodeName));
 		} catch (Exception e) {
-			Log.e(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void onProfileNodeUpdated(Node node) {
-		// TODO Auto-generated method stub
 		Log.d();
-
 	}
 
 	@Override
@@ -77,14 +73,13 @@ public class CommunicationListenerImpl implements CommunicationListener {
 				Services.notify.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNode));
 			}
 		} catch (Exception e) {
-			Log.e(e.getMessage());
+			e.printStackTrace();
 		}
 		Services.notify.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNode), fromNode);
 	}
 
 	@Override
 	public void onStartChatMessageReceived(String nodeFrom, String channelName) {
-		// TODO Auto-generated method stub
 		Log.d("Silently join to private channel");
 		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
 		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
@@ -96,18 +91,15 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		// false);
 		// messagesList.add(messageItem);
 		Services.currentState.getMessagesHistoryMap().put(channelName, messagesList);
-
 	}
 
 	@Override
 	public void onChatMessageReceived(String nodeFrom, String message) {
 		Log.d("node " + nodeFrom + " says: " + message);
-		// creo il MessageItem
-		// metto il messaggio nella map
 		try {
 			Services.eventBus.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
 		} catch (Exception e) {
-			Log.e(e.getMessage());
+			e.printStackTrace();
 		}
 		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
 		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
@@ -119,7 +111,6 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		MessageItem messageItem = new MessageItem(nodeId, deviceId, message, false);
 		messagesList.add(messageItem);
 		Services.currentState.getMessagesHistoryMap().put(channelName, messagesList);
-
 		Services.notify.chatMessage(Services.currentState.getContext(), nickName, message);
 	}
 }

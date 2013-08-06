@@ -16,15 +16,15 @@ public interface BusinessLogicService {
 
 	void sendLike(String nodeId);
 
-	void sendFullProfileRequest(String nodeId);
+	void requestFullProfile(String nodeId);
 
-	boolean sendStartChatMessage(String nodeId);
+	boolean startChat(String nodeId);
 
 	void refreshSocialList();
 
 	boolean sendChatMessage(String nodeTo, String message);
 
-	void sendMyNewBasicProfileAll();
+	void notifyMyProfileIsUpdated();
 
 	Set<Interest> getFullInterestList();
 

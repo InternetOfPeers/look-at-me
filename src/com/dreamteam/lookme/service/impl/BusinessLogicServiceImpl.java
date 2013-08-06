@@ -9,10 +9,10 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.dreamteam.lookme.bean.Interest;
-import com.dreamteam.lookme.chord.CommunicationListenerImpl;
 import com.dreamteam.lookme.chord.CommunicationManager;
-import com.dreamteam.lookme.chord.CommunicationManagerImpl;
 import com.dreamteam.lookme.chord.CustomException;
+import com.dreamteam.lookme.chord.impl.CommunicationListenerImpl;
+import com.dreamteam.lookme.chord.impl.CommunicationManagerImpl;
 import com.dreamteam.lookme.service.BusinessLogicService;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
@@ -91,10 +91,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	/**
-	 * PoichÃ© il costruttore viene referenziato da Android (anche se non
-	 * avviato direttamente) non Ã¨ possibile impostare il costruttore come
-	 * privato. Ad ogni modo, per accedere correttamente all'istanza
-	 * dall'applicazione bisogna utilizzare la factory apposita.
+	 * Poichè il costruttore viene referenziato da Android (anche se non avviato
+	 * direttamente) non è possibile impostare il costruttore come privato. Ad
+	 * ogni modo, per accedere correttamente all'istanza dall'applicazione
+	 * bisogna utilizzare la factory apposita.
 	 */
 	public BusinessLogicServiceImpl() {
 	}
@@ -120,21 +120,21 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	@Override
-	public void sendFullProfileRequest(String toNodeId) {
+	public void requestFullProfile(String toNodeId) {
 		Log.d();
-		communicationManager.sendFullProfileRequest(toNodeId);
+		communicationManager.requestFullProfile(toNodeId);
 	}
 
 	@Override
-	public boolean sendStartChatMessage(String nodeTo) {
+	public boolean startChat(String withNodeId) {
 		Log.d();
-		return communicationManager.sendStartChatMessage(nodeTo);
+		return communicationManager.sendStartChatMessage(withNodeId);
 	}
 
 	@Override
 	public void refreshSocialList() {
 		Log.d();
-		communicationManager.sendBasicProfileRequestAll();
+		communicationManager.requestAllProfiles();
 	}
 
 	@Override
@@ -144,9 +144,9 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	@Override
-	public void sendMyNewBasicProfileAll() {
+	public void notifyMyProfileIsUpdated() {
 		Log.d();
-		communicationManager.sendMyNewBasicProfileAll();
+		communicationManager.notifyMyProfileIsUpdated();
 	}
 
 	@Override

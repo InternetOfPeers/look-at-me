@@ -124,7 +124,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				Services.businessLogic.sendStartChatMessage(node.getId());
+				Services.businessLogic.startChat(node.getId());
 
 				// TODO: entrare nella chat privata
 				// a scopo di test invio un messaggio dopo 3 secondi
@@ -146,7 +146,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				Services.businessLogic.sendFullProfileRequest(node.getId());
+				Services.businessLogic.requestFullProfile(node.getId());
 				// entro in attesa
 				loadingDialog = new ProgressDialog(NearbyListFragment.this.getActivity());
 				loadingDialog.setTitle("Loading profile");

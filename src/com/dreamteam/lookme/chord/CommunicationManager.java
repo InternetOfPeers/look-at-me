@@ -11,23 +11,18 @@ public interface CommunicationManager {
 
 	void stopCommunication();
 
-	boolean sendBasicProfileRequestAll(); /*
-										 * Maybe not necessary (to testing)
-										 */
+	boolean requestAllProfiles();
 
-	boolean sendFullProfileRequest(String nodeTo);
+	boolean requestFullProfile(String fromNodeId);
 
-	boolean sendMyNewBasicProfileAll(); /*
-										 * to communicate all nodes my profile
-										 * is updated
-										 */
+	boolean notifyMyProfileIsUpdated();
 
-	boolean sendChatMessage(String nodeTo, String message);
+	boolean sendChatMessage(String toNodeId, String message);
 
-	boolean sendStartChatMessage(String nodeTo);
+	boolean sendStartChatMessage(String toNodeId);
 
-	boolean sendLike(String nodeTo);
+	boolean sendLike(String toNodeId);
 
-	boolean sendFullProfileResponse(String nodeTo);
+	boolean sendFullProfileResponse(String toNodeId);
 
 }

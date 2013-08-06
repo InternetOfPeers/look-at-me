@@ -26,11 +26,11 @@
     <string name="send_btn">Send</string>
     <string name="text_hint_txt">message text</string>
 
-    <!-- Drawer menu -->
+    <!-- MENU A CASSETTO -->
     <string-array name="menu_items">
         <item>Profile</item>
         <item>Nearby</item>
-        <item>Messages</item>
+        <item>Conversations</item>
         <item>Feelings</item>
     </string-array>
 
@@ -47,5 +47,11 @@
     <!-- channel list dialog end -->
     
     <string name="btn_label_close">Close</string>
+    
+    <!-- CHAT -->
+    <string name="text_chat_alt_profile_image">profile image</string>
+    <string name="text_chat_sender">sender</string>
+    <string name="text_chat_message">message</string>
+    <string name="text_chat_datetime">date</string>
 
 </resources>

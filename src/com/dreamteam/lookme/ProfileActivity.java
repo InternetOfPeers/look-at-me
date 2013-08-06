@@ -124,6 +124,7 @@ public class ProfileActivity extends CommonActivity {
 
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -137,6 +138,7 @@ public class ProfileActivity extends CommonActivity {
 			startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

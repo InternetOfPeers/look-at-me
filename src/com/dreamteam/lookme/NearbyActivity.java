@@ -44,7 +44,7 @@ public class NearbyActivity extends CommonActivity {
 			// setFragment(SOCIAL_PROFILE_FRAGMENT, profile);
 
 			setFragment(SOCIAL_PROFILE_FRAGMENT);
-			Services.businessLogic.sendFullProfileRequest(extras.getString(Notify.NODE_KEY_ID));
+			Services.businessLogic.requestFullProfile(extras.getString(Notify.NODE_KEY_ID));
 			// entro in attesa
 			// ProgressDialog loadingDialog = new ProgressDialog(this);
 			// loadingDialog.setTitle("Loading profile");

@@ -12,7 +12,8 @@
         android:layout_column="0"
         android:layout_gravity="left|top"
         android:layout_row="0"
-        android:src="@drawable/ic_profile_image" />
+        android:contentDescription="@string/text_chat_alt_profile_image"
+        android:src="@drawable/ic_profile_image_placeholder" />
 
     <TextView
         android:id="@+id/nickNameText"
@@ -21,7 +22,7 @@
         android:layout_column="1"
         android:layout_gravity="fill_horizontal|top|bottom"
         android:layout_row="0"
-        android:text="sender"
+        android:text="@string/text_chat_sender"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -31,7 +32,7 @@
         android:layout_column="1"
         android:layout_gravity="left|top"
         android:layout_row="1"
-        android:text="message"
+        android:text="@string/text_chat_message"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -41,7 +42,7 @@
         android:layout_column="2"
         android:layout_gravity="right|top"
         android:layout_row="0"
-        android:text="date"
+        android:text="@string/text_chat_datetime"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </GridLayout>

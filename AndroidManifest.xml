@@ -14,7 +14,7 @@
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 
-	application is running, the node’s status should be set to LCD-on.
+	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -45,7 +45,11 @@
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/title_profile_activity" >
+            android:label="@string/title_profile_activity"
+            android:parentActivityName=".NearbyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NearbyActivity" />
         </activity>
         <activity
             android:name=".EditProfileActivity"
@@ -57,7 +61,11 @@
         </activity>
         <activity
             android:name=".AddInterestActivity"
-            android:label="@string/title_add_interest_activity" >
+            android:label="@string/title_add_interest_activity"
+            android:parentActivityName=".ManageInterestActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ManageInterestActivity" />
         </activity>
         <activity
             android:name=".MessagesActivity"
