@@ -240,7 +240,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	}
 
-	public FullProfile getMyFullProfile() throws Exception {
+	public FullProfile getMyFullProfile() {
 		try {
 			return getFullProfile(DEVICE_ID);
 		} catch (Exception e) {
@@ -279,7 +279,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		return tempProfile;
 	}
 
-	public BasicProfile getMyBasicProfile() throws Exception {
+	public BasicProfile getMyBasicProfile() {
 		try {
 			return getBasicProfile(DEVICE_ID);
 		} catch (Exception e) {

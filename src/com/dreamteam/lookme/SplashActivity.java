@@ -7,13 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
-import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.constants.AppSettings;
-import com.dreamteam.lookme.db.DBOpenHelper;
-import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.Services;
-import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 
 public class SplashActivity extends Activity {
@@ -23,21 +18,7 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// Salvo un contesto di utilità
 		Services.currentState.setContext(getApplicationContext());
-
 		Services.currentState.setInterestList(Services.businessLogic.getFullInterestList());
-
-		// carico il mio profilo sia basic che full nel repository statico
-		DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getApplicationContext());
-		try {
-			if (dbOpenHelper.isProfileCompiled()) {
-				FullProfile myFullProfile = dbOpenHelper.getMyFullProfile();
-				BasicProfile myBasicProfile = dbOpenHelper.getMyBasicProfile();
-				Services.currentState.setMyBasicProfile(myBasicProfile);
-				Services.currentState.setMyFullProfile(myFullProfile);
-			}
-		} catch (Exception e) {
-			Log.e("Errore nel recupero del profilo");
-		}
 		// Imposto l'activity da caricare
 		setContentView(R.layout.splashscreen);
 		// Mostra una immagine di splash differente a seconda dell'orientamento

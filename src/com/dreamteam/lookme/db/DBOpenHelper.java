@@ -117,7 +117,7 @@ public interface DBOpenHelper {
 	 * @return BasicProfile
 	 * @throws java.lang.Exception
 	 */
-	public BasicProfile getMyBasicProfile() throws Exception;
+	public BasicProfile getMyBasicProfile();
 
 	/**
 	 * Return the FullProfile of the device owner
@@ -125,7 +125,7 @@ public interface DBOpenHelper {
 	 * @return FullProfile
 	 * @throws java.lang.Exception
 	 */
-	public FullProfile getMyFullProfile() throws Exception;
+	public FullProfile getMyFullProfile();
 
 	public void saveOrUpdateImages(FullProfile profile) throws Exception;
 

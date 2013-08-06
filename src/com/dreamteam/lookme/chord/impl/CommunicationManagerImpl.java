@@ -9,7 +9,7 @@ import android.os.Looper;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
-import com.dreamteam.lookme.bean.MessageItem;
+import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.chord.ChordErrorManager;
 import com.dreamteam.lookme.chord.CommunicationListener;
@@ -433,42 +433,43 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean sendStartChatMessage(String nodeTo) {
+	public boolean sendStartChatMessage(String toNode) {
 		Log.d();
-		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(
+		List<ChatMessage> listMessage = Services.currentState.getConversationsStore().get(
 				CommonUtils
-						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
+						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
 
 		if (listMessage == null)
-			Services.currentState.getMessagesHistoryMap().put(
-					CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile()
-							.getId()), new ArrayList<MessageItem>());
-		return socialChannel.sendData(nodeTo, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
+			Services.currentState.getConversationsStore().put(
+					CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile()
+							.getId()), new ArrayList<ChatMessage>());
+		return socialChannel.sendData(toNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
 	@Override
-	public boolean sendChatMessage(String nodeTo, String message) {
+	public boolean sendChatMessage(String toNode, String text) {
 		Log.d();
 		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
-		chordMessage.setReceiverNodeName(nodeTo);
-		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), message);
+		chordMessage.setReceiverNodeName(toNode);
+		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
 		String myId = Services.currentState.getMyBasicProfile().getId();
-		String profileId = Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId();
+		String profileId = Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId();
 		String chatChannelName = CommonUtils.generateChannelName(myId, profileId);
 		IChordChannel chatChannel = chord.getJoinedChannel(chatChannelName);
 		if (chatChannel == null) {
 			chatChannel = joinChatChannel(chatChannelName);
 		}
-		List<MessageItem> listMessage = Services.currentState.getMessagesHistoryMap().get(
+		List<ChatMessage> listMessage = Services.currentState.getConversationsStore().get(
 				CommonUtils
-						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile().getId()));
-		MessageItem messageItem = new MessageItem(null, null, message, true);
+						.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
+		//ChatMessage messageItem = new ChatMessage(null, null, text, true);
+		ChatMessage messageItem = new ChatMessage(null, null, text);
 		listMessage.add(messageItem);
-		Services.currentState.getMessagesHistoryMap()
-				.put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeTo).getProfile()
+		Services.currentState.getConversationsStore()
+				.put(CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile()
 						.getId()), listMessage);
-		return chatChannel.sendData(nodeTo, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
+		return chatChannel.sendData(toNode, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 
 	}
 

@@ -14,7 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.MessageItem;
+import com.dreamteam.lookme.bean.ChatMessage;
+import com.dreamteam.lookme.bean.ChatConversation;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
@@ -45,19 +46,16 @@ public class ConversationsListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public ChatConversation getItem(int position) {
 		Node node = CommonUtils.getNodeFromChannelName(channelList.get(position));
-		// Node node =
-		// Services.currentState.getSocialNodeMap().get(CommonUtils.getNodeFromChannelName(channelList.get(arg0)));
-
-		// TODO gestire i null pointer exception
-
-		List<MessageItem> messageList = Services.currentState.getMessagesHistoryMap().get(channelList.get(position));
-		MessageItem fakeMessage = new MessageItem(node.getId(), node.getProfile().getId(), "", false);
-		if (messageList != null && !messageList.isEmpty()) {
-			fakeMessage.setMessage(messageList.get(messageList.size() - 1).getMessage());
-		}
-		return fakeMessage;
+		List<ChatMessage> conversation = Services.currentState.getConversationsStore().get(channelList.get(position));
+	
+//		return conversation.get(conversation.size() -1);
+//		ChatMessage fakeMessage = new ChatMessage(node.getId(), node.getProfile().getId(), "", false);
+//		if (conversation != null && !conversation.isEmpty()) {
+//			fakeMessage.setText(conversation.get(conversation.size() - 1).getText());
+//		}
+		return null;
 	}
 
 	@Override
@@ -68,15 +66,17 @@ public class ConversationsListAdapter extends BaseAdapter {
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = layoutInflater.inflate(R.layout.fragment_message_list_single_row, null);
 		}
-		MessageItem message = (MessageItem) getItem(position);
-		Node node = Services.currentState.getSocialNodeMap().get(message.getNodeId());
+		//ChatMessage message = (ChatMessage) getItem(position);
+		ChatMessage message = null;
+		
+		Node node = Services.currentState.getSocialNodeMap().get(message.getFrom());
 		TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
 		nickNameText.setText("conversation to: " + node.getProfile().getNickname());
 		// TextView lastMessageText = (TextView)
 		// convertView.findViewById(R.id.lastMessageText);
 		// lastMessageText.setText(message.getMessage());
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
-		String timeElapsed = CommonUtils.timeElapsed(message.getCreationTime(), new Date(System.currentTimeMillis()));
+		String timeElapsed = CommonUtils.timeElapsed(message.getTimestamp(), new Date(System.currentTimeMillis()));
 		lastMessageDate.setText(timeElapsed);
 		// Imposto l'immagine del profilo
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
@@ -87,7 +87,7 @@ public class ConversationsListAdapter extends BaseAdapter {
 
 	private List<String> getListFromMessageMap() {
 		List<String> list = new ArrayList<String>();
-		list.addAll(Services.currentState.getMessagesHistoryMap().keySet());
+		list.addAll(Services.currentState.getConversationsStore().keySet());
 		return list;
 	}
 }

@@ -12,9 +12,7 @@ public class ChatActivity extends CommonActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat);
-		initDrawerMenu(savedInstanceState, this.getClass());
-		// Imposta l'icona per tornare al livello precedente
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		initDrawerMenu(savedInstanceState, this.getClass(), true);
 	}
 
 	@Override

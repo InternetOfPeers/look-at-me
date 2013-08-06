@@ -9,22 +9,18 @@ import android.content.Context;
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
-import com.dreamteam.lookme.bean.MessageItem;
+import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.chord.Node;
 
 public interface CurrentState {
 
 	FullProfile getMyFullProfile();
 
-	void setMyFullProfile(FullProfile profile);
-
 	BasicProfile getMyBasicProfile();
 
-	void setMyBasicProfile(BasicProfile profile);
+	Map<String, List<ChatMessage>> getConversationsStore();
 
-	Map<String, List<MessageItem>> getMessagesHistoryMap();
-
-	void putMessageInHistoryMap(String id, MessageItem messageItem);
+	void storeChatMessage(String id, ChatMessage chatMessage);
 
 	Map<String, Node> getSocialNodeMap();
 

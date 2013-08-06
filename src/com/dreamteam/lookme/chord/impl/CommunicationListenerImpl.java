@@ -3,7 +3,7 @@ package com.dreamteam.lookme.chord.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dreamteam.lookme.bean.MessageItem;
+import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.chord.CommunicationListener;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
@@ -84,13 +84,13 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
 		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
 		String deviceId = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
-		List<MessageItem> messagesList = Services.currentState.getMessagesHistoryMap().get(channelName);
+		List<ChatMessage> messagesList = Services.currentState.getConversationsStore().get(channelName);
 		if (messagesList == null || messagesList.isEmpty())
-			messagesList = new ArrayList<MessageItem>();
+			messagesList = new ArrayList<ChatMessage>();
 		// MessageItem messageItem = new MessageItem(nodeId,deviceId, "",
 		// false);
 		// messagesList.add(messageItem);
-		Services.currentState.getMessagesHistoryMap().put(channelName, messagesList);
+		Services.currentState.getConversationsStore().put(channelName, messagesList);
 	}
 
 	@Override
@@ -105,12 +105,13 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
 		String deviceId = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
 		String channelName = CommonUtils.generateChannelName(deviceId, Services.currentState.getMyBasicProfile().getId());
-		List<MessageItem> messagesList = Services.currentState.getMessagesHistoryMap().get(channelName);
+		List<ChatMessage> messagesList = Services.currentState.getConversationsStore().get(channelName);
 		if (messagesList == null || messagesList.isEmpty())
-			messagesList = new ArrayList<MessageItem>();
-		MessageItem messageItem = new MessageItem(nodeId, deviceId, message, false);
+			messagesList = new ArrayList<ChatMessage>();
+		//ChatMessage messageItem = new ChatMessage(nodeId, deviceId, message, false);
+		ChatMessage messageItem = new ChatMessage(nodeId, deviceId, message);
 		messagesList.add(messageItem);
-		Services.currentState.getMessagesHistoryMap().put(channelName, messagesList);
+		Services.currentState.getConversationsStore().put(channelName, messagesList);
 		Services.notification.chatMessage(Services.currentState.getContext(), nickName, message);
 	}
 }

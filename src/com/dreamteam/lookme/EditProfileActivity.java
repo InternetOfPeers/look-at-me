@@ -114,8 +114,6 @@ public class EditProfileActivity extends CommonActivity {
 
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
-			Services.currentState.setMyFullProfile(savedProfile);
-			Services.currentState.setMyBasicProfile(dbOpenHelper.getMyBasicProfile());
 			Services.businessLogic.notifyMyProfileIsUpdated();
 			switchToUpdateAccount(savedProfile);
 			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);

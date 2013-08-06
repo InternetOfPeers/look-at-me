@@ -49,6 +49,10 @@ public abstract class CommonActivity extends Activity {
 	}
 
 	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass) {
+		initDrawerMenu(savedInstanceState, activityClass, false);
+	}
+
+	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass, boolean hasParent) {
 		menuEnabled = true;
 		mTitle = mDrawerTitle = getTitle();
 		mPlanetTitles = getResources().getStringArray(R.array.menu_items);
@@ -63,7 +67,7 @@ public abstract class CommonActivity extends Activity {
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(hasParent);
 		getActionBar().setHomeButtonEnabled(true);
 
 		// ActionBarDrawerToggle ties together the the proper interactions
