@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!-- QUI VA IL LAYOUT DEI FEELINGS -->
 
-   	<!--  QUI VA IL LAYOUT DEI FEELINGS -->
-        
 
     <!--
          android:layout_gravity="start" tells DrawerLayout to treat

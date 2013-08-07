@@ -34,8 +34,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:src="@drawable/ic_profile_image" />
-                    
-                    
 
                     <Button
                         android:id="@+id/btnChooseImage"
@@ -99,8 +97,8 @@
                         android:layout_marginTop="5dip"
                         android:inputType="text"
                         android:singleLine="true" />
-                    
-                     <TextView
+
+                    <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/text_interest"

@@ -1,13 +1,12 @@
 package com.dreamteam.lookme;
 
 import java.util.Date;
-import java.util.List;
-
-import com.dreamteam.lookme.bean.ChatMessage;
 
 import android.graphics.Bitmap;
 
-public interface ChatConversation extends List<ChatMessage> {
+import com.dreamteam.lookme.bean.ChatMessage;
+
+public interface ChatConversation {
 
 	String getId();
 
@@ -17,8 +16,14 @@ public interface ChatConversation extends List<ChatMessage> {
 
 	Bitmap getImageBitmap();
 
-	String getNode();
+	String getNodeId();
 
 	ChatMessage getMessage(int position);
+
+	int size();
+
+	void addMessage(ChatMessage message);
+
+	boolean isEmpty();
 
 }

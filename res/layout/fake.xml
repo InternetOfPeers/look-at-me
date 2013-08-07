@@ -18,25 +18,19 @@
 
             <!-- Header  Starts -->
 
-            
-  
-             
-               
-                <ListView
-                    android:id="@+id/interestListView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-                
-                  <Button
-                 android:id="@+id/buttonAddInterest"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginBottom="311dp"
-                 android:layout_marginLeft="59dp"
-                 android:onClick="onAddInterestToProfile"
-                 android:text="Aggiungi Interessi" />
-              
-               
+            <ListView
+                android:id="@+id/interestListView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/buttonAddInterest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="311dp"
+                android:layout_marginLeft="59dp"
+                android:onClick="onAddInterestToProfile"
+                android:text="Aggiungi Interessi" />
 
             <!-- Header Ends -->
             <!-- Footer Start -->

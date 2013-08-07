@@ -7,7 +7,6 @@ import android.content.Context;
 
 import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.chord.Node;
@@ -19,8 +18,6 @@ public interface CurrentState {
 	BasicProfile getMyBasicProfile();
 
 	Map<String, ChatConversation> getConversationsStore();
-
-	void storeChatMessage(String id, ChatMessage chatMessage);
 
 	Map<String, Node> getSocialNodeMap();
 

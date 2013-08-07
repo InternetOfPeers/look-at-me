@@ -23,11 +23,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                  <ListView
+                <ListView
                     android:id="@+id/interestListView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
-                   
             </LinearLayout>
             <!-- Header Ends -->
             <!-- Footer Start -->

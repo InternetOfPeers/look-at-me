@@ -51,7 +51,6 @@
             android:layout_gravity="right|top"
             android:layout_row="0"
             android:text="LIKE" />
-
     </GridLayout>
 
 </LinearLayout>

@@ -4,26 +4,26 @@ import java.util.Date;
 
 public class ChatMessage {
 
-	private String from;
-	private String to;
+	private String fromNickname;
+	private String toNickname;
 	private String text;
 	private Date timestamp;
 	private boolean isMine;
 
-	public ChatMessage(String from, String to, String text, boolean isMine) {
-		this.from = from;
-		this.to = to;
+	public ChatMessage(String fromNickname, String toNickname, String text, boolean isMine) {
+		this.fromNickname = fromNickname;
+		this.toNickname = toNickname;
 		this.text = text;
 		this.timestamp = new Date(System.currentTimeMillis());
 		this.isMine = isMine;
 	}
 
-	public String getFrom() {
-		return from;
+	public String getFromNickname() {
+		return fromNickname;
 	}
 
-	public String getTo() {
-		return to;
+	public String getToNickname() {
+		return toNickname;
 	}
 
 	public String getText() {

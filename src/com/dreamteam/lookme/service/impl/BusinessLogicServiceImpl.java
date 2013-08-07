@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.chord.CommunicationManager;
 import com.dreamteam.lookme.chord.CustomException;
@@ -153,6 +154,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		interestList.add(new Interest(4, "INTEREST 4", false));
 		interestList.add(new Interest(5, "INTEREST 5", false));
 		return interestList;
+	}
+
+	@Override
+	public void storeConversation(ChatConversation conversation) {
+		Services.currentState.getConversationsStore().put(conversation.getId(), conversation);
 	}
 
 }

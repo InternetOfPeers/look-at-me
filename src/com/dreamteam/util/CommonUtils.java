@@ -28,12 +28,13 @@ public class CommonUtils {
 
 		return out.toByteArray();
 	}
-	
-	public static String generateConversationId(String myId, String profileId) {
-		if (myId.compareTo(profileId) < 0)
-			return myId + "_" + profileId;
-		else
-			return profileId + "_" + myId;
+
+	public static String getConversationId(String myId, String otherProfileId) {
+		// if (myId.compareTo(profileId) < 0)
+		// return myId + "_" + profileId;
+		// else
+		// return profileId + "_" + myId;
+		return myId + "_" + otherProfileId;
 	}
 
 	public static Node getNodeFromConversationId(String conversationId) {

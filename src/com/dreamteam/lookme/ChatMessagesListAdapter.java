@@ -66,7 +66,7 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 		photoImage.setImageBitmap(profileImageBitmap);
 		convertView.setBackgroundResource(backgroundResId);
 		TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
-		nickNameText.setText(message.getFrom());
+		nickNameText.setText(message.getFromNickname());
 		TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
 		lastMessageText.setText(message.getText());
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);

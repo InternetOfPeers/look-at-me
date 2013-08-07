@@ -9,6 +9,7 @@ import android.os.Looper;
 
 import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.ChatConversationImpl;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Profile;
@@ -50,7 +51,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	private Looper looper;
 
 	public CommunicationManagerImpl(Context context, CommunicationListener communicationListener) {
-		Log.d();
 		this.context = context;
 		this.errorManager = new ChordErrorManager();
 		this.communicationListener = communicationListener;
@@ -58,7 +58,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public void startCommunication() throws CustomException {
-		Log.d();
 		chord = ChordManager.getInstance(context);
 		// this.chord.setTempDirectory(chordFilePath);
 		chord.setHandleEventLooper(looper);
@@ -69,7 +68,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public void stopCommunication() {
-		Log.d();
 		// Se chiudo i canali direttamente va in concurrent modification
 		// exception per cui mi serve un astruttura di appoggio da cui prendere
 		// i nomi dei canali
@@ -234,7 +232,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					Node nodeTo = Services.currentState.getSocialNodeMap().get(arg0);
 					if (nodeTo != null) {
 						String profileId = Services.currentState.getSocialNodeMap().get(arg0).getProfile().getId();
-						String chatChannelName = CommonUtils.generateConversationId(myId, profileId);
+						String chatChannelName = CommonUtils.getConversationId(myId, profileId);
 						joinChatChannel(chatChannelName);
 					} else {
 						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
@@ -318,7 +316,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	private int startChord() {
-		Log.d();
 		// trying to use INTERFACE_TYPE_WIFI, otherwise get the first
 		// available interface
 		availableWifiInterface = chord.getAvailableInterfaceTypes();
@@ -355,7 +352,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public boolean requestAllProfiles() {
-		Log.d();
 		if (isSocialChannelReady()) {
 			List<String> socialNodeList = socialChannel.getJoinedNodeList();
 			Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
@@ -370,7 +366,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public boolean notifyMyProfileIsUpdated() {
-		Log.d();
 		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.PROFILE_UPDATE, null);
 		if (message != null) {
 			return socialChannel.sendDataToAll(MessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
@@ -380,12 +375,10 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	private boolean sendBasicProfileRequest(String nodeTo) {
-		Log.d();
 		return socialChannel.sendData(nodeTo, MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	private boolean sendBasicProfileResponse(String nodeTo) {
-		Log.d();
 		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.BASIC_PROFILE, nodeTo);
 		if (message != null) {
 			return socialChannel.sendData(nodeTo, MessageType.BASIC_PROFILE.toString(), obtainPayload(message));
@@ -396,7 +389,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public boolean sendFullProfileResponse(String nodeTo) {
-		Log.d();
 		Message message = obtainMyProfileMessage(Services.currentState.getMyFullProfile(), MessageType.FULL_PROFILE, nodeTo);
 		if (message != null) {
 			return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE.toString(), obtainPayload(message));
@@ -422,51 +414,50 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public boolean requestFullProfile(String nodeTo) {
-		Log.d();
 		return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendLike(String nodeTo) {
-		Log.d();
 		return socialChannel.sendData(nodeTo, MessageType.LIKE.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendStartChatMessage(String toNode) {
-		Log.d();
-		List<ChatMessage> listMessage = Services.currentState.getConversationsStore().get(
-				CommonUtils.generateConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
-
-		if (listMessage == null)
-			Services.currentState.getConversationsStore().put(
-					CommonUtils.generateConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile()
-							.getId()), (ChatConversation) new ArrayList<ChatMessage>());
+		String myProfileId = Services.currentState.getMyBasicProfile().getId();
+		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().get(toNode).getProfile();
+		String otherProfileId = otherProfile.getId();
+		String conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
+		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
+		// Se una conversazione con lo stesso id non è mai stata iniziata, la
+		// crea
+		if (conversation == null) {
+			conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
+			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile.getNickname(), toNode, otherProfile.getMainProfileImage()
+					.getImageBitmap()));
+		}
 		return socialChannel.sendData(toNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
 	@Override
 	public boolean sendChatMessage(String toNode, String text) {
-		Log.d();
+		// Preparo il messaggio chord
 		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(toNode);
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
-		String myId = Services.currentState.getMyBasicProfile().getId();
-		String profileId = Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId();
-		// TODO Continua a generare il channelid?
-		String chatChannelName = CommonUtils.generateConversationId(myId, profileId);
-		IChordChannel chatChannel = chord.getJoinedChannel(chatChannelName);
+		// Preparo la conversation ed il messaggio
+		Profile myProfile = Services.currentState.getMyBasicProfile();
+		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().get(toNode).getProfile();
+		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfile.getId());
+		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
 		if (chatChannel == null) {
-			chatChannel = joinChatChannel(chatChannelName);
+			chatChannel = joinChatChannel(conversationId);
 		}
-		ChatConversation listMessage = Services.currentState.getConversationsStore().get(
-				CommonUtils.generateConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()));
-		ChatMessage messageItem = new ChatMessage(null, null, text, true);
-		listMessage.add(messageItem);
-		Services.currentState.getConversationsStore().put(
-				CommonUtils.generateConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(toNode).getProfile().getId()),
-				listMessage);
+		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
+		conversation.addMessage(new ChatMessage(myProfile.getNickname(), otherProfile.getNickname(), text, true));
+		// Memorizzo la conversation ed invio il messaggio
+		Services.businessLogic.storeConversation(conversation);
 		return chatChannel.sendData(toNode, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 
 	}

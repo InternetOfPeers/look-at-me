@@ -4,6 +4,7 @@ import java.util.Set;
 
 import android.content.Context;
 
+import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.Interest;
 
 public interface BusinessLogicService {
@@ -27,5 +28,7 @@ public interface BusinessLogicService {
 	void notifyMyProfileIsUpdated();
 
 	Set<Interest> getFullInterestList();
+
+	void storeConversation(ChatConversation conversation);
 
 }

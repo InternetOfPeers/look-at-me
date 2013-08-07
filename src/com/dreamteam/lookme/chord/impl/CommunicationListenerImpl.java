@@ -1,8 +1,8 @@
 package com.dreamteam.lookme.chord.impl;
 
-import java.util.ArrayList;
-
 import com.dreamteam.lookme.ChatConversation;
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.ChatConversationImpl;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.chord.CommunicationListener;
 import com.dreamteam.lookme.chord.Node;
@@ -16,12 +16,10 @@ public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
 	public void onCommunicationStarted() {
-		Log.d();
 	}
 
 	@Override
 	public void onCommunicationStopped() {
-		Log.d();
 	}
 
 	@Override
@@ -79,25 +77,25 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	}
 
 	@Override
-	public void onChatMessageReceived(String nodeFrom, String message) {
-		Log.d("node " + nodeFrom + " says: " + message);
+	public void onChatMessageReceived(String fromNode, String message) {
+		Log.d("node " + fromNode + " says: " + message);
 		try {
-			Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeFrom));
+			Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, fromNode));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
-		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
-		String deviceId = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
-		// TODO il channelid � generato in modo diverso rispetto all'on click
-		// del nearby
-		String channelName = CommonUtils.generateConversationId(deviceId, Services.currentState.getMyBasicProfile().getId());
-		ChatConversation messagesList = Services.currentState.getConversationsStore().get(channelName);
-		if (messagesList == null || messagesList.isEmpty())
-			messagesList = (ChatConversation) new ArrayList<ChatMessage>();
-		ChatMessage messageItem = new ChatMessage(nodeId, deviceId, message, false);
-		messagesList.add(messageItem);
-		Services.currentState.getConversationsStore().put(channelName, messagesList);
-		Services.notification.chatMessage(Services.currentState.getContext(), nickName, message);
+		Node node = Services.currentState.getSocialNodeMap().get(fromNode);
+		String nodeId = node.getId();
+		BasicProfile otherProfile = (BasicProfile) node.getProfile();
+		String otherNickName = otherProfile.getNickname();
+		String otherProfileId = otherProfile.getId();
+		String conversationId = CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), otherProfileId);
+		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
+		if (conversation == null || conversation.isEmpty())
+			conversation = new ChatConversationImpl(conversationId, otherNickName, nodeId, otherProfile.getMainProfileImage().getImageBitmap());
+		ChatMessage chatMessage = new ChatMessage(nodeId, otherProfileId, message, false);
+		conversation.addMessage(chatMessage);
+		Services.businessLogic.storeConversation(conversation);
+		Services.notification.chatMessage(Services.currentState.getContext(), otherNickName, message);
 	}
 }

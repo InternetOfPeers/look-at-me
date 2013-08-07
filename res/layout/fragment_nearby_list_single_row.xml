@@ -28,7 +28,6 @@
             android:layout_row="0"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
     </GridLayout>
 
 </LinearLayout>

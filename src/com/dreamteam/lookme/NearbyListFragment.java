@@ -134,7 +134,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 					e.printStackTrace();
 				}
 				Nav.startActivityWithString(activity, ChatMessagesActivity.class,
-						CommonUtils.generateConversationId(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
+						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
 			}
 
 		});

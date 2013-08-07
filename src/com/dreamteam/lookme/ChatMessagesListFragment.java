@@ -48,7 +48,7 @@ public class ChatMessagesListFragment extends Fragment {
 				if (text != null && !text.isEmpty()) {
 					// Verifico che il nodo a cui mandare il messaggio sia
 					// ancora attivo
-					String nodeId = conversation.getNode();
+					String nodeId = conversation.getNodeId();
 					if (nodeIsValid(nodeId)) {
 						// Invio il messaggio al nodo
 						Services.businessLogic.sendChatMessage(nodeId, text);

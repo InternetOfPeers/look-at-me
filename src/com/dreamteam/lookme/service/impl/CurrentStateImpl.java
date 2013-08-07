@@ -1,6 +1,5 @@
 package com.dreamteam.lookme.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -10,7 +9,6 @@ import android.content.Context;
 
 import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.chord.Node;
@@ -46,14 +44,6 @@ public class CurrentStateImpl implements CurrentState {
 	@Override
 	public Map<String, ChatConversation> getConversationsStore() {
 		return conversationsStore;
-	}
-
-	@Override
-	public void storeChatMessage(String conversationId, ChatMessage message) {
-		if (!conversationsStore.containsKey(conversationId)) {
-			conversationsStore.put(conversationId, (ChatConversation) new ArrayList<ChatMessage>());
-		}
-		conversationsStore.get(conversationId).add(message);
 	}
 
 	@Override

@@ -48,7 +48,6 @@
             android:layout_row="0"
             android:text="date"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </GridLayout>
 
 </LinearLayout>
