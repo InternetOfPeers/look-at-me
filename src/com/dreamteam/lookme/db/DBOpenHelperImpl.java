@@ -40,6 +40,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	public static DBOpenHelper getInstance(Context ctx) {
 
+		//TODO Il context potrebbe essere NULL per qualche motivo (lungo inutilizzo?), quindi predisporsi per gestire la situazione
+		
 		// Use the application context, which will ensure that you
 		// don't accidentally leak an Activity's context.
 		// See this article for more information: http://bit.ly/6LRzfx

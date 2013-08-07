@@ -448,7 +448,11 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
 		// Preparo la conversation ed il messaggio
 		Profile myProfile = Services.currentState.getMyBasicProfile();
+		
+		//TODO QUI VA IN NULLPOINTER EXCEPTION DOPO UN TEMPO DI INUTILIZZO
 		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().get(toNode).getProfile();
+		
+		
 		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfile.getId());
 		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
 		if (chatChannel == null) {
