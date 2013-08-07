@@ -30,11 +30,10 @@ public class CommonUtils {
 	}
 
 	public static String getConversationId(String myId, String otherProfileId) {
-		// if (myId.compareTo(profileId) < 0)
-		// return myId + "_" + profileId;
-		// else
-		// return profileId + "_" + myId;
-		return myId + "_" + otherProfileId;
+		if (myId.compareTo(otherProfileId) < 0)
+			return myId + "_" + otherProfileId;
+		else
+			return otherProfileId + "_" + myId;
 	}
 
 	public static Node getNodeFromConversationId(String conversationId) {

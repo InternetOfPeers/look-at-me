@@ -1,5 +1,6 @@
 package com.dreamteam.lookme.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class ChatConversationImpl implements ChatConversation {
 		this.otherNickname = otherNickname;
 		this.otherNodeId = otherNodeId;
 		this.otherImageBitamp = otherImageBitamp;
+		this.chatMessagesList = new ArrayList<ChatMessage>();
+		this.lastMessageTimestamp = new Date();
 	}
 
 	@Override
