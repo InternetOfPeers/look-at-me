@@ -92,12 +92,10 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
 		View view = inflater.inflate(R.layout.fragment_nearby_list, null);
-
 		socialListAdapter = new SocialListAdapter();
 		socialListView = (ListView) view.findViewById(R.id.socialListView);
 		socialListView.setAdapter(socialListAdapter);
 		socialListView.setOnItemClickListener(this);
-
 		return view;
 	}
 

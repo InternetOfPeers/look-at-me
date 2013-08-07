@@ -17,7 +17,7 @@ public class ChatMessagesActivity extends CommonActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Verifica quale elemento Ã¨ stato premunto
+		// Verifica quale elemento è stato premunto
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			Intent upIntent = NavUtils.getParentActivityIntent(this);

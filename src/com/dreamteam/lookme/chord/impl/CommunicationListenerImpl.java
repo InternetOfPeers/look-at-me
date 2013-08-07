@@ -67,7 +67,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		try {
 			Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNode));
 			if (Services.currentState.checkLikeMatch(fromNode)) {
-				Services.event.post(new Event(EventType.LIKE_MATCH, fromNode));
+				Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().get(fromNode).getProfile().getNickname()));
 				Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNode));
 			}
 		} catch (Exception e) {
@@ -79,11 +79,6 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	@Override
 	public void onChatMessageReceived(String fromNode, String message) {
 		Log.d("node " + fromNode + " says: " + message);
-		try {
-			Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, fromNode));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		Node node = Services.currentState.getSocialNodeMap().get(fromNode);
 		String nodeId = node.getId();
 		BasicProfile otherProfile = (BasicProfile) node.getProfile();
@@ -97,6 +92,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		ChatMessage chatMessage = new ChatMessage(otherNickName, myProfile.getNickname(), message, false);
 		conversation.addMessage(chatMessage);
 		Services.businessLogic.storeConversation(conversation);
+		Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, otherNickName));
 		Services.notification.chatMessage(Services.currentState.getContext(), otherNickName, message);
 	}
 }

@@ -38,7 +38,8 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public BasicProfile getMyBasicProfile() {
-		//TODO getcontext() potrebbe tornare null (dopo un lungo inutilizzo?), gestire la situazione di conseguenza
+		// TODO getcontext() potrebbe tornare null (dopo un lungo inutilizzo?),
+		// gestire la situazione di conseguenza
 		return DBOpenHelperImpl.getInstance(getContext()).getMyBasicProfile();
 	}
 

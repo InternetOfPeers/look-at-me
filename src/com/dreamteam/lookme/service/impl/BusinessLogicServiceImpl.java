@@ -92,10 +92,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	/**
-	 * Poich� il costruttore viene referenziato da Android (anche se non avviato
-	 * direttamente) non � possibile impostare il costruttore come privato. Ad
-	 * ogni modo, per accedere correttamente all'istanza dall'applicazione
-	 * bisogna utilizzare la factory apposita.
+	 * Poich� il costruttore viene referenziato da Android (anche se non
+	 * avviato direttamente) non � possibile impostare il costruttore come
+	 * privato. Ad ogni modo, per accedere correttamente all'istanza
+	 * dall'applicazione bisogna utilizzare la factory apposita.
 	 */
 	public BusinessLogicServiceImpl() {
 	}

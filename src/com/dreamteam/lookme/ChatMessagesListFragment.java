@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
@@ -25,6 +26,7 @@ public class ChatMessagesListFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.d();
 		View view = inflater.inflate(R.layout.fragment_chat_messages_list, null);
 		String conversationId = Nav.getStringParameter(ChatMessagesListFragment.this.getActivity());
 		if (conversationId.isEmpty())
@@ -74,7 +76,12 @@ public class ChatMessagesListFragment extends Fragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.d();
 		super.onActivityCreated(savedInstanceState);
+		// TODO questo refresh può crashare perché chatMessagesListAdapter
+		// potrebbe essere ancora null. Non è detto che alla ricreazione
+		// dell'activity sia corrisposta già la ricreazione della view
+		// (onViewCreted) e quindi chatMessagesListAdapter potrebbe essere null.
 		refreshFragment();
 	}
 
@@ -103,19 +110,13 @@ public class ChatMessagesListFragment extends Fragment {
 	}
 
 	private void refreshFragment() {
-		chatMessagesListAdapter.notifyDataSetChanged();
+		if (chatMessagesListAdapter != null)
+			chatMessagesListAdapter.notifyDataSetChanged();
 	}
 
 	private void scrollMyListViewToBottom() {
-		messageListView.setSelection(messageListView.getCount() - 1);
-
-		// messageListView.post(new Runnable() {
-		// @Override
-		// public void run() {
-		// // Select the last row so it will scroll into view...
-		// messageListView.setSelection(messageListView.getCount() - 1);
-		// }
-		// });
+		if (messageListView != null)
+			messageListView.setSelection(messageListView.getCount() - 1);
 	}
 
 }
