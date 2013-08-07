@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ChatActivity" >
+    tools:context=".ChatMessagesActivity" >
 
        <EditText           
             android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"            
             android:inputType="textAutoComplete"
-            android:hint="message text"
+            android:hint="@string/hint_chat_message_text"
             android:layout_alignParentRight="false"
             android:layout_toLeftOf="@+id/sendButton"
             android:layout_marginRight="10dp"/>
@@ -28,7 +28,7 @@
             android:layout_alignParentBottom="true"/>
 
         <ListView
-            android:id="@+id/chatListView"
+            android:id="@+id/chatMessagesListView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_above="@+id/sendButton"

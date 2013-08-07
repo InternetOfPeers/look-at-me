@@ -53,5 +53,6 @@
     <string name="text_chat_sender">sender</string>
     <string name="text_chat_message">message</string>
     <string name="text_chat_datetime">date</string>
+    <string name="hint_chat_message_text">message text</string>
 
 </resources>

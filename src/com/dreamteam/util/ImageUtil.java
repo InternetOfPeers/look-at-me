@@ -97,12 +97,13 @@ public class ImageUtil {
 
 	public static Bitmap getBitmapProfileImage(Resources resources, BasicProfile profile) {
 		ProfileImage profileImage = profile.getMainProfileImage();
-		byte[] profileImageByteArray = profileImage.getImage();
-		if (profileImage == null || profileImageByteArray == null) {
+		if (profileImage == null)
 			return BitmapFactory.decodeResource(resources, R.drawable.ic_profile_image);
-		} else {
-			return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
+		byte[] profileImageByteArray = profileImage.getImage();
+		if (profileImageByteArray == null) {
+			return BitmapFactory.decodeResource(resources, R.drawable.ic_profile_image);
 		}
+		return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
 	}
 
 }

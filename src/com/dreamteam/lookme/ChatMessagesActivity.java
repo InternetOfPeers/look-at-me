@@ -6,18 +6,18 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.MenuItem;
 
-public class ChatActivity extends CommonActivity {
+public class ChatMessagesActivity extends CommonActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_chat);
+		setContentView(R.layout.activity_chat_messages);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Verifica quale elemento è stato premunto
+		// Verifica quale elemento Ã¨ stato premunto
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			Intent upIntent = NavUtils.getParentActivityIntent(this);

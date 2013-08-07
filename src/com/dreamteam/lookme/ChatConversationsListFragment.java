@@ -11,16 +11,17 @@ import android.widget.ListView;
 
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
-public class ConversationsListFragment extends Fragment implements OnItemClickListener {
+public class ChatConversationsListFragment extends Fragment implements OnItemClickListener {
 
-	private ConversationsListAdapter conversationsListAdapter;
+	private ChatConversationsListAdapter conversationsListAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_message_list, container, false);
-		conversationsListAdapter = new ConversationsListAdapter(this.getActivity());
+		View view = inflater.inflate(R.layout.fragment_chat_conversations_list, container, false);
+		conversationsListAdapter = new ChatConversationsListAdapter(this.getActivity());
 		ListView messageListView = (ListView) view.findViewById(R.id.messageListView);
 		messageListView.setAdapter(conversationsListAdapter);
 		messageListView.setOnItemClickListener(this);
@@ -31,6 +32,11 @@ public class ConversationsListFragment extends Fragment implements OnItemClickLi
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		refreshFragment();
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
+		Nav.startActivityWithString(getActivity(), ChatMessagesActivity.class, conversationsListAdapter.getItem(clickedItemPosition).getId());
 	}
 
 	@Override
@@ -55,20 +61,6 @@ public class ConversationsListFragment extends Fragment implements OnItemClickLi
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
-		// NELLA LISTA DEI MESSAGGI DEVE ESSERCI SEMPRE UN MESSAGGIO CON IL
-		// NODEID DEL NODO CON CUI STO CONVERSANDO
-
-		// ChatMessage message = (ChatMessage)
-		// conversationsListAdapter.getItem((int) clickedItemID);
-		// String profileId =
-		// Services.currentState.getSocialNodeMap().get(message.getFromNodeId()).getProfile().getId();
-		// Nav.startActivityWithString(getActivity(), ChatActivity.class,
-		// CommonUtils.generateChannelName(Services.currentState.getMyBasicProfile().getId(),
-		// profileId));
 	}
 
 	private void refreshFragment() {

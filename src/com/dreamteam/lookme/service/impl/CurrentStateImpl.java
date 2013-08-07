@@ -8,8 +8,8 @@ import java.util.TreeSet;
 
 import android.content.Context;
 
+import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.BasicProfile;
-import com.dreamteam.lookme.bean.ChatConversation;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;

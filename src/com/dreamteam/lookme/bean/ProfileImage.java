@@ -2,6 +2,8 @@ package com.dreamteam.lookme.bean;
 
 import java.io.Serializable;
 
+import android.graphics.Bitmap;
+
 public class ProfileImage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +31,10 @@ public class ProfileImage implements Serializable {
 
 	public byte[] getImage() {
 		return image;
+	}
+
+	public Bitmap getImageBitmap() {
+		return null;
 	}
 
 	public void setImage(byte[] image) {

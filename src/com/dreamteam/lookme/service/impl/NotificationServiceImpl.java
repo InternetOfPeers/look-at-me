@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.SparseIntArray;
 
-import com.dreamteam.lookme.ChatActivity;
+import com.dreamteam.lookme.ChatMessagesActivity;
 import com.dreamteam.lookme.NearbyActivity;
 import com.dreamteam.lookme.R;
 import com.dreamteam.lookme.service.NotificationService;
@@ -21,7 +21,7 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void chatMessage(Context context, String fromName, String message) {
 		String title = "Messagge from " + fromName;
-		notifyMessage(context, ChatActivity.class, CHAT_ID, title, message);
+		notifyMessage(context, ChatMessagesActivity.class, CHAT_ID, title, message);
 	}
 
 	@Override

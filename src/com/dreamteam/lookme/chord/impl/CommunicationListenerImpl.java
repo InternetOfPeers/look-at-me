@@ -2,7 +2,7 @@ package com.dreamteam.lookme.chord.impl;
 
 import java.util.ArrayList;
 
-import com.dreamteam.lookme.bean.ChatConversation;
+import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.chord.CommunicationListener;
 import com.dreamteam.lookme.chord.Node;
@@ -89,13 +89,13 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String nickName = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getNickname();
 		String nodeId = Services.currentState.getSocialNodeMap().get(nodeFrom).getId();
 		String deviceId = Services.currentState.getSocialNodeMap().get(nodeFrom).getProfile().getId();
-		// TODO il channelid è generato in modo diverso rispetto all'on click
+		// TODO il channelid ï¿½ generato in modo diverso rispetto all'on click
 		// del nearby
-		String channelName = CommonUtils.generateChannelId(deviceId, Services.currentState.getMyBasicProfile().getId());
+		String channelName = CommonUtils.generateConversationId(deviceId, Services.currentState.getMyBasicProfile().getId());
 		ChatConversation messagesList = Services.currentState.getConversationsStore().get(channelName);
 		if (messagesList == null || messagesList.isEmpty())
 			messagesList = (ChatConversation) new ArrayList<ChatMessage>();
-		ChatMessage messageItem = new ChatMessage(nodeId, deviceId, message);
+		ChatMessage messageItem = new ChatMessage(nodeId, deviceId, message, false);
 		messagesList.add(messageItem);
 		Services.currentState.getConversationsStore().put(channelName, messagesList);
 		Services.notification.chatMessage(Services.currentState.getContext(), nickName, message);

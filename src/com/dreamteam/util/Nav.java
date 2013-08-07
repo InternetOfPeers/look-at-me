@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.dreamteam.lookme.ConversationsActivity;
+import com.dreamteam.lookme.ChatConversationsActivity;
 import com.dreamteam.lookme.EditProfileActivity;
 import com.dreamteam.lookme.FeelingsActivity;
 import com.dreamteam.lookme.NearbyActivity;
@@ -23,7 +23,7 @@ public class Nav {
 		map = HashBiMap.create();
 		map.put(EditProfileActivity.class, 0);
 		map.put(NearbyActivity.class, 1);
-		map.put(ConversationsActivity.class, 2);
+		map.put(ChatConversationsActivity.class, 2);
 		map.put(FeelingsActivity.class, 3);
 	}
 

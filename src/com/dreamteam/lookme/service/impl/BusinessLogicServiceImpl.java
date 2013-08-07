@@ -91,8 +91,8 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	/**
-	 * Poichè il costruttore viene referenziato da Android (anche se non avviato
-	 * direttamente) non è possibile impostare il costruttore come privato. Ad
+	 * Poichï¿½ il costruttore viene referenziato da Android (anche se non avviato
+	 * direttamente) non ï¿½ possibile impostare il costruttore come privato. Ad
 	 * ogni modo, per accedere correttamente all'istanza dall'applicazione
 	 * bisogna utilizzare la factory apposita.
 	 */
@@ -121,45 +121,37 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public void requestFullProfile(String toNodeId) {
-		Log.d();
 		communicationManager.requestFullProfile(toNodeId);
 	}
 
 	@Override
 	public boolean startChat(String withNodeId) {
-		Log.d();
 		return communicationManager.sendStartChatMessage(withNodeId);
 	}
 
 	@Override
 	public void refreshSocialList() {
-		Log.d();
 		communicationManager.requestAllProfiles();
 	}
 
 	@Override
-	public boolean sendChatMessage(String nodeTo, String message) {
-		Log.d();
-		return communicationManager.sendChatMessage(nodeTo, message);
+	public boolean sendChatMessage(String toNode, String message) {
+		return communicationManager.sendChatMessage(toNode, message);
 	}
 
 	@Override
 	public void notifyMyProfileIsUpdated() {
-		Log.d();
 		communicationManager.notifyMyProfileIsUpdated();
 	}
 
 	@Override
 	public Set<Interest> getFullInterestList() {
-
 		Set<Interest> interestList = new TreeSet<Interest>();
-
 		interestList.add(new Interest(1, "INTEREST 1", false));
 		interestList.add(new Interest(2, "INTEREST 2", false));
 		interestList.add(new Interest(3, "INTEREST 3", false));
 		interestList.add(new Interest(4, "INTEREST 4", false));
 		interestList.add(new Interest(5, "INTEREST 5", false));
-
 		return interestList;
 	}
 

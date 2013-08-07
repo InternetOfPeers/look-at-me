@@ -28,17 +28,16 @@ public class CommonUtils {
 
 		return out.toByteArray();
 	}
-
-	public static String generateChannelId(String myId, String profileId) {
+	
+	public static String generateConversationId(String myId, String profileId) {
 		if (myId.compareTo(profileId) < 0)
 			return myId + "_" + profileId;
 		else
 			return profileId + "_" + myId;
-
 	}
 
-	public static Node getNodeFromChannelId(String channelName) {
-		String[] nodes = channelName.split("_");
+	public static Node getNodeFromConversationId(String conversationId) {
+		String[] nodes = conversationId.split("_");
 		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
 			return getNodeFromProfileId(nodes[0]);
 		else
