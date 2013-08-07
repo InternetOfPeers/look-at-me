@@ -7,6 +7,7 @@ public interface NotificationService {
 
 	final String NOTIFICATION_KEY_ID = "notification_key_id";
 	final String NODE_KEY_ID = "node_key_id";
+	final String CONVERSATION_KEY_ID = "conversation_key_id";
 	final int CHAT_ID = 0;
 	final int PROFILE_ID = 1;
 	final int LIKED_ID = 2;
@@ -14,7 +15,7 @@ public interface NotificationService {
 
 	void clearActivityNotifications(Activity context);
 
-	void chatMessage(Context context, String fromName, String message);
+	void chatMessage(Context context, String fromName, String fromNodeId, String message, String conversationId);
 
 	int getChatMessagePendingNotifications();
 

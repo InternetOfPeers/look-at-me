@@ -19,9 +19,9 @@ public class NotificationServiceImpl implements NotificationService {
 	private SparseIntArray counters = new SparseIntArray();
 
 	@Override
-	public void chatMessage(Context context, String fromName, String message) {
+	public void chatMessage(Context context, String fromName, String fromNodeId, String message, String conversationId) {
 		String title = "Messagge from " + fromName;
-		notifyMessage(context, ChatMessagesActivity.class, CHAT_ID, title, message);
+		notifyMessage(context, ChatMessagesActivity.class, CHAT_ID, title, message, fromNodeId, conversationId);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class NotificationServiceImpl implements NotificationService {
 		String title = fromName + " liked your profile!";
 		String message = fromName + " liked your profile!";
 		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(context, NearbyActivity.class, LIKED_ID, title, message, fromNode);
+		notifyMessage(context, NearbyActivity.class, LIKED_ID, title, message, fromNode, null);
 	}
 
 	@Override
@@ -87,10 +87,11 @@ public class NotificationServiceImpl implements NotificationService {
 	 * @param message
 	 */
 	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message) {
-		notifyMessage(context, destinationActivity, notificationID, title, message, null);
+		notifyMessage(context, destinationActivity, notificationID, title, message, null, null);
 	}
 
-	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message, String fromNode) {
+	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message, String fromNodeId,
+			String conversationId) {
 		// Aumenta il counter per il tipo di notifica selezionato
 		counters.put(notificationID, counters.get(notificationID) + 1);
 		// Crea la notifica da inviare
@@ -99,7 +100,8 @@ public class NotificationServiceImpl implements NotificationService {
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(context, destinationActivity);
 		resultIntent.putExtra(NOTIFICATION_KEY_ID, notificationID);
-		resultIntent.putExtra(NODE_KEY_ID, fromNode);
+		resultIntent.putExtra(NODE_KEY_ID, fromNodeId);
+		resultIntent.putExtra(CONVERSATION_KEY_ID, conversationId);
 		// The stack builder object will contain an artificial back stack for
 		// the started Activity. This ensures that navigating backward from the
 		// Activity leads out of your application to the Home screen.

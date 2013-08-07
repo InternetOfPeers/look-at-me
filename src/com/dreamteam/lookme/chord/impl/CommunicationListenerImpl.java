@@ -45,11 +45,11 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	}
 
 	@Override
-	public void onNodeLeft(String nodeName) {
+	public void onNodeLeft(String nodeId) {
 		Log.d();
-		Services.currentState.removeSocialNodeFromMap(nodeName);
+		Services.currentState.removeSocialNodeFromMap(nodeId);
 		try {
-			Services.event.post(new Event(EventType.NODE_LEFT, nodeName));
+			Services.event.post(new Event(EventType.NODE_LEFT, nodeId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,25 +61,25 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	}
 
 	@Override
-	public void onLikeReceived(String fromNode) {
+	public void onLikeReceived(String fromNodeId) {
 		Log.d();
-		Services.currentState.addLikedToSet(fromNode);
+		Services.currentState.addLikedToSet(fromNodeId);
 		try {
-			Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNode));
-			if (Services.currentState.checkLikeMatch(fromNode)) {
-				Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().get(fromNode).getProfile().getNickname()));
-				Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNode));
+			Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
+			if (Services.currentState.checkLikeMatch(fromNodeId)) {
+				Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().get(fromNodeId).getProfile().getNickname()));
+				Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Services.notification.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNode), fromNode);
+		Services.notification.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId), fromNodeId);
 	}
 
 	@Override
-	public void onChatMessageReceived(String fromNode, String message) {
-		Log.d("node " + fromNode + " says: " + message);
-		Node node = Services.currentState.getSocialNodeMap().get(fromNode);
+	public void onChatMessageReceived(String fromNodeId, String message) {
+		Log.d("node " + fromNodeId + " says: " + message);
+		Node node = Services.currentState.getSocialNodeMap().get(fromNodeId);
 		String nodeId = node.getId();
 		BasicProfile otherProfile = (BasicProfile) node.getProfile();
 		String otherNickName = otherProfile.getNickname();
@@ -93,6 +93,6 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		conversation.addMessage(chatMessage);
 		Services.businessLogic.storeConversation(conversation);
 		Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, otherNickName));
-		Services.notification.chatMessage(Services.currentState.getContext(), otherNickName, message);
+		Services.notification.chatMessage(Services.currentState.getContext(), otherNickName, fromNodeId, message, conversationId);
 	}
 }

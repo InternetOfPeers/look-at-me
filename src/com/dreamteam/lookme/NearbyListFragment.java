@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
+import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.ImageUtil;
@@ -104,7 +104,6 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 		Log.d();
 		final Node node = (Node) socialListAdapter.getItem((int) clickedItemID);
 		final Dialog dialog = new Dialog(this.getActivity());
-		final Activity activity = this.getActivity();
 		arg1.setAlpha(1);
 		// tell the Dialog to use the dialog.xml as it's layout description
 		dialog.setContentView(R.layout.chosed_profile_dialog);
@@ -123,8 +122,10 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 			public void onClick(View v) {
 				dialog.dismiss();
 				Services.businessLogic.startChat(node.getId());
-				Nav.startActivityWithString(activity, ChatMessagesActivity.class,
+				Bundle parameters = new Bundle();
+				parameters.putString(NotificationService.CONVERSATION_KEY_ID,
 						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
+				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 
 		});

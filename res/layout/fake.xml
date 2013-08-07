@@ -41,7 +41,7 @@
                 android:layout_height="90dip"
                 android:background="@layout/footer"
                 android:layout_alignParentBottom="true">
-        </LinearLayout
+        </LinearLayout
             -->
             <!-- Footer Ends -->
 
@@ -58,7 +58,7 @@
          languages and on the right side for right-to-left languages.
          The drawer is given a fixed width in dp and extends the full height of
          the container. A solid background is used for contrast
-         with the content view.
+         with the content view.
     -->
 
     <ListView

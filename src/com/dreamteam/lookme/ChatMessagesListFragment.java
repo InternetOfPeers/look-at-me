@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.service.Event;
+import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
@@ -28,9 +29,11 @@ public class ChatMessagesListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
 		View view = inflater.inflate(R.layout.fragment_chat_messages_list, null);
-		String conversationId = Nav.getStringParameter(ChatMessagesListFragment.this.getActivity());
-		if (conversationId.isEmpty())
+		String conversationId = Nav.getParameters(ChatMessagesListFragment.this.getActivity()).getString(NotificationService.CONVERSATION_KEY_ID);
+		if (conversationId.isEmpty()) {
+			Log.d("Nessun conversationId passato, la vista è vuota");
 			return view;
+		}
 		// Recupero la conversazione passata
 		conversation = Services.currentState.getConversationsStore().get(conversationId);
 		if (conversation == null)

@@ -144,9 +144,9 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		return chord.joinChannel(AppSettings.SOCIAL_CHANNEL_NAME, new IChordChannelListener() {
 
 			@Override
-			public void onNodeLeft(String arg0, String arg1) {
+			public void onNodeLeft(String nodeId, String arg1) {
 				Log.d();
-				communicationListener.onNodeLeft(arg0);
+				communicationListener.onNodeLeft(nodeId);
 			}
 
 			@Override
