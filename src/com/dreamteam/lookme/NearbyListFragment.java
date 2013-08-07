@@ -125,14 +125,6 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 			public void onClick(View v) {
 				dialog.dismiss();
 				Services.businessLogic.startChat(node.getId());
-
-				// TODO: entrare nella chat privata
-				// a scopo di test invio un messaggio dopo 3 secondi
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				Nav.startActivityWithString(activity, ChatMessagesActivity.class,
 						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
 			}

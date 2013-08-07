@@ -12,9 +12,9 @@ public interface CommunicationListener {
 
 	public void onFullProfileNodeReceived(Node node);
 
-	public void onLikeReceived(String nodeFrom);
+	public void onLikeReceived(String fromNode);
 
-	public void onChatMessageReceived(String nodeFrom, String message);
+	public void onChatMessageReceived(String fromNode, String message);
 
 	public void onProfileNodeUpdated(Node node);
 

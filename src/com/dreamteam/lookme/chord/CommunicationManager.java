@@ -19,7 +19,7 @@ public interface CommunicationManager {
 
 	boolean sendChatMessage(String toNodeId, String message);
 
-	boolean sendStartChatMessage(String toNodeId);
+	boolean startChat(String toNodeId);
 
 	boolean sendLike(String toNodeId);
 

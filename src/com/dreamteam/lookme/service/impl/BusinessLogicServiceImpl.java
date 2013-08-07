@@ -127,7 +127,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public boolean startChat(String withNodeId) {
-		return communicationManager.sendStartChatMessage(withNodeId);
+		return communicationManager.startChat(withNodeId);
 	}
 
 	@Override
