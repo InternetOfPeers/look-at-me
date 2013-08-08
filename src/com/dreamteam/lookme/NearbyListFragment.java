@@ -217,7 +217,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 
 	}
 	
-	Map<String, Node> socialNodeMap = fakeInitializeMap();
+		Map<String, Node> socialNodeMap = Services.currentState.getSocialNodeMap();
 
 	@Override
 	public int getCount() {
@@ -236,22 +236,22 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 		return arg0;
 	}
 	
-	public Map<String, Node> fakeInitializeMap()
-	{
-		Map<String, Node> socialNodeMap = Services.currentState.getSocialNodeMap();
-		if(socialNodeMap!=null)
-		{
-			
-			List<Node> nodeList = new ArrayList<Node>(socialNodeMap.values());
-			if(nodeList!=null && !nodeList.isEmpty())
-			{
-				for(int i =0;i<10;i++)
-					socialNodeMap.put(""+i,nodeList.get(0));
-			}
-						
-		}
-		return socialNodeMap;
-	}
+//	public Map<String, Node> fakeInitializeMap()
+//	{
+//		Map<String, Node> socialNodeMap = Services.currentState.getSocialNodeMap();
+//		if(socialNodeMap!=null)
+//		{
+//			
+//			List<Node> nodeList = new ArrayList<Node>(socialNodeMap.values());
+//			if(nodeList!=null && !nodeList.isEmpty())
+//			{
+//				for(int i =0;i<10;i++)
+//					socialNodeMap.put(""+i,nodeList.get(0));
+//			}
+//						
+//		}
+//		return socialNodeMap;
+//	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
