@@ -20,13 +20,13 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
+import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.ImageUtil;
@@ -107,7 +107,6 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 		Log.d();
 		final Node node = (Node) socialListAdapter.getItem((int) clickedItemID);
 		final Dialog dialog = new Dialog(this.getActivity());
-		final Activity activity = this.getActivity();
 		arg1.setAlpha(1);
 		// tell the Dialog to use the dialog.xml as it's layout description
 		dialog.setContentView(R.layout.chosed_profile_dialog);
@@ -126,16 +125,10 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 			public void onClick(View v) {
 				dialog.dismiss();
 				Services.businessLogic.startChat(node.getId());
-
-				// TODO: entrare nella chat privata
-				// a scopo di test invio un messaggio dopo 3 secondi
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Nav.startActivityWithString(activity, ChatMessagesActivity.class,
+				Bundle parameters = new Bundle();
+				parameters.putString(NotificationService.CONVERSATION_KEY_ID,
 						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), node.getProfile().getId()));
+				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 
 		});
@@ -162,113 +155,115 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 
 	public class SocialListAdapter extends BaseAdapter {
 
-        private Activity activity;
-//
-//        public int count = 10;
-//
-//private final String[] URLS = {
-//    "http://lh5.ggpht.com/_mrb7w4gF8Ds/TCpetKSqM1I/AAAAAAAAD2c/Qef6Gsqf12Y/s144-c/_DSC4374%20copy.jpg",
-//    "http://lh5.ggpht.com/_Z6tbBnE-swM/TB0CryLkiLI/AAAAAAAAVSo/n6B78hsDUz4/s144-c/_DSC3454.jpg",
-//    "http://lh3.ggpht.com/_GEnSvSHk4iE/TDSfmyCfn0I/AAAAAAAAF8Y/cqmhEoxbwys/s144-c/_MG_3675.jpg",
-//    "http://lh6.ggpht.com/_Nsxc889y6hY/TBp7jfx-cgI/AAAAAAAAHAg/Rr7jX44r2Gc/s144-c/IMGP9775a.jpg",
-//    "http://lh3.ggpht.com/_lLj6go_T1CQ/TCD8PW09KBI/AAAAAAAAQdc/AqmOJ7eg5ig/s144-c/Juvenile%20Gannet%20despute.jpg",
-//    };
-//
-//
-//		public SocialListAdapter(Activity activity) {
-//			this.activity = activity;
-//		}
-//
-//        public int getCount() {
-//            return count;
-//        }
-//
-//        public String getItem(int position) {
-//            return URLS[position];
-//        }
-//
-//        public long getItemId(int position) {
-//            return URLS[position].hashCode();
-//        }
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//        	  View v;
-//
-//        	  if (convertView == null) {
-//        	    v = LayoutInflater.from(activity).inflate(R.layout.fragment_nearby_list_single_row,null);
-//        	    v.setLayoutParams(new GridView.LayoutParams(200,200));
-//        	  }
-//        	  else {
-//        	    v = convertView;
-//        	  }
-////
-////        	  ImageView imageview = (ImageView)v.findViewById(R.id.image);
-////        	  imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
-////        	  imageview.setPadding(6, 6, 6, 6);
-////        	  imageDownloader.download(URLS[position], imageview);
-//
-//        	  return v;
-//        	}
-//}
-	
-		
+		private Activity activity;
+
+		//
+		// public int count = 10;
+		//
+		// private final String[] URLS = {
+		// "http://lh5.ggpht.com/_mrb7w4gF8Ds/TCpetKSqM1I/AAAAAAAAD2c/Qef6Gsqf12Y/s144-c/_DSC4374%20copy.jpg",
+		// "http://lh5.ggpht.com/_Z6tbBnE-swM/TB0CryLkiLI/AAAAAAAAVSo/n6B78hsDUz4/s144-c/_DSC3454.jpg",
+		// "http://lh3.ggpht.com/_GEnSvSHk4iE/TDSfmyCfn0I/AAAAAAAAF8Y/cqmhEoxbwys/s144-c/_MG_3675.jpg",
+		// "http://lh6.ggpht.com/_Nsxc889y6hY/TBp7jfx-cgI/AAAAAAAAHAg/Rr7jX44r2Gc/s144-c/IMGP9775a.jpg",
+		// "http://lh3.ggpht.com/_lLj6go_T1CQ/TCD8PW09KBI/AAAAAAAAQdc/AqmOJ7eg5ig/s144-c/Juvenile%20Gannet%20despute.jpg",
+		// };
+		//
+		//
+		// public SocialListAdapter(Activity activity) {
+		// this.activity = activity;
+		// }
+		//
+		// public int getCount() {
+		// return count;
+		// }
+		//
+		// public String getItem(int position) {
+		// return URLS[position];
+		// }
+		//
+		// public long getItemId(int position) {
+		// return URLS[position].hashCode();
+		// }
+		// public View getView(int position, View convertView, ViewGroup parent)
+		// {
+		// View v;
+		//
+		// if (convertView == null) {
+		// v =
+		// LayoutInflater.from(activity).inflate(R.layout.fragment_nearby_list_single_row,null);
+		// v.setLayoutParams(new GridView.LayoutParams(200,200));
+		// }
+		// else {
+		// v = convertView;
+		// }
+		// //
+		// // ImageView imageview = (ImageView)v.findViewById(R.id.image);
+		// // imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		// // imageview.setPadding(6, 6, 6, 6);
+		// // imageDownloader.download(URLS[position], imageview);
+		//
+		// return v;
+		// }
+		// }
+
 		public SocialListAdapter(Activity activity) {
-		this.activity = activity;
+			this.activity = activity;
 
+		}
 
-	}
-	
 		Map<String, Node> socialNodeMap = Services.currentState.getSocialNodeMap();
 
-	@Override
-	public int getCount() {
-		return socialNodeMap.size();
-	}
-
-	@Override
-	public Object getItem(int arg0) {
-		List<Node> nodeList = new ArrayList<Node>(socialNodeMap.values());		
-		Node node = (Node) nodeList.get(arg0);
-		return node;
-	}
-
-	@Override
-	public long getItemId(int arg0) {
-		return arg0;
-	}
-	
-//	public Map<String, Node> fakeInitializeMap()
-//	{
-//		Map<String, Node> socialNodeMap = Services.currentState.getSocialNodeMap();
-//		if(socialNodeMap!=null)
-//		{
-//			
-//			List<Node> nodeList = new ArrayList<Node>(socialNodeMap.values());
-//			if(nodeList!=null && !nodeList.isEmpty())
-//			{
-//				for(int i =0;i<10;i++)
-//					socialNodeMap.put(""+i,nodeList.get(0));
-//			}
-//						
-//		}
-//		return socialNodeMap;
-//	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
-			// LayoutInflater class is used to instantiate layout XML file
-			// into its corresponding View objects.
-			LayoutInflater layoutInflater = (LayoutInflater) NearbyListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = layoutInflater.inflate(R.layout.fragment_nearby_list_single_row, null);
+		@Override
+		public int getCount() {
+			return socialNodeMap.size();
 		}
-		Node node = (Node) this.getItem(position);
-		TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
-		nickNameText.setText(node.getProfile().getNickname());
-		// Imposto l'immagine del profilo
-		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
-		BasicProfile profile = (BasicProfile) node.getProfile();
-		photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(getResources(), profile));
-		return convertView;
+
+		@Override
+		public Object getItem(int arg0) {
+			List<Node> nodeList = new ArrayList<Node>(socialNodeMap.values());
+			Node node = (Node) nodeList.get(arg0);
+			return node;
+		}
+
+		@Override
+		public long getItemId(int arg0) {
+			return arg0;
+		}
+
+		// public Map<String, Node> fakeInitializeMap()
+		// {
+		// Map<String, Node> socialNodeMap =
+		// Services.currentState.getSocialNodeMap();
+		// if(socialNodeMap!=null)
+		// {
+		//
+		// List<Node> nodeList = new ArrayList<Node>(socialNodeMap.values());
+		// if(nodeList!=null && !nodeList.isEmpty())
+		// {
+		// for(int i =0;i<10;i++)
+		// socialNodeMap.put(""+i,nodeList.get(0));
+		// }
+		//
+		// }
+		// return socialNodeMap;
+		// }
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			if (convertView == null) {
+				// LayoutInflater class is used to instantiate layout XML file
+				// into its corresponding View objects.
+				LayoutInflater layoutInflater = (LayoutInflater) NearbyListFragment.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(R.layout.fragment_nearby_list_single_row, null);
+			}
+			Node node = (Node) this.getItem(position);
+			TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
+			nickNameText.setText(node.getProfile().getNickname());
+			// Imposto l'immagine del profilo
+			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
+			BasicProfile profile = (BasicProfile) node.getProfile();
+			photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(getResources(), profile));
+			return convertView;
+		}
 	}
-}
 }
