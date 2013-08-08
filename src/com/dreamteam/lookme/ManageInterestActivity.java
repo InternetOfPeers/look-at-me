@@ -63,11 +63,11 @@ public class ManageInterestActivity extends CommonActivity {
 
 	}
 
-	@Override
-	public void onBackPressed() {
-		Log.d();
-		Nav.startActivity(this, EditProfileActivity.class);
-	}
+//	@Override
+//	public void onBackPressed() {
+//		Log.d();
+//		Nav.startActivity(this, EditProfileActivity.class);
+//	}
 
 	public void onAddInterest(View view) {
 		Nav.startActivity(this, AddInterestActivity.class);

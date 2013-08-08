@@ -29,7 +29,7 @@
         <item>Profile</item>
         <item>Nearby</item>
         <item>Conversations</item>
-        <item>Feelings</item>
+        <item>Settings</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>

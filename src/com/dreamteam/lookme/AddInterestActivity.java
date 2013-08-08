@@ -58,12 +58,6 @@ public class AddInterestActivity extends CommonActivity {
 
 	}
 
-	@Override
-	public void onBackPressed() {
-		Log.d();
-		Nav.startActivity(this, ManageInterestActivity.class);
-	}
-
 	// LIST ADAPTER
 	private class InterestAdapter extends ArrayAdapter<Interest> {
 

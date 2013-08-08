@@ -14,7 +14,7 @@
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 
-	application is running, the node’s status should be set to LCD-on.
+	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -53,11 +53,19 @@
         </activity>
         <activity
             android:name=".EditProfileActivity"
-            android:label="@string/title_profile_activity" >
+            android:label="@string/title_profile_activity"
+            android:parentActivityName=".NearbyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NearbyActivity" />
         </activity>
         <activity
             android:name=".ManageInterestActivity"
-            android:label="@string/title_manage_interest_activity" >
+            android:label="@string/title_manage_interest_activity"
+            android:parentActivityName=".EditProfileActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".EditProfileActivity" />
         </activity>
         <activity
             android:name=".AddInterestActivity"
@@ -69,7 +77,11 @@
         </activity>
         <activity
             android:name=".ChatConversationsActivity"
-            android:label="@string/title_messages_activity" >
+            android:label="@string/title_messages_activity"
+            android:parentActivityName=".NearbyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NearbyActivity" />
         </activity>
         <activity
             android:name=".ChatMessagesActivity"
@@ -80,12 +92,12 @@
                 android:value=".MessagesActivity" />
         </activity>
         <activity
-            android:name=".FeelingsActivity"
-            android:label="@string/title_feelings_activity" >
-        </activity>
-        <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_settings_activity" >
+            android:label="@string/title_settings_activity"
+            android:parentActivityName=".NearbyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NearbyActivity" />
         </activity>
 
         <service

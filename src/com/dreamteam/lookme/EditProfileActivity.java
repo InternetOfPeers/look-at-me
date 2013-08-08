@@ -41,7 +41,6 @@ public class EditProfileActivity extends CommonActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try {
-
 			setContentView(R.layout.activity_edit_profile);
 			FullProfile oldProfile = Services.currentState.getMyFullProfile();
 			if (oldProfile != null) {
@@ -223,6 +222,6 @@ public class EditProfileActivity extends CommonActivity {
 				Nav.startActivity(activity, ManageInterestActivity.class);
 			}
 		}
-
 	}
+
 }

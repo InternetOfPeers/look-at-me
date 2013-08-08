@@ -12,7 +12,7 @@ public class ChatMessagesActivity extends CommonActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat_messages);
-		initDrawerMenu(savedInstanceState, this.getClass(), true);
+		initDrawerMenu(savedInstanceState, this.getClass());
 	}
 
 	@Override

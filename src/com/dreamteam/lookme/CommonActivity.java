@@ -2,9 +2,12 @@ package com.dreamteam.lookme;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -44,15 +47,9 @@ public abstract class CommonActivity extends Activity {
 		// Cancella le notifiche appese se l'utente proviene da fuori l'app ed a
 		// premuto su un banner di notifica
 		Services.notification.clearActivityNotifications(this);
-		// Imposto l'activity di base come senza parent
-		getActionBar().setHomeButtonEnabled(false);
 	}
 
 	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass) {
-		initDrawerMenu(savedInstanceState, activityClass, false);
-	}
-
-	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass, boolean hasParent) {
 		menuEnabled = true;
 		mTitle = mDrawerTitle = getTitle();
 		mPlanetTitles = getResources().getStringArray(R.array.menu_items);
@@ -67,7 +64,7 @@ public abstract class CommonActivity extends Activity {
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
-		getActionBar().setDisplayHomeAsUpEnabled(hasParent);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
 		// ActionBarDrawerToggle ties together the the proper interactions
@@ -114,13 +111,12 @@ public abstract class CommonActivity extends Activity {
 	/* Called whenever we call invalidateOptionsMenu() */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// If the nav drawer is open, hide action items related to the content
-		// view
-
-		// TODO è andato in nullpointer exception qui
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		if (mDrawerLayout != null) {
+			// If the nav drawer is open, hide action items related to the
+			// content view
+			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+			menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -175,22 +171,39 @@ public abstract class CommonActivity extends Activity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
+		if (mDrawerToggle != null)
+			mDrawerToggle.syncState();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggle
-		mDrawerToggle.onConfigurationChanged(newConfig);
+		if (mDrawerToggle != null)
+			mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public void onBackPressed() {
-		Log.d();
-		// Come comportamento di default faccio l'override della gestione
-		// automatica dei back e lascio alle singole activity decidere se sono
-		// figlie o madri
+		// Verifico se presente un parent
+		Intent upIntent = NavUtils.getParentActivityIntent(this);
+		if (upIntent != null) {
+			// Verifico se viene da fuori dall'app (esempio da una notifica di
+			// sistema) oppure dall'interno
+			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+				// This activity is NOT part of this app's task, so create a new
+				// task when navigating up, with a synthesized back stack.
+				TaskStackBuilder.create(this)
+				// Add all of this activity's parents to the back stack
+						.addNextIntentWithParentStack(upIntent)
+						// Navigate up to the closest parent
+						.startActivities();
+			} else {
+				// This activity is part of this app's task, so simply
+				// navigate up to the logical parent activity.
+				NavUtils.navigateUpTo(this, upIntent);
+			}
+		}
 	};
 
 	protected void showErrorDialog(String message) {
@@ -203,13 +216,11 @@ public abstract class CommonActivity extends Activity {
 		errorMsg.setText(message);
 		// if button is clicked, close the custom dialog
 		dialogButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
 			}
 		});
-
 		dialog.show();
 	}
 }
