@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
-import com.dreamteam.util.Nav;
 
 public class AddInterestActivity extends CommonActivity {
 
@@ -31,7 +30,7 @@ public class AddInterestActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_add_interest);
-		initDrawerMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass(), false);
 
 		// create an ArrayAdaptar from the String Array
 		interestAdapter = new InterestAdapter(this, R.layout.interest_info, R.id.interestId, Services.currentState.getInterestList());

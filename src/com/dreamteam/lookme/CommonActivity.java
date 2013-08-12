@@ -37,6 +37,8 @@ public abstract class CommonActivity extends Activity {
 	protected String[] mPlanetTitles;
 	protected boolean menuEnabled;
 	protected Bundle extras;
+	
+	protected boolean isRootLevel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,9 @@ public abstract class CommonActivity extends Activity {
 		Services.notification.clearActivityNotifications(this);
 	}
 
-	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass) {
+	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass, boolean isRootLevel) {
+		Log.d();
+		this.isRootLevel = isRootLevel;
 		menuEnabled = true;
 		mTitle = mDrawerTitle = getTitle();
 		mPlanetTitles = getResources().getStringArray(R.array.menu_items);
@@ -67,11 +71,14 @@ public abstract class CommonActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
+		// Recupero l'immagine corretta in base al comportamento del menu
+		int drawerImageRes = (isRootLevel) ? R.drawable.ic_drawer : R.drawable.ic_navigation_previous_item;
+
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+		drawerImageRes, /* nav drawer image to replace 'Up' caret */
 		R.string.drawer_open, /* "open drawer" description for accessibility */
 		R.string.drawer_close /* "close drawer" description for accessibility */
 		) {
@@ -101,20 +108,36 @@ public abstract class CommonActivity extends Activity {
 		setTitle(mPlanetTitles[position]);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Log.d();
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.common, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	/* Called whenever we call invalidateOptionsMenu() */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		Log.d();
 		if (mDrawerLayout != null && mDrawerList != null) {
 			// If the nav drawer is open, hide action items related to the
 			// content view
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+			MenuItem actionSettingsButton = menu.findItem(R.id.action_settings);
+			if (actionSettingsButton != null)
+				actionSettingsButton.setVisible(!drawerOpen);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d();
+		if(isRootLevel){
+			mDrawerToggle.onOptionsItemSelected(item);
+			return true;
+		}
 		// Verifica se è stata premuta l'icona del drawer o il drawer in
 		// generale, e gestisce l'azione di conseguenza
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -129,16 +152,18 @@ public abstract class CommonActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
+	
 	/* The click listner for ListView in the navigation drawer */
 	protected class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Log.d();
 			selectItem(position);
 		}
 	}
 
 	protected void selectItem(int position) {
+		Log.d();
 		if (menuEnabled) {
 			// update selected item and title, then close the drawer
 			// mDrawerList.setItemChecked(position, true);
@@ -178,6 +203,7 @@ public abstract class CommonActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
+		Log.d();
 		// Verifico se presente un parent
 		Intent upIntent = NavUtils.getParentActivityIntent(this);
 		if (upIntent != null) {

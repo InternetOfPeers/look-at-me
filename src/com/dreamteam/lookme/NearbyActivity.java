@@ -3,6 +3,7 @@ package com.dreamteam.lookme;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -55,7 +56,7 @@ public class NearbyActivity extends CommonActivity {
 			setFragment(currentFragment);
 		}
 		// Inizializzazione del menu
-		initDrawerMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass(), true);
 		// Controllo che l'utente abbia compilato almeno i campi obbilgatori
 		// del profilo
 		if (Services.currentState.getMyBasicProfile() == null) {

@@ -32,7 +32,7 @@ public class ManageInterestActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		final Activity activity = this;
 		setContentView(R.layout.activity_manage_interest);
-		initDrawerMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass(), false);
 
 		// create an ArrayAdaptar from the String Array
 		interestAdapter = new InterestAdapter(this, R.layout.interest_info, R.id.interestId, Services.currentState.getMyFullProfile().getInterestList());
@@ -63,11 +63,11 @@ public class ManageInterestActivity extends CommonActivity {
 
 	}
 
-//	@Override
-//	public void onBackPressed() {
-//		Log.d();
-//		Nav.startActivity(this, EditProfileActivity.class);
-//	}
+	// @Override
+	// public void onBackPressed() {
+	// Log.d();
+	// Nav.startActivity(this, EditProfileActivity.class);
+	// }
 
 	public void onAddInterest(View view) {
 		Nav.startActivity(this, AddInterestActivity.class);

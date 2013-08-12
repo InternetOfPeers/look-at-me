@@ -372,7 +372,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	@Override
 	public boolean notifyMyProfileIsUpdated() {
 		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.PROFILE_UPDATE, null);
-		if (message != null) {
+		if (message != null && socialChannel != null) {
 			return socialChannel.sendDataToAll(MessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
 		} else {
 			return false;

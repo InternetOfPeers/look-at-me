@@ -14,7 +14,7 @@ public class ChatMessagesActivity extends CommonActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat_messages);
-		initDrawerMenu(savedInstanceState, this.getClass());
+		initDrawerMenu(savedInstanceState, this.getClass(), false);
 	}
 
 	@Override
@@ -23,29 +23,16 @@ public class ChatMessagesActivity extends CommonActivity {
 		inflater.inflate(R.menu.chat_conversations, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Verifica quale elemento è stato premunto
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			Intent upIntent = NavUtils.getParentActivityIntent(this);
-			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-				// This activity is NOT part of this app's task, so create a new
-				// task when navigating up, with a synthesized back stack.
-				TaskStackBuilder.create(this)
-				// Add all of this activity's parents to the back stack
-						.addNextIntentWithParentStack(upIntent)
-						// Navigate up to the closest parent
-						.startActivities();
-			} else {
-				// This activity is part of this app's task, so simply
-				// navigate up to the logical parent activity.
-				NavUtils.navigateUpTo(this, upIntent);
-			}
+			onBackPressed();
 			return true;
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
 }

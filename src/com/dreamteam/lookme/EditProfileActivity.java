@@ -13,6 +13,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
@@ -46,7 +47,7 @@ public class EditProfileActivity extends CommonActivity {
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
 			}
-			initDrawerMenu(savedInstanceState, this.getClass());
+			initDrawerMenu(savedInstanceState, this.getClass(), true);
 		} catch (Exception e) {
 			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
