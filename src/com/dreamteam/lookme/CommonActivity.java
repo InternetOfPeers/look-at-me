@@ -101,17 +101,10 @@ public abstract class CommonActivity extends Activity {
 		setTitle(mPlanetTitles[position]);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.common, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
 	/* Called whenever we call invalidateOptionsMenu() */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (mDrawerLayout != null) {
+		if (mDrawerLayout != null && mDrawerList != null) {
 			// If the nav drawer is open, hide action items related to the
 			// content view
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
