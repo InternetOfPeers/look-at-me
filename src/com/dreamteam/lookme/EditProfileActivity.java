@@ -50,6 +50,7 @@ public class EditProfileActivity extends CommonActivity {
 	}
 
 	public void onRegister(View view) {
+		Log.d();
 		try {
 
 			TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
@@ -59,20 +60,15 @@ public class EditProfileActivity extends CommonActivity {
 			TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 
-			if (imageView.getDrawable() == null) {
-				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
-			}
-
-			if (usernameScreen.getText() == null || usernameScreen.getText().equals(""))
-			// ||imageView.getDrawable()==null)
-			{
-				Toast.makeText(this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+			Log.d(imageView.getDrawable().getConstantState().toString());
+			Log.d(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState().toString());
+			if (usernameScreen.getText() == null || usernameScreen.getText().toString().equals("")
+					|| imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
+				Toast.makeText(this, "To create a new profile you need to insert at least an image and a nickname.", Toast.LENGTH_SHORT).show();
 				return;
 			}
 
-			FullProfile profile = null;
-
-			profile = Services.currentState.getMyFullProfile();
+			FullProfile profile = Services.currentState.getMyFullProfile();
 
 			if (profile == null)
 				profile = new FullProfile();
