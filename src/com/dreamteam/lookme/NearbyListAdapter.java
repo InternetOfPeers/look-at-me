@@ -54,6 +54,12 @@ public class NearbyListAdapter extends BaseAdapter {
 		BasicProfile profile = (BasicProfile) getItem(position).getProfile();
 		photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(activity.getResources(), profile));
 		
+		// Imposto i liked
+		if (Services.currentState.getLikedSet().contains(getItem(position).getId())) {
+			ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);
+			likedImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.love_icon));
+		}
+		
 		return convertView;
 	}
 
