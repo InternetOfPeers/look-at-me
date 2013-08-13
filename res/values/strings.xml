@@ -29,6 +29,7 @@
         <item>Nearby</item>
         <item>Conversations</item>
         <item>Settings</item>
+        <item>Help</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>
@@ -51,8 +52,12 @@
     <string name="text_chat_message">message</string>
     <string name="text_chat_datetime">date</string>
     <string name="hint_chat_message_text">message text</string>
-    
+
     <!-- VIEW PROFILE -->
     <string name="text_profile_photo_image">profile image</string>
+
+    <!-- HELP -->
+    <string name="title_help_activity">Help</string>
+    <string name="help_text_info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra, libero lobortis porta feugiat, elit libero pharetra sem, at accumsan lectus turpis sit amet dolor. Nunc tempus erat orci, in gravida urna cursus vitae. Duis aliquam ante justo, nec convallis sapien egestas ut. Phasellus dui ipsum, dapibus vel adipiscing sollicitudin, pellentesque ut est. Aenean vel purus tristique, tincidunt ipsum in, sagittis velit. Maecenas cursus ornare mauris, nec aliquet lectus eleifend a. Sed placerat sit amet ipsum a imperdiet. Pellentesque porta, mauris at pretium posuere, ligula augue accumsan mauris, vitae feugiat est nulla in est. Curabitur dapibus orci eu ipsum venenatis rutrum. Sed malesuada, tellus non vehicula egestas, augue purus tempor mauris, ac fringilla quam nibh at dolor. Ut sed risus gravida, porttitor nisl vel, iaculis ligula. Integer tempus vestibulum facilisis. Nunc dapibus vitae tellus placerat adipiscing. Integer cursus faucibus lacus, nec ultricies tortor. Etiam sagittis nibh lacus, dignissim sagittis sem molestie id. Aliquam cursus ante at metus porta, eu ornare lorem sagittis. Quisque fermentum nisi ornare, varius nibh in, rhoncus dui. Vestibulum gravida arcu libero, sit amet consequat diam mollis at. Cras posuere sapien metus, in malesuada velit mollis non. Phasellus in sollicitudin velit, vitae rhoncus dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas ultricies aliquet suscipit. Praesent pharetra sapien dolor, accumsan imperdiet nisi tincidunt a. Aenean commodo id tortor eu tincidunt. Vestibulum sit amet magna sed massa scelerisque scelerisque posuere a elit. Nunc a fringilla erat. Aenean nec porta diam. Vivamus sem magna, vestibulum quis lorem ac, congue eleifend ipsum. Mauris id molestie odio, ut tempus lacus. Vivamus nunc orci, tincidunt et erat vitae, dignissim iaculis quam. Donec mi ante, imperdiet vel nunc vel, sollicitudin tempor lorem. Donec pharetra convallis vestibulum. Maecenas nec volutpat urna, eu egestas velit. Maecenas fringilla consequat lectus, at rutrum nibh ornare in. Vivamus vitae viverra diam. Sed quis nulla urna. Nulla molestie non tortor non pretium. Nullam et bibendum ligula, at aliquet quam. Sed adipiscing ante ultrices arcu viverra faucibus fermentum et turpis. Suspendisse nec tincidunt leo, nec vestibulum dui.</string>
 
 </resources>

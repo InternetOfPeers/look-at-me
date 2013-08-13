@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.dreamteam.lookme.ChatConversationsActivity;
 import com.dreamteam.lookme.EditProfileActivity;
+import com.dreamteam.lookme.HelpActivity;
 import com.dreamteam.lookme.NearbyActivity;
 import com.dreamteam.lookme.SettingsActivity;
 import com.google.common.collect.HashBiMap;
@@ -15,7 +16,7 @@ import com.google.common.collect.HashBiMap;
  * dell'applicazione
  */
 public class Nav {
-	
+
 	// costanti per il passaggio di parametri tra le activity
 	public static final String PROFILE_ID_KEY = "profile_id_key";
 
@@ -28,6 +29,7 @@ public class Nav {
 		map.put(NearbyActivity.class, 1);
 		map.put(ChatConversationsActivity.class, 2);
 		map.put(SettingsActivity.class, 3);
+		map.put(HelpActivity.class, 4);
 	}
 
 	/**
