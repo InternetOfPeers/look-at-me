@@ -149,15 +149,7 @@ public class EditProfileActivity extends CommonActivity {
 				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
 				ProfileImage profileImage = null;
-//				if (profile.getProfileImages() != null & !profile.getProfileImages().isEmpty()) {
-//
-//					profileImage = profile.getProfileImages().get(0);
-//					profile.getProfileImages().clear();
-//				} else
-//					profileImage = new ProfileImage();
-//				profileImage.setProfileId(profile.getId());
-//				profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
-//				profileImage.setMainImage(true);
+
 				if(scrollGalleryAdapter!=null)					
 					profile.getProfileImages().addAll(scrollGalleryAdapter.imageList);
 				else{
@@ -279,7 +271,7 @@ public class EditProfileActivity extends CommonActivity {
 		
 		if(profile.getGender()!=null&&!profile.getGender().isEmpty())
 		{			
-			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_language), (profile.getGender()));
+			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_gender), (profile.getGender()));
 		}		
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);

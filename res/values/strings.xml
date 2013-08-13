@@ -18,9 +18,9 @@
     <string name="text_nickname">nickname</string>
     <string name="text_age">age</string>
     <string name="text_gender">gender</string>
-    <string name="gender_male">male</string>
-    <string name="gender_female">female</string>
-    <string name="gender_transgender">transgender</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_transgender">Transgender</string>
     <string name="text_interest">interest</string>
     <string name="title_splashscreen">splash</string>
     <string name="unable_to_send_chat_message">unable to comunicate to chosed user</string>
