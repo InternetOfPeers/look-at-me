@@ -96,10 +96,10 @@ public class EditProfileActivity extends CommonActivity {
 				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
 			}
 
-			if (usernameScreen.getText() == null || usernameScreen.getText().equals(""))
+			if (usernameScreen.getText() == null || usernameScreen.getText().toString().trim().equals(""))
 			// ||imageView.getDrawable()==null)
 			{
-				Toast.makeText(this, "All Fields Required.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "nickname Required.", Toast.LENGTH_SHORT).show();
 				return;
 			}
 
