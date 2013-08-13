@@ -9,9 +9,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
+import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
+import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
 public class NearbyListFragment extends Fragment implements OnItemClickListener {
@@ -38,12 +40,12 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
 		Log.d();
+		
+		final Node node = (Node) nearbyListAdapter.getItem((int) clickedItemID);
 
-		// Bundle parameters = new Bundle();
-		// parameters.putString(NotificationService.CONVERSATION_KEY_ID,
-		// conversationsListAdapter.getItem(clickedItemPosition).getId());
-		// Nav.startActivityWithParameters(getActivity(),
-		// ChatMessagesActivity.class, parameters);
+		Bundle parameters = new Bundle();
+		parameters.putString(Nav.PROFILE_ID_KEY, node.getId());
+		Nav.startActivityWithParameters(getActivity(), ProfileActivity.class, parameters);
 
 		// final Node node = (Node) nearbyListAdapter.getItem((int)
 		// clickedItemID);

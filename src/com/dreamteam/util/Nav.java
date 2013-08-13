@@ -15,6 +15,9 @@ import com.google.common.collect.HashBiMap;
  * dell'applicazione
  */
 public class Nav {
+	
+	// costanti per il passaggio di parametri tra le activity
+	public static final String PROFILE_ID_KEY = "profile_id_key";
 
 	private static final String STRING_VOID = "";
 	private static final String STRING_KEY = "string_key";
