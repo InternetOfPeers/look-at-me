@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dreamteam.lookme"
     android:versionCode="1"
-    android:versionName="0.6" >
+    android:versionName="1.0" >
 
     <!-- Necessary to chord framework -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +14,7 @@
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 
-	application is running, the node’s status should be set to LCD-on.
+	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
