@@ -13,6 +13,7 @@
         android:layout_height="60dp"
         android:layout_gravity="left|top"
         android:contentDescription="@string/text_profile_photo_image"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
 
 </RelativeLayout>
