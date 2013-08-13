@@ -136,7 +136,21 @@ public class EditProfileActivity extends CommonActivity {
 			Intent intent = new Intent();
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
+			// code for crop image
+			intent.putExtra("crop", "true");
+			// proporzione quadrata
+			intent.putExtra("aspectX", 3);
+			intent.putExtra("aspectY", 4);
+			// dimensione di salvataggio 
+			// per ora messa la larghezza del galaxy S4 e proporzione 4:3
+			intent.putExtra("outputX", 1080);
+			intent.putExtra("outputY", 1440);
+			intent.putExtra("return-data", true);
+			// end code for crop image
+			
 			startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
+			
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
@@ -148,26 +162,33 @@ public class EditProfileActivity extends CommonActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Context context = getApplicationContext();
 		CharSequence text = "";
-		byte[] image = null;
+//		byte[] image = null;
 		try {
 			super.onActivityResult(requestCode, resultCode, data);
 
 			if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-				Uri selectedImage = data.getData();
-
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-				Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-				cursor.moveToFirst();
-
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String picturePath = cursor.getString(columnIndex);
-
-				image = ImageUtil.getImageFromPicturePath(picturePath);
+				
+				// recupera l'immagine cropped
+				Bundle extras = data.getExtras();
+				Bitmap photo = extras.getParcelable("data");
 				ImageView imageView = (ImageView) findViewById(R.id.imgView);
-				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+				imageView.setImageBitmap(photo);
 
-				cursor.close();
+//				Uri selectedImage = data.getData();
+//
+//				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//
+//				Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+//				cursor.moveToFirst();
+//
+//				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//				String picturePath = cursor.getString(columnIndex);
+//
+//				image = ImageUtil.getImageFromPicturePath(picturePath);
+//				ImageView imageView = (ImageView) findViewById(R.id.imgView);
+//				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+//
+//				cursor.close();
 				text = "COOL PICTURE!";
 			}
 
