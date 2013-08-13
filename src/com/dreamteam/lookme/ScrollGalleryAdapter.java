@@ -64,13 +64,12 @@ public class ScrollGalleryAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retval = LayoutInflater.from(parent.getContext()).inflate(R.layout.scroll_gallery_item, null);
-		TextView title = (TextView) retval.findViewById(R.id.title);
 		ImageView image = (ImageView) retval.findViewById(R.id.image);	
 		image.setImageBitmap(BitmapFactory.decodeByteArray(imageList.get(position % imageList.size()).getImage(), 0, imageList.get(position % imageList.size()).getImage().length));
 //		imageWidth=image.getWidth();
 //		imageHeight=image.getHeight();
 		image.setOnClickListener(new ImageClickListener(getItemId(position), position));
-		title.setText(String.valueOf(getItemId(position)));
+
 		
 		return retval;
 	}
@@ -97,7 +96,7 @@ public class ScrollGalleryAdapter extends BaseAdapter{
 			dialog.setTitle("What do u wanna do?");
 			ImageView image = (ImageView) dialog.findViewById(R.id.image);	
 			image.setImageBitmap(BitmapFactory.decodeByteArray(imageList.get(position % imageList.size()).getImage(), 0, imageList.get(position % imageList.size()).getImage().length));
-			Button deleteButton = null;//(Button) dialog.findViewById(R.id.setAsMainImage);			
+			Button deleteButton = (Button) dialog.findViewById(R.id.setAsMainImage);			
 			deleteButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
