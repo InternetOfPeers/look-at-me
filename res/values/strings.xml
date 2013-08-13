@@ -18,10 +18,38 @@
     <string name="text_nickname">nickname</string>
     <string name="text_age">age</string>
     <string name="text_gender">gender</string>
+    <string name="gender_male">male</string>
+    <string name="gender_female">female</string>
+    <string name="gender_transgender">transgender</string>
     <string name="text_interest">interest</string>
     <string name="title_splashscreen">splash</string>
     <string name="unable_to_send_chat_message">unable to comunicate to chosed user</string>
     <string name="send_btn">Send</string>
+    <string name="delete">delete</string>
+    <string name="setAsMainImage">set as main image</string>
+    <string name="text_hint_txt">message text</string>
+            
+    <string name="country_CA">CANADA</string>
+    <string name="country_CN">CHINA</string>
+    <string name="country_FR">FRANCE</string>
+    <string name="country_DE">GERMANY</string>
+    <string name="country_IT">ITALY</string>
+    <string name="country_JA">JAPAN</string>
+    <string name="country_KR">KOREA</string>    
+    <string name="country_TW">TAIWAN</string>
+    <string name="country_UK">UK</string>
+    <string name="country_US">US</string>
+    
+    <string name="language_fr_CA">CANADA_FRENCH</string>
+    <string name="language_zh">CHINESE</string>
+    <string name="language_en">ENGLISH</string>
+    <string name="language_fr">FRENCH</string>
+    <string name="language_de">GERMAN</string>
+    <string name="language_it">ITALIAN</string>
+    <string name="language_ja">JAPANESE</string>    
+    <string name="language_ko">KOREAN</string>
+    <string name="language_zh_CN">SIMPLIFIED_CHINESE</string>
+    <string name="language_zh_TW">TRADITIONAL_CHINESE</string>    
 
     <!-- MENU A CASSETTO -->
     <string-array name="menu_items">
@@ -52,6 +80,41 @@
     <string name="text_chat_message">message</string>
     <string name="text_chat_datetime">date</string>
     <string name="hint_chat_message_text">message text</string>
+        
+    
+    
+    <string-array name="gender_array">
+        <item>@string/text_gender</item>    
+        <item>@string/gender_male</item>  
+        <item>@string/gender_female</item>
+        <item>@string/gender_transgender</item>      
+    </string-array> 
+    
+    <string-array name="country_array">
+        <item>@string/country_CA</item>
+        <item>@string/country_CN</item>
+        <item>@string/country_DE</item>
+        <item>@string/country_FR</item>
+        <item>@string/country_IT</item>
+        <item>@string/country_JA</item>
+        <item>@string/country_KR</item>
+        <item>@string/country_TW</item>
+        <item>@string/country_UK</item>
+        <item>@string/country_US</item>
+    </string-array>
+    
+    <string-array name="language_array">
+        <item>@string/language_fr_CA</item>
+        <item>@string/language_zh</item>
+        <item>@string/language_en</item>
+        <item>@string/language_fr</item>
+        <item>@string/language_de</item>
+        <item>@string/language_it</item>
+        <item>@string/language_ja</item>
+        <item>@string/language_ko</item>
+        <item>@string/language_zh_CN</item>
+        <item>@string/language_zh_TW</item>
+    </string-array>
 
     <!-- VIEW PROFILE -->
     <string name="text_profile_photo_image">profile image</string>
