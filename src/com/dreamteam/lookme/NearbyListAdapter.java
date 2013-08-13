@@ -54,10 +54,6 @@ public class NearbyListAdapter extends BaseAdapter {
 		BasicProfile profile = (BasicProfile) getItem(position).getProfile();
 		photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(activity.getResources(), profile));
 		
-		// Imposto il nickname
-		TextView textNick = (TextView)convertView.findViewById(R.id.textNick);
-		textNick.setText(profile.getNickname());
-		
 		return convertView;
 	}
 

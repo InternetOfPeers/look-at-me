@@ -17,16 +17,11 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
 
-    <TextView
-        android:id="@+id/textNick"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/profilePhotoImage"
-        android:layout_alignLeft="@+id/profilePhotoImage"
-        android:maxWidth="60dp"
-        android:text="nick"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#ffffff" 
-        android:background="@drawable/bottom_profile_gradient"/>
+    <ImageView
+        android:id="@+id/imageLiked"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignRight="@+id/profilePhotoImage"
+        android:layout_alignTop="@+id/profilePhotoImage" />
 
 </RelativeLayout>
