@@ -1,197 +1,115 @@
 package com.dreamteam.lookme;
 
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
+import uk.co.senab.photoview.PhotoView;
+import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.telephony.TelephonyManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
-import com.dreamteam.lookme.db.DBOpenHelper;
-import com.dreamteam.lookme.db.DBOpenHelperImpl;
+import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Services;
-import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
-import com.dreamteam.util.Nav;
 
-public class ProfileActivity extends CommonActivity {
-	private static int RESULT_LOAD_IMAGE = 1;
+public class ProfileActivity extends Fragment implements OnClickListener {
 
-	private static final int PICK_IMAGE = 1;
-
-	String imageFilePath = null;
+	private ViewPager profilePhoto;
+	private TextView textNickname;
+	private TextView textName;
+	private TextView textSurname;
+	private Button buttonLike;
+	private Bitmap[] gallery_images;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		Log.d();
 		super.onCreate(savedInstanceState);
-		try {
-
-			setContentView(R.layout.activity_profile);
-			FullProfile oldProfile = Services.currentState.getMyFullProfile();
-			if (oldProfile != null) {
-				switchToUpdateAccount(oldProfile);
-			}
-			initDrawerMenu(savedInstanceState, this.getClass(), false);
-		} catch (Exception e) {
-			Log.e("errore during create of registration activity! error: " + e.getMessage());
-		}
-	}
-
-	public void onRegister(View view) {
-		try {
-
-			TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-
-			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
-			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
-			TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
-			ImageView imageView = (ImageView) findViewById(R.id.imgView);
-
-			if (imageView.getDrawable() == null) {
-				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
-			}
-
-			if (usernameScreen.getText() == null || usernameScreen.getText().equals(""))
-			// ||imageView.getDrawable()==null)
-			{
-				Toast.makeText(this, "All Fields Required.", Toast.LENGTH_SHORT).show();
-				return;
-			}
-
-			FullProfile profile = null;
-
-			profile = Services.currentState.getMyFullProfile();
-
-			if (profile == null)
-				profile = new FullProfile();
-			profile.setName(nameScreen.getText().toString());
-
-			profile.setSurname(surnameScreen.getText().toString());
-
-			WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-			WifiInfo info = manager.getConnectionInfo();
-			String deviceId = info.getMacAddress();
-
-			if (deviceId == null)
-				deviceId = tm.getDeviceId();
-
-			profile.setNickname(usernameScreen.getText().toString());
-
-			profile.setId(deviceId);
-
-			if (imageView.getDrawable() != null) {
-				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-
-				ProfileImage profileImage = null;
-				if (profile.getProfileImages() != null & !profile.getProfileImages().isEmpty()) {
-
-					profileImage = profile.getProfileImages().get(0);
-					profile.getProfileImages().clear();
-				} else
-					profileImage = new ProfileImage();
-				profileImage.setProfileId(profile.getId());
-				profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
-				profileImage.setMainImage(true);
-				profile.getProfileImages().add(profileImage);
-
-			}
-
-			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
-			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
-			switchToUpdateAccount(savedProfile);
-			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
-			toast.show();
-
-			Nav.startActivity(this, NearbyActivity.class);
-			// Intent mainIntent = new Intent(this, SocialActivity.class);
-			// this.startActivity(mainIntent);
-			// this.finish();
-
-		} catch (Exception e) {
-			Log.e("errore during registration! error: " + e.getMessage());
-			e.printStackTrace();
-		}
-
-	}
-
-	public void onChooseImage(View view) {
-		try {
-
-			Intent intent = new Intent();
-			intent.setType("image/*");
-			intent.setAction(Intent.ACTION_GET_CONTENT);
-			startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-		} catch (Exception e) {
-			Log.e("errore during registration! error: " + e.getMessage());
-			e.printStackTrace();
-		}
-
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Context context = getApplicationContext();
-		CharSequence text = "";
-		byte[] image = null;
-		try {
-			super.onActivityResult(requestCode, resultCode, data);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.d();
+		View view = inflater.inflate(R.layout.activity_profile, null);
+		textNickname = (TextView) view.findViewById(R.id.textNickname);
+		textName = (TextView) view.findViewById(R.id.textName);
+		textSurname = (TextView) view.findViewById(R.id.textSurname);
+		buttonLike = (Button) view.findViewById(R.id.buttonLike);
+		buttonLike.setOnClickListener(this);
+		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
+		return view;
+	}
 
-			if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-				Uri selectedImage = data.getData();
-
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-				Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-				cursor.moveToFirst();
-
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String picturePath = cursor.getString(columnIndex);
-
-				image = ImageUtil.getImageFromPicturePath(picturePath);
-				ImageView imageView = (ImageView) findViewById(R.id.imgView);
-				imageView.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
-
-				cursor.close();
-				text = "COOL PICTURE!";
+	public void prepareProfileAttributes(FullProfile profile) {
+		if (profile != null) {
+			textNickname.setText(profile.getNickname());
+			textName.setText(profile.getName());
+			textSurname.setText(profile.getSurname());
+			gallery_images = new Bitmap[1];
+			gallery_images[0] = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image);
+			if (profile.getProfileImages() != null) {
+				gallery_images = new Bitmap[profile.getProfileImages().size()];
+				int i = 0;
+				for (ProfileImage image : profile.getProfileImages()) {
+					Bitmap bMap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length);
+					gallery_images[i] = bMap;
+					i++;
+				}
 			}
-
-		} catch (Exception e) {
-			Log.e("error changing image, error: " + e.toString());
-			text = "ops!Unable to load image ";
-
+			profilePhoto.setAdapter(new SamplePagerAdapter());
+			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
 		}
-		int duration = Toast.LENGTH_LONG;
+	}
 
-		Toast toast = Toast.makeText(context, text, duration);
-		toast.show();
+	@Override
+	public void onClick(View v) {
+		Node profileNode = Services.currentState.getProfileViewed();
+		Log.d("LIKE clicked on node " + profileNode.getId());
+		Services.businessLogic.sendLike(profileNode.getId());
+		buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
+		Toast.makeText(this.getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
+	}
+
+	class SamplePagerAdapter extends PagerAdapter {
+
+		@Override
+		public int getCount() {
+			return gallery_images.length;
+		}
+
+		@Override
+		public View instantiateItem(ViewGroup container, int position) {
+			PhotoView photoView = new PhotoView(container.getContext());
+			photoView.setImageBitmap(gallery_images[position]);
+			// Now just add PhotoView to ViewPager and return it
+			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+			return photoView;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView((View) object);
+		}
+
+		@Override
+		public boolean isViewFromObject(View view, Object object) {
+			return view == object;
+		}
 
 	}
 
-	private void switchToUpdateAccount(FullProfile profile) {
-		TextView nameScreen = (TextView) findViewById(R.id.reg_name);
-		nameScreen.setText(profile.getName());
-		TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
-		surnameScreen.setText(profile.getSurname());
-		TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
-		usernameScreen.setText(profile.getNickname());
-
-		ImageView imageView = (ImageView) findViewById(R.id.imgView);
-		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length));
-
-		Button button = (Button) findViewById(R.id.btnRegister);
-		button.setText("change my profile");
+	private boolean likeButtonIsEnabledFor(String nodeId) {
+		return !Services.currentState.getILikeSet().contains(nodeId);
 	}
 }

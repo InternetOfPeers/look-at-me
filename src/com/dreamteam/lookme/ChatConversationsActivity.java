@@ -1,9 +1,6 @@
 package com.dreamteam.lookme;
 
 import android.os.Bundle;
-import android.view.MenuItem;
-
-import com.dreamteam.util.Log;
 
 public class ChatConversationsActivity extends CommonActivity {
 

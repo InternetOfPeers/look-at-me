@@ -22,7 +22,6 @@
     <string name="title_splashscreen">splash</string>
     <string name="unable_to_send_chat_message">unable to comunicate to chosed user</string>
     <string name="send_btn">Send</string>
-    <string name="text_hint_txt">message text</string>
 
     <!-- MENU A CASSETTO -->
     <string-array name="menu_items">
@@ -52,5 +51,8 @@
     <string name="text_chat_message">message</string>
     <string name="text_chat_datetime">date</string>
     <string name="hint_chat_message_text">message text</string>
+    
+    <!-- VIEW PROFILE -->
+    <string name="text_profile_photo_image">profile image</string>
 
 </resources>

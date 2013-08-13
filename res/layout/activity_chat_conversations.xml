@@ -12,20 +12,11 @@
         android:orientation="vertical" >
 
         <fragment
-            android:id="@+id/fragment_message_list"
+            android:id="@+id/fragment_conversations_list"
             android:name="com.dreamteam.lookme.ChatConversationsListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-
-    <!--
-         android:layout_gravity="start" tells DrawerLayout to treat
-         this as a sliding drawer on the left side for left-to-right
-         languages and on the right side for right-to-left languages.
-         The drawer is given a fixed width in dp and extends the full height of
-         the container. A solid background is used for contrast
-         with the content view.
-    -->
 
     <ListView
         android:id="@+id/left_drawer"

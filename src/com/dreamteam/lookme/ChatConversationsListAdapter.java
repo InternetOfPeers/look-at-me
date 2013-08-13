@@ -39,7 +39,7 @@ public class ChatConversationsListAdapter extends BaseAdapter {
 		List<String> conversationsKeyList = new ArrayList<String>();
 		conversationsKeyList.addAll(Services.currentState.getConversationsStore().keySet());
 		// TODO ordinare la lista di conversazioni in base all'ultimo messaggio
-		// ricevuto (la conversazione con i messaggi piÃ¹ recenti va in testa,
+		// ricevuto (la conversazione con i messaggi più recenti va in testa,
 		// come per gli SMS di android)
 		String conversationKey = conversationsKeyList.get(position);
 		return Services.currentState.getConversationsStore().get(conversationKey);

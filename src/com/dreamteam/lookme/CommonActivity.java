@@ -37,7 +37,7 @@ public abstract class CommonActivity extends Activity {
 	protected String[] mPlanetTitles;
 	protected boolean menuEnabled;
 	protected Bundle extras;
-	
+
 	protected boolean isRootLevel;
 
 	@Override
@@ -134,7 +134,7 @@ public abstract class CommonActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.d();
-		if(isRootLevel){
+		if (isRootLevel) {
 			mDrawerToggle.onOptionsItemSelected(item);
 			return true;
 		}
@@ -152,7 +152,7 @@ public abstract class CommonActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	/* The click listner for ListView in the navigation drawer */
 	protected class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override

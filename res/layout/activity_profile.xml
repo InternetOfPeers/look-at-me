@@ -1,147 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fillViewport="true" >
+    <com.dreamteam.lookme.HackyViewPager
+        android:id="@+id/hackyViewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp" >
+    </com.dreamteam.lookme.HackyViewPager>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:columnCount="1" >
+
+        <TextView
+            android:id="@+id/textNickname"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#fff" >
+            android:layout_column="0"
+            android:layout_gravity="left|top"
+            android:layout_row="0"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <!-- Header  Starts -->
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left|center_vertical"
+            android:layout_row="0"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+        <TextView
+            android:id="@+id/textSurname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left|bottom"
+            android:layout_row="0"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/buttonLike"
+            android:layout_column="0"
+            android:layout_gravity="right|top"
+            android:layout_row="0"
+            android:text="LIKE" />
+    </GridLayout>
 
-                    <ImageView
-                        android:id="@+id/imgView"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/ic_profile_image" />
-
-                    <Button
-                        android:id="@+id/btnChooseImage"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginTop="10dip"
-                        android:onClick="onChooseImage"
-                        android:text="choose image" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dip" >
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_nickname"
-                        android:textColor="#372c24" />
-
-                    <TextView
-                        android:id="@+id/reg_nickname"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginTop="5dip"
-                        android:singleLine="true" />
-
-                    <TextView
-                        android:id="@+id/prova"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_name"
-                        android:textColor="#372c24" />
-
-                    <TextView
-                        android:id="@+id/reg_name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginTop="5dip"
-                        android:singleLine="true" >
-
-                        <requestFocus />
-                    </TextView>
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_surname"
-                        android:textColor="#372c24" />
-
-                    <TextView
-                        android:id="@+id/reg_surname"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginTop="5dip"
-                        android:singleLine="true" />
-
-                    <Button
-                        android:id="@+id/btnRegister"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dip"
-                        android:onClick="onRegister"
-                        android:text="Register New Account" />
-                </LinearLayout>
-            </LinearLayout>
-            <!-- Header Ends -->
-            <!-- Footer Start -->
-            <!--
-        LinearLayout android:id="@+id/footer"
-            android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="90dip"
-                android:background="@layout/footer"
-                android:layout_alignParentBottom="true">
-        </LinearLayout
-            -->
-            <!-- Footer Ends -->
-
-
-            <!-- Registration Form -->
-            <!-- Registration Form Ends -->
-
-        </RelativeLayout>
-    </ScrollView>
-
-    <!--
-         android:layout_gravity="start" tells DrawerLayout to treat
-         this as a sliding drawer on the left side for left-to-right
-         languages and on the right side for right-to-left languages.
-         The drawer is given a fixed width in dp and extends the full height of
-         the container. A solid background is used for contrast
-         with the content view.
-    -->
-
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#111"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
-
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>
