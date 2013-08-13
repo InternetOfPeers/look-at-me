@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.chord.Node;
@@ -52,6 +53,11 @@ public class NearbyListAdapter extends BaseAdapter {
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
 		BasicProfile profile = (BasicProfile) getItem(position).getProfile();
 		photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(activity.getResources(), profile));
+		
+		// Imposto il nickname
+		TextView textNick = (TextView)convertView.findViewById(R.id.textNick);
+		textNick.setText(profile.getNickname());
+		
 		return convertView;
 	}
 

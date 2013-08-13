@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,22 +30,23 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 	
 	private ViewPager profilePhoto;
 	private TextView textNickname;
-	private TextView textName;
-	private TextView textSurname;
-	private Button buttonLike;
+	//private TextView textName;
+	//private TextView textSurname;
+	private ImageButton buttonLike;
+	private ImageButton buttonChat;
 	private Bitmap[] gallery_images;
 	
 	private ProgressDialog loadingDialog;
-	private Node node;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
 		View view = inflater.inflate(R.layout.fragment_profile, null);
 		textNickname = (TextView) view.findViewById(R.id.textNickname);
-		textName = (TextView) view.findViewById(R.id.textName);
-		textSurname = (TextView) view.findViewById(R.id.textSurname);
-		buttonLike = (Button) view.findViewById(R.id.buttonLike);
+		//textName = (TextView) view.findViewById(R.id.textName);
+		//textSurname = (TextView) view.findViewById(R.id.textSurname);
+		buttonLike = (ImageButton) view.findViewById(R.id.buttonLike);
+		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
 		buttonLike.setOnClickListener(this);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
 		
@@ -89,8 +90,8 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		if (profile != null) {
 			textNickname.setText(profile.getNickname());
-			textName.setText(profile.getName());
-			textSurname.setText(profile.getSurname());
+//			textName.setText(profile.getName());
+//			textSurname.setText(profile.getSurname());
 			gallery_images = new Bitmap[1];
 			gallery_images[0] = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image);
 			if (profile.getProfileImages() != null) {
@@ -104,15 +105,22 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 			}
 			profilePhoto.setAdapter(new SamplePagerAdapter());
 			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
+			if (!likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId())) {
+				// change image to disabled button
+				buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
+			}
 		}
 	}
 
 	@Override
 	public void onClick(View v) {
+		// LIKE button clicked
 		Node profileNode = Services.currentState.getProfileViewed();
 		Log.d("LIKE clicked on node " + profileNode.getId());
 		Services.businessLogic.sendLike(profileNode.getId());
 		buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
+		// change image to disabled button
+		buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
 		Toast.makeText(getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
 	}
 
@@ -128,7 +136,7 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 			PhotoView photoView = new PhotoView(container.getContext());
 			photoView.setImageBitmap(gallery_images[position]);
 			// Now just add PhotoView to ViewPager and return it
-			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 			return photoView;
 		}

@@ -4,53 +4,103 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.dreamteam.lookme.HackyViewPager
-        android:id="@+id/hackyViewPager"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp" >
-    </com.dreamteam.lookme.HackyViewPager>
-
-    <GridLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:columnCount="1" >
+        android:layout_height="match_parent" >
 
-        <TextView
-            android:id="@+id/textNickname"
-            android:layout_width="wrap_content"
+        <com.dreamteam.lookme.HackyViewPager
+            android:id="@+id/hackyViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.dreamteam.lookme.HackyViewPager>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="left|top"
-            android:layout_row="0"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:background="@drawable/bottom_profile_gradient"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:paddingTop="30dp" >
 
-        <TextView
-            android:id="@+id/textName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="left|center_vertical"
-            android:layout_row="0"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TextView
+                android:id="@+id/textNickname"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#fff"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textSurname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="left|bottom"
-            android:layout_row="0"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/buttonLike"
-            android:layout_column="0"
-            android:layout_gravity="right|top"
-            android:layout_row="0"
-            android:text="LIKE" />
-    </GridLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".50"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/buttonChat"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#00000000"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/chat_icon" />
+
+                    <TextView
+                        android:id="@+id/textNick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Chat"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#fff" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".50"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/buttonLike"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#00000000"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/love_icon" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Like"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#fff" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
