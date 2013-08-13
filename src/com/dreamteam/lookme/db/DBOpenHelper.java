@@ -172,5 +172,15 @@ public interface DBOpenHelper {
 	// public void saveOrUpdateTag(ProfileTag profileTag) throws Exception;
 
 	public boolean isProfileCompiled();
+	
+	/**
+	 * Delete a specific ProfileImage present in the database
+	 * 
+	 * @param profileImageID
+	 *            id of the Profile to be deleted
+	 * @return void
+	 * @throws java.lang.Exception
+	 */
+	public void deleteImage(long profileImageId) throws Exception;
 
 }
