@@ -40,7 +40,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
 		Log.d();
-		
+
 		final Node node = (Node) nearbyListAdapter.getItem((int) clickedItemID);
 
 		Bundle parameters = new Bundle();

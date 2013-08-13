@@ -27,15 +27,15 @@ import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
 public class ProfileFragment extends Fragment implements OnClickListener {
-	
+
 	private ViewPager profilePhoto;
 	private TextView textNickname;
-	//private TextView textName;
-	//private TextView textSurname;
+	// private TextView textName;
+	// private TextView textSurname;
 	private ImageButton buttonLike;
 	private ImageButton buttonChat;
 	private Bitmap[] gallery_images;
-	
+
 	private ProgressDialog loadingDialog;
 
 	@Override
@@ -43,24 +43,25 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		Log.d();
 		View view = inflater.inflate(R.layout.fragment_profile, null);
 		textNickname = (TextView) view.findViewById(R.id.textNickname);
-		//textName = (TextView) view.findViewById(R.id.textName);
-		//textSurname = (TextView) view.findViewById(R.id.textSurname);
+		// textName = (TextView) view.findViewById(R.id.textName);
+		// textSurname = (TextView) view.findViewById(R.id.textSurname);
 		buttonLike = (ImageButton) view.findViewById(R.id.buttonLike);
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
 		buttonLike.setOnClickListener(this);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
-		
-		// recupero il node id, entro in attesa e invio la richiesta di full profile
+
+		// recupero il node id, entro in attesa e invio la richiesta di full
+		// profile
 		Bundle parameters = getActivity().getIntent().getExtras();
 		String nodeId = parameters.getString(Nav.PROFILE_ID_KEY);
 		Services.businessLogic.requestFullProfile(nodeId);
 		loadingDialog = new ProgressDialog(getActivity());
 		loadingDialog.setTitle("Loading profile");
 		loadingDialog.show();
-		
+
 		return view;
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -72,7 +73,7 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		super.onStop();
 		Services.event.unregister(this);
 	}
-	
+
 	@Subscribe
 	public void onEventReceived(Event event) {
 		switch (event.getEventType()) {
@@ -90,8 +91,8 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		if (profile != null) {
 			textNickname.setText(profile.getNickname());
-//			textName.setText(profile.getName());
-//			textSurname.setText(profile.getSurname());
+			// textName.setText(profile.getName());
+			// textSurname.setText(profile.getSurname());
 			gallery_images = new Bitmap[1];
 			gallery_images[0] = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image);
 			if (profile.getProfileImages() != null) {

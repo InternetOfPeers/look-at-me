@@ -68,7 +68,6 @@
                         android:text="Chat"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#fff" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -94,13 +93,9 @@
                         android:text="Like"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#fff" />
-
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </RelativeLayout>
 
 </LinearLayout>

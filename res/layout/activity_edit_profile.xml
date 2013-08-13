@@ -63,7 +63,10 @@
                         android:layout_marginBottom="20dip"
                         android:layout_marginTop="5dip"
                         android:inputType="text"
-                        android:singleLine="true" />
+                        android:singleLine="true" >
+
+                        <requestFocus />
+                    </EditText>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -79,8 +82,6 @@
                         android:layout_marginTop="5dip"
                         android:inputType="text"
                         android:singleLine="true" >
-
-                        <requestFocus />
                     </EditText>
 
                     <TextView
@@ -119,37 +120,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
                         android:onClick="onRegister"
-                        android:text="Create my profile" />
+                        android:text="Create profile" />
                 </LinearLayout>
             </LinearLayout>
-            <!-- Header Ends -->
-            <!-- Footer Start -->
-            <!--
-        LinearLayout android:id="@+id/footer"
-            android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="90dip"
-                android:background="@layout/footer"
-                android:layout_alignParentBottom="true">
-        LinearLayout
-            -->
-            <!-- Footer Ends -->
-
-
-            <!-- Registration Form -->
-            <!-- Registration Form Ends -->
-
         </RelativeLayout>
     </ScrollView>
-
-    <!--
-         android:layout_gravity="start" tells DrawerLayout to treat
-         this as a sliding drawer on the left side for left-to-right
-         languages and on the right side for right-to-left languages.
-         The drawer is given a fixed width in dp and extends the full height of
-         the container. A solid background is used for contrast
-         with the content view.
-    -->
 
     <ListView
         android:id="@+id/left_drawer"

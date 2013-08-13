@@ -10,7 +10,7 @@ public class ProfileActivity extends CommonActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d();
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_profile);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
 	}

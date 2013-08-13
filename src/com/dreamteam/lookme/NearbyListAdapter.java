@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.chord.Node;
@@ -53,13 +52,13 @@ public class NearbyListAdapter extends BaseAdapter {
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
 		BasicProfile profile = (BasicProfile) getItem(position).getProfile();
 		photoImage.setImageBitmap(ImageUtil.getBitmapProfileImage(activity.getResources(), profile));
-		
+
 		// Imposto i liked
 		if (Services.currentState.getLikedSet().contains(getItem(position).getId())) {
 			ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);
 			likedImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.love_icon));
 		}
-		
+
 		return convertView;
 	}
 

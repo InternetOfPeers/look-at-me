@@ -24,7 +24,7 @@ public class NearbyActivity extends CommonActivity {
 			Log.d("It's the first time this app run!");
 			final Dialog dialog = new Dialog(this);
 			dialog.setContentView(R.layout.first_time_dialog);
-			dialog.setTitle("Dialog popup");
+			dialog.setTitle("First launch");
 			Button dialogButton = (Button) dialog.findViewById(R.id.buttonBegin);
 			// if button is clicked, close the custom dialog
 			dialogButton.setOnClickListener(new OnClickListener() {
