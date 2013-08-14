@@ -29,25 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="311dp"
                 android:layout_marginLeft="59dp"
-                android:onClick="onAddInterestToProfile"
                 android:text="Aggiungi Interessi" />
-
-            <!-- Header Ends -->
-            <!-- Footer Start -->
-            <!--
-        LinearLayout android:id="@+id/footer"
-            android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="90dip"
-                android:background="@layout/footer"
-                android:layout_alignParentBottom="true">
-            -->
-            <!-- Footer Ends -->
-
-
-            <!-- Registration Form -->
-            <!-- Registration Form Ends -->
-
         </RelativeLayout>
     </ScrollView>
 
