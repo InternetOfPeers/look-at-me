@@ -21,7 +21,9 @@ import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Event;
+import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
@@ -53,7 +55,20 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		// recupero il node id, entro in attesa e invio la richiesta di full
 		// profile
 		Bundle parameters = getActivity().getIntent().getExtras();
-		String nodeId = parameters.getString(Nav.PROFILE_ID_KEY);
+		final String nodeId = parameters.getString(Nav.PROFILE_ID_KEY);
+
+		buttonChat.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Services.businessLogic.startChat(nodeId);
+				Bundle parameters = new Bundle();
+				parameters.putString(
+						NotificationService.CONVERSATION_KEY_ID,
+						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeId).getProfile()
+								.getId()));
+				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
+			}
+		});
 		Services.businessLogic.requestFullProfile(nodeId);
 		loadingDialog = new ProgressDialog(getActivity());
 		loadingDialog.setTitle("Loading profile");

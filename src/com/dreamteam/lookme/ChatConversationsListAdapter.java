@@ -57,7 +57,7 @@ public class ChatConversationsListAdapter extends BaseAdapter {
 		ChatConversation conversation = getItem(position);
 		// Mostro la persona con la quale sto chattando
 		TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
-		nickNameText.setText("conversation with " + conversation.getNickname());
+		nickNameText.setText(conversation.getNickname());
 		// Mostro il tempo trascorso dall'ultimo messaggio ricevuto nella
 		// conversazione
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);

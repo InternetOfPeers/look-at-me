@@ -124,9 +124,9 @@ public abstract class CommonActivity extends Activity {
 			// If the nav drawer is open, hide action items related to the
 			// content view
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			MenuItem actionSettingsButton = menu.findItem(R.id.action_settings);
-			if (actionSettingsButton != null)
-				actionSettingsButton.setVisible(!drawerOpen);
+			//MenuItem actionSettingsButton = menu.findItem(R.id.action_settings);
+			//if (actionSettingsButton != null)
+			//	actionSettingsButton.setVisible(!drawerOpen);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -144,13 +144,14 @@ public abstract class CommonActivity extends Activity {
 			return true;
 		}
 		// Verifica quale elemento è stato premunto
-		switch (item.getItemId()) {
-		case R.id.action_settings:
-			Nav.startActivity(this, SettingsActivity.class);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+//		switch (item.getItemId()) {
+//		case R.id.action_settings:
+//			Nav.startActivity(this, SettingsActivity.class);
+//			return true;
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	/* The click listner for ListView in the navigation drawer */
