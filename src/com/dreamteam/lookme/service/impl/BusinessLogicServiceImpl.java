@@ -9,13 +9,17 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.dreamteam.lookme.ChatConversation;
+import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.ChatConversationImpl;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.chord.CommunicationManager;
 import com.dreamteam.lookme.chord.CustomException;
 import com.dreamteam.lookme.chord.impl.CommunicationListenerImpl;
 import com.dreamteam.lookme.chord.impl.CommunicationManagerImpl;
+import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.service.BusinessLogicService;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.FakeUser;
 import com.dreamteam.util.Log;
 
 public class BusinessLogicServiceImpl extends Service implements BusinessLogicService {
@@ -26,6 +30,8 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	private boolean isRunning;
 	private CommunicationManager communicationManager;
+
+	private FakeUser fakeUser;
 
 	/**
 	 * 
@@ -42,6 +48,16 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 			communicationManager.startCommunication();
 		} catch (CustomException e) {
 			e.printStackTrace();
+		}
+		// Se necessario creo un fake user
+		if (AppSettings.isFakeUserEnabled) {
+			// Creo un fakeuser
+			fakeUser = new FakeUser(context);
+			// Aggiungo una conversazione fittizia all'inizio
+			BasicProfile profile = fakeUser.getBasicProfile();
+			ChatConversation conversation = new ChatConversationImpl(fakeUser.getConversationId(), profile.getNickname(), profile.getAge(), fakeUser.getNodeId(), profile
+					.getMainProfileImage().getImageBitmap());
+			storeConversation(conversation);
 		}
 	}
 

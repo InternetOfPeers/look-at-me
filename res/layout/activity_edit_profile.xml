@@ -1,211 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
 
-
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fillViewport="true" >
+        android:layout_height="wrap_content"
+        android:background="#fff" >
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_profile_image" />
+
+        <Button
+            android:id="@+id/btnAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/label_nickname"
+            android:layout_marginLeft="22dp"
+            android:layout_toRightOf="@+id/imgView"
+            android:onClick="onChooseImage"
+            android:text="add image" />
+
+        <com.devsmart.android.ui.HorizontalListView
+            android:id="@+id/listview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#fff" >
+            android:layout_below="@+id/imgView"
+            android:background="#ddd" />
 
-            <!-- Header  Starts -->
+        <TextView
+            android:id="@+id/label_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listview"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/text_nickname"
+            android:textColor="#372c24"
+            android:textSize="20sp" />
 
+        <EditText
+            android:id="@+id/reg_nickname"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listview"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dip"
+            android:layout_toRightOf="@+id/label_nickname"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="20sp" />
 
+        <Spinner
+            android:id="@+id/spinner_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_nickname"
+            android:layout_marginTop="20dp"
+            android:entries="@array/age_array"
+            android:prompt="@string/text_age" >
+        </Spinner>
 
+        <Spinner
+            android:id="@+id/spinner_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_nickname"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/spinner_age"
+            android:entries="@array/gender_array"
+            android:prompt="@string/text_gender" >
+        </Spinner>
 
-                    <ImageView
-                        android:id="@+id/imgView"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/ic_profile_image" />
-                    
-                   <Button
-                        android:id="@+id/btnAddImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/label_nickname"
-                        android:layout_marginLeft="22dp"
-                        android:layout_toRightOf="@+id/imgView"
-                        android:onClick="onChooseImage"
-                        android:text="add image" />
-                
-                                                    
-                      <com.devsmart.android.ui.HorizontalListView
-						  	android:id="@+id/listview"
-						  	android:layout_width="fill_parent"
-						  	android:layout_height="wrap_content"
-						  	android:layout_below="@+id/imgView"						  	
-						  	android:background="#ddd"						  	
-						  />
+        <Spinner
+            android:id="@+id/spinner_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner_age"
+            android:layout_marginTop="20dp"
+            android:entries="@array/country_array"
+            android:prompt="@string/text_age" >
+        </Spinner>
 
+        <Spinner
+            android:id="@+id/spinner_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner_age"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/spinner_country"
+            android:entries="@array/language_array"
+            android:prompt="@string/text_age" >
+        </Spinner>
 
-                    <TextView android:id="@+id/label_nickname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"                        
-                        android:text="@string/text_nickname"  
-                        android:layout_below="@+id/listview" 
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="20sp"
-                        android:textColor="#372c24" />
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner_country"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/text_name"
+            android:textColor="#372c24"
+            android:textSize="20sp" />
 
-                    <EditText
-                        android:id="@+id/reg_nickname"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"                        
-                        android:layout_marginTop="5dip"
-                        android:layout_marginLeft="5dp"
-                        
-                        android:layout_below="@+id/listview" 
-                        android:layout_toRightOf="@+id/label_nickname"   
-                        android:inputType="text"
-                        android:textSize="20sp"
-                        android:singleLine="true" />
-                    
-                    <Spinner  
-						    android:id="@+id/spinner_age" 
-						    android:layout_height="wrap_content"  
-						    android:layout_width="wrap_content"						    
-						    android:prompt="@string/text_age"		
-						    android:layout_marginTop="20dp"						    				      						   
-						    android:entries="@array/age_array"
-						    android:layout_below="@+id/label_nickname" 
-                        							    
-						    >  
-					</Spinner> 
-                    
-                    <Spinner  
-						    android:id="@+id/spinner_gender"  
-						    android:layout_height="wrap_content"  
-						    android:layout_width="wrap_content"
-						    android:prompt="@string/text_gender"  						    					        
-						    android:entries="@array/gender_array"
-						    android:layout_marginTop="20dp"
-						    android:layout_below="@+id/label_nickname"
-						    android:layout_toRightOf="@+id/spinner_age"
-						    >  
-					</Spinner> 
-					
-                    
-                    <Spinner  
-						    android:id="@+id/spinner_country" 
-						    android:layout_height="wrap_content" 
-						    android:layout_width="wrap_content"						    
-						    android:prompt="@string/text_age"  	
-						    android:layout_marginTop="20dp"						    					   
-						    android:entries="@array/country_array"
-						    android:layout_below="@+id/spinner_age" 
-						    >  
-					</Spinner> 
-					
-                    
-                    <Spinner  
-						    android:id="@+id/spinner_language" 
-						    android:layout_height="wrap_content" 
-						    android:layout_width="wrap_content" 
-						    android:prompt="@string/text_age"  						    
-						    android:entries="@array/language_array"
-						    android:layout_marginTop="20dp"
-						    android:layout_below="@+id/spinner_age"
-						    android:layout_toRightOf="@+id/spinner_country" 
-						    >  
-					</Spinner> 
+        <EditText
+            android:id="@+id/reg_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner_country"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/label_name"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="20sp" >
+        </EditText>
 
-                    <TextView android:id="@+id/label_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_name"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="20sp"
-                        android:layout_below="@+id/spinner_country"
-                        android:textColor="#372c24" />
+        <TextView
+            android:id="@+id/label_surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_name"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/text_surname"
+            android:textColor="#372c24"
+            android:textSize="20sp" />
 
-                    <EditText
-                        android:id="@+id/reg_name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="20sp"
-                        android:inputType="text"
-                        android:singleLine="true"
-                        android:layout_below="@+id/spinner_country"
-						android:layout_toRightOf="@+id/label_name"  >
-                    </EditText>
+        <EditText
+            android:id="@+id/reg_surname"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_name"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/label_surname"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="20sp" />
 
-                    <TextView android:id="@+id/label_surname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_surname"
-                        android:layout_below="@+id/label_name"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="20dp"
-                        android:textSize="20sp"                        
-                        android:textColor="#372c24" />
+        <TextView
+            android:id="@+id/label_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_surname"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/text_interest"
+            android:textColor="#372c24"
+            android:textSize="20sp" />
 
-                    <EditText 
-                        android:id="@+id/reg_surname"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="20dp"
-                        android:textSize="20sp"
-                        android:inputType="text"
-                        android:layout_below="@+id/label_name"
-                        android:layout_toRightOf="@+id/label_surname"
-                        android:singleLine="true" />
+        <EditText
+            android:id="@+id/reg_interest"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_surname"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/label_interest"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="20sp" />
 
-                    <TextView android:id="@+id/label_interest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_interest"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="20dp"
-                        android:textSize="20sp"
-                        android:layout_below="@+id/label_surname"                        
-                        android:textColor="#372c24" />
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_interest"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
+            android:onClick="onRegister"
+            android:text="@string/edit_profile_btn_create_profile"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
-                    <EditText
-                        android:id="@+id/reg_interest"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="20dp"
-                        android:textSize="20sp"
-                        android:inputType="text"
-                        android:layout_below="@+id/label_surname"
-                        android:layout_toRightOf="@+id/label_interest"
-                        android:singleLine="true" />
-                    
-                    <Button
-                        android:id="@+id/btnRegister"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="30dp"
-                        android:textSize="20sp"
-                        android:onClick="onRegister"
-                        android:layout_below="@+id/label_interest"
-                        android:text="Register New Account" />
-
-
-                    
-                </RelativeLayout>
-                
-
-                </ScrollView>
-
-
-
-
+</ScrollView>
