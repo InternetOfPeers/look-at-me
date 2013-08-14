@@ -87,6 +87,7 @@
 						    android:layout_width="wrap_content"
 						    android:prompt="@string/text_gender"  						    					        
 						    android:entries="@array/gender_array"
+						    android:layout_marginTop="20dp"
 						    android:layout_below="@+id/label_nickname"
 						    android:layout_toRightOf="@+id/spinner_age"
 						    >  
@@ -111,6 +112,7 @@
 						    android:layout_width="wrap_content" 
 						    android:prompt="@string/text_age"  						    
 						    android:entries="@array/language_array"
+						    android:layout_marginTop="20dp"
 						    android:layout_below="@+id/spinner_age"
 						    android:layout_toRightOf="@+id/spinner_country" 
 						    >  
