@@ -37,9 +37,9 @@ public class ChatMessagesListFragment extends Fragment {
 			return view;
 		}
 		// Imposto il title dell'activity con il nome e l'età della persona con
-		// cui sto
-		// chattando
-		activity.setTitle(conversation.getNickname() + ", " + conversation.getAge());
+		// cui sto chattando
+		String age = conversation.getAge() > 0 ? ", " + String.valueOf(conversation.getAge()) : "";
+		activity.setTitle(conversation.getNickname() + age);
 		// Imposto il resto delle variabili di gestione dell'elenco dei
 		// messaggi
 		chatMessagesListAdapter = new ChatMessagesListAdapter(getActivity(), conversation);
