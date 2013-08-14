@@ -36,7 +36,6 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#fff"
                 android:textStyle="bold" />
