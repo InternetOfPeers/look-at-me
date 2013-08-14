@@ -50,7 +50,6 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 		}
 		int backgroundResId;
 		Bitmap profileImageBitmap;
-		// boolean leftSide = true;
 		ChatMessage message = getItem(position);
 		// Imposto il background
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);

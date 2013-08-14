@@ -40,61 +40,10 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
 		Log.d();
-
-		final Node node = (Node) nearbyListAdapter.getItem((int) clickedItemID);
-
+		Node node = (Node) nearbyListAdapter.getItem((int) clickedItemID);
 		Bundle parameters = new Bundle();
 		parameters.putString(Nav.PROFILE_ID_KEY, node.getId());
 		Nav.startActivityWithParameters(getActivity(), ProfileActivity.class, parameters);
-
-		// final Node node = (Node) nearbyListAdapter.getItem((int)
-		// clickedItemID);
-		// final Dialog dialog = new Dialog(this.getActivity());
-		// arg1.setAlpha(1);
-		// // tell the Dialog to use the dialog.xml as it's layout description
-		// dialog.setContentView(R.layout.chosed_profile_dialog);
-		// dialog.setTitle("What do u wanna do?");
-		//
-		// TextView txt = (TextView) dialog.findViewById(R.id.nickname_txt);
-		// txt.setText(node.getProfile().getNickname());
-		// txt = (TextView) dialog.findViewById(R.id.gender_txt);
-		// txt.setText(node.getProfile().getGender());
-		// txt = (TextView) dialog.findViewById(R.id.matching_score_txt);
-		// txt.setText("90%");
-		//
-		// Button dialogButton = (Button)
-		// dialog.findViewById(R.id.startChat_btn);
-		// dialogButton.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// dialog.dismiss();
-		// Services.businessLogic.startChat(node.getId());
-		// Bundle parameters = new Bundle();
-		// parameters.putString(NotificationService.CONVERSATION_KEY_ID,
-		// CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(),
-		// node.getProfile().getId()));
-		// Nav.startActivityWithParameters(getActivity(),
-		// ChatMessagesActivity.class, parameters);
-		// }
-		//
-		// });
-		//
-		// Button viewFullProfileButton = (Button)
-		// dialog.findViewById(R.id.viewFullProfile_btn);
-		// viewFullProfileButton.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// dialog.dismiss();
-		// Services.businessLogic.requestFullProfile(node.getId());
-		// // entro in attesa
-		// loadingDialog = new
-		// ProgressDialog(NearbyListFragment.this.getActivity());
-		// loadingDialog.setTitle("Loading profile");
-		// loadingDialog.show();
-		// }
-		//
-		// });
-		// dialog.show();
 	}
 
 	@Override

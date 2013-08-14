@@ -12,14 +12,16 @@ public class ChatConversationImpl implements ChatConversation {
 
 	private String conversationId;
 	private String otherNickname;
+	private int otherAge;
 	private String otherNodeId;
 	private Bitmap otherImageBitamp;
 	private Date lastMessageTimestamp;
 	private List<ChatMessage> chatMessagesList;
 
-	public ChatConversationImpl(String conversationId, String otherNickname, String otherNodeId, Bitmap otherImageBitamp) {
+	public ChatConversationImpl(String conversationId, String otherNickname, int otherAge, String otherNodeId, Bitmap otherImageBitamp) {
 		this.conversationId = conversationId;
 		this.otherNickname = otherNickname;
+		this.otherAge = otherAge;
 		this.otherNodeId = otherNodeId;
 		this.otherImageBitamp = otherImageBitamp;
 		this.chatMessagesList = new ArrayList<ChatMessage>();
@@ -70,6 +72,11 @@ public class ChatConversationImpl implements ChatConversation {
 	@Override
 	public boolean isEmpty() {
 		return chatMessagesList.isEmpty();
+	}
+
+	@Override
+	public int getAge() {
+		return otherAge;
 	}
 
 }

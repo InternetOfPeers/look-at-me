@@ -12,6 +12,8 @@ public interface ChatConversation {
 
 	String getNickname();
 
+	int getAge();
+
 	Date getLastMessageTimestamp();
 
 	Bitmap getImageBitmap();

@@ -3,6 +3,7 @@ package com.dreamteam.lookme.bean;
 import java.io.Serializable;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class ProfileImage implements Serializable {
 
@@ -11,6 +12,7 @@ public class ProfileImage implements Serializable {
 	private long id;
 	private String profileId;
 	private byte[] image;
+	private Bitmap bitmap;
 	private boolean isMainImage;
 
 	public long getId() {
@@ -34,11 +36,14 @@ public class ProfileImage implements Serializable {
 	}
 
 	public Bitmap getImageBitmap() {
-		return null;
+		if (bitmap != null)
+			return bitmap;
+		return BitmapFactory.decodeByteArray(getImage(), 0, getImage().length);
 	}
 
 	public void setImage(byte[] image) {
 		this.image = image;
+		bitmap = null;
 	}
 
 	public boolean isMainImage() {

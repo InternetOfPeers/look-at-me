@@ -12,15 +12,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.service.Event;
-import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
-import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
 public class ChatMessagesListFragment extends Fragment {
 
-	private ChatConversation conversation;
 	private ChatMessagesListAdapter chatMessagesListAdapter;
 	private ListView messageListView;
 	private EditText mInputEditText;
@@ -29,15 +26,20 @@ public class ChatMessagesListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
 		View view = inflater.inflate(R.layout.fragment_chat_messages_list, null);
-		String conversationId = Nav.getParameters(ChatMessagesListFragment.this.getActivity()).getString(NotificationService.CONVERSATION_KEY_ID);
-		if (conversationId.isEmpty()) {
-			Log.d("Nessun conversationId passato, la vista è vuota");
+		ChatMessagesActivity activity = (ChatMessagesActivity) getActivity();
+		// Recupero la conversazione passata
+		final ChatConversation conversation = activity.getConversation();
+		if (conversation == null) {
+			// Se non è stata passata alcuna conversazione ritorno una vista
+			// vuota
+			// TODO Migliorare la messaggistica
+			activity.showDialog("Error", "Conversazione non trovata", false);
 			return view;
 		}
-		// Recupero la conversazione passata
-		conversation = Services.currentState.getConversationsStore().get(conversationId);
-		if (conversation == null)
-			return view;
+		// Imposto il title dell'activity con il nome e l'età della persona con
+		// cui sto
+		// chattando
+		activity.setTitle(conversation.getNickname() + ", " + conversation.getAge());
 		// Imposto il resto delle variabili di gestione dell'elenco dei
 		// messaggi
 		chatMessagesListAdapter = new ChatMessagesListAdapter(getActivity(), conversation);

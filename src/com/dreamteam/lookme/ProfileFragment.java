@@ -165,15 +165,9 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 			Log.d("Bitmap size is " + photoImageSrc.getWidth() + " x " + photoImageSrc.getHeight());
 			int newWidth = (int) (photoImageSrc.getHeight() * ratio);
 			Log.d("New width is " + newWidth);
-			int offset = photoImageSrc.getWidth()/2 - newWidth/2;
+			int offset = photoImageSrc.getWidth() / 2 - newWidth / 2;
 			Log.d("Offset is " + offset);
-			Bitmap photoImageDst = Bitmap.createBitmap(
-				photoImageSrc,
-				offset, 
-				0,
-				newWidth,
-				photoImageSrc.getHeight() 
-			);
+			Bitmap photoImageDst = Bitmap.createBitmap(photoImageSrc, offset, 0, newWidth, photoImageSrc.getHeight());
 			photoView.setImageBitmap(photoImageDst);
 			// Now just add PhotoView to ViewPager and return it
 			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

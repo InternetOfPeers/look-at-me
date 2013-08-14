@@ -5,6 +5,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.dreamteam.lookme.service.NotificationService;
+import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.Nav;
+
 public class ChatMessagesActivity extends CommonActivity {
 
 	@Override
@@ -27,9 +31,21 @@ public class ChatMessagesActivity extends CommonActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
-			return true;
+			break;
+		case R.id.action_view_profile:
+			Bundle parameters = new Bundle();
+			parameters.putString(Nav.PROFILE_ID_KEY, getConversation().getNodeId());
+			Nav.startActivityWithParameters(this, ProfileActivity.class, parameters);
+			break;
 		}
 		return true;
+	}
+
+	public ChatConversation getConversation() {
+		String conversationId = Nav.getParameters(this).getString(NotificationService.CONVERSATION_KEY_ID);
+		if (conversationId.isEmpty())
+			return null;
+		return Services.currentState.getConversationsStore().get(conversationId);
 	}
 
 }

@@ -83,12 +83,13 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String nodeId = node.getId();
 		BasicProfile otherProfile = (BasicProfile) node.getProfile();
 		String otherNickName = otherProfile.getNickname();
+		int otherAge = otherProfile.getAge();
 		String otherProfileId = otherProfile.getId();
 		BasicProfile myProfile = Services.currentState.getMyBasicProfile();
 		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
 		if (conversation == null || conversation.isEmpty())
-			conversation = new ChatConversationImpl(conversationId, otherNickName, nodeId, otherProfile.getMainProfileImage().getImageBitmap());
+			conversation = new ChatConversationImpl(conversationId, otherNickName, otherAge, nodeId, otherProfile.getMainProfileImage().getImageBitmap());
 		ChatMessage chatMessage = new ChatMessage(otherNickName, myProfile.getNickname(), message, false);
 		conversation.addMessage(chatMessage);
 		Services.businessLogic.storeConversation(conversation);

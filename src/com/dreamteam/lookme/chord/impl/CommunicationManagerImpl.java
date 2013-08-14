@@ -439,8 +439,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// crea
 		if (conversation == null) {
 			conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
-			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile.getNickname(), toNode, otherProfile.getMainProfileImage()
-					.getImageBitmap()));
+			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile.getNickname(), otherProfile.getAge(), toNode, otherProfile
+					.getMainProfileImage().getImageBitmap()));
 		}
 		// Effettua il join al canale prescelto per la chat
 		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
