@@ -37,7 +37,6 @@ import com.dreamteam.util.Nav;
 public class EditProfileActivity extends CommonActivity {
 	private static int RESULT_LOAD_IMAGE = 1;
 
-	private static final int PICK_IMAGE = 1;
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 
 	String imageFilePath = null;
@@ -152,7 +151,7 @@ public class EditProfileActivity extends CommonActivity {
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 			Services.businessLogic.notifyMyProfileIsUpdated();
 			switchToUpdateAccount(savedProfile);
-			Toast toast = Toast.makeText(getApplicationContext(), "welcome on Look@ME!", 10);
+			Toast toast = Toast.makeText(getApplicationContext(), "Welcome on Look@me!", Toast.LENGTH_SHORT);
 			toast.show();
 
 			Nav.startActivity(this, NearbyActivity.class);
@@ -219,7 +218,7 @@ public class EditProfileActivity extends CommonActivity {
 
 		} catch (Exception e) {
 			Log.e("error changing image, error: " + e.toString());
-			text = "ops!Unable to load image ";
+			text = "ops! Unable to load image ";
 
 		}
 		int duration = Toast.LENGTH_LONG;
@@ -268,7 +267,7 @@ public class EditProfileActivity extends CommonActivity {
 		interest.setOnFocusChangeListener(new InterestOnFocusListner(this));
 
 		Button button = (Button) findViewById(R.id.btnRegister);
-		button.setText("change my profile");
+		button.setText("Save profile");
 	}
 
 	private class InterestOnFocusListner implements OnFocusChangeListener {
