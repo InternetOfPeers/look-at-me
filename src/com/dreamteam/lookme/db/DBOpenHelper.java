@@ -172,7 +172,7 @@ public interface DBOpenHelper {
 	// public void saveOrUpdateTag(ProfileTag profileTag) throws Exception;
 
 	public boolean isProfileCompiled();
-	
+
 	/**
 	 * Delete a specific ProfileImage present in the database
 	 * 

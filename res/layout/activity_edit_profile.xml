@@ -43,13 +43,12 @@
                         android:onClick="onChooseImage"
                         android:text="add image" />
                 </LinearLayout>
-                                                    
-                      <com.devsmart.android.ui.HorizontalListView
-						  	android:id="@+id/listview"
-						  	android:layout_width="fill_parent"
-						  	android:layout_height="wrap_content"
-						  	android:background="#ddd"
-						  />
+
+                <com.devsmart.android.ui.HorizontalListView
+                    android:id="@+id/listview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ddd" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,43 +70,38 @@
                         android:layout_marginTop="5dip"
                         android:inputType="text"
                         android:singleLine="true" />
-                    
-                    <Spinner  
-						    android:id="@+id/spinner_age" 
-						    android:layout_height="wrap_content"  
-						    android:layout_width="wrap_content"
-						    android:prompt="@string/text_age"  						   
-						    android:entries="@array/age_array"						    
-						    >  
-					</Spinner> 
-                    
-                    <Spinner  
-						    android:id="@+id/spinner_gender"  
-						    android:layout_height="wrap_content"  
-						    android:layout_width="wrap_content"
-						    android:prompt="@string/text_gender"  						    					        
-						    android:entries="@array/gender_array"
-						    >  
-					</Spinner> 
-					
-                    
-                    <Spinner  
-						    android:id="@+id/spinner_country" 
-						    android:layout_height="wrap_content" 
-						    android:layout_width="wrap_content" 
-						    android:prompt="@string/text_age"  						    
-						    android:entries="@array/country_array" 
-						    >  
-					</Spinner> 
-					
-                    <Spinner  
-						    android:id="@+id/spinner_language" 
-						    android:layout_height="wrap_content" 
-						    android:layout_width="wrap_content" 
-						    android:prompt="@string/text_age"  						    
-						    android:entries="@array/language_array" 
-						    >  
-					</Spinner> 
+
+                    <Spinner
+                        android:id="@+id/spinner_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/age_array"
+                        android:prompt="@string/text_age" >
+                    </Spinner>
+
+                    <Spinner
+                        android:id="@+id/spinner_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/gender_array"
+                        android:prompt="@string/text_gender" >
+                    </Spinner>
+
+                    <Spinner
+                        android:id="@+id/spinner_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/country_array"
+                        android:prompt="@string/text_age" >
+                    </Spinner>
+
+                    <Spinner
+                        android:id="@+id/spinner_language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/language_array"
+                        android:prompt="@string/text_age" >
+                    </Spinner>
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -156,7 +150,7 @@
                         android:layout_marginTop="5dip"
                         android:inputType="text"
                         android:singleLine="true" />
-                    
+
                     <Button
                         android:id="@+id/btnRegister"
                         android:layout_width="fill_parent"
@@ -166,11 +160,8 @@
                         android:text="Register New Account" />
                 </LinearLayout>
             </LinearLayout>
-            
-            
-                </RelativeLayout>
-                </ScrollView>
-
+        </RelativeLayout>
+    </ScrollView>
 
     <!--
          android:layout_gravity="start" tells DrawerLayout to treat
@@ -178,7 +169,8 @@
          languages and on the right side for right-to-left languages.
          The drawer is given a fixed width in dp and extends the full height of
          the container. A solid background is used for contrast
-         with the content view. -->
+         with the content view.
+    -->
 
     <ListView
         android:id="@+id/left_drawer"

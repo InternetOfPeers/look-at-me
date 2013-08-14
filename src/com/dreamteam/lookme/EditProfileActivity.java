@@ -5,15 +5,12 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -43,7 +40,6 @@ public class EditProfileActivity extends CommonActivity {
 	private static final int PICK_IMAGE = 1;
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 
-
 	String imageFilePath = null;
 
 	@Override
@@ -52,26 +48,23 @@ public class EditProfileActivity extends CommonActivity {
 		try {
 			setContentView(R.layout.activity_edit_profile);
 
-						
 			FullProfile oldProfile = Services.currentState.getMyFullProfile();
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
 				HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
-				scrollGalleryAdapter=new ScrollGalleryAdapter(this);
+				scrollGalleryAdapter = new ScrollGalleryAdapter(this);
 				listview.setAdapter(scrollGalleryAdapter);
-			}
-			else{
-				Locale locale = getResources().getConfiguration().locale;				
+			} else {
+				Locale locale = getResources().getConfiguration().locale;
 				String country = locale.getCountry();
-				Spinner spinnerCountry = (Spinner)findViewById(R.id.spinner_country);
+				Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
 				setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
 				String language = locale.getLanguage();
-				Spinner spinnerLanguage = (Spinner)findViewById(R.id.spinner_language);
+				Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
 				setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
-			}			
+			}
 			initDrawerMenu(savedInstanceState, this.getClass(), true);
-			
-			
+
 		} catch (Exception e) {
 			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
@@ -90,7 +83,7 @@ public class EditProfileActivity extends CommonActivity {
 			Spinner spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
 			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
 			Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
-			
+
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 
 			Log.d(imageView.getDrawable().getConstantState().toString());
@@ -119,40 +112,37 @@ public class EditProfileActivity extends CommonActivity {
 			profile.setNickname(usernameScreen.getText().toString());
 
 			profile.setId(deviceId);
-			
-			String age =(String)spinnerAge.getSelectedItem();
-			if(age!=null&&!age.isEmpty()&&!age.equals("age"))
+
+			String age = (String) spinnerAge.getSelectedItem();
+			if (age != null && !age.isEmpty() && !age.equals("age"))
 				profile.setAge(Integer.valueOf(age));
-			
-			String gender =(String)spinnerGender.getSelectedItem();
-			if(gender!=null&&!gender.isEmpty()&&!gender.equals("gender"))
-				profile.setGender(gender);			
 
-			String country =(String)spinnerCountry.getSelectedItem();
-			if(country!=null&&!country.isEmpty())
-			{				
+			String gender = (String) spinnerGender.getSelectedItem();
+			if (gender != null && !gender.isEmpty() && !gender.equals("gender"))
+				profile.setGender(gender);
+
+			String country = (String) spinnerCountry.getSelectedItem();
+			if (country != null && !country.isEmpty()) {
 				profile.setLivingCountry(country);
-			}				
-			
-			String language =(String)spinnerLanguage.getSelectedItem();
-			if(language!=null&&!country.isEmpty())
-			{				
-				profile.setPrimaryLanguage(language);
-			}				
+			}
 
-			
+			String language = (String) spinnerLanguage.getSelectedItem();
+			if (language != null && !country.isEmpty()) {
+				profile.setPrimaryLanguage(language);
+			}
+
 			if (imageView.getDrawable() != null) {
 				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
 				ProfileImage profileImage = null;
 
-				if(scrollGalleryAdapter!=null)					
+				if (scrollGalleryAdapter != null)
 					profile.getProfileImages().addAll(scrollGalleryAdapter.imageList);
-				else{
+				else {
 					profileImage = new ProfileImage();
 					profileImage.setProfileId(profile.getId());
 					profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
-					profileImage.setMainImage(true);					
+					profileImage.setMainImage(true);
 					profile.getProfileImages().add(profileImage);
 				}
 
@@ -187,13 +177,13 @@ public class EditProfileActivity extends CommonActivity {
 			// proporzione quadrata
 			intent.putExtra("aspectX", 3);
 			intent.putExtra("aspectY", 4);
-			// dimensione di salvataggio 
+			// dimensione di salvataggio
 			// per ora messa la larghezza del galaxy S4 e proporzione 4:3
 			intent.putExtra("outputX", 1080);
 			intent.putExtra("outputY", 1440);
 			intent.putExtra("return-data", true);
 			// end code for crop image
-			
+
 			startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
@@ -210,20 +200,17 @@ public class EditProfileActivity extends CommonActivity {
 			super.onActivityResult(requestCode, resultCode, data);
 
 			if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-				
-				
+
 				Bundle extras = data.getExtras();
 				Bitmap photo = extras.getParcelable("data");
 
-				if(scrollGalleryAdapter!=null)
-				{
+				if (scrollGalleryAdapter != null) {
 					ProfileImage profileImage = new ProfileImage();
 					profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
 					profileImage.setProfileId(Services.currentState.getMyBasicProfile().getId());
 					scrollGalleryAdapter.imageList.add(profileImage);
-					refreshFragment();					
-				}else
-				{
+					refreshFragment();
+				} else {
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
 					imageView.setImageBitmap(photo);
 				}
@@ -249,26 +236,22 @@ public class EditProfileActivity extends CommonActivity {
 		surnameScreen.setText(profile.getSurname());
 		TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
 		usernameScreen.setText(profile.getNickname());
-		
-		if(profile.getAge()!=0)
-		{			
+
+		if (profile.getAge() != 0) {
 			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_age), String.valueOf(profile.getAge()));
 		}
-		
-		if(profile.getLivingCountry()!=null&&!profile.getLivingCountry().isEmpty())
-		{			
+
+		if (profile.getLivingCountry() != null && !profile.getLivingCountry().isEmpty()) {
 			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_country), (profile.getLivingCountry()));
 		}
-				
-		if(profile.getPrimaryLanguage()!=null&&!profile.getPrimaryLanguage().isEmpty())
-		{			
+
+		if (profile.getPrimaryLanguage() != null && !profile.getPrimaryLanguage().isEmpty()) {
 			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_language), (profile.getPrimaryLanguage()));
 		}
-		
-		if(profile.getGender()!=null&&!profile.getGender().isEmpty())
-		{			
+
+		if (profile.getGender() != null && !profile.getGender().isEmpty()) {
 			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_gender), (profile.getGender()));
-		}		
+		}
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length));
@@ -302,21 +285,19 @@ public class EditProfileActivity extends CommonActivity {
 			}
 		}
 	}
-	
-	private void setSpinnerSelectedStringValue(Spinner spinner,String value)
-	{
+
+	private void setSpinnerSelectedStringValue(Spinner spinner, String value) {
 		ArrayAdapter<String> myAdapter = (ArrayAdapter) spinner.getAdapter();
 		int spinnerPosition = myAdapter.getPosition(value);
 		spinner.setSelection(spinnerPosition);
-		
+
 	}
-	
-	protected void setMainProfileImage(ProfileImage profileImage)
-	{
+
+	protected void setMainProfileImage(ProfileImage profileImage) {
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profileImage.getImage(), 0, profileImage.getImage().length));
 	}
-	
+
 	private void refreshFragment() {
 		scrollGalleryAdapter.notifyDataSetChanged();
 	}

@@ -6,14 +6,12 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="80dp"
-        android:layout_height="80dp"        
+        android:layout_height="80dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:contentDescription="profile selected image"
         android:src="@drawable/ic_profile_image" />
 
-    
-    
     <Button
         android:id="@+id/setAsMainImage"
         android:layout_width="100dp"
@@ -31,6 +29,5 @@
         android:layout_alignTop="@+id/setAsMainImage"
         android:layout_toRightOf="@+id/setAsMainImage"
         android:text="@string/delete" />
-
 
 </RelativeLayout>

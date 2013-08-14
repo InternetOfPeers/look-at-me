@@ -24,7 +24,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
@@ -131,9 +130,10 @@ public abstract class CommonActivity extends Activity {
 			// If the nav drawer is open, hide action items related to the
 			// content view
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			//MenuItem actionSettingsButton = menu.findItem(R.id.action_settings);
-			//if (actionSettingsButton != null)
-			//	actionSettingsButton.setVisible(!drawerOpen);
+			// MenuItem actionSettingsButton =
+			// menu.findItem(R.id.action_settings);
+			// if (actionSettingsButton != null)
+			// actionSettingsButton.setVisible(!drawerOpen);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -151,13 +151,13 @@ public abstract class CommonActivity extends Activity {
 			return true;
 		}
 		// Verifica quale elemento è stato premunto
-//		switch (item.getItemId()) {
-//		case R.id.action_settings:
-//			Nav.startActivity(this, SettingsActivity.class);
-//			return true;
-//		default:
-//			return super.onOptionsItemSelected(item);
-//		}
+		// switch (item.getItemId()) {
+		// case R.id.action_settings:
+		// Nav.startActivity(this, SettingsActivity.class);
+		// return true;
+		// default:
+		// return super.onOptionsItemSelected(item);
+		// }
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -265,9 +265,9 @@ public abstract class CommonActivity extends Activity {
 		final ConnectivityManager connMgr = (ConnectivityManager)
 
 		this.getSystemService(Context.CONNECTIVITY_SERVICE);
-		final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager. TYPE_WIFI);
+		final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-		if ( ! ((wifi.isAvailable() && (wifi.getDetailedState() == DetailedState.CONNECTED)) ) )  {
+		if (!((wifi.isAvailable() && (wifi.getDetailedState() == DetailedState.CONNECTED)))) {
 			showBlockingMessage("NO CONNECTION AVAILABLE");
 		}
 
