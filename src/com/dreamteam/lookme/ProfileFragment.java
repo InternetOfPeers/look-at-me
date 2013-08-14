@@ -5,9 +5,11 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -150,9 +152,31 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		@Override
 		public View instantiateItem(ViewGroup container, int position) {
 			PhotoView photoView = new PhotoView(container.getContext());
-			photoView.setImageBitmap(gallery_images[position]);
+			// Get bitmap and crop to fill display size
+			Display display = getActivity().getWindowManager().getDefaultDisplay();
+			Point size = new Point();
+			display.getSize(size);
+			Log.d("Display size is " + size.x + " x " + size.y);
+			float width = (float) size.x;
+			float height = (float) size.y;
+			float ratio = width / height;
+			Log.d("Display ratio is " + ratio);
+			Bitmap photoImageSrc = gallery_images[position];
+			Log.d("Bitmap size is " + photoImageSrc.getWidth() + " x " + photoImageSrc.getHeight());
+			int newWidth = (int) (photoImageSrc.getHeight() * ratio);
+			Log.d("New width is " + newWidth);
+			int offset = photoImageSrc.getWidth()/2 - newWidth/2;
+			Log.d("Offset is " + offset);
+			Bitmap photoImageDst = Bitmap.createBitmap(
+				photoImageSrc,
+				offset, 
+				0,
+				newWidth,
+				photoImageSrc.getHeight() 
+			);
+			photoView.setImageBitmap(photoImageDst);
 			// Now just add PhotoView to ViewPager and return it
-			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
 			return photoView;
 		}
