@@ -36,13 +36,20 @@
                         android:src="@drawable/ic_profile_image" />
 
                     <Button
-                        android:id="@+id/btnChooseImage"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:id="@+id/btnAddImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
                         android:onClick="onChooseImage"
-                        android:text="choose image" />
+                        android:text="add image" />
                 </LinearLayout>
+                                                    
+                      <com.devsmart.android.ui.HorizontalListView
+						  	android:id="@+id/listview"
+						  	android:layout_width="fill_parent"
+						  	android:layout_height="wrap_content"
+						  	android:background="#ddd"
+						  />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,10 +70,44 @@
                         android:layout_marginBottom="20dip"
                         android:layout_marginTop="5dip"
                         android:inputType="text"
-                        android:singleLine="true" >
-
-                        <requestFocus />
-                    </EditText>
+                        android:singleLine="true" />
+                    
+                    <Spinner  
+						    android:id="@+id/spinner_age" 
+						    android:layout_height="wrap_content"  
+						    android:layout_width="wrap_content"
+						    android:prompt="@string/text_age"  						   
+						    android:entries="@array/age_array"						    
+						    >  
+					</Spinner> 
+                    
+                    <Spinner  
+						    android:id="@+id/spinner_gender"  
+						    android:layout_height="wrap_content"  
+						    android:layout_width="wrap_content"
+						    android:prompt="@string/text_gender"  						    					        
+						    android:entries="@array/gender_array"
+						    >  
+					</Spinner> 
+					
+                    
+                    <Spinner  
+						    android:id="@+id/spinner_country" 
+						    android:layout_height="wrap_content" 
+						    android:layout_width="wrap_content" 
+						    android:prompt="@string/text_age"  						    
+						    android:entries="@array/country_array" 
+						    >  
+					</Spinner> 
+					
+                    <Spinner  
+						    android:id="@+id/spinner_language" 
+						    android:layout_height="wrap_content" 
+						    android:layout_width="wrap_content" 
+						    android:prompt="@string/text_age"  						    
+						    android:entries="@array/language_array" 
+						    >  
+					</Spinner> 
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -82,6 +123,8 @@
                         android:layout_marginTop="5dip"
                         android:inputType="text"
                         android:singleLine="true" >
+
+                        <requestFocus />
                     </EditText>
 
                     <TextView
@@ -113,18 +156,29 @@
                         android:layout_marginTop="5dip"
                         android:inputType="text"
                         android:singleLine="true" />
-
+                    
                     <Button
                         android:id="@+id/btnRegister"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
                         android:onClick="onRegister"
-                        android:text="Create profile" />
+                        android:text="Register New Account" />
                 </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
+            
+            
+                </RelativeLayout>
+                </ScrollView>
+
+
+    <!--
+         android:layout_gravity="start" tells DrawerLayout to treat
+         this as a sliding drawer on the left side for left-to-right
+         languages and on the right side for right-to-left languages.
+         The drawer is given a fixed width in dp and extends the full height of
+         the container. A solid background is used for contrast
+         with the content view. -->
 
     <ListView
         android:id="@+id/left_drawer"

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"        
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="profile selected image"
+        android:src="@drawable/ic_profile_image" />
+
+    
+    
+    <Button
+        android:id="@+id/setAsMainImage"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/image"
+        android:layout_below="@+id/image"
+        android:layout_marginTop="20dp"
+        android:text="@string/setAsMainImage" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/setAsMainImage"
+        android:layout_alignTop="@+id/setAsMainImage"
+        android:layout_toRightOf="@+id/setAsMainImage"
+        android:text="@string/delete" />
+
+
+</RelativeLayout>

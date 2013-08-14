@@ -40,8 +40,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	public static DBOpenHelper getInstance(Context ctx) {
 
-		// TODO Il context potrebbe essere NULL per qualche motivo quindi
-		// predisporsi meglio per gestire la situazione
+		// TODO Il context potrebbe essere NULL per qualche motivo (lungo
+		// inutilizzo?), quindi predisporsi per gestire la situazione
 
 		// Use the application context, which will ensure that you
 		// don't accidentally leak an Activity's context.
@@ -127,7 +127,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		contentValues.put(TABLE_PROFILES_COLUMN_SURNAME, profile.getSurname());
 		contentValues.put(TABLE_PROFILES_COLUMN_NICKNAME, profile.getNickname());
 		contentValues.put(TABLE_PROFILES_COLUMN_ID, profile.getId());
-		contentValues.put(TABLE_PROFILES_COLUMN_AGE, profile.getGender());
+		contentValues.put(TABLE_PROFILES_COLUMN_AGE, profile.getAge());
 		contentValues.put(TABLE_PROFILES_COLUMN_GENDER, profile.getGender());
 		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_DAY, profile.getBirthdateDay());
 		contentValues.put(TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH, profile.getBirthdateDay());
@@ -150,7 +150,13 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 
 		if (profile.getProfileImages() != null && !profile.getProfileImages().isEmpty())
-			saveOrUpdateImage(profile.getProfileImages().get(0));
+		{
+			Iterator<ProfileImage>iter = profile.getProfileImages().iterator();
+			while(iter.hasNext())
+			{
+				saveOrUpdateImage(iter.next());
+			}			
+		}			
 		else
 			Log.e("db", "problem saving profile,this profile has no foto profileId:" + profile.getId());
 
@@ -352,15 +358,16 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	@Override
 	public List<ProfileImage> getProfileImages(String profileId) throws Exception {
 		Cursor cursor = null;
-		ProfileImage profileImage = new ProfileImage();
+		ProfileImage profileImage = null;
 		List<ProfileImage> returnList = new ArrayList<ProfileImage>();
 		try {
 
 			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID + ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
-					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES + " WHERE " + TABLE_IMAGES_COLUMN_PROFILE_ID + "=?", new String[] { "" + profileId });
+					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES + " WHERE " + TABLE_IMAGES_COLUMN_PROFILE_ID + "=? ORDER BY "+ TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO +" DESC", new String[] { "" + profileId });
 
 			if (cursor.moveToFirst()) {
 				do {
+					profileImage = new ProfileImage();
 					profileImage.setId(cursor.getLong(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_ID)));
 					profileImage.setProfileId(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_PROFILE_ID)));
 					profileImage.setMainImage(cursor.getString(cursor.getColumnIndex(TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO)) != null ? true : false);
@@ -385,7 +392,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		try {
 
 			cursor = database.rawQuery("SELECT " + TABLE_IMAGES_COLUMN_ID + ", " + TABLE_IMAGES_COLUMN_PROFILE_ID + ", " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + ", "
-					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES + " WHERE " + TABLE_IMAGES_COLUMN_ID + "=?", new String[] { "" + profileImageId });
+					+ TABLE_IMAGES_COLUMN_IMAGE + " FROM " + TABLE_IMAGES + " WHERE " + TABLE_IMAGES_COLUMN_ID + "=? ", new String[] { "" + profileImageId });
 
 			if (cursor.moveToFirst()) {
 				do {
@@ -405,6 +412,20 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 		return null;
 	}
+	
+	@Override
+	public void deleteImage(long profileImageId) throws Exception {
+		try {
+			String table_name=TABLE_IMAGES;
+			String where = TABLE_IMAGES_COLUMN_ID + "="+ profileImageId;
+			String[] whereArgs=null;
+			database.delete(table_name, where, whereArgs);						
+		} catch (Throwable e) {
+			Log.e("db", "error on deleting specific Image : " + e.getMessage() + " image ID:" + profileImageId);
+		} finally {
+		}
+
+	}	
 
 	@Override
 	public ProfileImage getProfileMainImage(String profileId) throws Exception {
