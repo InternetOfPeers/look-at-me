@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
+import android.os.Build;
+
 import com.dreamteam.lookme.chord.Node;
 import com.dreamteam.lookme.service.Services;
 
@@ -88,4 +90,7 @@ public class CommonUtils {
 		}
 	}
 
+	public static boolean isEmulator() {
+		return "goldfish".equals(Build.HARDWARE);
+	}
 }

@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 
@@ -35,6 +36,11 @@ public class NearbyActivity extends CommonActivity {
 				}
 			});
 			dialog.show();
+		} else {
+			// Verifico lo stato della connessione
+			if (!isConnectionAvailable() && !CommonUtils.isEmulator())
+				showDialog("Warning", "No WiFi connection available. Connect to a WiFi hotspot to find new friends nearby.", false);
+
 		}
 	}
 

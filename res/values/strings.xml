@@ -70,7 +70,7 @@
     <string name="vote_btn">vote</string>
     <!-- channel list dialog end -->
 
-    <string name="btn_label_close">Close</string>
+    <string name="dialog_button_close_label">Close</string>
 
     <!-- CHAT -->
     <string name="text_chat_alt_profile_image">profile image</string>

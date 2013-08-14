@@ -1,12 +1,12 @@
 package com.dreamteam.lookme;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.NetworkInfo.DetailedState;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 
@@ -47,8 +48,6 @@ public abstract class CommonActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		checkConnection();
 		Log.d();
 		// Preparo gli eventuali extra passati da chi ha chiamato l'activity
 		extras = getIntent().getExtras() != null ? getIntent().getExtras() : new Bundle();
@@ -233,44 +232,31 @@ public abstract class CommonActivity extends Activity {
 		}
 	};
 
-	protected void showErrorDialog(String message) {
+	protected void showDialog(String title, String message, boolean isBlockingDialog) {
 		final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.error_dialog);
-		dialog.setTitle("Dialog popup");
-		Button dialogButton = (Button) dialog.findViewById(R.id.buttonClose);
-		TextView errorMsg = (TextView) dialog.findViewById(R.id.textErrorMsg);
+		dialog.setContentView(R.layout.dialog);
+		dialog.setTitle(title);
+		dialog.setCancelable(!isBlockingDialog);
+		TextView errorMsg = (TextView) dialog.findViewById(R.id.dialog_message);
 		errorMsg.setText(message);
-		// if button is clicked, close the custom dialog
-		dialogButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
+		Button dialogButton = (Button) dialog.findViewById(R.id.dialog_button_close);
+		if (isBlockingDialog) {
+			dialogButton.setVisibility(View.GONE);
+		} else {
+			dialogButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+		}
 		dialog.show();
 	}
 
-	protected void showBlockingMessage(String message) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setCancelable(false);
-		builder.setTitle("Blocking error");
-		builder.setMessage(message);
-		builder.setInverseBackgroundForced(true);
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-
-	protected void checkConnection() {
-
-		final ConnectivityManager connMgr = (ConnectivityManager)
-
-		this.getSystemService(Context.CONNECTIVITY_SERVICE);
-		final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-		if (!((wifi.isAvailable() && (wifi.getDetailedState() == DetailedState.CONNECTED)))) {
-			showBlockingMessage("NO CONNECTION AVAILABLE");
-		}
-
+	protected boolean isConnectionAvailable() {
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		return (wifi.isAvailable() && wifi.getDetailedState() == DetailedState.CONNECTED);
 	}
 
 }
