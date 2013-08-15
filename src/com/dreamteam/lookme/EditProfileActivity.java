@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
@@ -45,6 +44,9 @@ import com.dreamteam.util.Nav;
 public class EditProfileActivity extends CommonActivity {
 	
 	protected static final int PHOTO_PICKED = 0;
+	
+	private static final int OUTPUT_X = 1080;
+	private static final int OUTPUT_Y = 1440;
 
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 
@@ -169,12 +171,11 @@ public class EditProfileActivity extends CommonActivity {
             intent.putExtra("crop", "true");
             intent.putExtra("aspectX", 3);
             intent.putExtra("aspectY", 4);
-            intent.putExtra("outputX", 300);	
-            intent.putExtra("outputY", 400);
+            intent.putExtra("outputX", OUTPUT_X);	
+            intent.putExtra("outputY", OUTPUT_Y);
             intent.putExtra("scale", true);
             intent.putExtra("return-data", true);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempUri());
-            //intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
             startActivityForResult(intent, PHOTO_PICKED);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
@@ -188,11 +189,7 @@ public class EditProfileActivity extends CommonActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == PHOTO_PICKED && resultCode == RESULT_OK && null != data) {
 			try {
-                //final Bundle extras = data.getExtras();
-				//Bitmap photo = extras.getParcelable("data");
-				
-				//Uri imageTmpFileUri = Uri.fromFile(getTempFile(false));
-				Bitmap photo = ImageUtil.loadBitmap(getTempUri().getPath(), 300, 400);
+				Bitmap photo = ImageUtil.loadBitmap(getTempUri().getPath(), OUTPUT_X, OUTPUT_Y);
 				Log.d("Photo has density: " + photo.getDensity() + " and size " + photo.getWidth() + " x " + photo.getHeight());
 				
 				if (scrollGalleryAdapter != null) {
