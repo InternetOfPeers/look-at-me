@@ -49,7 +49,7 @@ public class ProfileFragment extends Fragment {
 		buttonLike = (ImageButton) view.findViewById(R.id.buttonLike);
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
-		gallery_images = new ArrayList<Bitmap>();
+		profilePhoto.setAdapter(new SamplePagerAdapter());
 		// recupero il node id, entro in attesa e invio la richiesta di full
 		// profile
 		Bundle parameters = getActivity().getIntent().getExtras();
@@ -118,6 +118,7 @@ public class ProfileFragment extends Fragment {
 	public void prepareProfileAttributes() {
 		Node profileNode = Services.currentState.getProfileViewed();
 		FullProfile profile = (FullProfile) profileNode.getProfile();
+		gallery_images = new ArrayList<Bitmap>();
 		if (profile != null) {
 			// Imposto il title con il nickname e l'età dell'utente selezionato
 			String age = profile.getAge() > 0 ? ", " + String.valueOf(profile.getAge()) : "";
@@ -130,13 +131,16 @@ public class ProfileFragment extends Fragment {
 			} else {
 				gallery_images.add(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
 			}
-			profilePhoto.setAdapter(new SamplePagerAdapter());
 			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
 			if (!likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId())) {
 				// change image to disabled button
 				buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
 			}
 		}
+	}
+
+	private boolean likeButtonIsEnabledFor(String nodeId) {
+		return !Services.currentState.getILikeSet().contains(nodeId);
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {
@@ -182,10 +186,6 @@ public class ProfileFragment extends Fragment {
 			return view == object;
 		}
 
-	}
-
-	private boolean likeButtonIsEnabledFor(String nodeId) {
-		return !Services.currentState.getILikeSet().contains(nodeId);
 	}
 
 }
