@@ -1,10 +1,14 @@
 package com.dreamteam.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.dreamteam.lookme.R;
@@ -105,5 +109,22 @@ public class ImageUtil {
 		}
 		return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
 	}
+	
+    public static Drawable loadImageFromAsset(Context context,String imageFileName) {
+
+        // load image
+        try {
+            // get input stream
+            InputStream ims = context.getAssets().open("avatar.jpg");
+            // load image as Drawable
+            Drawable d = Drawable.createFromStream(ims, null);
+            return d;
+        }
+        catch(IOException ex) {
+            Log.e("ImageUtil", "unable to load image! name: "+ imageFileName);
+        }
+        return null;
+ 
+    }
 
 }

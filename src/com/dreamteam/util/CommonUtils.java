@@ -12,10 +12,20 @@ import java.util.concurrent.TimeUnit;
 
 import android.os.Build;
 
+import com.dreamteam.lookme.R;
 import com.dreamteam.lookme.chord.Node;
+import com.dreamteam.lookme.enumattribute.Country;
+import com.dreamteam.lookme.enumattribute.Gender;
 import com.dreamteam.lookme.service.Services;
 
 public class CommonUtils {
+	
+	
+public static final String[]genderArray={Gender.M.toString(),Gender.F.toString(),Gender.TG.toString()};
+public static final Integer[]genderImages={R.drawable.mars_symbol,R.drawable.venus_symbol,R.drawable.transgender_symbol};
+
+public static final String[]countryArray={Country.CA.toString(),Country.CN.toString(),Country.DE.toString(),Country.FR.toString(),Country.IT.toString(),Country.KR.toString(),Country.TW.toString(),Country.UK.toString(),Country.US.toString()};
+public static final Integer[]countryImages={R.drawable.canada,R.drawable.china,R.drawable.germany,R.drawable.france,R.drawable.italy,R.drawable.korea,R.drawable.taiwan,R.drawable.uk,R.drawable.us};
 
 	public static byte[] getBytes(Object obj) {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();

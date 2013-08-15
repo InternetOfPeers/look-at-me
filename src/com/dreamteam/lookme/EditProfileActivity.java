@@ -42,34 +42,45 @@ import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 
 public class EditProfileActivity extends CommonActivity {
-	
 	protected static final int PHOTO_PICKED = 0;
 	
 	private static final int OUTPUT_X = 1080;
 	private static final int OUTPUT_Y = 1440;
-
 	private ScrollGalleryAdapter scrollGalleryAdapter;
+
+
+	String imageFilePath = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.d();
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_profile);
-		initDrawerMenu(savedInstanceState, this.getClass(), true);
-		FullProfile oldProfile = Services.currentState.getMyFullProfile();
-		if (oldProfile != null) {
-			switchToUpdateAccount(oldProfile);
-			HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
-			scrollGalleryAdapter = new ScrollGalleryAdapter(this);
-			listview.setAdapter(scrollGalleryAdapter);
-		} else {
-			Locale locale = getResources().getConfiguration().locale;
-			String country = locale.getCountry();
+		try {
+			setContentView(R.layout.activity_edit_profile);						
+			FullProfile oldProfile = Services.currentState.getMyFullProfile();
+			Spinner spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
+			spinnerGender.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.genderArray,CommonUtils.genderImages));
 			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
-			setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
-			String language = locale.getLanguage();
-			Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
-			setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
+			spinnerCountry.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.countryArray,CommonUtils.countryImages));
+			if (oldProfile != null) {
+				switchToUpdateAccount(oldProfile);
+				HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
+				scrollGalleryAdapter=new ScrollGalleryAdapter(this);
+				listview.setAdapter(scrollGalleryAdapter);
+			}
+			else{
+				Locale locale = getResources().getConfiguration().locale;				
+				String country = locale.getCountry();
+				spinnerCountry = (Spinner)findViewById(R.id.spinner_country);
+				setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
+				String language = locale.getLanguage();
+				Spinner spinnerLanguage = (Spinner)findViewById(R.id.spinner_language);
+				setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
+			}			
+			initDrawerMenu(savedInstanceState, this.getClass(), true);
+			
+			
+		} catch (Exception e) {
+			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
 	}
 
