@@ -28,8 +28,8 @@
                 android:id="@+id/btnAddImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/label_nickname"
-                android:layout_marginLeft="22dp"
+                android:layout_above="@+id/listview"
+                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/imgView"
                 android:onClick="onChooseImage"
                 android:text="@string/edit_profile_btn_add_image" />
