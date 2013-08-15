@@ -49,6 +49,7 @@ public class ProfileFragment extends Fragment {
 		buttonLike = (ImageButton) view.findViewById(R.id.buttonLike);
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
+		gallery_images = new ArrayList<Bitmap>();
 		profilePhoto.setAdapter(new SamplePagerAdapter());
 		// recupero il node id, entro in attesa e invio la richiesta di full
 		// profile
@@ -137,6 +138,7 @@ public class ProfileFragment extends Fragment {
 				buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
 			}
 		}
+		profilePhoto.getAdapter().notifyDataSetChanged();
 	}
 
 	private boolean likeButtonIsEnabledFor(String nodeId) {
