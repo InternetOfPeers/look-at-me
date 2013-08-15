@@ -1,5 +1,7 @@
 package com.dreamteam.lookme;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -8,10 +10,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
@@ -37,11 +43,10 @@ import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 
 public class EditProfileActivity extends CommonActivity {
-	private static int RESULT_LOAD_IMAGE = 1;
+	
+	protected static final int PHOTO_PICKED = 0;
 
 	private ScrollGalleryAdapter scrollGalleryAdapter;
-
-	String imageFilePath = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +84,10 @@ public class EditProfileActivity extends CommonActivity {
 			Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 			if (usernameScreen.getText() == null || usernameScreen.getText().toString().equals("")) {
-				// Se non è l'emulatore verifico anche che sia stata impostata
+				// Se non ï¿½ l'emulatore verifico anche che sia stata impostata
 				// un'immagine di profilo
 				// TODO appena viene risolto il bug sul crop dell'immagine da
-				// emulatore, si può togliere questo controllo
+				// emulatore, si puï¿½ togliere questo controllo
 				if (!CommonUtils.isEmulator()
 						&& imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
 					Toast.makeText(this, "To create a new profile you need to insert at least an image and a nickname.", Toast.LENGTH_SHORT).show();
@@ -159,22 +164,18 @@ public class EditProfileActivity extends CommonActivity {
 
 	public void onChooseImage(View view) {
 		try {
-			Intent intent = new Intent();
-			intent.setType("image/*");
-			intent.setAction(Intent.ACTION_GET_CONTENT);
-			// code for crop image
-			intent.putExtra("crop", "true");
-			// proporzione quadrata
-			intent.putExtra("aspectX", 3);
-			intent.putExtra("aspectY", 4);
-			// dimensione di salvataggio
-			// per ora messa la larghezza del galaxy S4 e proporzione 4:3
-			intent.putExtra("outputX", 1080);
-			intent.putExtra("outputY", 1440);
-			intent.putExtra("return-data", true);
-			// end code for crop image
-
-			startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+			Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+            intent.setType("image/*");
+            intent.putExtra("crop", "true");
+            intent.putExtra("aspectX", 3);
+            intent.putExtra("aspectY", 4);
+            intent.putExtra("outputX", 300);	
+            intent.putExtra("outputY", 400);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempUri());
+            //intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+            startActivityForResult(intent, PHOTO_PICKED);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
@@ -185,10 +186,15 @@ public class EditProfileActivity extends CommonActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+		if (requestCode == PHOTO_PICKED && resultCode == RESULT_OK && null != data) {
 			try {
-				Bundle extras = data.getExtras();
-				Bitmap photo = extras.getParcelable("data");
+                //final Bundle extras = data.getExtras();
+				//Bitmap photo = extras.getParcelable("data");
+				
+				//Uri imageTmpFileUri = Uri.fromFile(getTempFile(false));
+				Bitmap photo = ImageUtil.loadBitmap(getTempUri().getPath(), 300, 400);
+				Log.d("Photo has density: " + photo.getDensity() + " and size " + photo.getWidth() + " x " + photo.getHeight());
+				
 				if (scrollGalleryAdapter != null) {
 					ProfileImage profileImage = new ProfileImage();
 					profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
@@ -199,6 +205,10 @@ public class EditProfileActivity extends CommonActivity {
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
 					imageView.setImageBitmap(photo);
 				}
+				if (getTempFile().exists()) {
+					Log.d("Deleting imageTmpFile");
+					getTempFile().delete();
+		        }
 			} catch (Exception e) {
 				Log.e("error changing image, error: " + e.toString());
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
@@ -279,5 +289,32 @@ public class EditProfileActivity extends CommonActivity {
 	private void refreshFragment() {
 		scrollGalleryAdapter.notifyDataSetChanged();
 	}
-
+	
+	private Uri getTempUri() {
+		return Uri.fromFile(getTempFile());
+	}
+	
+	private File getTempFile() {
+		if (isSDCARDMounted()) {
+			
+			File f = new File(Environment.getExternalStorageDirectory(), "mytmpimg.jpg");
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				Toast.makeText(this, "Error getting temp file", Toast.LENGTH_LONG).show();
+			}
+			return f;
+		} else {
+			return null;
+		}
+	}
+	
+	private boolean isSDCARDMounted(){
+        String status = Environment.getExternalStorageState();
+       
+        if (status.equals(Environment.MEDIA_MOUNTED))
+            return true;
+        return false;
+    }
+	
 }
