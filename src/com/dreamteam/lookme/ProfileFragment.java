@@ -121,7 +121,7 @@ public class ProfileFragment extends Fragment {
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		gallery_images = new ArrayList<Bitmap>();
 		if (profile != null) {
-			// Imposto il title con il nickname e l'età dell'utente selezionato
+			// Imposto il title con il nickname e l'etï¿½ dell'utente selezionato
 			String age = profile.getAge() > 0 ? ", " + String.valueOf(profile.getAge()) : "";
 			getActivity().setTitle(profile.getNickname() + age);
 			// Imposto le immagini del profilo utente
@@ -170,6 +170,11 @@ public class ProfileFragment extends Fragment {
 			Log.d("New width is " + newWidth);
 			int offset = photoImageSrc.getWidth() / 2 - newWidth / 2;
 			Log.d("Offset is " + offset);
+			// I seguenti 2 controlli per evitare di avere valori negativi,
+			// ma in teoria se si costringe l'utente ad avere immagini in 
+			// proporzione 3:4 questi controlli risultano essere ridondanti
+			if (offset < 0) offset = 0;
+			if (newWidth > photoImageSrc.getWidth()) newWidth = photoImageSrc.getWidth();
 			Bitmap photoImageDst = Bitmap.createBitmap(photoImageSrc, offset, 0, newWidth, photoImageSrc.getHeight());
 			photoView.setImageBitmap(photoImageDst);
 			// Now just add PhotoView to ViewPager and return it
