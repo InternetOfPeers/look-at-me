@@ -33,7 +33,7 @@ public class AddInterestActivity extends CommonActivity {
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
 
 		// create an ArrayAdaptar from the String Array
-		interestAdapter = new InterestAdapter(this, R.layout.interest_info, R.id.interestId, Services.currentState.getInterestList());
+		interestAdapter = new InterestAdapter(this, R.layout.interest_info_add, R.id.interestId, Services.currentState.getInterestList());
 
 		ListView listView = (ListView) findViewById(R.id.interestListView);
 		// Assign adapter to ListView
@@ -69,13 +69,11 @@ public class AddInterestActivity extends CommonActivity {
 			this.interestList.addAll(interestList);
 		}
 
-		public TreeSet<Interest> getInterestList() {
-			return interestList;
-		}
+
 
 		private class ViewHolder {
 			TextView code;
-			CheckBox name;
+			CheckBox cb;
 		}
 
 		@Override
@@ -85,22 +83,15 @@ public class AddInterestActivity extends CommonActivity {
 
 			if (convertView == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = vi.inflate(R.layout.interest_info, null);
+				convertView = vi.inflate(R.layout.interest_info_add, null);
 
 				holder = new ViewHolder();
 				holder.code = (TextView) convertView.findViewById(R.id.interestId);
-				// holder.name = (CheckBox)
-				// convertView.findViewById(R.id.checkBox1);
+				 holder.cb = (CheckBox)
+				convertView.findViewById(R.id.checkBoxAddInterest);
 				convertView.setTag(holder);
 
-				// holder.name.setOnClickListener(new View.OnClickListener() {
-				// public void onClick(View v) {
-				// CheckBox cb = (CheckBox) v;
-				// Interest interest = (Interest) cb.getTag();
-				//
-				// interest.setSelected(cb.isChecked());
-				// }
-				// });
+				
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
@@ -108,10 +99,13 @@ public class AddInterestActivity extends CommonActivity {
 			ArrayList<Interest> list = new ArrayList<Interest>(interestList);
 			Interest interest = list.get(position);
 			holder.code.setText(" (" + interest.getId() + ")");
-			// holder.name.setText(interest.getDesc());
-			// holder.name.setChecked(interest.isSelected());
-			// holder.name.setTag(interest);
 
+			for (Interest profileInterest : Services.currentState.getMyFullProfile().getInterestList()) {
+				System.out.println(position + " ########################### PROFILE INTEREST_ID = " +profileInterest.getId() + " ########################### ");
+				if(profileInterest.getId() == interest.getId()){
+					holder.cb.setChecked(true);
+				}
+			}
 			return convertView;
 
 		}

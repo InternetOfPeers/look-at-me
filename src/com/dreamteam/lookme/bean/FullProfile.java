@@ -152,6 +152,14 @@ public class FullProfile extends BasicProfile {
 	}
 
 	public Set<Interest> getInterestList() {
+		
+//		Set<Interest> fakeInterestList = new TreeSet<Interest>();
+//		
+//		fakeInterestList.add(new Interest(1, "INTEREST 1", false));
+//		fakeInterestList.add(new Interest(2, "INTEREST 2", false));
+//		fakeInterestList.add(new Interest(3, "INTEREST 3", false));
+//		
+//		return fakeInterestList;
 		return interestList;
 	}
 

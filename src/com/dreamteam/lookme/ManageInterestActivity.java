@@ -35,7 +35,7 @@ public class ManageInterestActivity extends CommonActivity {
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
 
 		// create an ArrayAdaptar from the String Array
-		interestAdapter = new InterestAdapter(this, R.layout.interest_info, R.id.interestId, Services.currentState.getMyFullProfile().getInterestList());
+		interestAdapter = new InterestAdapter(this, R.layout.interest_info_manage, R.id.interestId, Services.currentState.getMyFullProfile().getInterestList());
 
 		final ListView listView = (ListView) findViewById(R.id.myInterestListView);
 		// Assign adapter to ListView
@@ -55,7 +55,7 @@ public class ManageInterestActivity extends CommonActivity {
 						"Removed: " + interest.getDesc() + "TO YOUR INTEREST, NOW YOU HAVE " + Services.currentState.getMyFullProfile().getInterestList().size()
 								+ "interests", Toast.LENGTH_SHORT).show();
 
-				interestAdapter = new InterestAdapter(activity, R.layout.interest_info, R.id.interestId, Services.currentState.getMyFullProfile().getInterestList());
+				interestAdapter = new InterestAdapter(activity, R.layout.interest_info_manage, R.id.interestId, Services.currentState.getMyFullProfile().getInterestList());
 				listView.setAdapter(interestAdapter);
 				interestAdapter.notifyDataSetChanged();
 			}
@@ -105,7 +105,7 @@ public class ManageInterestActivity extends CommonActivity {
 
 			if (convertView == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = vi.inflate(R.layout.interest_info, null);
+				convertView = vi.inflate(R.layout.interest_info_manage, null);
 
 				holder = new ViewHolder();
 				holder.code = (TextView) convertView.findViewById(R.id.interestId);
