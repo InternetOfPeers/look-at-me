@@ -148,14 +148,6 @@ public abstract class CommonActivity extends Activity {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		// Verifica quale elemento è stato premunto
-		// switch (item.getItemId()) {
-		// case R.id.action_settings:
-		// Nav.startActivity(this, SettingsActivity.class);
-		// return true;
-		// default:
-		// return super.onOptionsItemSelected(item);
-		// }
 		return super.onOptionsItemSelected(item);
 	}
 

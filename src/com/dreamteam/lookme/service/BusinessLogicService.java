@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.dreamteam.lookme.ChatConversation;
 import com.dreamteam.lookme.bean.Interest;
+import com.dreamteam.util.FakeUser;
 
 public interface BusinessLogicService {
 
@@ -30,5 +31,7 @@ public interface BusinessLogicService {
 	Set<Interest> getFullInterestList();
 
 	void storeConversation(ChatConversation conversation);
+
+	FakeUser getFakeUser();
 
 }

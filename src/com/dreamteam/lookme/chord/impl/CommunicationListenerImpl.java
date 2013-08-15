@@ -26,33 +26,21 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	public void onBasicProfileNodeReceived(Node node) {
 		Log.d();
 		Services.currentState.putSocialNodeInMap(node);
-		try {
-			Services.event.post(new Event(EventType.NODE_JOINED, node.getId()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Services.event.post(new Event(EventType.NODE_JOINED, node.getId()));
 	}
 
 	@Override
 	public void onFullProfileNodeReceived(Node node) {
 		Log.d();
 		Services.currentState.setProfileViewed(node);
-		try {
-			Services.event.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Services.event.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
 	}
 
 	@Override
 	public void onNodeLeft(String nodeId) {
 		Log.d();
 		Services.currentState.removeSocialNodeFromMap(nodeId);
-		try {
-			Services.event.post(new Event(EventType.NODE_LEFT, nodeId));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Services.event.post(new Event(EventType.NODE_LEFT, nodeId));
 	}
 
 	@Override
@@ -64,14 +52,10 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	public void onLikeReceived(String fromNodeId) {
 		Log.d();
 		Services.currentState.addLikedToSet(fromNodeId);
-		try {
-			Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
-			if (Services.currentState.checkLikeMatch(fromNodeId)) {
-				Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().get(fromNodeId).getProfile().getNickname()));
-				Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
+		if (Services.currentState.checkLikeMatch(fromNodeId)) {
+			Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().get(fromNodeId).getProfile().getNickname()));
+			Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId));
 		}
 		Services.notification.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId), fromNodeId);
 	}

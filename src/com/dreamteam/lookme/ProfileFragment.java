@@ -1,5 +1,8 @@
 package com.dreamteam.lookme;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.co.senab.photoview.PhotoView;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -16,12 +19,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
 import com.dreamteam.lookme.chord.Node;
+import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
@@ -30,15 +33,12 @@ import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
 
-public class ProfileFragment extends Fragment implements OnClickListener {
+public class ProfileFragment extends Fragment {
 
 	private ViewPager profilePhoto;
-	private TextView textNickname;
-	// private TextView textName;
-	// private TextView textSurname;
 	private ImageButton buttonLike;
 	private ImageButton buttonChat;
-	private Bitmap[] gallery_images;
+	private List<Bitmap> gallery_images;
 
 	private ProgressDialog loadingDialog;
 
@@ -46,18 +46,24 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
 		View view = inflater.inflate(R.layout.fragment_profile, null);
-		textNickname = (TextView) view.findViewById(R.id.textNickname);
-		// textName = (TextView) view.findViewById(R.id.textName);
-		// textSurname = (TextView) view.findViewById(R.id.textSurname);
 		buttonLike = (ImageButton) view.findViewById(R.id.buttonLike);
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
-		buttonLike.setOnClickListener(this);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
-
+		gallery_images = new ArrayList<Bitmap>();
 		// recupero il node id, entro in attesa e invio la richiesta di full
 		// profile
 		Bundle parameters = getActivity().getIntent().getExtras();
 		final String nodeId = parameters.getString(Nav.PROFILE_ID_KEY);
+		buttonLike.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Services.businessLogic.sendLike(nodeId);
+				buttonLike.setEnabled(likeButtonIsEnabledFor(nodeId));
+				// change image to disabled button
+				buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
+				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().get(nodeId).getProfile().getNickname(), Toast.LENGTH_LONG).show();
+			}
+		});
 
 		buttonChat.setOnClickListener(new OnClickListener() {
 			@Override
@@ -71,10 +77,16 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 		});
-		Services.businessLogic.requestFullProfile(nodeId);
-		loadingDialog = new ProgressDialog(getActivity());
-		loadingDialog.setTitle("Loading profile");
-		loadingDialog.show();
+
+		if (AppSettings.isFakeUserEnabled && nodeId.equals(Services.businessLogic.getFakeUser().getNode().getId())) {
+			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser().getNode());
+			prepareProfileAttributes();
+		} else {
+			Services.businessLogic.requestFullProfile(nodeId);
+			loadingDialog = new ProgressDialog(getActivity());
+			loadingDialog.setTitle("Loading profile");
+			loadingDialog.show();
+		}
 
 		return view;
 	}
@@ -107,19 +119,16 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		Node profileNode = Services.currentState.getProfileViewed();
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		if (profile != null) {
-			textNickname.setText(profile.getNickname());
-			// textName.setText(profile.getName());
-			// textSurname.setText(profile.getSurname());
-			gallery_images = new Bitmap[1];
-			gallery_images[0] = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image);
+			// Imposto il title con il nickname e l'età dell'utente selezionato
+			String age = profile.getAge() > 0 ? ", " + String.valueOf(profile.getAge()) : "";
+			getActivity().setTitle(profile.getNickname() + age);
+			// Imposto le immagini del profilo utente
 			if (profile.getProfileImages() != null) {
-				gallery_images = new Bitmap[profile.getProfileImages().size()];
-				int i = 0;
 				for (ProfileImage image : profile.getProfileImages()) {
-					Bitmap bMap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length);
-					gallery_images[i] = bMap;
-					i++;
+					gallery_images.add(BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length));
 				}
+			} else {
+				gallery_images.add(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
 			}
 			profilePhoto.setAdapter(new SamplePagerAdapter());
 			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
@@ -130,23 +139,11 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		}
 	}
 
-	@Override
-	public void onClick(View v) {
-		// LIKE button clicked
-		Node profileNode = Services.currentState.getProfileViewed();
-		Log.d("LIKE clicked on node " + profileNode.getId());
-		Services.businessLogic.sendLike(profileNode.getId());
-		buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
-		// change image to disabled button
-		buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
-		Toast.makeText(getActivity(), "You like " + profileNode.getProfile().getNickname(), Toast.LENGTH_LONG).show();
-	}
-
 	class SamplePagerAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
-			return gallery_images.length;
+			return gallery_images.size();
 		}
 
 		@Override
@@ -161,7 +158,7 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 			float height = (float) size.y;
 			float ratio = width / height;
 			Log.d("Display ratio is " + ratio);
-			Bitmap photoImageSrc = gallery_images[position];
+			Bitmap photoImageSrc = gallery_images.get(position);
 			Log.d("Bitmap size is " + photoImageSrc.getWidth() + " x " + photoImageSrc.getHeight());
 			int newWidth = (int) (photoImageSrc.getHeight() * ratio);
 			Log.d("New width is " + newWidth);

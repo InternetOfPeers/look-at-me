@@ -25,11 +25,13 @@ import com.devsmart.android.ui.HorizontalListView;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.bean.ProfileImage;
+import com.dreamteam.lookme.constants.AppSettings;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.enumattribute.Country;
 import com.dreamteam.lookme.enumattribute.Language;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.CommonUtils;
 import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
@@ -43,38 +45,31 @@ public class EditProfileActivity extends CommonActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d();
 		super.onCreate(savedInstanceState);
-		try {
-			setContentView(R.layout.activity_edit_profile);
-
-			FullProfile oldProfile = Services.currentState.getMyFullProfile();
-			if (oldProfile != null) {
-				switchToUpdateAccount(oldProfile);
-				HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
-				scrollGalleryAdapter = new ScrollGalleryAdapter(this);
-				listview.setAdapter(scrollGalleryAdapter);
-			} else {
-				Locale locale = getResources().getConfiguration().locale;
-				String country = locale.getCountry();
-				Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
-				setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
-				String language = locale.getLanguage();
-				Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
-				setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
-			}
-			initDrawerMenu(savedInstanceState, this.getClass(), true);
-
-		} catch (Exception e) {
-			Log.e("errore during create of registration activity! error: " + e.getMessage());
+		setContentView(R.layout.activity_edit_profile);
+		initDrawerMenu(savedInstanceState, this.getClass(), true);
+		FullProfile oldProfile = Services.currentState.getMyFullProfile();
+		if (oldProfile != null) {
+			switchToUpdateAccount(oldProfile);
+			HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
+			scrollGalleryAdapter = new ScrollGalleryAdapter(this);
+			listview.setAdapter(scrollGalleryAdapter);
+		} else {
+			Locale locale = getResources().getConfiguration().locale;
+			String country = locale.getCountry();
+			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
+			setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
+			String language = locale.getLanguage();
+			Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
+			setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
 		}
 	}
 
 	public void onRegister(View view) {
 		Log.d();
 		try {
-
 			TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
 			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
 			TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
@@ -82,36 +77,30 @@ public class EditProfileActivity extends CommonActivity {
 			Spinner spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
 			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
 			Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
-
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
-
-			Log.d(imageView.getDrawable().getConstantState().toString());
-			Log.d(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState().toString());
-			if (usernameScreen.getText() == null || usernameScreen.getText().toString().equals("")
-					|| imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
-				Toast.makeText(this, "To create a new profile you need to insert at least an image and a nickname.", Toast.LENGTH_SHORT).show();
-				return;
+			if (usernameScreen.getText() == null || usernameScreen.getText().toString().equals("")) {
+				// Se non è l'emulatore verifico anche che sia stata impostata
+				// un'immagine di profilo
+				// TODO appena viene risolto il bug sul crop dell'immagine da
+				// emulatore, si può togliere questo controllo
+				if (!CommonUtils.isEmulator()
+						&& imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
+					Toast.makeText(this, "To create a new profile you need to insert at least an image and a nickname.", Toast.LENGTH_SHORT).show();
+					return;
+				}
 			}
-
 			FullProfile profile = Services.currentState.getMyFullProfile();
-
 			if (profile == null)
 				profile = new FullProfile();
 			profile.setName(nameScreen.getText().toString());
-
 			profile.setSurname(surnameScreen.getText().toString());
-
 			WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 			WifiInfo info = manager.getConnectionInfo();
 			String deviceId = info.getMacAddress();
-
 			if (deviceId == null)
 				deviceId = tm.getDeviceId();
-
 			profile.setNickname(usernameScreen.getText().toString());
-
 			profile.setId(deviceId);
-
 			String age = (String) spinnerAge.getSelectedItem();
 			if (age != null && !age.isEmpty() && !age.equals("age"))
 				profile.setAge(Integer.valueOf(age));
@@ -154,10 +143,12 @@ public class EditProfileActivity extends CommonActivity {
 			Toast toast = Toast.makeText(getApplicationContext(), "Welcome on Look@me!", Toast.LENGTH_SHORT);
 			toast.show();
 
+			// Se necessario, aggiungo una conversazione fittizia
+			if (AppSettings.isFakeUserEnabled) {
+				Services.businessLogic.storeConversation(Services.businessLogic.getFakeUser().getConversation(Services.currentState.getMyBasicProfile().getId()));
+			}
+
 			Nav.startActivity(this, NearbyActivity.class);
-			// Intent mainIntent = new Intent(this, SocialActivity.class);
-			// this.startActivity(mainIntent);
-			// this.finish();
 
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
@@ -193,16 +184,11 @@ public class EditProfileActivity extends CommonActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Context context = getApplicationContext();
-		CharSequence text = "";
-		try {
-			super.onActivityResult(requestCode, resultCode, data);
-
-			if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+			try {
 				Bundle extras = data.getExtras();
 				Bitmap photo = extras.getParcelable("data");
-
 				if (scrollGalleryAdapter != null) {
 					ProfileImage profileImage = new ProfileImage();
 					profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
@@ -213,18 +199,11 @@ public class EditProfileActivity extends CommonActivity {
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
 					imageView.setImageBitmap(photo);
 				}
-				text = "COOL PICTURE!";
+			} catch (Exception e) {
+				Log.e("error changing image, error: " + e.toString());
+				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
 			}
-
-		} catch (Exception e) {
-			Log.e("error changing image, error: " + e.toString());
-			text = "ops! Unable to load image ";
-
 		}
-		int duration = Toast.LENGTH_LONG;
-
-		Toast toast = Toast.makeText(context, text, duration);
-		toast.show();
 
 	}
 

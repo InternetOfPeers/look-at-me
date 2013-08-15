@@ -113,12 +113,18 @@
 
     <!-- VIEW PROFILE -->
     <string name="text_profile_photo_image">profile image</string>
-
+    <string name="view_profile_btn_like">Like</string>
+    <string name="view_profile_label_like">Like</string>
+    
     <!-- HELP -->
     <string name="title_help_activity">Help</string>
     <string name="help_text_info"><![CDATA[New friends are all around for you to find. With Look@me you can find friends nearby when you move around your city or when you travel: just create your profile, connect to a WiFi area and look around for new people to meet or to chat with. If you really like someone, put a LIKE on him/her: when two "LIKE" match the app will alert you that it\'s time to meet live.\n\nYour personal data and chat conversations will be shared only with people around you, no data will be uploaded by the app on the internet (we don\'t even have any servers to upload to) so all contacts and conversations with other people remain your business.\n\nLook@me works simply with a local WiFi area and it does not require an internet connection. Free WiFi areas are everywhere, for example inside pubs, internet café, trains, public parks, and many other places.\n\nSo, what are you waiting for? Find new real friends nearby you now.]]></string>
 
     <!-- EDIT PROFILE -->
     <string name="edit_profile_btn_create_profile">Create profile</string>
+    <string name="edit_profile_btn_add_image">Add image</string>
+    <string name="edit_profile_alt_profile_image">Profile image</string>
+    <string name="view_profile_lbl_chat">Chat</string>
+    <string name="view_profile_btn_chat">Chat</string>
 
 </resources>

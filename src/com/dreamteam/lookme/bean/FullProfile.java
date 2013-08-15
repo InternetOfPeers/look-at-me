@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class FullProfile extends Profile {
+public class FullProfile extends BasicProfile {
 
 	private static final long serialVersionUID = 1L;
 

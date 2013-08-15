@@ -30,7 +30,8 @@
             android:paddingBottom="20dp"
             android:paddingTop="30dp" >
 
-            <TextView
+            <!--
+                 TextView
                 android:id="@+id/textNickname"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -38,7 +39,8 @@
                 android:layout_marginRight="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#fff"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+            -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,6 +58,7 @@
                         android:layout_height="80dp"
                         android:layout_gravity="center_horizontal"
                         android:background="#00000000"
+                        android:contentDescription="@string/view_profile_btn_chat"
                         android:scaleType="fitXY"
                         android:src="@drawable/chat_icon" />
 
@@ -64,7 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="Chat"
+                        android:text="@string/view_profile_lbl_chat"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#fff" />
                 </LinearLayout>
@@ -81,6 +84,7 @@
                         android:layout_height="80dp"
                         android:layout_gravity="center_horizontal"
                         android:background="#00000000"
+                        android:contentDescription="@string/view_profile_btn_like"
                         android:scaleType="fitXY"
                         android:src="@drawable/love_icon" />
 
@@ -89,7 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="Like"
+                        android:text="@string/view_profile_label_like"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#fff" />
                 </LinearLayout>
