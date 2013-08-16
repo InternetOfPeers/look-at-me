@@ -1,12 +1,10 @@
 package com.dreamteam.lookme.test;
 
 import java.io.File;
-import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
 
 import com.dreamteam.lookme.SplashActivity;
 import com.dreamteam.lookme.bean.FullProfile;
@@ -35,43 +33,51 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 		// dbOpenHelper.close();
 	}
 
-//	@UiThreadTest
-//	public void testRegistration() {
-//
-//		solo.assertCurrentActivity("Expected Register Activity", "RegisterActivity");
-//		int i = 0;
-//
-//		TextView name = (TextView) getActivity().findViewById(com.dreamteam.lookme.R.id.reg_name);
-//		TextView surname = (TextView) getActivity().findViewById(com.dreamteam.lookme.R.id.reg_surname);
-//		TextView nickname = (TextView) getActivity().findViewById(com.dreamteam.lookme.R.id.reg_nickname);
-//		Button submit = (Button) getActivity().findViewById(com.dreamteam.lookme.R.id.btnRegister);
-//
-//		String oldName = name.getText() != null ? name.getText().toString() : null;
-//		String oldSurname = surname.getText() != null ? surname.getText().toString() : null;
-//		String oldUsername = nickname.getText() != null ? nickname.getText().toString() : null;
-//
-//		name.setText("pippo");
-//		surname.setText("pluto");
-//		nickname.setText("paperino");
-//
-//		submit.performClick();
-//
-//		solo.sleep(3000);
-//
-//		// TOFIX Test non coerente. Cosa si sta testando effettivamente?
-//		assertEquals(name.getText().toString(), oldName);
-//		assertEquals(surname.getText().toString(), oldSurname);
-//		assertEquals(nickname.getText().toString(), oldUsername);
-//
-//		name.setText(oldName);
-//		surname.setText(oldSurname);
-//		nickname.setText(oldUsername);
-//
-//		submit.performClick();
-//
-//		solo.sleep(3000);
-//
-//	}
+	// @UiThreadTest
+	// public void testRegistration() {
+	//
+	// solo.assertCurrentActivity("Expected Register Activity",
+	// "RegisterActivity");
+	// int i = 0;
+	//
+	// TextView name = (TextView)
+	// getActivity().findViewById(com.dreamteam.lookme.R.id.reg_name);
+	// TextView surname = (TextView)
+	// getActivity().findViewById(com.dreamteam.lookme.R.id.reg_surname);
+	// TextView nickname = (TextView)
+	// getActivity().findViewById(com.dreamteam.lookme.R.id.reg_nickname);
+	// Button submit = (Button)
+	// getActivity().findViewById(com.dreamteam.lookme.R.id.btnRegister);
+	//
+	// String oldName = name.getText() != null ? name.getText().toString() :
+	// null;
+	// String oldSurname = surname.getText() != null ?
+	// surname.getText().toString() : null;
+	// String oldUsername = nickname.getText() != null ?
+	// nickname.getText().toString() : null;
+	//
+	// name.setText("pippo");
+	// surname.setText("pluto");
+	// nickname.setText("paperino");
+	//
+	// submit.performClick();
+	//
+	// solo.sleep(3000);
+	//
+	// // TOFIX Test non coerente. Cosa si sta testando effettivamente?
+	// assertEquals(name.getText().toString(), oldName);
+	// assertEquals(surname.getText().toString(), oldSurname);
+	// assertEquals(nickname.getText().toString(), oldUsername);
+	//
+	// name.setText(oldName);
+	// surname.setText(oldSurname);
+	// nickname.setText(oldUsername);
+	//
+	// submit.performClick();
+	//
+	// solo.sleep(3000);
+	//
+	// }
 
 	public void testDB() {
 		try {
@@ -100,7 +106,7 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 			dbOpenHelper.getWritableDatabase().endTransaction();
 		}
 	}
-	
+
 	public void testInterest() {
 		try {
 			dbOpenHelper.getWritableDatabase().beginTransaction();
@@ -111,26 +117,25 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 		} finally {
 			dbOpenHelper.getWritableDatabase().endTransaction();
 		}
-	}	
-	
-	
-//	public void testInterest() {
-//		try {
-//			dbOpenHelper.getWritableDatabase().beginTransaction();
-//			Interest interest = new Interest(2, "prova2", false);
-//			dbOpenHelper.saveInterest(interest);
-//			dbOpenHelper.getWritableDatabase().beginTransaction();
-//			List<Interest> list = dbOpenHelper.loadInterests();
-//			assertNotNull(list);
-//			assertEquals(list.isEmpty(),false);
-//			assertEquals(list.get(0).getId(), interest.getId());
-//			assertEquals(list.get(0).getDesc(), interest.getDesc());
-//			
-//		} catch (Exception e) {
-//			fail("error on testDB error:" + e.getMessage());
-//		} finally {
-//			dbOpenHelper.getWritableDatabase().endTransaction();
-//		}
-//	}
+	}
+
+	// public void testInterest() {
+	// try {
+	// dbOpenHelper.getWritableDatabase().beginTransaction();
+	// Interest interest = new Interest(2, "prova2", false);
+	// dbOpenHelper.saveInterest(interest);
+	// dbOpenHelper.getWritableDatabase().beginTransaction();
+	// List<Interest> list = dbOpenHelper.loadInterests();
+	// assertNotNull(list);
+	// assertEquals(list.isEmpty(),false);
+	// assertEquals(list.get(0).getId(), interest.getId());
+	// assertEquals(list.get(0).getDesc(), interest.getDesc());
+	//
+	// } catch (Exception e) {
+	// fail("error on testDB error:" + e.getMessage());
+	// } finally {
+	// dbOpenHelper.getWritableDatabase().endTransaction();
+	// }
+	// }
 
 }
