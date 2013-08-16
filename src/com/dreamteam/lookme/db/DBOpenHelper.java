@@ -5,6 +5,8 @@ import java.util.List;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.dreamteam.lookme.bean.BasicProfile;
+import com.dreamteam.lookme.bean.ChatMessage;
+import com.dreamteam.lookme.bean.Conversation;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.bean.ProfileImage;
@@ -51,19 +53,23 @@ public interface DBOpenHelper {
 	public static final String TABLE_INTERESTS_COLUMN_ID = "id";
 	public static final String TABLE_INTERESTS_COLUMN_PROFILE_ID = "profile_id";
 	public static final String TABLE_INTERESTS_COLUMN_DESCRIPTION = "image";
-
+	
 	public static final String TABLE_CONVERSATIONS = "conversations_tb";
 	public static final String TABLE_CONVERSATIONS_COLUMN_ID = "id";
 	public static final String TABLE_CONVERSATIONS_COLUMN_PROFILE_ID = "profile_id";
-
+	public static final String TABLE_CONVERSATIONS_COLUMN_CONVERSATION_DATE = "date";
+	
 	public static final String TABLE_MESSAGES = "messages_tb";
 	public static final String TABLE_MESSAGES_COLUMN_CONVERSATION_ID = "conversation_id";
-	public static final String TABLE_MESSAGES_COLUMN_PROFILE_ID = "profile_id";
-	public static final String TABLE_MESSAGES_COLUMN_MESSAGE = "message";
+	public static final String TABLE_MESSAGES_COLUMN_DATA = "data";
 	public static final String TABLE_MESSAGES_COLUMN_TO_NICKNAME = "to_nickname";
 	public static final String TABLE_MESSAGES_COLUMN_FROM_NICKNAME = "from_nickname";
 	public static final String TABLE_MESSAGES_COLUMN_MESSAGE_DATE = "date";
 	public static final String TABLE_MESSAGES_COLUMN_IS_MINE = "is_mine";
+	
+	
+	
+	
 
 	public SQLiteDatabase getWritableDatabase();
 
@@ -196,13 +202,18 @@ public interface DBOpenHelper {
 	 * @throws java.lang.Exception
 	 */
 	public void deleteImage(long profileImageId) throws Exception;
-
+	
+	
 	public void saveInterest(Interest profileTag);
-
-	public List<Interest> loadInterests() throws Exception;
-
-	public void deleteInterest(int interestId);
-
-	public void saveInterests(List<Interest> interestsList);
+	
+	 public List<Interest> getInterests() throws Exception;
+	 
+	 public void deleteInterest(int interestId);
+	 
+	 public void saveInterests(List<Interest> interestsList);
+	 
+	 public List<Conversation> getConversations();
+	 
+	 public void saveOrUpdateConversation(long conversationID,List<ChatMessage> chatMessageList,BasicProfile profile) throws Exception;
 
 }

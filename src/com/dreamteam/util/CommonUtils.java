@@ -104,4 +104,18 @@ public class CommonUtils {
 	public static boolean isEmulator() {
 		return "goldfish".equals(Build.HARDWARE);
 	}
+
+	public static String parseDate(Date d) {
+		Calendar cal = Calendar.getInstance();
+		cal.getTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		return (sdf.format(d.getTime()));
+	}
+
+	public static Date parseDate(String s) throws Exception {
+		Calendar cal = Calendar.getInstance();
+		cal.getTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		return sdf.parse(s);
+	}
 }

@@ -1,6 +1,9 @@
 package com.dreamteam.lookme.db;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,10 +19,12 @@ import android.util.Log;
 
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.ChatMessage;
+import com.dreamteam.lookme.bean.Conversation;
 import com.dreamteam.lookme.bean.FullProfile;
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.bean.Profile;
 import com.dreamteam.lookme.bean.ProfileImage;
+import com.dreamteam.util.CommonUtils;
 import com.google.common.base.Optional;
 
 public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
@@ -83,10 +88,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				+ TABLE_INTERESTS_COLUMN_DESCRIPTION + " TEXT ); ");
 
 		db.execSQL("CREATE TABLE " + TABLE_CONVERSATIONS + "(" + TABLE_CONVERSATIONS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ TABLE_CONVERSATIONS_COLUMN_PROFILE_ID + " TEXT NOT NULL); ");
+				+ TABLE_CONVERSATIONS_COLUMN_PROFILE_ID + " TEXT NOT NULL," + TABLE_CONVERSATIONS_COLUMN_CONVERSATION_DATE + " TEXT NOT NULL); ");
 
-		db.execSQL("CREATE TABLE " + TABLE_MESSAGES + "(" + TABLE_MESSAGES_COLUMN_CONVERSATION_ID + " INTEGER , " + TABLE_MESSAGES_COLUMN_PROFILE_ID + " TEXT NOT NULL, "
-				+ TABLE_MESSAGES_COLUMN_TO_NICKNAME + " TEXT, " + TABLE_MESSAGES_COLUMN_MESSAGE + " TEXT, " + TABLE_MESSAGES_COLUMN_IS_MINE + " TEXT, "
+		db.execSQL("CREATE TABLE " + TABLE_MESSAGES + "(" + TABLE_MESSAGES_COLUMN_CONVERSATION_ID + " INTEGER , " + TABLE_MESSAGES_COLUMN_FROM_NICKNAME + " TEXT, "
+				+ TABLE_MESSAGES_COLUMN_TO_NICKNAME + " TEXT, " + TABLE_MESSAGES_COLUMN_DATA + " BLOB, " + TABLE_MESSAGES_COLUMN_IS_MINE + " TEXT, "
 				+ TABLE_MESSAGES_COLUMN_MESSAGE_DATE + " TEXT ); ");
 
 	}
@@ -166,6 +171,36 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			}
 		} else
 			Log.e("db", "problem saving profile,this profile has no foto profileId:" + profile.getId());
+
+		return getFullProfile(profile.getId());
+
+	}
+
+	public FullProfile saveOrUpdateProfile(BasicProfile profile) throws Exception {
+		FullProfile oldContact = getFullProfile(profile.getId());
+
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(TABLE_PROFILES_COLUMN_NICKNAME, profile.getNickname());
+		contentValues.put(TABLE_PROFILES_COLUMN_ID, profile.getId());
+		contentValues.put(TABLE_PROFILES_COLUMN_AGE, profile.getAge());
+		contentValues.put(TABLE_PROFILES_COLUMN_GENDER, profile.getGender());
+
+		if (oldContact == null) {
+			database.insert(TABLE_PROFILES, null, contentValues);
+
+		} else {
+			database.update(TABLE_PROFILES, contentValues, TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profile.getId() });
+		}
+
+		// if (profile.getMainProfileImage() != null ) {
+		// Iterator<ProfileImage> iter = profile.getProfileImages().iterator();
+		// while (iter.hasNext()) {
+		// saveOrUpdateImage(iter.next());
+		// }
+		// } else
+		// Log.e("db",
+		// "problem saving profile,this profile has no foto profileId:" +
+		// profile.getId());
 
 		return getFullProfile(profile.getId());
 
@@ -271,7 +306,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		FullProfile tempProfile = null;
 		try {
 
-			List<Interest> interestList = loadInterests();
+			List<Interest> interestList = getInterests();
 
 			cursor = database.rawQuery(TB_PROFILES_SELECT_ALL_FIELDS + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
@@ -299,9 +334,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		try {
 			return getBasicProfile(DEVICE_ID);
 		} catch (Exception e) {
-			Log.e("db", "error on getting getFullProfile: " + e.getMessage());
+			Log.e("db", "error on getting getBasicProfile: " + e.getMessage());
 		}
-		Log.d("db", "Full Profile not found,deviceID: " + tm.getDeviceId());
+		Log.d("db", "Basic Profile not found,deviceID: " + tm.getDeviceId());
 		return null;
 
 	}
@@ -488,42 +523,99 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 	}
 
-	private void saveOrUpdateConversation(long conversationID, ChatMessage chatMessage, BasicProfile profile) throws Exception {
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(TABLE_MESSAGES_COLUMN_TO_NICKNAME, profile.getNickname());
-		contentValues.put(TABLE_MESSAGES_COLUMN_PROFILE_ID, profile.getId());
-		contentValues.put(TABLE_MESSAGES_COLUMN_CONVERSATION_ID, conversationID);
-		contentValues.put(TABLE_MESSAGES_COLUMN_IS_MINE, chatMessage.isMine());
-		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE_DATE, chatMessage.getTimestamp().toString());
-		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE, chatMessage.getText());
-		database.insert(TABLE_MESSAGES, null, contentValues);
+	public void saveOrUpdateConversation(long conversationID, List<ChatMessage> chatMessageList, BasicProfile profile) throws Exception {
+		if (conversationID == 0) {
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(TABLE_CONVERSATIONS_COLUMN_PROFILE_ID, profile.getId());
+			contentValues.put(TABLE_CONVERSATIONS_COLUMN_CONVERSATION_DATE, CommonUtils.parseDate(Calendar.getInstance().getTime()));
+			conversationID = database.insert(TABLE_CONVERSATIONS, null, contentValues);
+		} else {
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(TABLE_CONVERSATIONS_COLUMN_CONVERSATION_DATE, CommonUtils.parseDate(Calendar.getInstance().getTime()));
+			database.update(TABLE_CONVERSATIONS, contentValues, TABLE_CONVERSATIONS_COLUMN_ID + "=?", new String[] { "" + conversationID });
+			deleteMessages(conversationID);
+		}
+
+		saveOrUpdateProfile(profile);
+		saveMessages(conversationID, chatMessageList);
+
 	}
 
-	private void saveMessage(long conversationID, ChatMessage chatMessage, BasicProfile profile) throws Exception {
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(TABLE_MESSAGES_COLUMN_TO_NICKNAME, chatMessage.getToNickname());
-		contentValues.put(TABLE_MESSAGES_COLUMN_FROM_NICKNAME, chatMessage.getFromNickname());
-		contentValues.put(TABLE_MESSAGES_COLUMN_PROFILE_ID, profile.getId());
-		contentValues.put(TABLE_MESSAGES_COLUMN_CONVERSATION_ID, conversationID);
-		contentValues.put(TABLE_MESSAGES_COLUMN_IS_MINE, chatMessage.isMine());
-		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE_DATE, chatMessage.getTimestamp().toString());
-		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE, chatMessage.getText());
-		database.insert(TABLE_MESSAGES, null, contentValues);
+	public List<Conversation> getConversations() {
+		Cursor cursor = null;
+		List<Conversation> conversationList = new ArrayList<Conversation>();
+		try {
+
+			cursor = database.rawQuery("SELECT " + TABLE_CONVERSATIONS_COLUMN_PROFILE_ID + ", " + TABLE_CONVERSATIONS_COLUMN_ID + ", "
+					+ TABLE_CONVERSATIONS_COLUMN_CONVERSATION_DATE + " FROM " + TABLE_CONVERSATIONS, new String[] {});
+
+			if (cursor.moveToFirst()) {
+				do {
+					Conversation conversation = new Conversation();
+					conversation.setId(cursor.getLong(cursor.getColumnIndex(TABLE_CONVERSATIONS_COLUMN_ID)));
+					conversation.setInterlocutor(getBasicProfile(cursor.getString(cursor.getColumnIndex(TABLE_CONVERSATIONS_COLUMN_PROFILE_ID))));
+					conversation.setChatList(getMessages(conversation.getId()));
+					conversation.setConversationDate(CommonUtils.parseDate(cursor.getString(cursor.getColumnIndex(TABLE_CONVERSATIONS_COLUMN_CONVERSATION_DATE))));
+					conversationList.add(conversation);
+				} while (cursor.moveToNext());
+
+			}
+		} catch (Throwable e) {
+			Log.e("db", "error on loading conversations : " + e.getMessage());
+		} finally {
+			if (!cursor.isClosed())
+				cursor.close();
+		}
+		return conversationList;
 	}
 
-	private List<ChatMessage> getConversationMessages(long conversationID) throws Exception {
+	private void deleteMessages(long conversationId) {
+		try {
+			String table_name = TABLE_MESSAGES;
+			String where = TABLE_MESSAGES_COLUMN_CONVERSATION_ID + "=" + conversationId;
+			String[] whereArgs = null;
+			database.delete(table_name, where, whereArgs);
+		} catch (Throwable e) {
+			Log.e("db", "error on deleting conversation messages : " + e.getMessage() + " conversation ID:" + conversationId);
+		} finally {
+		}
+	}
+
+	private void saveMessage(long conversationID, ChatMessage chatMessage) {
+		try {
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(TABLE_MESSAGES_COLUMN_FROM_NICKNAME, chatMessage.getFromNickname());
+			contentValues.put(TABLE_MESSAGES_COLUMN_TO_NICKNAME, chatMessage.getToNickname());
+			contentValues.put(TABLE_MESSAGES_COLUMN_CONVERSATION_ID, conversationID);
+			contentValues.put(TABLE_MESSAGES_COLUMN_DATA, chatMessage.getText());
+			contentValues.put(TABLE_MESSAGES_COLUMN_IS_MINE, chatMessage.isMine());
+			contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE_DATE, chatMessage.getTimestamp().toString());
+			database.insert(TABLE_MESSAGES, null, contentValues);
+		} catch (Throwable e) {
+			Log.e("db", "error on saving message : " + e.getMessage() + " conversation ID:" + conversationID);
+		} finally {
+		}
+	}
+
+	private void saveMessages(long conversationID, List<ChatMessage> chatMessageList) {
+		Iterator<ChatMessage> iter = chatMessageList.iterator();
+		while (iter.hasNext())
+			saveMessage(conversationID, iter.next());
+	}
+
+	private List<ChatMessage> getMessages(long conversationID) throws Exception {
 		Cursor cursor = null;
 		List<ChatMessage> messageList = new ArrayList<ChatMessage>();
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_MESSAGES_COLUMN_PROFILE_ID + ", " + TABLE_MESSAGES_COLUMN_MESSAGE + ", " + TABLE_MESSAGES_COLUMN_MESSAGE_DATE
-					+ ", " + TABLE_MESSAGES_COLUMN_IS_MINE + " FROM " + TABLE_MESSAGES + " WHERE " + TABLE_MESSAGES_COLUMN_CONVERSATION_ID + "=?", new String[] { ""
-					+ conversationID });
+			cursor = database.rawQuery("SELECT " + TABLE_MESSAGES_COLUMN_FROM_NICKNAME + ", " + TABLE_MESSAGES_COLUMN_TO_NICKNAME + ", " + TABLE_MESSAGES_COLUMN_DATA + ", "
+					+ TABLE_MESSAGES_COLUMN_MESSAGE_DATE + ", " + TABLE_MESSAGES_COLUMN_IS_MINE + " FROM " + TABLE_MESSAGES + " WHERE "
+					+ TABLE_MESSAGES_COLUMN_CONVERSATION_ID + "=?", new String[] { "" + conversationID });
 
 			if (cursor.moveToFirst()) {
 				do {
 					ChatMessage chat = new ChatMessage(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_FROM_NICKNAME)), cursor.getString(cursor
-							.getColumnIndex(TABLE_MESSAGES_COLUMN_TO_NICKNAME)), cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_MESSAGE)),
+							.getColumnIndex(TABLE_MESSAGES_COLUMN_TO_NICKNAME)), cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_DATA)),
 							Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_IS_MINE))));
 					messageList.add(chat);
 
@@ -531,7 +623,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading getConversationMessages : " + e.getMessage() + " profile ID:" + conversationID);
+			Log.e("db", "error on loading getConversationMessages : " + e.getMessage() + " conversation ID:" + conversationID);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -556,7 +648,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	@Override
-	public List<Interest> loadInterests() throws Exception {
+	public List<Interest> getInterests() throws Exception {
 		Cursor cursor = null;
 		List<Interest> interestList = new ArrayList<Interest>();
 		try {
@@ -590,7 +682,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
-			Log.e("db", "error on deleting specific Interest : " + e.getMessage() + " image ID:" + interestId);
+			Log.e("db", "error on deleting specific Interest : " + e.getMessage() + " interest ID:" + interestId);
 		} finally {
 		}
 
