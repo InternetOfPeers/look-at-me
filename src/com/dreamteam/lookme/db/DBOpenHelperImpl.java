@@ -269,17 +269,19 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		FullProfile tempProfile = null;
 		try {
 
+			List<Interest> interestList = loadInterests();
+			
 			cursor = database.rawQuery(TB_PROFILES_SELECT_ALL_FIELDS + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
+				tempProfile = new FullProfile();
+				tempProfile.setInterestList(interestList);
 				do {
-					tempProfile = new FullProfile();
 					// TODO: set the tag list
 					valorizeProfile(tempProfile, cursor);
 					valorizeFullProfile(tempProfile, cursor);
 					return tempProfile;
 				} while (cursor.moveToNext());
-
 			}
 		} catch (Throwable e) {
 			Log.e("db", "error on getting getContact: " + e.getMessage());
@@ -536,7 +538,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	 @Override
-	 public void saveInterest(Interest interest) throws Exception {
+	 public void saveInterest(Interest interest)  {
 			ContentValues contentValues = new ContentValues();
 			contentValues.put(TABLE_INTERESTS_COLUMN_ID, interest.getId());
 			contentValues.put(TABLE_INTERESTS_COLUMN_DESCRIPTION, interest.getDesc());
@@ -545,11 +547,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	 }
 	 
 	 @Override
-	 public void saveInterests(List<Interest> interestsList) throws Exception {
+	 public void saveInterests(List<Interest> interestsList) {
 			Iterator<Interest>iter = interestsList.iterator();	
 			while(iter.hasNext())
 				saveInterest(iter.next());
-		 
 	 }
 	 
 	 @Override
@@ -579,7 +580,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	 }
 	 
 		@Override
-		public void deleteInterest(int interestId) throws Exception {
+		public void deleteInterest(int interestId)  {
 			try {
 				String table_name = TABLE_INTERESTS;
 				String where = TABLE_INTERESTS_COLUMN_ID + "=" + interestId;

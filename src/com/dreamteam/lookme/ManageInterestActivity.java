@@ -1,7 +1,7 @@
 package com.dreamteam.lookme;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 import java.util.TreeSet;
 
 import android.app.Activity;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dreamteam.lookme.bean.Interest;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
@@ -43,13 +44,14 @@ public class ManageInterestActivity extends CommonActivity {
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				// When clicked, show a toast with the TextView text
+			
+				
 				Interest interest = (Interest) parent.getItemAtPosition(position);
 
-				Services.currentState.getMyFullProfile().removeInterest(interest);
-
-				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size()
-						+ " **********************************");
+				//Services.currentState.getMyFullProfile().removeInterest(interest);
+				DBOpenHelperImpl.getInstance(activity).deleteInterest(interest.getId());
+				
+				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size() + " **********************************");
 				Toast.makeText(
 						getApplicationContext(),
 						"Removed: " + interest.getDesc() + "TO YOUR INTEREST, NOW YOU HAVE " + Services.currentState.getMyFullProfile().getInterestList().size()
@@ -76,26 +78,16 @@ public class ManageInterestActivity extends CommonActivity {
 	// LIST ADAPTER
 	private class InterestAdapter extends ArrayAdapter<Interest> {
 
-		private Set<Interest> interestList = new TreeSet<Interest>();
+		private List<Interest> interestList = new ArrayList<Interest>();
 
-		public InterestAdapter(Context context, int textViewResourceId, int interestID, Set<Interest> interestList) {
+		public InterestAdapter(Context context, int textViewResourceId, int interestID, List<Interest> interestList) {
 
 			super(context, textViewResourceId, interestID, new ArrayList<Interest>(interestList));
-			this.interestList = new TreeSet<Interest>();
-			this.interestList.addAll(interestList);
-		}
-
-		public Set<Interest> getInterestList() {
-			return interestList;
-		}
-
-		public void setInterestList(Set<Interest> interestList) {
 			this.interestList = interestList;
 		}
 
 		private class ViewHolder {
 			TextView code;
-			CheckBox name;
 		}
 
 		@Override
@@ -109,18 +101,9 @@ public class ManageInterestActivity extends CommonActivity {
 
 				holder = new ViewHolder();
 				holder.code = (TextView) convertView.findViewById(R.id.interestId);
-				// holder.name = (CheckBox)
-				// convertView.findViewById(R.id.checkBox1);
-				convertView.setTag(holder);
 
-				// holder.name.setOnClickListener(new View.OnClickListener() {
-				// public void onClick(View v) {
-				// CheckBox cb = (CheckBox) v;
-				// Interest interest = (Interest) cb.getTag();
-				//
-				// interest.setSelected(cb.isChecked());
-				// }
-				// });
+				convertView.setTag(holder);
+				
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
@@ -128,9 +111,6 @@ public class ManageInterestActivity extends CommonActivity {
 			ArrayList<Interest> list = new ArrayList<Interest>(interestList);
 			Interest interest = list.get(position);
 			holder.code.setText(" (" + interest.getDesc() + ")");
-			// holder.name.setText(interest.getDesc());
-			// holder.name.setChecked(interest.isSelected());
-			// holder.name.setTag(interest);
 
 			return convertView;
 

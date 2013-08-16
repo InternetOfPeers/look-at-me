@@ -54,6 +54,7 @@ public class EditProfileActivity extends CommonActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		try {
 			setContentView(R.layout.activity_edit_profile);						
 			FullProfile oldProfile = Services.currentState.getMyFullProfile();

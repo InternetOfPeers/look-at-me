@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.dreamteam.lookme.bean.Interest;
+import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.Log;
 
@@ -28,14 +31,14 @@ public class AddInterestActivity extends CommonActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		final Activity activity = this;
 		setContentView(R.layout.activity_add_interest);
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
 
 		// create an ArrayAdaptar from the String Array
 		interestAdapter = new InterestAdapter(this, R.layout.interest_info_add, R.id.interestId, Services.currentState.getInterestList());
 
-		ListView listView = (ListView) findViewById(R.id.interestListView);
+		final ListView listView = (ListView) findViewById(R.id.interestListView);
 		// Assign adapter to ListView
 		listView.setAdapter(interestAdapter);
 
@@ -44,7 +47,8 @@ public class AddInterestActivity extends CommonActivity {
 				// When clicked, show a toast with the TextView text
 				Interest interest = (Interest) parent.getItemAtPosition(position);
 
-				Services.currentState.getMyFullProfile().addInterest(interest);
+				DBOpenHelperImpl.getInstance(activity).saveInterest(interest);
+				//Services.currentState.getMyFullProfile().addInterest(interest);
 
 				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size()
 						+ " **********************************");
@@ -52,6 +56,11 @@ public class AddInterestActivity extends CommonActivity {
 						getApplicationContext(),
 						"Added: " + interest.getDesc() + "TO YOUR INTEREST, NOW YOU HAVE " + Services.currentState.getMyFullProfile().getInterestList().size() + "interests",
 						Toast.LENGTH_SHORT).show();
+				
+				// create an ArrayAdaptar from the String Array
+				interestAdapter = new InterestAdapter(activity, R.layout.interest_info_add, R.id.interestId, Services.currentState.getInterestList());
+				listView.setAdapter(interestAdapter);
+				interestAdapter.notifyDataSetChanged();
 			}
 		});
 
@@ -98,12 +107,15 @@ public class AddInterestActivity extends CommonActivity {
 
 			ArrayList<Interest> list = new ArrayList<Interest>(interestList);
 			Interest interest = list.get(position);
-			holder.code.setText(" (" + interest.getId() + ")");
+			holder.code.setText(" (" + interest.getDesc() + ")");
 
 			for (Interest profileInterest : Services.currentState.getMyFullProfile().getInterestList()) {
 				System.out.println(position + " ########################### PROFILE INTEREST_ID = " +profileInterest.getId() + " ########################### ");
 				if(profileInterest.getId() == interest.getId()){
+					System.out.println(position + " ########################### COINCIDONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ########################### ");
 					holder.cb.setChecked(true);
+					holder.code.setClickable(false);
+					convertView.setClickable(false);
 				}
 			}
 			return convertView;

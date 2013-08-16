@@ -202,12 +202,12 @@ public interface DBOpenHelper {
 	public void deleteImage(long profileImageId) throws Exception;
 	
 	
-	public void saveInterest(Interest profileTag) throws Exception;
+	public void saveInterest(Interest profileTag);
 	
 	 public List<Interest> loadInterests() throws Exception;
 	 
-	 public void deleteInterest(int interestId) throws Exception;
+	 public void deleteInterest(int interestId);
 	 
-	 public void saveInterests(List<Interest> interestsList) throws Exception;
+	 public void saveInterests(List<Interest> interestsList);
 
 }

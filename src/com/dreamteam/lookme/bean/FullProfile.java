@@ -25,7 +25,7 @@ public class FullProfile extends BasicProfile {
 	private String myDescription;
 	private String motto;
 
-	private Set<Interest> interestList = new TreeSet<Interest>();
+	private List<Interest> interestList = new ArrayList<Interest>();
 
 	public String getName() {
 		return name;
@@ -151,29 +151,21 @@ public class FullProfile extends BasicProfile {
 		return serialVersionUID;
 	}
 
-	public Set<Interest> getInterestList() {
-		
-//		Set<Interest> fakeInterestList = new TreeSet<Interest>();
-//		
-//		fakeInterestList.add(new Interest(1, "INTEREST 1", false));
-//		fakeInterestList.add(new Interest(2, "INTEREST 2", false));
-//		fakeInterestList.add(new Interest(3, "INTEREST 3", false));
-//		
-//		return fakeInterestList;
+	public List<Interest> getInterestList() {
 		return interestList;
 	}
 
-	public void setInterestList(Set<Interest> interestList) {
+	public void setInterestList(List<Interest> interestList) {
 		this.interestList = interestList;
 	}
 
-	public void addInterest(Interest interest) {
-		this.interestList.add(interest);
-	}
-
-	public void removeInterest(Interest interest) {
-		this.interestList.remove(interest);
-
-	}
+//	public void addInterest(Interest interest) {
+//		this.interestList.add(interest);
+//	}
+//
+//	public void removeInterest(Interest interest) {
+//		this.interestList.remove(interest);
+//
+//	}
 
 }
