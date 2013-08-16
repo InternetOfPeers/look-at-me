@@ -39,7 +39,7 @@
                 android:layout_marginRight="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#fff"
-                android:textStyle="bold"
+                android:textStyle="bold"
             -->
 
             <LinearLayout

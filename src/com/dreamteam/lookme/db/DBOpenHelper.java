@@ -51,11 +51,11 @@ public interface DBOpenHelper {
 	public static final String TABLE_INTERESTS_COLUMN_ID = "id";
 	public static final String TABLE_INTERESTS_COLUMN_PROFILE_ID = "profile_id";
 	public static final String TABLE_INTERESTS_COLUMN_DESCRIPTION = "image";
-	
+
 	public static final String TABLE_CONVERSATIONS = "conversations_tb";
 	public static final String TABLE_CONVERSATIONS_COLUMN_ID = "id";
 	public static final String TABLE_CONVERSATIONS_COLUMN_PROFILE_ID = "profile_id";
-	
+
 	public static final String TABLE_MESSAGES = "messages_tb";
 	public static final String TABLE_MESSAGES_COLUMN_CONVERSATION_ID = "conversation_id";
 	public static final String TABLE_MESSAGES_COLUMN_PROFILE_ID = "profile_id";
@@ -64,10 +64,6 @@ public interface DBOpenHelper {
 	public static final String TABLE_MESSAGES_COLUMN_FROM_NICKNAME = "from_nickname";
 	public static final String TABLE_MESSAGES_COLUMN_MESSAGE_DATE = "date";
 	public static final String TABLE_MESSAGES_COLUMN_IS_MINE = "is_mine";
-	
-	
-	
-	
 
 	public SQLiteDatabase getWritableDatabase();
 
@@ -200,14 +196,13 @@ public interface DBOpenHelper {
 	 * @throws java.lang.Exception
 	 */
 	public void deleteImage(long profileImageId) throws Exception;
-	
-	
+
 	public void saveInterest(Interest profileTag);
-	
-	 public List<Interest> loadInterests() throws Exception;
-	 
-	 public void deleteInterest(int interestId);
-	 
-	 public void saveInterests(List<Interest> interestsList);
+
+	public List<Interest> loadInterests() throws Exception;
+
+	public void deleteInterest(int interestId);
+
+	public void saveInterests(List<Interest> interestsList);
 
 }

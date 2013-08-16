@@ -43,43 +43,40 @@ import com.dreamteam.util.Nav;
 
 public class EditProfileActivity extends CommonActivity {
 	protected static final int PHOTO_PICKED = 0;
-	
+
 	private static final int OUTPUT_X = 1080;
 	private static final int OUTPUT_Y = 1440;
 	private ScrollGalleryAdapter scrollGalleryAdapter;
-
 
 	String imageFilePath = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		try {
-			setContentView(R.layout.activity_edit_profile);						
+			setContentView(R.layout.activity_edit_profile);
 			FullProfile oldProfile = Services.currentState.getMyFullProfile();
 			Spinner spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
-			spinnerGender.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.genderArray,CommonUtils.genderImages));
+			spinnerGender.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.genderArray, CommonUtils.genderImages));
 			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
-			spinnerCountry.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.countryArray,CommonUtils.countryImages));
+			spinnerCountry.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.countryArray, CommonUtils.countryImages));
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
 				HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
-				scrollGalleryAdapter=new ScrollGalleryAdapter(this);
+				scrollGalleryAdapter = new ScrollGalleryAdapter(this);
 				listview.setAdapter(scrollGalleryAdapter);
-			}
-			else{
-				Locale locale = getResources().getConfiguration().locale;				
+			} else {
+				Locale locale = getResources().getConfiguration().locale;
 				String country = locale.getCountry();
-				spinnerCountry = (Spinner)findViewById(R.id.spinner_country);
+				spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
 				setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
 				String language = locale.getLanguage();
-				Spinner spinnerLanguage = (Spinner)findViewById(R.id.spinner_language);
+				Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
 				setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
-			}			
+			}
 			initDrawerMenu(savedInstanceState, this.getClass(), true);
-			
-			
+
 		} catch (Exception e) {
 			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
@@ -179,16 +176,16 @@ public class EditProfileActivity extends CommonActivity {
 	public void onChooseImage(View view) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-            intent.setType("image/*");
-            intent.putExtra("crop", "true");
-            intent.putExtra("aspectX", 3);
-            intent.putExtra("aspectY", 4);
-            intent.putExtra("outputX", OUTPUT_X);	
-            intent.putExtra("outputY", OUTPUT_Y);
-            intent.putExtra("scale", true);
-            intent.putExtra("return-data", true);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempUri());
-            startActivityForResult(intent, PHOTO_PICKED);
+			intent.setType("image/*");
+			intent.putExtra("crop", "true");
+			intent.putExtra("aspectX", 3);
+			intent.putExtra("aspectY", 4);
+			intent.putExtra("outputX", OUTPUT_X);
+			intent.putExtra("outputY", OUTPUT_Y);
+			intent.putExtra("scale", true);
+			intent.putExtra("return-data", true);
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempUri());
+			startActivityForResult(intent, PHOTO_PICKED);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
@@ -203,7 +200,7 @@ public class EditProfileActivity extends CommonActivity {
 			try {
 				Bitmap photo = ImageUtil.loadBitmap(getTempUri().getPath(), OUTPUT_X, OUTPUT_Y);
 				Log.d("Photo has density: " + photo.getDensity() + " and size " + photo.getWidth() + " x " + photo.getHeight());
-				
+
 				if (scrollGalleryAdapter != null) {
 					ProfileImage profileImage = new ProfileImage();
 					profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
@@ -217,7 +214,7 @@ public class EditProfileActivity extends CommonActivity {
 				if (getTempFile().exists()) {
 					Log.d("Deleting imageTmpFile");
 					getTempFile().delete();
-		        }
+				}
 			} catch (Exception e) {
 				Log.e("error changing image, error: " + e.toString());
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
@@ -298,14 +295,14 @@ public class EditProfileActivity extends CommonActivity {
 	private void refreshFragment() {
 		scrollGalleryAdapter.notifyDataSetChanged();
 	}
-	
+
 	private Uri getTempUri() {
 		return Uri.fromFile(getTempFile());
 	}
-	
+
 	private File getTempFile() {
 		if (isSDCARDMounted()) {
-			
+
 			File f = new File(Environment.getExternalStorageDirectory(), "mytmpimg.jpg");
 			try {
 				f.createNewFile();
@@ -317,13 +314,13 @@ public class EditProfileActivity extends CommonActivity {
 			return null;
 		}
 	}
-	
-	private boolean isSDCARDMounted(){
-        String status = Environment.getExternalStorageState();
-       
-        if (status.equals(Environment.MEDIA_MOUNTED))
-            return true;
-        return false;
-    }
-	
+
+	private boolean isSDCARDMounted() {
+		String status = Environment.getExternalStorageState();
+
+		if (status.equals(Environment.MEDIA_MOUNTED))
+			return true;
+		return false;
+	}
+
 }

@@ -109,22 +109,21 @@ public class ImageUtil {
 		}
 		return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
 	}
-	
-    public static Drawable loadImageFromAsset(Context context,String imageFileName) {
 
-        // load image
-        try {
-            // get input stream
-            InputStream ims = context.getAssets().open("avatar.jpg");
-            // load image as Drawable
-            Drawable d = Drawable.createFromStream(ims, null);
-            return d;
-        }
-        catch(IOException ex) {
-            Log.e("ImageUtil", "unable to load image! name: "+ imageFileName);
-        }
-        return null;
- 
-    }
+	public static Drawable loadImageFromAsset(Context context, String imageFileName) {
+
+		// load image
+		try {
+			// get input stream
+			InputStream ims = context.getAssets().open("avatar.jpg");
+			// load image as Drawable
+			Drawable d = Drawable.createFromStream(ims, null);
+			return d;
+		} catch (IOException ex) {
+			Log.e("ImageUtil", "unable to load image! name: " + imageFileName);
+		}
+		return null;
+
+	}
 
 }

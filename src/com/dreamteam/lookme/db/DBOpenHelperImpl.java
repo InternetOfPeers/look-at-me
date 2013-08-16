@@ -81,12 +81,14 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 		db.execSQL("CREATE TABLE " + TABLE_INTERESTS + "(" + TABLE_INTERESTS_COLUMN_ID + " INTEGER PRIMARY KEY , " + TABLE_INTERESTS_COLUMN_PROFILE_ID + " TEXT , "
 				+ TABLE_INTERESTS_COLUMN_DESCRIPTION + " TEXT ); ");
-		
-		db.execSQL("CREATE TABLE " + TABLE_CONVERSATIONS + "(" + TABLE_CONVERSATIONS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TABLE_CONVERSATIONS_COLUMN_PROFILE_ID + " TEXT NOT NULL); ");
-		
-		db.execSQL("CREATE TABLE " + TABLE_MESSAGES + "(" + TABLE_MESSAGES_COLUMN_CONVERSATION_ID + " INTEGER , " + TABLE_MESSAGES_COLUMN_PROFILE_ID
-				+ " TEXT NOT NULL, " + TABLE_MESSAGES_COLUMN_TO_NICKNAME + " TEXT, " + TABLE_MESSAGES_COLUMN_MESSAGE + " TEXT, " + TABLE_MESSAGES_COLUMN_IS_MINE + " TEXT, "+ TABLE_MESSAGES_COLUMN_MESSAGE_DATE + " TEXT ); ");
-		
+
+		db.execSQL("CREATE TABLE " + TABLE_CONVERSATIONS + "(" + TABLE_CONVERSATIONS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ TABLE_CONVERSATIONS_COLUMN_PROFILE_ID + " TEXT NOT NULL); ");
+
+		db.execSQL("CREATE TABLE " + TABLE_MESSAGES + "(" + TABLE_MESSAGES_COLUMN_CONVERSATION_ID + " INTEGER , " + TABLE_MESSAGES_COLUMN_PROFILE_ID + " TEXT NOT NULL, "
+				+ TABLE_MESSAGES_COLUMN_TO_NICKNAME + " TEXT, " + TABLE_MESSAGES_COLUMN_MESSAGE + " TEXT, " + TABLE_MESSAGES_COLUMN_IS_MINE + " TEXT, "
+				+ TABLE_MESSAGES_COLUMN_MESSAGE_DATE + " TEXT ); ");
+
 	}
 
 	@Override
@@ -232,7 +234,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
-			Log.e("db", "error on deleting ALL profiles : " + e.getMessage() );
+			Log.e("db", "error on deleting ALL profiles : " + e.getMessage());
 		} finally {
 		}
 
@@ -270,7 +272,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		try {
 
 			List<Interest> interestList = loadInterests();
-			
+
 			cursor = database.rawQuery(TB_PROFILES_SELECT_ALL_FIELDS + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
@@ -485,8 +487,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.update(TABLE_IMAGES, contentValues, TABLE_IMAGES_COLUMN_ID + "=?", new String[] { "" + profileImage.getId() });
 		}
 	}
-	
-	private void saveOrUpdateConversation(long conversationID,ChatMessage chatMessage,BasicProfile profile) throws Exception {		
+
+	private void saveOrUpdateConversation(long conversationID, ChatMessage chatMessage, BasicProfile profile) throws Exception {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(TABLE_MESSAGES_COLUMN_TO_NICKNAME, profile.getNickname());
 		contentValues.put(TABLE_MESSAGES_COLUMN_PROFILE_ID, profile.getId());
@@ -494,10 +496,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		contentValues.put(TABLE_MESSAGES_COLUMN_IS_MINE, chatMessage.isMine());
 		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE_DATE, chatMessage.getTimestamp().toString());
 		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE, chatMessage.getText());
-		database.insert(TABLE_MESSAGES, null, contentValues);		
+		database.insert(TABLE_MESSAGES, null, contentValues);
 	}
-	
-	private void saveMessage(long conversationID,ChatMessage chatMessage,BasicProfile profile) throws Exception {		
+
+	private void saveMessage(long conversationID, ChatMessage chatMessage, BasicProfile profile) throws Exception {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(TABLE_MESSAGES_COLUMN_TO_NICKNAME, chatMessage.getToNickname());
 		contentValues.put(TABLE_MESSAGES_COLUMN_FROM_NICKNAME, chatMessage.getFromNickname());
@@ -506,25 +508,25 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		contentValues.put(TABLE_MESSAGES_COLUMN_IS_MINE, chatMessage.isMine());
 		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE_DATE, chatMessage.getTimestamp().toString());
 		contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE, chatMessage.getText());
-		database.insert(TABLE_MESSAGES, null, contentValues);		
+		database.insert(TABLE_MESSAGES, null, contentValues);
 	}
-	
-	private List<ChatMessage> getConversationMessages(long conversationID) throws Exception {		
+
+	private List<ChatMessage> getConversationMessages(long conversationID) throws Exception {
 		Cursor cursor = null;
-		List<ChatMessage>messageList = new ArrayList<ChatMessage>();
+		List<ChatMessage> messageList = new ArrayList<ChatMessage>();
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_MESSAGES_COLUMN_PROFILE_ID + ", " + TABLE_MESSAGES_COLUMN_MESSAGE + ", " + TABLE_MESSAGES_COLUMN_MESSAGE_DATE + ", "
-					+ TABLE_MESSAGES_COLUMN_IS_MINE + " FROM " + TABLE_MESSAGES + " WHERE "
-					+ TABLE_MESSAGES_COLUMN_CONVERSATION_ID + "=?", new String[] { "" + conversationID });
+			cursor = database.rawQuery("SELECT " + TABLE_MESSAGES_COLUMN_PROFILE_ID + ", " + TABLE_MESSAGES_COLUMN_MESSAGE + ", " + TABLE_MESSAGES_COLUMN_MESSAGE_DATE
+					+ ", " + TABLE_MESSAGES_COLUMN_IS_MINE + " FROM " + TABLE_MESSAGES + " WHERE " + TABLE_MESSAGES_COLUMN_CONVERSATION_ID + "=?", new String[] { ""
+					+ conversationID });
 
 			if (cursor.moveToFirst()) {
 				do {
-					ChatMessage chat = new ChatMessage(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_FROM_NICKNAME)),
-							cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_TO_NICKNAME)), cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_MESSAGE)),
+					ChatMessage chat = new ChatMessage(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_FROM_NICKNAME)), cursor.getString(cursor
+							.getColumnIndex(TABLE_MESSAGES_COLUMN_TO_NICKNAME)), cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_MESSAGE)),
 							Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_IS_MINE))));
 					messageList.add(chat);
-					
+
 				} while (cursor.moveToNext());
 
 			}
@@ -534,64 +536,65 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			if (!cursor.isClosed())
 				cursor.close();
 		}
-		return messageList;	
+		return messageList;
 	}
 
-	 @Override
-	 public void saveInterest(Interest interest)  {
-			ContentValues contentValues = new ContentValues();
-			contentValues.put(TABLE_INTERESTS_COLUMN_ID, interest.getId());
-			contentValues.put(TABLE_INTERESTS_COLUMN_DESCRIPTION, interest.getDesc());
-			database.insert(TABLE_INTERESTS, null, contentValues);	
-		 
-	 }
-	 
-	 @Override
-	 public void saveInterests(List<Interest> interestsList) {
-			Iterator<Interest>iter = interestsList.iterator();	
-			while(iter.hasNext())
-				saveInterest(iter.next());
-	 }
-	 
-	 @Override
-	 public List<Interest> loadInterests() throws Exception {
-			Cursor cursor = null;
-			List<Interest>interestList = new ArrayList<Interest>();
-			try {
+	@Override
+	public void saveInterest(Interest interest) {
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(TABLE_INTERESTS_COLUMN_ID, interest.getId());
+		contentValues.put(TABLE_INTERESTS_COLUMN_DESCRIPTION, interest.getDesc());
+		database.insert(TABLE_INTERESTS, null, contentValues);
 
-				cursor = database.rawQuery("SELECT " + TABLE_INTERESTS_COLUMN_ID + ", " + TABLE_INTERESTS_COLUMN_DESCRIPTION +  " FROM " + TABLE_INTERESTS , new String[] {  });
+	}
 
-				if (cursor.moveToFirst()) {
-					do {
-						Interest interest = new Interest(cursor.getInt(cursor.getColumnIndex(TABLE_INTERESTS_COLUMN_ID)),cursor.getString(cursor.getColumnIndex(TABLE_INTERESTS_COLUMN_DESCRIPTION)),false);
-	
-						interestList.add(interest);
-						
-					} while (cursor.moveToNext());
+	@Override
+	public void saveInterests(List<Interest> interestsList) {
+		Iterator<Interest> iter = interestsList.iterator();
+		while (iter.hasNext())
+			saveInterest(iter.next());
+	}
 
-				}
-			} catch (Throwable e) {
-				Log.e("db", "error on loading interests : " + e.getMessage() );
-			} finally {
-				if (!cursor.isClosed())
-					cursor.close();
+	@Override
+	public List<Interest> loadInterests() throws Exception {
+		Cursor cursor = null;
+		List<Interest> interestList = new ArrayList<Interest>();
+		try {
+
+			cursor = database.rawQuery("SELECT " + TABLE_INTERESTS_COLUMN_ID + ", " + TABLE_INTERESTS_COLUMN_DESCRIPTION + " FROM " + TABLE_INTERESTS, new String[] {});
+
+			if (cursor.moveToFirst()) {
+				do {
+					Interest interest = new Interest(cursor.getInt(cursor.getColumnIndex(TABLE_INTERESTS_COLUMN_ID)), cursor.getString(cursor
+							.getColumnIndex(TABLE_INTERESTS_COLUMN_DESCRIPTION)), false);
+
+					interestList.add(interest);
+
+				} while (cursor.moveToNext());
+
 			}
-			return interestList;			 
-	 }
-	 
-		@Override
-		public void deleteInterest(int interestId)  {
-			try {
-				String table_name = TABLE_INTERESTS;
-				String where = TABLE_INTERESTS_COLUMN_ID + "=" + interestId;
-				String[] whereArgs = null;
-				database.delete(table_name, where, whereArgs);
-			} catch (Throwable e) {
-				Log.e("db", "error on deleting specific Interest : " + e.getMessage() + " image ID:" + interestId);
-			} finally {
-			}
-
+		} catch (Throwable e) {
+			Log.e("db", "error on loading interests : " + e.getMessage());
+		} finally {
+			if (!cursor.isClosed())
+				cursor.close();
 		}
+		return interestList;
+	}
+
+	@Override
+	public void deleteInterest(int interestId) {
+		try {
+			String table_name = TABLE_INTERESTS;
+			String where = TABLE_INTERESTS_COLUMN_ID + "=" + interestId;
+			String[] whereArgs = null;
+			database.delete(table_name, where, whereArgs);
+		} catch (Throwable e) {
+			Log.e("db", "error on deleting specific Interest : " + e.getMessage() + " image ID:" + interestId);
+		} finally {
+		}
+
+	}
 
 	private static Profile valorizeProfile(Profile profile, Cursor cursor) {
 		profile.setId(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));

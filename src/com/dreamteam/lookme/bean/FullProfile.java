@@ -2,8 +2,6 @@ package com.dreamteam.lookme.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class FullProfile extends BasicProfile {
 
@@ -159,13 +157,13 @@ public class FullProfile extends BasicProfile {
 		this.interestList = interestList;
 	}
 
-//	public void addInterest(Interest interest) {
-//		this.interestList.add(interest);
-//	}
-//
-//	public void removeInterest(Interest interest) {
-//		this.interestList.remove(interest);
-//
-//	}
+	// public void addInterest(Interest interest) {
+	// this.interestList.add(interest);
+	// }
+	//
+	// public void removeInterest(Interest interest) {
+	// this.interestList.remove(interest);
+	//
+	// }
 
 }

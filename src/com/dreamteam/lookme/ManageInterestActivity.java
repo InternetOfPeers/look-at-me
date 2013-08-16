@@ -2,7 +2,6 @@ package com.dreamteam.lookme;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,14 +42,14 @@ public class ManageInterestActivity extends CommonActivity {
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			
-				
+
 				Interest interest = (Interest) parent.getItemAtPosition(position);
 
-				//Services.currentState.getMyFullProfile().removeInterest(interest);
+				// Services.currentState.getMyFullProfile().removeInterest(interest);
 				DBOpenHelperImpl.getInstance(activity).deleteInterest(interest.getId());
-				
-				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size() + " **********************************");
+
+				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size()
+						+ " **********************************");
 				Toast.makeText(
 						getApplicationContext(),
 						"Removed: " + interest.getDesc() + "TO YOUR INTEREST, NOW YOU HAVE " + Services.currentState.getMyFullProfile().getInterestList().size()
@@ -103,7 +101,7 @@ public class ManageInterestActivity extends CommonActivity {
 				holder.code = (TextView) convertView.findViewById(R.id.interestId);
 
 				convertView.setTag(holder);
-				
+
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}

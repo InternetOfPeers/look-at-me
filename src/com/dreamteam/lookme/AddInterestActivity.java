@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.dreamteam.lookme.bean.Interest;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.Services;
@@ -48,7 +47,7 @@ public class AddInterestActivity extends CommonActivity {
 				Interest interest = (Interest) parent.getItemAtPosition(position);
 
 				DBOpenHelperImpl.getInstance(activity).saveInterest(interest);
-				//Services.currentState.getMyFullProfile().addInterest(interest);
+				// Services.currentState.getMyFullProfile().addInterest(interest);
 
 				Log.d("**************************************************** " + Services.currentState.getMyFullProfile().getInterestList().size()
 						+ " **********************************");
@@ -56,7 +55,7 @@ public class AddInterestActivity extends CommonActivity {
 						getApplicationContext(),
 						"Added: " + interest.getDesc() + "TO YOUR INTEREST, NOW YOU HAVE " + Services.currentState.getMyFullProfile().getInterestList().size() + "interests",
 						Toast.LENGTH_SHORT).show();
-				
+
 				// create an ArrayAdaptar from the String Array
 				interestAdapter = new InterestAdapter(activity, R.layout.interest_info_add, R.id.interestId, Services.currentState.getInterestList());
 				listView.setAdapter(interestAdapter);
@@ -78,8 +77,6 @@ public class AddInterestActivity extends CommonActivity {
 			this.interestList.addAll(interestList);
 		}
 
-
-
 		private class ViewHolder {
 			TextView code;
 			CheckBox cb;
@@ -96,11 +93,9 @@ public class AddInterestActivity extends CommonActivity {
 
 				holder = new ViewHolder();
 				holder.code = (TextView) convertView.findViewById(R.id.interestId);
-				 holder.cb = (CheckBox)
-				convertView.findViewById(R.id.checkBoxAddInterest);
+				holder.cb = (CheckBox) convertView.findViewById(R.id.checkBoxAddInterest);
 				convertView.setTag(holder);
 
-				
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
@@ -110,8 +105,8 @@ public class AddInterestActivity extends CommonActivity {
 			holder.code.setText(" (" + interest.getDesc() + ")");
 
 			for (Interest profileInterest : Services.currentState.getMyFullProfile().getInterestList()) {
-				System.out.println(position + " ########################### PROFILE INTEREST_ID = " +profileInterest.getId() + " ########################### ");
-				if(profileInterest.getId() == interest.getId()){
+				System.out.println(position + " ########################### PROFILE INTEREST_ID = " + profileInterest.getId() + " ########################### ");
+				if (profileInterest.getId() == interest.getId()) {
 					System.out.println(position + " ########################### COINCIDONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ########################### ");
 					holder.cb.setChecked(true);
 					holder.code.setClickable(false);
