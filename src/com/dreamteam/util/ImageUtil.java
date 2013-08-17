@@ -6,16 +6,17 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.DisplayMetrics;
 
 import com.dreamteam.lookme.R;
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
+import com.dreamteam.lookme.service.Services;
 
 public class ImageUtil {
 	
 	private static final int MAX_IMAGE_SIZE = 1080;
 	private static final int DEFAULT_SIZE_IN_DP = 600;
-	private static final int THUMBNAIL_SIZE_IN_DP = 60;
 	private static final int ASPECT_THUMBNAIL = 1;
 	private static final int ASPECT_WIDTH = 2;
 	private static final int ASPECT_HEIGHT = 3;
@@ -55,7 +56,10 @@ public class ImageUtil {
 	}
 	
 	public static Bitmap bitmapForThumbnail(Bitmap bitmap) {
-		return cropBitmap(scaleImage(bitmap, THUMBNAIL_SIZE_IN_DP), ASPECT_THUMBNAIL, ASPECT_THUMBNAIL);
+		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
+	    int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+	    int thumbnail_size_in_dp = (display_size_in_dp - 50) / 4;
+		return cropBitmap(scaleImage(bitmap, thumbnail_size_in_dp), ASPECT_THUMBNAIL, ASPECT_THUMBNAIL);
 	}
 	
 	public static Bitmap bitmapForGallery(Bitmap bitmap) {
@@ -63,14 +67,17 @@ public class ImageUtil {
 	}
 
 	public static byte[] bitmapToByteArray(Bitmap bitmap) {
-		int size = bitmap.getWidth() * bitmap.getHeight() * 2;
-		ByteArrayOutputStream outStream;
-		while (true) {
-			outStream = new ByteArrayOutputStream(size);
-			if (bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_COMPRESSION_RATIO, outStream))
-				break;
-			size = size * 3 / 2;
-		}
+//		int size = bitmap.getWidth() * bitmap.getHeight() * 2;
+//		ByteArrayOutputStream outStream;
+//		while (true) {
+//			outStream = new ByteArrayOutputStream(size);
+//			if (bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_COMPRESSION_RATIO, outStream))
+//				break;
+//			size = size * 3 / 2;
+//		}
+//		return outStream.toByteArray();
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_COMPRESSION_RATIO, outStream);
 		return outStream.toByteArray();
 	}
 
@@ -113,6 +120,7 @@ public class ImageUtil {
 		else if (ratioSrc == ratioDst) {
 			// NOP
 			Log.d("No need to reduce image");
+			return bitmap;
 		}
 		Log.d("New width is " + newWidth);
 		Log.d("New height is " + newHeight);

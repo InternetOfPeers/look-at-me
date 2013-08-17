@@ -1,7 +1,5 @@
 package com.dreamteam.lookme;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -15,7 +13,6 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -43,7 +40,7 @@ import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 
 public class EditProfileActivity extends CommonActivity {
-	
+
 	protected static final int PHOTO_PICKED = 0;
 
 	private ScrollGalleryAdapter scrollGalleryAdapter;
@@ -176,8 +173,8 @@ public class EditProfileActivity extends CommonActivity {
 	public void onChooseImage(View view) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-            intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent,"Select Picture"), PHOTO_PICKED);
+			intent.setType("image/*");
+			startActivityForResult(Intent.createChooser(intent, "Select Picture"), PHOTO_PICKED);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
@@ -191,18 +188,18 @@ public class EditProfileActivity extends CommonActivity {
 		if (requestCode == PHOTO_PICKED && resultCode == RESULT_OK && null != data) {
 			try {
 				Uri selectedImage = data.getData();
-	            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+				String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-	            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-	            cursor.moveToFirst();
+				Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+				cursor.moveToFirst();
 
-	            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-	            String filePath = cursor.getString(columnIndex);
-	            cursor.close();
+				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+				String filePath = cursor.getString(columnIndex);
+				cursor.close();
 
-	            Bitmap photo = ImageUtil.loadBitmap(filePath);
-				
-	            if (scrollGalleryAdapter != null) {
+				Bitmap photo = ImageUtil.loadBitmap(filePath);
+
+				if (scrollGalleryAdapter != null) {
 					ProfileImage profileImage = new ProfileImage();
 					profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
 					profileImage.setProfileId(Services.currentState.getMyBasicProfile().getId());
@@ -212,13 +209,11 @@ public class EditProfileActivity extends CommonActivity {
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
 					imageView.setImageBitmap(ImageUtil.bitmapForThumbnail(photo));
 				}
-			} 
-			catch (OutOfMemoryError e) {
+			} catch (OutOfMemoryError e) {
 				Log.d("Out of memory error... cleaning memory");
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
 				CommonUtils.cleanMem();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				Log.e("error changing image, error: " + e.toString());
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
 			}
@@ -251,7 +246,7 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
-		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length));
+		imageView.setImageBitmap(ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length)));
 
 		TextView interest = (TextView) findViewById(R.id.reg_interest);
 		StringBuilder sb = new StringBuilder();
@@ -290,15 +285,13 @@ public class EditProfileActivity extends CommonActivity {
 
 	}
 
-	protected void setMainProfileImage(ProfileImage profileImage) {
-		ImageView imageView = (ImageView) findViewById(R.id.imgView);
-		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profileImage.getImage(), 0, profileImage.getImage().length));
-	}
+//	protected void setMainProfileImage(ProfileImage profileImage) {
+//		ImageView imageView = (ImageView) findViewById(R.id.imgView);
+//		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profileImage.getImage(), 0, profileImage.getImage().length));
+//	}
 
 	private void refreshFragment() {
 		scrollGalleryAdapter.notifyDataSetChanged();
 	}
-
-	
 
 }
