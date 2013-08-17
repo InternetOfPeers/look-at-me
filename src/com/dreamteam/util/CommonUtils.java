@@ -118,4 +118,14 @@ public class CommonUtils {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		return sdf.parse(s);
 	}
+	
+	public static void cleanMem() {
+	    System.gc();
+	    try {
+	      Thread.sleep(200L);
+	      return;
+	    }
+	    catch (InterruptedException localInterruptedException) {
+	    }
+	}
 }

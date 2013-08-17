@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView.FindListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.dreamteam.lookme.service.Event;
 import com.dreamteam.lookme.service.NotificationService;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
+import com.dreamteam.util.ImageUtil;
 import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 import com.squareup.otto.Subscribe;
@@ -39,7 +41,7 @@ public class ProfileFragment extends Fragment {
 	private ImageButton buttonLike;
 	private ImageButton buttonChat;
 	private List<Bitmap> gallery_images;
-
+	
 	private ProgressDialog loadingDialog;
 
 	@Override
@@ -156,30 +158,9 @@ public class ProfileFragment extends Fragment {
 		@Override
 		public View instantiateItem(ViewGroup container, int position) {
 			PhotoView photoView = new PhotoView(container.getContext());
-			// Get bitmap and crop to fill display size
-			Display display = getActivity().getWindowManager().getDefaultDisplay();
-			Point size = new Point();
-			display.getSize(size);
-			Log.d("Display size is " + size.x + " x " + size.y);
-			float width = (float) size.x;
-			float height = (float) size.y;
-			float ratio = width / height;
-			Log.d("Display ratio is " + ratio);
-			Bitmap photoImageSrc = gallery_images.get(position);
-			Log.d("Bitmap size is " + photoImageSrc.getWidth() + " x " + photoImageSrc.getHeight());
-			int newWidth = (int) (photoImageSrc.getHeight() * ratio);
-			Log.d("New width is " + newWidth);
-			int offset = photoImageSrc.getWidth() / 2 - newWidth / 2;
-			Log.d("Offset is " + offset);
-			// I seguenti 2 controlli per evitare di avere valori negativi,
-			// ma in teoria se si costringe l'utente ad avere immagini in
-			// proporzione 3:4 questi controlli risultano essere ridondanti
-			if (offset < 0)
-				offset = 0;
-			if (newWidth > photoImageSrc.getWidth())
-				newWidth = photoImageSrc.getWidth();
-			Bitmap photoImageDst = Bitmap.createBitmap(photoImageSrc, offset, 0, newWidth, photoImageSrc.getHeight());
-			photoView.setImageBitmap(photoImageDst);
+			Bitmap photoImage = gallery_images.get(position);
+			// Crop to get same ratio
+			photoView.setImageBitmap(ImageUtil.bitmapForGallery(photoImage));
 			// Now just add PhotoView to ViewPager and return it
 			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 

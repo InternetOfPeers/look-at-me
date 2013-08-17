@@ -7,6 +7,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -42,10 +43,9 @@ import com.dreamteam.util.Log;
 import com.dreamteam.util.Nav;
 
 public class EditProfileActivity extends CommonActivity {
+	
 	protected static final int PHOTO_PICKED = 0;
 
-	private static final int OUTPUT_X = 1080;
-	private static final int OUTPUT_Y = 1440;
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 
 	String imageFilePath = null;
@@ -176,16 +176,8 @@ public class EditProfileActivity extends CommonActivity {
 	public void onChooseImage(View view) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-			intent.setType("image/*");
-			intent.putExtra("crop", "true");
-			intent.putExtra("aspectX", 3);
-			intent.putExtra("aspectY", 4);
-			intent.putExtra("outputX", OUTPUT_X);
-			intent.putExtra("outputY", OUTPUT_Y);
-			intent.putExtra("scale", true);
-			intent.putExtra("return-data", true);
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempUri());
-			startActivityForResult(intent, PHOTO_PICKED);
+            intent.setType("image/*");
+            startActivityForResult(Intent.createChooser(intent,"Select Picture"), PHOTO_PICKED);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
@@ -198,10 +190,19 @@ public class EditProfileActivity extends CommonActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == PHOTO_PICKED && resultCode == RESULT_OK && null != data) {
 			try {
-				Bitmap photo = ImageUtil.loadBitmap(getTempUri().getPath(), OUTPUT_X, OUTPUT_Y);
-				Log.d("Photo has density: " + photo.getDensity() + " and size " + photo.getWidth() + " x " + photo.getHeight());
+				Uri selectedImage = data.getData();
+	            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-				if (scrollGalleryAdapter != null) {
+	            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+	            cursor.moveToFirst();
+
+	            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+	            String filePath = cursor.getString(columnIndex);
+	            cursor.close();
+
+	            Bitmap photo = ImageUtil.loadBitmap(filePath);
+				
+	            if (scrollGalleryAdapter != null) {
 					ProfileImage profileImage = new ProfileImage();
 					profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
 					profileImage.setProfileId(Services.currentState.getMyBasicProfile().getId());
@@ -209,13 +210,15 @@ public class EditProfileActivity extends CommonActivity {
 					refreshFragment();
 				} else {
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
-					imageView.setImageBitmap(photo);
+					imageView.setImageBitmap(ImageUtil.bitmapForThumbnail(photo));
 				}
-				if (getTempFile().exists()) {
-					Log.d("Deleting imageTmpFile");
-					getTempFile().delete();
-				}
-			} catch (Exception e) {
+			} 
+			catch (OutOfMemoryError e) {
+				Log.d("Out of memory error... cleaning memory");
+				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
+				CommonUtils.cleanMem();
+			}
+			catch (Exception e) {
 				Log.e("error changing image, error: " + e.toString());
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
 			}
@@ -296,31 +299,6 @@ public class EditProfileActivity extends CommonActivity {
 		scrollGalleryAdapter.notifyDataSetChanged();
 	}
 
-	private Uri getTempUri() {
-		return Uri.fromFile(getTempFile());
-	}
-
-	private File getTempFile() {
-		if (isSDCARDMounted()) {
-
-			File f = new File(Environment.getExternalStorageDirectory(), "mytmpimg.jpg");
-			try {
-				f.createNewFile();
-			} catch (IOException e) {
-				Toast.makeText(this, "Error getting temp file", Toast.LENGTH_LONG).show();
-			}
-			return f;
-		} else {
-			return null;
-		}
-	}
-
-	private boolean isSDCARDMounted() {
-		String status = Environment.getExternalStorageState();
-
-		if (status.equals(Environment.MEDIA_MOUNTED))
-			return true;
-		return false;
-	}
+	
 
 }

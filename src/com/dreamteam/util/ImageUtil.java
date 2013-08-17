@@ -1,86 +1,65 @@
 package com.dreamteam.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.graphics.Matrix;
 
 import com.dreamteam.lookme.R;
 import com.dreamteam.lookme.bean.BasicProfile;
 import com.dreamteam.lookme.bean.ProfileImage;
 
 public class ImageUtil {
+	
+	private static final int MAX_IMAGE_SIZE = 1080;
+	private static final int DEFAULT_SIZE_IN_DP = 600;
+	private static final int THUMBNAIL_SIZE_IN_DP = 60;
+	private static final int ASPECT_THUMBNAIL = 1;
+	private static final int ASPECT_WIDTH = 2;
+	private static final int ASPECT_HEIGHT = 3;
+	private static final int JPEG_COMPRESSION_RATIO = 90;
 
-	public static int getScale(int originalWidth, int originalHeight, final int requiredWidth, final int requiredHeight) {
-		// a scale of 1 means the original dimensions
-		// of the image are maintained
-		int scale = 1;
+	public static BitmapFactory.Options getOptions(String filePath) {
 
-		// calculate scale only if the height or width of
-		// the image exceeds the required value.
-		if ((originalWidth > requiredWidth) || (originalHeight > requiredHeight)) {
-			// calculate scale with respect to
-			// the smaller dimension
-			if (originalWidth < originalHeight)
-				scale = Math.round((float) originalWidth / requiredWidth);
-			else
-				scale = Math.round((float) originalHeight / requiredHeight);
-		}
-		return scale;
-	}
-
-	public static BitmapFactory.Options getOptions(String filePath, int requiredWidth, int requiredHeight) {
-
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		// setting inJustDecodeBounds to true
-		// ensures that we are able to measure
-		// the dimensions of the image,without
-		// actually allocating it memory
+		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-
-		// decode the file for measurement
 		BitmapFactory.decodeFile(filePath, options);
+    
+		if (options.outHeight > MAX_IMAGE_SIZE || options.outWidth > MAX_IMAGE_SIZE) {
 
-		// obtain the inSampleSize for loading a
-		// scaled down version of the image.
-		// options.outWidth and options.outHeight
-		// are the measured dimensions of the
-		// original image
-		options.inSampleSize = getScale(options.outWidth, options.outHeight, requiredWidth, requiredHeight);
-
-		// set inJustDecodeBounds to false again
-		// so that we can now actually allocate the
-		// bitmap some memory
-		options.inJustDecodeBounds = false;
-
-		return options;
+	        // Calculate ratios of height and width to requested height and width
+	        final int heightRatio = Math.round((float) options.outHeight / (float) MAX_IMAGE_SIZE);
+	        final int widthRatio = Math.round((float) options.outWidth / (float) MAX_IMAGE_SIZE);
+	
+	        // Choose the smallest ratio as inSampleSize value, this will guarantee
+	        // a final image with both dimensions larger than or equal to the
+	        // requested height and width.
+	        options.inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+	    }
+	    else {
+	    	options.inSampleSize = 1;
+	    }
+	
+	    // Decode bitmap with inSampleSize set
+	    options.inJustDecodeBounds = false;
+	    
+	    return options;
 
 	}
-
-	public static Bitmap loadBitmap(String filePath, int requiredWidth, int requiredHeight) {
-
-		BitmapFactory.Options options = getOptions(filePath, requiredWidth, requiredHeight);
-
-		return BitmapFactory.decodeFile(filePath, options);
+	
+	public static Bitmap loadBitmap(String filePath) {
+		BitmapFactory.Options options = getOptions(filePath);
+		return ImageUtil.scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
 	}
-
-	public static byte[] getImageFromPicturePath(String picturePath) {
-		try {
-			Bitmap b = ImageUtil.loadBitmap(picturePath, 512, 256);
-			b = getResizedBitmap(b, 256, 256);
-
-			return bitmapToByteArray(b);
-
-		} catch (Exception e) {
-			Log.e("image", e.getMessage());
-		}
-		return null;
+	
+	public static Bitmap bitmapForThumbnail(Bitmap bitmap) {
+		return cropBitmap(scaleImage(bitmap, THUMBNAIL_SIZE_IN_DP), ASPECT_THUMBNAIL, ASPECT_THUMBNAIL);
+	}
+	
+	public static Bitmap bitmapForGallery(Bitmap bitmap) {
+		return cropBitmap(bitmap, ASPECT_WIDTH, ASPECT_HEIGHT);
 	}
 
 	public static byte[] bitmapToByteArray(Bitmap bitmap) {
@@ -88,15 +67,11 @@ public class ImageUtil {
 		ByteArrayOutputStream outStream;
 		while (true) {
 			outStream = new ByteArrayOutputStream(size);
-			if (bitmap.compress(Bitmap.CompressFormat.PNG, 0, outStream))
+			if (bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_COMPRESSION_RATIO, outStream))
 				break;
 			size = size * 3 / 2;
 		}
 		return outStream.toByteArray();
-	}
-
-	public static Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-		return Bitmap.createScaledBitmap(bm, newWidth, newHeight, false);
 	}
 
 	public static Bitmap getBitmapProfileImage(Resources resources, BasicProfile profile) {
@@ -109,21 +84,68 @@ public class ImageUtil {
 		}
 		return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
 	}
-
-	public static Drawable loadImageFromAsset(Context context, String imageFileName) {
-
-		// load image
-		try {
-			// get input stream
-			InputStream ims = context.getAssets().open("avatar.jpg");
-			// load image as Drawable
-			Drawable d = Drawable.createFromStream(ims, null);
-			return d;
-		} catch (IOException ex) {
-			Log.e("ImageUtil", "unable to load image! name: " + imageFileName);
+	
+	private static Bitmap cropBitmap(Bitmap bitmap, int aspectWidth, int aspectHeight) {
+		// Assumo che la bitmap di partenza abbia altezza >= larghezza
+		Log.d("Cropping bitmap " + bitmap.getWidth() + " x " + bitmap.getHeight());
+		int newWidth = bitmap.getWidth();
+		int newHeight = bitmap.getHeight();
+		int offsetX = 0;
+		int offsetY = 0;
+		// Calcolo il rapporto destinazione e sorgente
+		float ratioSrc = (float) bitmap.getWidth() / (float) bitmap.getHeight();
+		float ratioDst = (float) aspectWidth / (float) aspectHeight;
+		Log.d("Src ratio is " + ratioSrc);
+		Log.d("Dst ratio is " + ratioDst);
+		
+		if (ratioSrc > ratioDst) {
+			// l'immagine va stretta
+			Log.d("Reducing width");
+			newWidth = (int) (bitmap.getHeight() * ratioDst);
+			offsetX = (bitmap.getWidth() - newWidth) / 2;
 		}
-		return null;
-
+		else if (ratioSrc < ratioDst) {
+			// l'immagine va accorciata
+			Log.d("Reducing height");
+			newHeight = (int) (bitmap.getWidth() / ratioDst);
+			offsetY = (bitmap.getHeight() -newHeight) / 2;
+		}
+		else if (ratioSrc == ratioDst) {
+			// NOP
+			Log.d("No need to reduce image");
+		}
+		Log.d("New width is " + newWidth);
+		Log.d("New height is " + newHeight);
+		Log.d("Offset X is " + offsetX);
+		Log.d("Offset Y is " + offsetY);
+		// I seguenti 4 controlli per evitare di avere valori negativi
+		if (offsetX < 0) offsetX = 0;
+		if (offsetY < 0) offsetY = 0;
+		if (newWidth > bitmap.getWidth()) newWidth = bitmap.getWidth();
+		if (newHeight > bitmap.getHeight()) newHeight = bitmap.getHeight();
+		Bitmap photoImageDst = Bitmap.createBitmap(bitmap, offsetX, offsetY, newWidth, newHeight);
+		return photoImageDst;
 	}
+	
+	private static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
+		  // Get current dimensions
+		  int width = bitmap.getWidth();
+		  int height = bitmap.getHeight();
+		  Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
 
+		  // Determine how much to scale: the dimension requiring less scaling is closer to the its side. This way the image always stays inside your bounding box AND either x/y axis touches it.
+		  float xScale = ((float) boundBoxInDp) / width;
+		  float yScale = ((float) boundBoxInDp) / height;
+		  float scale = (xScale <= yScale) ? xScale : yScale;
+
+		  // Create a matrix for the scaling and add the scaling data
+		  Matrix matrix = new Matrix();
+		  matrix.postScale(scale, scale);
+
+		  // Create a new bitmap and convert it to a format understood by the ImageView
+		  Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+		  Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and " + scaledBitmap.getByteCount() + " bytes");
+		  
+		  return scaledBitmap;	 
+	}
 }
