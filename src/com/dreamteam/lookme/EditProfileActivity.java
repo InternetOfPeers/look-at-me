@@ -63,6 +63,7 @@ public class EditProfileActivity extends CommonActivity {
 			listview.setAdapter(scrollGalleryAdapter);
 			
 			if (oldProfile != null) {
+				profileId = oldProfile.getId();
 				switchToUpdateAccount(oldProfile);
 				scrollGalleryAdapter.setProfileImageList(oldProfile.getProfileImages());
 			} else {WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
