@@ -53,5 +53,22 @@ public class ProfileImage implements Serializable {
 	public void setMainImage(boolean isMainImage) {
 		this.isMainImage = isMainImage;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+		ProfileImage profileImage = (ProfileImage) o;
+		if (this.getImage().length != profileImage.getImage().length) {
+			return false;
+		}
+		for (int i = 0; i < this.getImage().length; i++) {
+			if (this.getImage()[i] != profileImage.getImage()[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }

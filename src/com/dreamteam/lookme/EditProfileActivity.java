@@ -209,7 +209,6 @@ public class EditProfileActivity extends CommonActivity {
 				Bitmap photoThumbnail = ImageUtil.bitmapForThumbnail(photo);
 				
 				ProfileImage profileImage = new ProfileImage();
-				profileImage.setId(scrollGalleryAdapter.imageList.size());
 				profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
 				profileImage.setProfileId(profileId);
 

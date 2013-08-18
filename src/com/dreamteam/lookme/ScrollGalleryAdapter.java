@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.dreamteam.lookme.bean.ProfileImage;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
-import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.ImageUtil;
 
 public class ScrollGalleryAdapter extends BaseAdapter {
@@ -80,38 +79,31 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 	public void setProfileImageList(List<ProfileImage> imageList) {
 		this.imageList = imageList;
 	}
-	
-	public ProfileImage getCurrentMainImage() {
-		for (ProfileImage image : imageList) {
-			if (image.isMainImage()) {
-				return image;
-			}
-		}
-		return null;
-	}
 
 	private class ImageClickListener implements OnClickListener {
-		long imageId;
-		int position;
+		//long imageId;
+		//int position;
+		ProfileImage clickedImage;
 
 		public ImageClickListener(int position) {
-			this.imageId = getItemId(position);
-			this.position = position;
+			//this.imageId = getItemId(position);
+			this.clickedImage = getItem(position);
 		}
 
 		@Override
 		public void onClick(View v) {
 
-			final long idSelected = imageId;
+			//final long idSelected = imageId;
 			final Dialog dialog = new Dialog(activity);
 
 			// tell the Dialog to use the dialog.xml as it's layout description
 			dialog.setContentView(R.layout.chosed_image_dialog);
 			dialog.setTitle("What do u wanna do?");
+			
+			Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(clickedImage.getImage(), 0, clickedImage.getImage().length));
 			ImageView image = (ImageView) dialog.findViewById(R.id.image);
-			Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(getItem(position).getImage(), 0, getItem(position)
-					.getImage().length));
 			image.setImageBitmap(thumbnailBitmap);
+			
 			Button setAsMainImageButton = (Button) dialog.findViewById(R.id.setAsMainImage);
 			setAsMainImageButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -120,7 +112,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 					Iterator<ProfileImage> iter = imageList.iterator();
 					while (iter.hasNext()) {
 						ProfileImage tempProfileImage = iter.next();
-						if (tempProfileImage.getId() == idSelected) {
+						if (tempProfileImage.equals(clickedImage)) {
 							tempProfileImage.setMainImage(true);
 							ImageView imageView = (ImageView) activity.findViewById(R.id.imgView);
 							Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(tempProfileImage.getImageBitmap());
@@ -141,21 +133,24 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					dialog.dismiss();
 					Iterator<ProfileImage> iter = imageList.iterator();
-					int position = 0;
-					while (iter.hasNext()) {
-						ProfileImage tempProfileImage = iter.next();
-						if (tempProfileImage.getId() == idSelected)
-							break;
-						position++;
-					}
-					if (imageList.get(position).isMainImage()) {
+					//int position = 0;
+					if (clickedImage.isMainImage()) {
 						Toast.makeText(activity, "YOU CAN'T DELETE YOUR MAIN IMAGE!CHOOSE ANOTHER ONE FIRST.", Toast.LENGTH_SHORT).show();
 						return;
 					}
+//					while (iter.hasNext()) {
+//						ProfileImage tempProfileImage = iter.next();
+//						if (tempProfileImage.equals(clickedImage))
+//							break;
+//						position++;
+//					}
 					try {
 						// TODO: perché non posticipare i cambiamenti sul db solo al momento del salvataggio?
-						DBOpenHelper db = DBOpenHelperImpl.getInstance(activity);
-						db.deleteImage(imageList.remove(position).getId());
+						if (clickedImage.getId() != 0) {
+							DBOpenHelper db = DBOpenHelperImpl.getInstance(activity);
+							db.deleteImage(clickedImage.getId());
+						}
+						imageList.remove(clickedImage);
 					} catch (Exception e) {
 						Log.e("imageGallery", "error during delete of image");
 					}
