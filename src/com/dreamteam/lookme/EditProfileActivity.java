@@ -44,8 +44,7 @@ public class EditProfileActivity extends CommonActivity {
 	protected static final int PHOTO_PICKED = 0;
 
 	private ScrollGalleryAdapter scrollGalleryAdapter;
-
-	String imageFilePath = null;
+	private String profileId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +57,22 @@ public class EditProfileActivity extends CommonActivity {
 			spinnerGender.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.genderArray, CommonUtils.genderImages));
 			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
 			spinnerCountry.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.countryArray, CommonUtils.countryImages));
+			
+			HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
+			scrollGalleryAdapter = new ScrollGalleryAdapter(this);
+			listview.setAdapter(scrollGalleryAdapter);
+			
 			if (oldProfile != null) {
 				switchToUpdateAccount(oldProfile);
-				HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
-				scrollGalleryAdapter = new ScrollGalleryAdapter(this);
-				listview.setAdapter(scrollGalleryAdapter);
-			} else {
+				scrollGalleryAdapter.setProfileImageList(oldProfile.getProfileImages());
+			} else {WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				WifiInfo info = manager.getConnectionInfo();
+				String deviceId = info.getMacAddress();
+				if (deviceId == null) {
+					TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+					deviceId = tm.getDeviceId();
+				}
+				profileId = deviceId;
 				Locale locale = getResources().getConfiguration().locale;
 				String country = locale.getCountry();
 				spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
@@ -72,6 +81,7 @@ public class EditProfileActivity extends CommonActivity {
 				Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
 				setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
 			}
+
 			initDrawerMenu(savedInstanceState, this.getClass(), true);
 
 		} catch (Exception e) {
@@ -82,7 +92,6 @@ public class EditProfileActivity extends CommonActivity {
 	public void onRegister(View view) {
 		Log.d();
 		try {
-			TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
 			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
 			TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
@@ -107,13 +116,8 @@ public class EditProfileActivity extends CommonActivity {
 				profile = new FullProfile();
 			profile.setName(nameScreen.getText().toString());
 			profile.setSurname(surnameScreen.getText().toString());
-			WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-			WifiInfo info = manager.getConnectionInfo();
-			String deviceId = info.getMacAddress();
-			if (deviceId == null)
-				deviceId = tm.getDeviceId();
 			profile.setNickname(usernameScreen.getText().toString());
-			profile.setId(deviceId);
+			profile.setId(profileId);
 			String age = (String) spinnerAge.getSelectedItem();
 			if (age != null && !age.isEmpty() && !age.equals("age"))
 				profile.setAge(Integer.valueOf(age));
@@ -131,23 +135,27 @@ public class EditProfileActivity extends CommonActivity {
 			if (language != null && !country.isEmpty()) {
 				profile.setPrimaryLanguage(language);
 			}
-
-			if (imageView.getDrawable() != null) {
-				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-
-				ProfileImage profileImage = null;
-
-				if (scrollGalleryAdapter != null)
-					profile.getProfileImages().addAll(scrollGalleryAdapter.imageList);
-				else {
-					profileImage = new ProfileImage();
-					profileImage.setProfileId(profile.getId());
-					profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
-					profileImage.setMainImage(true);
-					profile.getProfileImages().add(profileImage);
-				}
-
+			
+			if (scrollGalleryAdapter.imageList.size() > 0) {
+				profile.setProfileImages(scrollGalleryAdapter.imageList);
 			}
+
+//			if (imageView.getDrawable() != null) {
+//				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+//
+//				ProfileImage profileImage = null;
+//
+//				if (scrollGalleryAdapter != null)
+//					profile.getProfileImages().addAll(scrollGalleryAdapter.imageList);
+//				else {
+//					profileImage = new ProfileImage();
+//					profileImage.setProfileId(profile.getId());
+//					profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
+//					profileImage.setMainImage(true);
+//					profile.getProfileImages().add(profileImage);
+//				}
+//
+//			}
 
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
@@ -198,22 +206,29 @@ public class EditProfileActivity extends CommonActivity {
 				cursor.close();
 
 				Bitmap photo = ImageUtil.loadBitmap(filePath);
+				Bitmap photoThumbnail = ImageUtil.bitmapForThumbnail(photo);
+				
+				ProfileImage profileImage = new ProfileImage();
+				profileImage.setId(scrollGalleryAdapter.imageList.size());
+				profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
+				profileImage.setProfileId(profileId);
 
-				if (scrollGalleryAdapter != null) {
-					ProfileImage profileImage = new ProfileImage();
-					profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
-					profileImage.setProfileId(Services.currentState.getMyBasicProfile().getId());
-					scrollGalleryAdapter.imageList.add(profileImage);
-					refreshFragment();
-				} else {
+				if (scrollGalleryAdapter.imageList.size() == 0) {
+					// setto come immagine principale
+					profileImage.setMainImage(true);
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
-					imageView.setImageBitmap(ImageUtil.bitmapForThumbnail(photo));
+					imageView.setImageBitmap(photoThumbnail);
 				}
+
+				scrollGalleryAdapter.imageList.add(profileImage);
+				refreshFragment();
+				
 			} catch (OutOfMemoryError e) {
 				Log.d("Out of memory error... cleaning memory");
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
 				CommonUtils.cleanMem();
 			} catch (Exception e) {
+				e.printStackTrace();
 				Log.e("error changing image, error: " + e.toString());
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
 			}

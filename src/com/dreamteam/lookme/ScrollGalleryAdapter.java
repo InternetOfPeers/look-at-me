@@ -1,10 +1,12 @@
 package com.dreamteam.lookme;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.util.Log;
@@ -22,6 +24,7 @@ import com.dreamteam.lookme.bean.ProfileImage;
 import com.dreamteam.lookme.db.DBOpenHelper;
 import com.dreamteam.lookme.db.DBOpenHelperImpl;
 import com.dreamteam.lookme.service.Services;
+import com.dreamteam.util.ImageUtil;
 
 public class ScrollGalleryAdapter extends BaseAdapter {
 
@@ -33,7 +36,8 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 
 	public ScrollGalleryAdapter(Activity activity) {
 		this.activity = activity;
-		imageList = imageList == null ? Services.currentState.getMyFullProfile().getProfileImages() : imageList;
+		//imageList = imageList == null ? Services.currentState.getMyFullProfile().getProfileImages() : imageList;
+		imageList = new ArrayList<ProfileImage>();
 	}
 
 	@Override
@@ -56,28 +60,42 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int position) {
-		return imageList.get(position % imageList.size()).getId();
+		return getItem(position).getId();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retval = LayoutInflater.from(parent.getContext()).inflate(R.layout.scroll_gallery_item, null);
 		ImageView image = (ImageView) retval.findViewById(R.id.image);
-		image.setImageBitmap(BitmapFactory.decodeByteArray(imageList.get(position % imageList.size()).getImage(), 0,
-				imageList.get(position % imageList.size()).getImage().length));
+		Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(getItem(position).getImage(), 0,
+				getItem(position).getImage().length));
+		image.setImageBitmap(thumbnailBitmap);
 		// imageWidth=image.getWidth();
 		// imageHeight=image.getHeight();
-		image.setOnClickListener(new ImageClickListener(getItemId(position), position));
+		image.setOnClickListener(new ImageClickListener(position));
 
 		return retval;
+	}
+	
+	public void setProfileImageList(List<ProfileImage> imageList) {
+		this.imageList = imageList;
+	}
+	
+	public ProfileImage getCurrentMainImage() {
+		for (ProfileImage image : imageList) {
+			if (image.isMainImage()) {
+				return image;
+			}
+		}
+		return null;
 	}
 
 	private class ImageClickListener implements OnClickListener {
 		long imageId;
 		int position;
 
-		public ImageClickListener(long id, int position) {
-			this.imageId = id;
+		public ImageClickListener(int position) {
+			this.imageId = getItemId(position);
 			this.position = position;
 		}
 
@@ -91,28 +109,34 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 			dialog.setContentView(R.layout.chosed_image_dialog);
 			dialog.setTitle("What do u wanna do?");
 			ImageView image = (ImageView) dialog.findViewById(R.id.image);
-			image.setImageBitmap(BitmapFactory.decodeByteArray(imageList.get(position % imageList.size()).getImage(), 0, imageList.get(position % imageList.size())
+			Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(getItem(position).getImage(), 0, getItem(position)
 					.getImage().length));
-			Button deleteButton = (Button) dialog.findViewById(R.id.setAsMainImage);
-			deleteButton.setOnClickListener(new OnClickListener() {
+			image.setImageBitmap(thumbnailBitmap);
+			Button setAsMainImageButton = (Button) dialog.findViewById(R.id.setAsMainImage);
+			setAsMainImageButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
 					Iterator<ProfileImage> iter = imageList.iterator();
 					while (iter.hasNext()) {
 						ProfileImage tempProfileImage = iter.next();
-						if (tempProfileImage.getId() == idSelected)
+						if (tempProfileImage.getId() == idSelected) {
 							tempProfileImage.setMainImage(true);
-						else
+							ImageView imageView = (ImageView) activity.findViewById(R.id.imgView);
+							Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(tempProfileImage.getImageBitmap());
+							imageView.setImageBitmap(thumbnailBitmap);
+						}
+						else {
 							tempProfileImage.setMainImage(false);
+						}
 					}
 					notifyDataSetChanged();
 				}
 
 			});
 
-			Button setAsMainImageButton = (Button) dialog.findViewById(R.id.delete);
-			setAsMainImageButton.setOnClickListener(new OnClickListener() {
+			Button deleteImageButton = (Button) dialog.findViewById(R.id.delete);
+			deleteImageButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
@@ -126,10 +150,10 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 					}
 					if (imageList.get(position).isMainImage()) {
 						Toast.makeText(activity, "YOU CAN'T DELETE YOUR MAIN IMAGE!CHOOSE ANOTHER ONE FIRST.", Toast.LENGTH_SHORT).show();
-						;
 						return;
 					}
 					try {
+						// TODO: perché non posticipare i cambiamenti sul db solo al momento del salvataggio?
 						DBOpenHelper db = DBOpenHelperImpl.getInstance(activity);
 						db.deleteImage(imageList.remove(position).getId());
 					} catch (Exception e) {
