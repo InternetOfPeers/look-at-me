@@ -92,7 +92,7 @@ public class ImageUtil {
 	public static Bitmap bitmapForThumbnail(Bitmap bitmap) {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 		int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-		int thumbnail_size_in_dp = (display_size_in_dp - 50) / 4;
+		int thumbnail_size_in_dp = (display_size_in_dp - 32) / 4; // 32 = 6 x 5 ossia il cell spacing x3 + il padding x2
 		return scaleImage(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
 	}
 
@@ -176,26 +176,40 @@ public class ImageUtil {
 		return photoImageDst;
 	}
 
+//	private static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
+//		// Get current dimensions
+//		int width = bitmap.getWidth();
+//		int height = bitmap.getHeight();
+//		Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
+//
+//		// Determine how much to scale: the dimension requiring less scaling is
+//		// closer to the its side. This way the image always stays inside your
+//		// bounding box AND either x/y axis touches it.
+//		float xScale = ((float) boundBoxInDp) / width;
+//		float yScale = ((float) boundBoxInDp) / height;
+//		float scale = (xScale <= yScale) ? xScale : yScale;
+//
+//		// Create a matrix for the scaling and add the scaling data
+//		Matrix matrix = new Matrix();
+//		matrix.postScale(scale, scale);
+//
+//		// Create a new bitmap and convert it to a format understood by the
+//		// ImageView
+//		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+//		Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and "
+//				+ scaledBitmap.getByteCount() + " bytes");
+//
+//		return scaledBitmap;
+//	}
+	
 	private static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
 		// Get current dimensions
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
-
-		// Determine how much to scale: the dimension requiring less scaling is
-		// closer to the its side. This way the image always stays inside your
-		// bounding box AND either x/y axis touches it.
-		float xScale = ((float) boundBoxInDp) / width;
-		float yScale = ((float) boundBoxInDp) / height;
-		float scale = (xScale <= yScale) ? xScale : yScale;
-
-		// Create a matrix for the scaling and add the scaling data
-		Matrix matrix = new Matrix();
-		matrix.postScale(scale, scale);
-
-		// Create a new bitmap and convert it to a format understood by the
-		// ImageView
-		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
+	    int px = Math.round(boundBoxInDp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)); 
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, px, px, false);
 		Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and "
 				+ scaledBitmap.getByteCount() + " bytes");
 

@@ -215,7 +215,7 @@ public class EditProfileActivity extends CommonActivity {
 				if (scrollGalleryAdapter.imageList.size() == 0) {
 					// setto come immagine principale
 					profileImage.setMainImage(true);
-					Bitmap photoThumbnail = ImageUtil.bitmapForCustomThumbnail(photo, 50);
+					Bitmap photoThumbnail = ImageUtil.bitmapForCustomThumbnail(photo, 100);
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
 					imageView.setImageBitmap(photoThumbnail);
 				}

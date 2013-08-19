@@ -2,13 +2,13 @@
     android:id="@+id/nearbyListView"
     style="@style/NearbyGridLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
-    android:columnWidth="@dimen/image_thumbnail_size"
     android:horizontalSpacing="@dimen/image_thumbnail_spacing"
-    android:numColumns="auto_fit"
+    android:numColumns="4"
     android:padding="@dimen/nearby_grid_padding"
+    android:stretchMode="columnWidth"
     android:verticalSpacing="@dimen/image_thumbnail_spacing" >
 
 </GridView>

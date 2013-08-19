@@ -23,6 +23,7 @@
                 android:layout_width="@dimen/image_thumbnail_size"
                 android:layout_height="@dimen/image_thumbnail_size"
                 android:contentDescription="@string/edit_profile_alt_profile_image"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_profile_image" />
 
             <Button
