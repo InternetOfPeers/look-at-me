@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.Display;
@@ -35,7 +34,9 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 
 	public ScrollGalleryAdapter(Activity activity) {
 		this.activity = activity;
-		//imageList = imageList == null ? Services.currentState.getMyFullProfile().getProfileImages() : imageList;
+		// imageList = imageList == null ?
+		// Services.currentState.getMyFullProfile().getProfileImages() :
+		// imageList;
 		imageList = new ArrayList<ProfileImage>();
 	}
 
@@ -66,8 +67,8 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retval = LayoutInflater.from(parent.getContext()).inflate(R.layout.scroll_gallery_item, null);
 		ImageView image = (ImageView) retval.findViewById(R.id.image);
-		Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(getItem(position).getImage(), 0,
-				getItem(position).getImage().length));
+		// TODO: migliorare l'efficienza!!!
+		Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(getItem(position).getImageBitmap(), 80);
 		image.setImageBitmap(thumbnailBitmap);
 		// imageWidth=image.getWidth();
 		// imageHeight=image.getHeight();
@@ -75,35 +76,33 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 
 		return retval;
 	}
-	
+
 	public void setProfileImageList(List<ProfileImage> imageList) {
 		this.imageList = imageList;
 	}
 
 	private class ImageClickListener implements OnClickListener {
-		//long imageId;
-		//int position;
+
 		ProfileImage clickedImage;
 
 		public ImageClickListener(int position) {
-			//this.imageId = getItemId(position);
 			this.clickedImage = getItem(position);
 		}
 
 		@Override
 		public void onClick(View v) {
 
-			//final long idSelected = imageId;
+			// final long idSelected = imageId;
 			final Dialog dialog = new Dialog(activity);
 
 			// tell the Dialog to use the dialog.xml as it's layout description
 			dialog.setContentView(R.layout.chosed_image_dialog);
 			dialog.setTitle("What do u wanna do?");
-			
-			Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(clickedImage.getImage(), 0, clickedImage.getImage().length));
+
+			Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(clickedImage.getImageBitmap());
 			ImageView image = (ImageView) dialog.findViewById(R.id.image);
 			image.setImageBitmap(thumbnailBitmap);
-			
+
 			Button setAsMainImageButton = (Button) dialog.findViewById(R.id.setAsMainImage);
 			setAsMainImageButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -117,8 +116,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 							ImageView imageView = (ImageView) activity.findViewById(R.id.imgView);
 							Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(tempProfileImage.getImageBitmap());
 							imageView.setImageBitmap(thumbnailBitmap);
-						}
-						else {
+						} else {
 							tempProfileImage.setMainImage(false);
 						}
 					}
@@ -132,20 +130,13 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
-					Iterator<ProfileImage> iter = imageList.iterator();
-					//int position = 0;
 					if (clickedImage.isMainImage()) {
 						Toast.makeText(activity, "YOU CAN'T DELETE YOUR MAIN IMAGE!CHOOSE ANOTHER ONE FIRST.", Toast.LENGTH_SHORT).show();
 						return;
 					}
-//					while (iter.hasNext()) {
-//						ProfileImage tempProfileImage = iter.next();
-//						if (tempProfileImage.equals(clickedImage))
-//							break;
-//						position++;
-//					}
 					try {
-						// TODO: perché non posticipare i cambiamenti sul db solo al momento del salvataggio?
+						// TODO: perché non posticipare i cambiamenti sul db
+						// solo al momento del salvataggio?
 						if (clickedImage.getId() != 0) {
 							DBOpenHelper db = DBOpenHelperImpl.getInstance(activity);
 							db.deleteImage(clickedImage.getId());

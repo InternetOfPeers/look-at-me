@@ -59,7 +59,10 @@ public class ImageUtil {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 	    int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 	    int thumbnail_size_in_dp = (display_size_in_dp - 50) / 4;
-		return cropBitmap(scaleImage(bitmap, thumbnail_size_in_dp), ASPECT_THUMBNAIL, ASPECT_THUMBNAIL);
+	    return scaleImage(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
+	}
+	public static Bitmap bitmapForCustomThumbnail(Bitmap bitmap, int dp) {
+		return scaleImage(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), dp);
 	}
 	
 	public static Bitmap bitmapForGallery(Bitmap bitmap) {

@@ -102,12 +102,9 @@ public class EditProfileActivity extends CommonActivity {
 			Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 			if (usernameScreen.getText() == null || usernameScreen.getText().toString().equals("")) {
-				// Se non � l'emulatore verifico anche che sia stata impostata
+				// Verifico anche che sia stata impostata
 				// un'immagine di profilo
-				// TODO appena viene risolto il bug sul crop dell'immagine da
-				// emulatore, si pu� togliere questo controllo
-				if (!CommonUtils.isEmulator()
-						&& imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
+				if (imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
 					Toast.makeText(this, "To create a new profile you need to insert at least an image and a nickname.", Toast.LENGTH_SHORT).show();
 					return;
 				}
@@ -207,7 +204,6 @@ public class EditProfileActivity extends CommonActivity {
 				cursor.close();
 
 				Bitmap photo = ImageUtil.loadBitmap(filePath);
-				Bitmap photoThumbnail = ImageUtil.bitmapForThumbnail(photo);
 				
 				ProfileImage profileImage = new ProfileImage();
 				profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
@@ -216,6 +212,7 @@ public class EditProfileActivity extends CommonActivity {
 				if (scrollGalleryAdapter.imageList.size() == 0) {
 					// setto come immagine principale
 					profileImage.setMainImage(true);
+					Bitmap photoThumbnail = ImageUtil.bitmapForCustomThumbnail(photo, 50);
 					ImageView imageView = (ImageView) findViewById(R.id.imgView);
 					imageView.setImageBitmap(photoThumbnail);
 				}
