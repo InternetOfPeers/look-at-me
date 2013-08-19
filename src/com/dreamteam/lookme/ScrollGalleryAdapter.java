@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -103,8 +104,8 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 			ImageView image = (ImageView) dialog.findViewById(R.id.image);
 			image.setImageBitmap(thumbnailBitmap);
 
-			Button setAsMainImageButton = (Button) dialog.findViewById(R.id.setAsMainImage);
-			setAsMainImageButton.setOnClickListener(new OnClickListener() {
+			ImageButton mainImageButton = (ImageButton) dialog.findViewById(R.id.mainImageButton);
+			mainImageButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
@@ -125,7 +126,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 
 			});
 
-			Button deleteImageButton = (Button) dialog.findViewById(R.id.delete);
+			ImageButton deleteImageButton = (ImageButton) dialog.findViewById(R.id.deleteImageButton);
 			deleteImageButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

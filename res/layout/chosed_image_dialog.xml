@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal" >
 
     <ImageView
         android:id="@+id/image"
@@ -9,25 +10,66 @@
         android:layout_height="80dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/image"
         android:contentDescription="profile selected image"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
 
-    <Button
-        android:id="@+id/setAsMainImage"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/image"
-        android:layout_below="@+id/image"
-        android:layout_marginTop="20dp"
-        android:text="@string/setAsMainImage" />
+    <LinearLayout
+        android:layout_width="160dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/image" >
 
-    <Button
-        android:id="@+id/delete"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/setAsMainImage"
-        android:layout_alignTop="@+id/setAsMainImage"
-        android:layout_toRightOf="@+id/setAsMainImage"
-        android:text="@string/delete" />
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/mainImageButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="#00000000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/main_photo" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="Set as main"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/deleteImageButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="#00000000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/delete_photo" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="Delete"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
