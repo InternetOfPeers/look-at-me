@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -18,16 +19,16 @@ import com.dreamteam.lookme.chord.Node;
 
 public class FakeUserImpl implements FakeUser {
 
-	static final String FAKE_NUMBER = "99999999";
+	final int id = 99998999 + new Random().nextInt(1000);
+	final String FAKE_NUMBER = String.valueOf(id);
 	FullProfile profile;
 	String profileId = FAKE_NUMBER;
 	String nickname = "Lucy";
 	String gender = "Female";
 	int age = 26;
 	List<String> tags = null;
-
-	private long profileImageId = 99999999;
-	private Node node;
+	long profileImageId = id;
+	Node node;
 
 	public FakeUserImpl(Context context) {
 		profile = new FullProfile();

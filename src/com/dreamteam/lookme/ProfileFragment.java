@@ -78,7 +78,7 @@ public class ProfileFragment extends Fragment {
 			}
 		});
 
-		if (AppSettings.isFakeUserEnabled && nodeId.equals(Services.businessLogic.getFakeUser().getNode().getId())) {
+		if (AppSettings.fakeUsersEnabled && Services.businessLogic.isFakeUserNode(nodeId)) {
 			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser().getNode());
 			prepareProfileAttributes();
 		} else {

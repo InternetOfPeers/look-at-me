@@ -34,4 +34,6 @@ public interface BusinessLogicService {
 
 	FakeUser getFakeUser();
 
+	boolean isFakeUserNode(String nodeId);
+
 }

@@ -164,8 +164,10 @@ public class EditProfileActivity extends CommonActivity {
 			toast.show();
 
 			// Se necessario, aggiungo una conversazione fittizia
-			if (AppSettings.isFakeUserEnabled) {
-				Services.businessLogic.storeConversation(Services.businessLogic.getFakeUser().getConversation(Services.currentState.getMyBasicProfile().getId()));
+			if (AppSettings.fakeUsersEnabled) {
+				for (int i = 0; i < AppSettings.fakeUsers; i++) {
+					Services.businessLogic.storeConversation(Services.businessLogic.getFakeUser().getConversation(Services.currentState.getMyBasicProfile().getId()));
+				}
 			}
 
 			Nav.startActivity(this, NearbyActivity.class);

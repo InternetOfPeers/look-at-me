@@ -1,5 +1,6 @@
 package com.dreamteam.lookme.service.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -30,6 +31,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	private boolean isRunning;
 	private CommunicationManager communicationManager;
 	private FakeUser fakeUser;
+	private Set<String> fakeUserNodeList = new HashSet<String>();
 
 	/**
 	 * 
@@ -48,14 +50,17 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 			e.printStackTrace();
 		}
 		// Se necessario creo un fake user
-		if (AppSettings.isFakeUserEnabled) {
-			// Creo un fakeuser
-			fakeUser = new FakeUserImpl(context);
-			// Aggiungo un nodo per l'utente fittizio
-			Services.currentState.putSocialNodeInMap(fakeUser.getNode());
-			// Aggiungo una conversazione fittizia all'inizio
-			if (Services.currentState.getMyBasicProfile() != null)
-				storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
+		if (AppSettings.fakeUsersEnabled) {
+			for (int i = 0; i < AppSettings.fakeUsers; i++) {
+				// Creo un fakeuser
+				fakeUser = new FakeUserImpl(context);
+				// Aggiungo un nodo per l'utente fittizio
+				fakeUserNodeList.add(fakeUser.getNode().getId());
+				Services.currentState.putSocialNodeInMap(fakeUser.getNode());
+				// Aggiungo una conversazione fittizia all'inizio
+				if (Services.currentState.getMyBasicProfile() != null)
+					storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
+			}
 		}
 	}
 
@@ -178,6 +183,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public FakeUser getFakeUser() {
 		return fakeUser;
+	}
+
+	@Override
+	public boolean isFakeUserNode(String nodeId) {
+		return fakeUserNodeList.contains(nodeId);
 	}
 
 }
