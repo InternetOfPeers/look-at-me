@@ -54,9 +54,11 @@ public class ImageUtil {
 	}
 
 	public static Bitmap loadBitmap(String filePath) {
-		BitmapFactory.Options options = getOptions(filePath);
-		Bitmap bitmap = ImageUtil.scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
-
+		BitmapFactory.Options options = getOptions(filePath); 
+		Bitmap bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+		Log.d("Result an img with density " + bitmap.getDensity() + " size " + bitmap.getWidth() + " x " + bitmap.getHeight() + " and "
+				+ bitmap.getByteCount() + " bytes");
+		
 		int rotate = 0;
 		ExifInterface exif = null;
 		try {
@@ -93,11 +95,11 @@ public class ImageUtil {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 		int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 		int thumbnail_size_in_dp = (display_size_in_dp - 32) / 4; // 32 = 6 x 5 ossia il cell spacing x3 + il padding x2
-		return scaleImage(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
+		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
 	}
 
 	public static Bitmap bitmapForCustomThumbnail(Bitmap bitmap, int dp) {
-		return scaleImage(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), dp);
+		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), dp);
 	}
 
 	public static Bitmap bitmapForGallery(Bitmap bitmap) {
@@ -176,33 +178,33 @@ public class ImageUtil {
 		return photoImageDst;
 	}
 
-//	private static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
-//		// Get current dimensions
-//		int width = bitmap.getWidth();
-//		int height = bitmap.getHeight();
-//		Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
-//
-//		// Determine how much to scale: the dimension requiring less scaling is
-//		// closer to the its side. This way the image always stays inside your
-//		// bounding box AND either x/y axis touches it.
-//		float xScale = ((float) boundBoxInDp) / width;
-//		float yScale = ((float) boundBoxInDp) / height;
-//		float scale = (xScale <= yScale) ? xScale : yScale;
-//
-//		// Create a matrix for the scaling and add the scaling data
-//		Matrix matrix = new Matrix();
-//		matrix.postScale(scale, scale);
-//
-//		// Create a new bitmap and convert it to a format understood by the
-//		// ImageView
-//		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-//		Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and "
-//				+ scaledBitmap.getByteCount() + " bytes");
-//
-//		return scaledBitmap;
-//	}
-	
 	private static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
+		// Get current dimensions
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
+
+		// Determine how much to scale: the dimension requiring less scaling is
+		// closer to the its side. This way the image always stays inside your
+		// bounding box AND either x/y axis touches it.
+		float xScale = ((float) boundBoxInDp) / width;
+		float yScale = ((float) boundBoxInDp) / height;
+		float scale = (xScale <= yScale) ? xScale : yScale;
+
+		// Create a matrix for the scaling and add the scaling data
+		Matrix matrix = new Matrix();
+		matrix.postScale(scale, scale);
+
+		// Create a new bitmap and convert it to a format understood by the
+		// ImageView
+		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+		Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and "
+				+ scaledBitmap.getByteCount() + " bytes");
+
+		return scaledBitmap;
+	}
+	
+	private static Bitmap scaleThumbnail(Bitmap bitmap, int boundBoxInDp) {
 		// Get current dimensions
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
