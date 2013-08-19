@@ -1,23 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" >
 
     <ImageView
         android:id="@+id/profilePhotoImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
+        android:layout_width="@dimen/image_thumbnail_size"
+        android:layout_height="@dimen/image_thumbnail_size"
         android:contentDescription="@string/text_profile_photo_image"
-        android:cropToPadding="false"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_profile_image" />
+        android:scaleType="centerInside" />
 
     <ImageView
         android:id="@+id/imageLiked"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_alignRight="@+id/profilePhotoImage"
-        android:layout_alignTop="@+id/profilePhotoImage" />
+        android:layout_alignTop="@+id/profilePhotoImage"
+        android:contentDescription="@string/text_profile_liked" />
 
 </RelativeLayout>

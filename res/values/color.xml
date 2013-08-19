@@ -3,5 +3,7 @@
 
     <color name="action_bar_background">#FFFFFF</color>
     <color name="action_bar_divider">#FFFFFF</color>
+    <color name="grid_state_pressed">#BB7dbcd3</color>
+    <color name="grid_state_focused">#777dbcd3</color>
 
 </resources>

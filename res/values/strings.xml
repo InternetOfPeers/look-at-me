@@ -126,5 +126,6 @@
     <string name="edit_profile_alt_profile_image">Profile image</string>
     <string name="view_profile_lbl_chat">Chat</string>
     <string name="view_profile_btn_chat">Chat</string>
+    <string name="text_profile_liked">He/She likes you</string>
 
 </resources>

@@ -53,8 +53,8 @@ public class NearbyListAdapter extends BaseAdapter {
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
 		BasicProfile profile = (BasicProfile) getItem(position).getProfile();
 		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
-		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
-		photoImage.setImageBitmap(croppedImageProfile);
+		//Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
+		photoImage.setImageBitmap(mainImageProfile);
 
 		// Imposto i liked
 		if (Services.currentState.getLikedSet().contains(getItem(position).getId())) {

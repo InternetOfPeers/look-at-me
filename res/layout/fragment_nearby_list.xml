@@ -1,12 +1,14 @@
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/nearbyListView"
+    style="@style/NearbyGridLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:gravity="center"
-    android:horizontalSpacing="6dp"
-    android:numColumns="4"
-    android:padding="6dp"
-    android:stretchMode="columnWidth"
-    android:verticalSpacing="6dp" >
+    android:columnWidth="@dimen/image_thumbnail_size"
+    android:horizontalSpacing="@dimen/image_thumbnail_spacing"
+    android:numColumns="auto_fit"
+    android:padding="@dimen/nearby_grid_padding"
+    android:verticalSpacing="@dimen/image_thumbnail_spacing" >
 
 </GridView>
