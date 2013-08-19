@@ -1,11 +1,13 @@
 package com.dreamteam.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.util.DisplayMetrics;
 
 import com.dreamteam.lookme.R;
@@ -52,7 +54,38 @@ public class ImageUtil {
 	
 	public static Bitmap loadBitmap(String filePath) {
 		BitmapFactory.Options options = getOptions(filePath);
-		return ImageUtil.scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+		Bitmap bitmap = ImageUtil.scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+		
+		int rotate = 0;
+		ExifInterface exif = null;
+		try {
+			exif = new ExifInterface(filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (exif != null) {
+			int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+			switch (orientation) {
+			case ExifInterface.ORIENTATION_ROTATE_270:
+				rotate = 270;
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_180:
+	            rotate = 180;
+	            break;
+	        case ExifInterface.ORIENTATION_ROTATE_90:
+	            rotate = 90;
+	            break;
+			}
+
+			Log.d("Exif orientation is " + orientation);
+		}
+        if (rotate != 0) {
+        	Matrix matrix = new Matrix();
+        	matrix.postRotate(rotate);
+        	return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        }
+		return bitmap;
 	}
 	
 	public static Bitmap bitmapForThumbnail(Bitmap bitmap) {
