@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,7 @@ public class NearbyListAdapter extends BaseAdapter {
 		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
 		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
 		photoImage.setImageBitmap(croppedImageProfile);
-		
+
 		// Imposto i liked
 		if (Services.currentState.getLikedSet().contains(getItem(position).getId())) {
 			ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);

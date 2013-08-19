@@ -53,7 +53,7 @@ public class ProfileImage implements Serializable {
 	public void setMainImage(boolean isMainImage) {
 		this.isMainImage = isMainImage;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o == null) {

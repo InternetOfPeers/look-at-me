@@ -56,16 +56,17 @@ public class EditProfileActivity extends CommonActivity {
 			spinnerGender.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.genderArray, CommonUtils.genderImages));
 			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
 			spinnerCountry.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.countryArray, CommonUtils.countryImages));
-			
+
 			HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
 			scrollGalleryAdapter = new ScrollGalleryAdapter(this);
 			listview.setAdapter(scrollGalleryAdapter);
-			
+
 			if (oldProfile != null) {
 				profileId = oldProfile.getId();
 				switchToUpdateAccount(oldProfile);
 				scrollGalleryAdapter.setProfileImageList(oldProfile.getProfileImages());
-			} else {WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+			} else {
+				WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 				WifiInfo info = manager.getConnectionInfo();
 				String deviceId = info.getMacAddress();
 				if (deviceId == null) {
@@ -132,27 +133,28 @@ public class EditProfileActivity extends CommonActivity {
 			if (language != null && !country.isEmpty()) {
 				profile.setPrimaryLanguage(language);
 			}
-			
+
 			if (scrollGalleryAdapter.imageList.size() > 0) {
 				profile.setProfileImages(scrollGalleryAdapter.imageList);
 			}
 
-//			if (imageView.getDrawable() != null) {
-//				Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-//
-//				ProfileImage profileImage = null;
-//
-//				if (scrollGalleryAdapter != null)
-//					profile.getProfileImages().addAll(scrollGalleryAdapter.imageList);
-//				else {
-//					profileImage = new ProfileImage();
-//					profileImage.setProfileId(profile.getId());
-//					profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
-//					profileImage.setMainImage(true);
-//					profile.getProfileImages().add(profileImage);
-//				}
-//
-//			}
+			// if (imageView.getDrawable() != null) {
+			// Bitmap bitmap = ((BitmapDrawable)
+			// imageView.getDrawable()).getBitmap();
+			//
+			// ProfileImage profileImage = null;
+			//
+			// if (scrollGalleryAdapter != null)
+			// profile.getProfileImages().addAll(scrollGalleryAdapter.imageList);
+			// else {
+			// profileImage = new ProfileImage();
+			// profileImage.setProfileId(profile.getId());
+			// profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
+			// profileImage.setMainImage(true);
+			// profile.getProfileImages().add(profileImage);
+			// }
+			//
+			// }
 
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
@@ -203,7 +205,7 @@ public class EditProfileActivity extends CommonActivity {
 				cursor.close();
 
 				Bitmap photo = ImageUtil.loadBitmap(filePath);
-				
+
 				ProfileImage profileImage = new ProfileImage();
 				profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
 				profileImage.setProfileId(profileId);
@@ -218,7 +220,7 @@ public class EditProfileActivity extends CommonActivity {
 
 				scrollGalleryAdapter.imageList.add(profileImage);
 				refreshFragment();
-				
+
 			} catch (OutOfMemoryError e) {
 				Log.d("Out of memory error... cleaning memory");
 				Toast.makeText(getApplicationContext(), "Ops! Unable to load image ", Toast.LENGTH_LONG).show();
@@ -257,7 +259,8 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
-		imageView.setImageBitmap(ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length)));
+		imageView.setImageBitmap(ImageUtil.bitmapForThumbnail(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0,
+				profile.getProfileImages().get(0).getImage().length)));
 
 		TextView interest = (TextView) findViewById(R.id.reg_interest);
 		StringBuilder sb = new StringBuilder();
@@ -296,10 +299,11 @@ public class EditProfileActivity extends CommonActivity {
 
 	}
 
-//	protected void setMainProfileImage(ProfileImage profileImage) {
-//		ImageView imageView = (ImageView) findViewById(R.id.imgView);
-//		imageView.setImageBitmap(BitmapFactory.decodeByteArray(profileImage.getImage(), 0, profileImage.getImage().length));
-//	}
+	// protected void setMainProfileImage(ProfileImage profileImage) {
+	// ImageView imageView = (ImageView) findViewById(R.id.imgView);
+	// imageView.setImageBitmap(BitmapFactory.decodeByteArray(profileImage.getImage(),
+	// 0, profileImage.getImage().length));
+	// }
 
 	private void refreshFragment() {
 		scrollGalleryAdapter.notifyDataSetChanged();
