@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.dreamteam.lookme.bean.ChatMessage;
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
+import com.dreamteam.util.ImageUtil;
 
 public class ChatMessagesListAdapter extends BaseAdapter {
 	private ChatConversation conversation;
@@ -54,7 +55,7 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 		// Imposto il background
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		if (message.isMine()) {
-			profileImageBitmap = Services.currentState.getMyBasicProfile().getMainProfileImage().getImageBitmap();
+			profileImageBitmap = ImageUtil.bitmapForCustomThumbnail(Services.currentState.getMyBasicProfile().getMainProfileImage().getImageBitmap(), 50);
 			backgroundResId = R.drawable.left_message_bg;
 			params.gravity = Gravity.RIGHT;
 		} else {
