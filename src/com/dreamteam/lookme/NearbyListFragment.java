@@ -63,6 +63,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 		switch (event.getEventType()) {
 		case NODE_JOINED:
 		case NODE_LEFT:
+		case LIKE_RECEIVED:
 			refreshFragment();
 			break;
 		default:
