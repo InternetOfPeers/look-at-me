@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/imgView"
-        android:text="@string/text_nickname"
+        android:text="@string/edit_profile_label_nickname_text"
         android:textColor="#372c24" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nickname_lbl"
         android:layout_toRightOf="@+id/imgView"
-        android:text="@string/text_gender"
+        android:text="@string/edit_profile_spinner_gender_prompt"
         android:textColor="#372c24" />
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nickname_lbl"
         android:layout_toRightOf="@+id/gender_txt"
-        android:text="@string/text_age"
+        android:text="@string/edit_profile_spinner_age_prompt"
         android:textColor="#372c24" />
 
     <TextView

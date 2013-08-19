@@ -15,9 +15,7 @@
     <string name="title_chat_activity">Chat</string>
     <string name="text_name">name</string>
     <string name="text_surname">surname</string>
-    <string name="text_nickname">nickname</string>
-    <string name="text_age">age</string>
-    <string name="text_gender">gender</string>
+    <string name="edit_profile_spinner_gender_prompt">gender</string>
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="gender_transgender">Transgender</string>
@@ -27,7 +25,7 @@
     <string name="send_btn">Send</string>
     <string name="delete">delete</string>
     <string name="setAsMainImage">set as main image</string>
-    <string name="text_hint_txt">message text</string>
+    <string name="text_hint_txt">write your message here</string>
     <string name="country_CA">CANADA</string>
     <string name="country_CN">CHINA</string>
     <string name="country_FR">FRANCE</string>
@@ -81,7 +79,7 @@
     <string name="action_view_profile">View profile</string>
 
     <string-array name="gender_array">
-        <item>@string/text_gender</item>
+        <item>@string/edit_profile_spinner_gender_prompt</item>
         <item>@string/gender_male</item>
         <item>@string/gender_female</item>
         <item>@string/gender_transgender</item>
@@ -111,10 +109,14 @@
         <item>@string/language_zh_TW</item>
     </string-array>
 
+    <string name="text_profile_liked">He/She likes you</string>
+
     <!-- VIEW PROFILE -->
     <string name="text_profile_photo_image">profile image</string>
     <string name="view_profile_btn_like">Like</string>
     <string name="view_profile_label_like">Like</string>
+    <string name="view_profile_lbl_chat">Chat</string>
+    <string name="view_profile_btn_chat">Chat</string>
 
     <!-- HELP -->
     <string name="title_help_activity">Help</string>
@@ -124,8 +126,12 @@
     <string name="edit_profile_btn_create_profile">Create profile</string>
     <string name="edit_profile_btn_add_image">Add image</string>
     <string name="edit_profile_alt_profile_image">Profile image</string>
-    <string name="view_profile_lbl_chat">Chat</string>
-    <string name="view_profile_btn_chat">Chat</string>
-    <string name="text_profile_liked">He/She likes you</string>
+    <string name="edit_profile_label_age_text">Age</string>
+    <string name="edit_profile_label_nickname_text">Nickname</string>
+    <string name="edit_profile_label_gender_text">Gender</string>
+    <string name="edit_profile_label_country_text">Country</string>
+    <string name="edit_profile_field_nickname_hint">Choose a nickname</string>
+    <string name="edit_profile_spinner_age_prompt">Set your age</string>
+    <string name="edit_profile_spinner_country_prompt">Set your country</string>
 
 </resources>

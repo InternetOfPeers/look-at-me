@@ -52,10 +52,10 @@ public class EditProfileActivity extends CommonActivity {
 		try {
 			setContentView(R.layout.activity_edit_profile);
 			FullProfile oldProfile = Services.currentState.getMyFullProfile();
-			Spinner spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
-			spinnerGender.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.genderArray, CommonUtils.genderImages));
-			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
-			spinnerCountry.setAdapter(new ImageSpinnerAdapter(this, R.id.spinner_gender, CommonUtils.countryArray, CommonUtils.countryImages));
+			Spinner spinnerGender = (Spinner) findViewById(R.id.edit_profile_spinner_gender);
+			spinnerGender.setAdapter(new ImageSpinnerAdapter(this, R.id.edit_profile_spinner_gender, CommonUtils.genderArray, CommonUtils.genderImages));
+			Spinner spinnerCountry = (Spinner) findViewById(R.id.edit_profile_spinner_country);
+			spinnerCountry.setAdapter(new ImageSpinnerAdapter(this, R.id.edit_profile_spinner_gender, CommonUtils.countryArray, CommonUtils.countryImages));
 
 			HorizontalListView listview = (HorizontalListView) findViewById(R.id.listview);
 			scrollGalleryAdapter = new ScrollGalleryAdapter(this);
@@ -76,7 +76,7 @@ public class EditProfileActivity extends CommonActivity {
 				profileId = deviceId;
 				Locale locale = getResources().getConfiguration().locale;
 				String country = locale.getCountry();
-				spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
+				spinnerCountry = (Spinner) findViewById(R.id.edit_profile_spinner_country);
 				setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
 				String language = locale.getLanguage();
 				Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
@@ -95,10 +95,10 @@ public class EditProfileActivity extends CommonActivity {
 		try {
 			TextView nameScreen = (TextView) findViewById(R.id.reg_name);
 			TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
-			TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
-			Spinner spinnerAge = (Spinner) findViewById(R.id.spinner_age);
-			Spinner spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
-			Spinner spinnerCountry = (Spinner) findViewById(R.id.spinner_country);
+			TextView usernameScreen = (TextView) findViewById(R.id.edit_profile_field_nickname);
+			Spinner spinnerAge = (Spinner) findViewById(R.id.edit_profile_spinner_age);
+			Spinner spinnerGender = (Spinner) findViewById(R.id.edit_profile_spinner_gender);
+			Spinner spinnerCountry = (Spinner) findViewById(R.id.edit_profile_spinner_country);
 			Spinner spinnerLanguage = (Spinner) findViewById(R.id.spinner_language);
 			ImageView imageView = (ImageView) findViewById(R.id.imgView);
 			if (usernameScreen.getText() == null || usernameScreen.getText().toString().equals("")) {
@@ -241,15 +241,15 @@ public class EditProfileActivity extends CommonActivity {
 		nameScreen.setText(profile.getName());
 		TextView surnameScreen = (TextView) findViewById(R.id.reg_surname);
 		surnameScreen.setText(profile.getSurname());
-		TextView usernameScreen = (TextView) findViewById(R.id.reg_nickname);
+		TextView usernameScreen = (TextView) findViewById(R.id.edit_profile_field_nickname);
 		usernameScreen.setText(profile.getNickname());
 
 		if (profile.getAge() != 0) {
-			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_age), String.valueOf(profile.getAge()));
+			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.edit_profile_spinner_age), String.valueOf(profile.getAge()));
 		}
 
 		if (profile.getLivingCountry() != null && !profile.getLivingCountry().isEmpty()) {
-			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_country), (profile.getLivingCountry()));
+			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.edit_profile_spinner_country), (profile.getLivingCountry()));
 		}
 
 		if (profile.getPrimaryLanguage() != null && !profile.getPrimaryLanguage().isEmpty()) {
@@ -257,7 +257,7 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 		if (profile.getGender() != null && !profile.getGender().isEmpty()) {
-			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.spinner_gender), (profile.getGender()));
+			setSpinnerSelectedStringValue((Spinner) findViewById(R.id.edit_profile_spinner_gender), (profile.getGender()));
 		}
 
 		ImageView imageView = (ImageView) findViewById(R.id.imgView);
