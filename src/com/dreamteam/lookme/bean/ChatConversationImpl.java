@@ -7,6 +7,7 @@ import java.util.List;
 import android.graphics.Bitmap;
 
 import com.dreamteam.lookme.ChatConversation;
+import com.dreamteam.util.ImageUtil;
 
 public class ChatConversationImpl implements ChatConversation {
 
@@ -23,7 +24,7 @@ public class ChatConversationImpl implements ChatConversation {
 		this.otherNickname = otherNickname;
 		this.otherAge = otherAge;
 		this.otherNodeId = otherNodeId;
-		this.otherImageBitamp = otherImageBitamp;
+		this.otherImageBitamp = ImageUtil.bitmapForCustomThumbnail(otherImageBitamp, 50);
 		this.chatMessagesList = new ArrayList<ChatMessage>();
 		this.lastMessageTimestamp = new Date();
 	}
