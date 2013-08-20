@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/text_profile_photo_image"
-        android:scaleType="fitXY" />
+        android:scaleType="fitCenter" />
 
     <ImageView
         android:id="@+id/imageLiked"
