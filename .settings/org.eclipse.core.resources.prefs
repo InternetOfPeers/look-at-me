@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/com/dreamteam/lookme/CommonActivity.java=UTF-8
-encoding//src/com/dreamteam/lookme/NearbyActivity.java=UTF-8
-encoding//src/com/dreamteam/lookme/db/DBOpenHelperImpl.java=UTF-8
-encoding//src/com/dreamteam/util/Nav.java=UTF-8
+encoding//src/com/brainmote/lookatme/CommonActivity.java=UTF-8
+encoding//src/com/brainmote/lookatme/NearbyActivity.java=UTF-8
+encoding//src/com/brainmote/lookatme/db/DBOpenHelperImpl.java=UTF-8
+encoding//src/com/brainmote/lookatme/util/Nav.java=UTF-8

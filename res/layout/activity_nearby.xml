@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_list"
-        android:name="com.dreamteam.lookme.NearbyListFragment"
+        android:name="com.brainmote.lookatme.NearbyListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

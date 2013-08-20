@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dreamteam.lookme"
+    package="com.brainmote.lookatme"
     android:versionCode="3"
     android:versionName="1.2" >
 
@@ -109,11 +109,11 @@
         </activity>
 
         <service
-            android:name="com.dreamteam.lookme.service.impl.BusinessLogicServiceImpl"
+            android:name="com.brainmote.lookme.service.impl.BusinessLogicServiceImpl"
             android:enabled="true" >
             <intent-filter>
-                <action android:name="com.dreamteam.lookme.service.BusinessLogicOperationsImpl.SERVICE_START" />
-                <action android:name="com.dreamteam.lookme.service.BusinessLogicOperationsImpl.SERVICE_STOP" />
+                <action android:name="com.brainmote.lookme.service.BusinessLogicOperationsImpl.SERVICE_START" />
+                <action android:name="com.brainmote.lookme.service.BusinessLogicOperationsImpl.SERVICE_STOP" />
             </intent-filter>
         </service>
     </application>

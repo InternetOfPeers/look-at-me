@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_help"
-        android:name="com.dreamteam.lookme.HelpFragment"
+        android:name="com.brainmote.lookatme.HelpFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

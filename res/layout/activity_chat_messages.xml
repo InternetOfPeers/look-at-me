@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_chat_list"
-        android:name="com.dreamteam.lookme.ChatMessagesListFragment"
+        android:name="com.brainmote.lookatme.ChatMessagesListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
