@@ -93,13 +93,9 @@ public class ImageUtil {
 	public static Bitmap bitmapForThumbnail(Bitmap bitmap) {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 		int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-		int thumbnail_size_in_dp = (display_size_in_dp - 32) / 4; // 32 = 6 x 5
-																	// ossia il
-																	// cell
-																	// spacing
-																	// x3 + il
-																	// padding
-																	// x2
+		int thumbnail_size_in_dp = (display_size_in_dp - 30) / 4; 
+		// 30 = 6 x 5 ossia il cell spacing x3 + il padding x2 (destro e sinistro)
+		// 4 è il numero di colonne
 		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
 	}
 
