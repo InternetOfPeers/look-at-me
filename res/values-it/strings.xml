@@ -122,32 +122,27 @@
     <string name="help_text_info"><![CDATA[New friends are all around for you to find. With Look@me you can find friends nearby when you move around your city or when you travel: just create your profile, connect to a WiFi area and look around for new people to meet or to chat with. If you really like someone, put a LIKE on him/her: when two "LIKE" match the app will alert you that it\'s time to meet live.\n\nYour personal data and chat conversations will be shared only with people around you, no data will be uploaded by the app on the internet (we don\'t even have any servers to upload to) so all contacts and conversations with other people remain your business.\n\nLook@me works simply with a local WiFi area and it does not require an internet connection. Free WiFi areas are everywhere, for example inside pubs, internet café, trains, public parks, and many other places.\n\nSo, what are you waiting for? Find new real friends nearby you now.]]></string>
 
     <!-- EDIT PROFILE -->
-    <string name="edit_profile_button_save_profile_text_first_time">Create profile</string>
-    <string name="edit_profile_button_save_profile_text">Save profile</string>
-    <string name="edit_profile_button_add_image_text">Add image</string>
+    <string name="edit_profile_button_save_profile_text_first_time">Crea profilo</string>
+    <string name="edit_profile_button_save_profile_text">Salva profilo</string>
+    <string name="edit_profile_button_add_image_text">Aggiungi immagine</string>
     <string name="edit_profile_image_thumbnail_description">Profile image</string>
-    <string name="edit_profile_label_age_text">Age</string>
-    <string name="edit_profile_label_nickname_text">Nickname</string>
-    <string name="edit_profile_label_gender_text">Gender</string>
-    <string name="edit_profile_label_country_text">Country</string>
-    <string name="edit_profile_label_language_text">Language</string>
-    <string name="edit_profile_label_name_text">Name</string>
-    <string name="edit_profile_label_surname_text">Surname</string>
+    <string name="edit_profile_label_age_text">Età</string>
+    <string name="edit_profile_label_nickname_text">Soprannome</string>
+    <string name="edit_profile_label_gender_text">Sesso</string>
+    <string name="edit_profile_label_country_text">Nazionalità</string>
+    <string name="edit_profile_label_language_text">Lingua</string>
+    <string name="edit_profile_label_name_text">Nome</string>
+    <string name="edit_profile_label_surname_text">Cognome</string>
     <string name="edit_profile_field_nickname_hint">Choose a nickname</string>
     <string name="edit_profile_spinner_age_prompt">Set your age</string>
+    <string name="edit_profile_spinner_gender_prompt">Set your gender</string>
     <string name="edit_profile_spinner_country_prompt">Set your country</string>
     <string name="edit_profile_spinner_language_prompt">Set your main language</string>
     <string name="edit_profile_field_name_hint">Type your first name</string>
     <string name="edit_profile_field_surname_hint">Type your family name</string>
-    <string name="edit_profile_spinner_gender_prompt">gender</string>
     <string name="edit_profile_add_image_select_picture">Select Picture</string>
-    <string name="edit_profile_message_profile_saved">Profile saved</string>
+    <string name="edit_profile_message_profile_saved">Profilo salvato</string>
     <string name="edit_profile_message_mandatory_fields_not_set">To create a new profile you need to insert at least an image and a nickname.</string>
     <string name="edit_profile_message_unable_to_load_image">Unable to load image</string>
-    <string name="first_time_dialog_message">Create your profile to start searching for new friends nearby</string>
-    <string name="first_time_dialog_button_go_to_profile_text">Go to profile</string>
-    <string name="message_warning">Warning</string>
-    <string name="message_wifi_required">No WiFi connection available. Connect to a WiFi hotspot to find new friends nearby.</string>
-    <string name="first_time_dialog_title">First launch</string>
 
 </resources>

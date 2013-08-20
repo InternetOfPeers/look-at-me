@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
+import com.dreamteam.util.Log;
 
 public class ChatConversationsListAdapter extends BaseAdapter {
 
@@ -39,7 +40,7 @@ public class ChatConversationsListAdapter extends BaseAdapter {
 		List<String> conversationsKeyList = new ArrayList<String>();
 		conversationsKeyList.addAll(Services.currentState.getConversationsStore().keySet());
 		// TODO ordinare la lista di conversazioni in base all'ultimo messaggio
-		// ricevuto (la conversazione con i messaggi più recenti va in testa,
+		// ricevuto (la conversazione con i messaggi piï¿½ recenti va in testa,
 		// come per gli SMS di android)
 		String conversationKey = conversationsKeyList.get(position);
 		return Services.currentState.getConversationsStore().get(conversationKey);

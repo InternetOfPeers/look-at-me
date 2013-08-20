@@ -2,13 +2,7 @@
 <resources>
 
     <string-array name="age_array">
-        <item>age</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
+        <item>@string/edit_profile_spinner_age_prompt</item>
         <item>16</item>
         <item>17</item>
         <item>18</item>
@@ -45,6 +39,26 @@
         <item>48</item>
         <item>49</item>
         <item>50</item>
+        <item>51</item>
+        <item>52</item>
+        <item>53</item>
+        <item>54</item>
+        <item>55</item>
+        <item>56</item>
+        <item>57</item>
+        <item>58</item>
+        <item>59</item>
+        <item>60</item>
+        <item>61</item>
+        <item>62</item>
+        <item>63</item>
+        <item>64</item>
+        <item>65</item>
+        <item>66</item>
+        <item>67</item>
+        <item>68</item>
+        <item>69</item>
+        <item>70</item>
     </string-array>
 
 </resources>

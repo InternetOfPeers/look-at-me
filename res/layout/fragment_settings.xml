@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,12 +13,10 @@
     android:scrollbarSize="10dp"
     android:scrollbarStyle="insideOverlay" >
 
-    <TextView
-        android:id="@+id/help_text_info"
+    <Switch
+        android:id="@+id/btn_toggle_communication_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|top"
-        android:padding="10dp"
-        android:text="@string/help_text_info" />
+        android:text="@string/button_toggle_service" />
 
-</ScrollView>
+</LinearLayout>

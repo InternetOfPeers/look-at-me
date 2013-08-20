@@ -244,10 +244,33 @@ public abstract class CommonActivity extends Activity {
 		dialog.show();
 	}
 
+	protected void showFirstTimeDialog() {
+		// L'utente deve compilare il profilo prima di iniziare
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.first_time_dialog);
+		dialog.setTitle(R.string.first_time_dialog_title);
+		dialog.setCancelable(false);
+		Button dialogButton = (Button) dialog.findViewById(R.id.first_time_dialog_button_go_to_profile);
+		// if button is clicked, close the custom dialog
+		dialogButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Nav.startActivity(CommonActivity.this, EditProfileActivity.class);
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
+
+	protected void checkProfileCompleted() {
+		if (!Services.businessLogic.isMyProfileComplete()) {
+			showFirstTimeDialog();
+		}
+	}
+
 	protected boolean isConnectionAvailable() {
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		return (wifi.isAvailable() && wifi.getDetailedState() == DetailedState.CONNECTED);
 	}
-
 }

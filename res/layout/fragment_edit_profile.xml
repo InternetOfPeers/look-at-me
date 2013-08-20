@@ -19,30 +19,33 @@
         <TableRow>
 
             <ImageView
-                android:id="@+id/imgView"
+                android:id="@+id/edit_profile_image_thumbnail"
                 android:layout_width="@dimen/image_thumbnail_size"
                 android:layout_height="@dimen/image_thumbnail_size"
-                android:contentDescription="@string/edit_profile_alt_profile_image"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/edit_profile_image_thumbnail_description"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_profile_image" />
 
             <Button
-                android:id="@+id/btnAddImage"
+                android:id="@+id/edit_profile_button_add_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:onClick="onChooseImage"
-                android:text="@string/edit_profile_btn_add_image" />
+                android:layout_gravity="center_vertical"
+                android:onClick="onAddImageButtonPressed"
+                android:text="@string/edit_profile_button_add_image_text" />
         </TableRow>
 
         <TableRow>
 
             <com.devsmart.android.ui.HorizontalListView
-                android:id="@+id/listview"
+                android:id="@+id/edit_profile_image_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_span="2"
-                android:background="@color/gray" />
+                android:background="@color/lightgrey" />
         </TableRow>
 
         <TableRow>
@@ -59,7 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:hint="@string/edit_profile_field_nickname_hint" />
+                android:inputType="textPersonName" 
+                android:hint="@string/edit_profile_field_nickname_hint"/>
         </TableRow>
 
         <TableRow>
@@ -81,7 +85,7 @@
             </Spinner>
         </TableRow>
 
-        <TableRow android:layout_gravity="center_vertical" >
+        <TableRow>
 
             <TextView
                 android:id="@+id/edit_profile_label_gender"
@@ -122,108 +126,78 @@
         <TableRow>
 
             <TextView
-                android:id="@+id/label_nickname5"
+                android:id="@+id/edit_profile_label_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/edit_profile_label_nickname_text" />
+                android:text="@string/edit_profile_label_language_text" />
 
             <Spinner
-                android:id="@+id/spinner_language"
+                android:id="@+id/edit_profile_spinner_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:entries="@array/language_array"
-                android:prompt="@string/edit_profile_spinner_age_prompt" >
+                android:prompt="@string/edit_profile_spinner_language_prompt" >
             </Spinner>
         </TableRow>
 
         <TableRow>
 
             <TextView
-                android:id="@+id/label_name"
+                android:id="@+id/edit_profile_label_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/text_name"
-                android:textColor="#372c24"
-                android:textSize="20sp" />
+                android:text="@string/edit_profile_label_name_text" />
 
             <EditText
-                android:id="@+id/reg_name"
+                android:id="@+id/edit_profile_field_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="20sp" >
-            </EditText>
+                android:hint="@string/edit_profile_field_name_hint"
+                android:inputType="textPersonName" />
         </TableRow>
 
         <TableRow>
 
             <TextView
-                android:id="@+id/label_surname"
+                android:id="@+id/edit_profile_label_surname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_surname"
-                android:textColor="#372c24"
-                android:textSize="20sp" />
+                android:text="@string/edit_profile_label_surname_text" />
 
             <EditText
-                android:id="@+id/reg_surname"
+                android:id="@+id/edit_profile_field_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="20sp" />
+                android:hint="@string/edit_profile_field_surname_hint"
+                android:inputType="textPersonName" />
         </TableRow>
 
-        <TableRow>
+        <!-- <TableRow> -->
 
-            <TextView
-                android:id="@+id/label_interest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/text_interest"
-                android:textColor="#372c24"
-                android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/reg_interest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="20dp"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="20sp" />
-        </TableRow>
+        <!-- <TextView -->
+        <!-- android:id="@+id/label_interest" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:text="@string/text_interest" /> -->
+
+
+        <!-- <EditText -->
+        <!-- android:id="@+id/reg_interest" -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:inputType="none" /> -->
+        <!-- </TableRow> -->
 
         <TableRow>
 
             <Button
-                android:id="@+id/btnRegister"
+                android:id="@+id/edit_profile_button_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="30dp"
                 android:layout_span="2"
-                android:onClick="onRegister"
-                android:text="@string/edit_profile_btn_create_profile"
-                android:textSize="20sp" />
+                android:onClick="onSaveButtonPressed"
+                android:text="@string/edit_profile_button_save_profile_text_first_time" />
         </TableRow>
     </TableLayout>
 

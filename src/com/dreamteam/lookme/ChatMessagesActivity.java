@@ -16,6 +16,7 @@ public class ChatMessagesActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat_messages);
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
+		checkProfileCompleted();
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class ChatMessagesActivity extends CommonActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Verifica quale elemento è stato premunto
+		// Verifica quale elemento ï¿½ stato premunto
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();

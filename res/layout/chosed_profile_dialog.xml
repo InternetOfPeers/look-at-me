@@ -4,7 +4,7 @@
     android:layout_height="fill_parent" >
 
     <ImageView
-        android:id="@+id/imgView"
+        android:id="@+id/edit_profile_image_thumbnail"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="5dp"
@@ -16,7 +16,7 @@
         android:id="@+id/nickname_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imgView"
+        android:layout_toRightOf="@+id/edit_profile_image_thumbnail"
         android:text="@string/edit_profile_label_nickname_text"
         android:textColor="#372c24" />
 
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/nickname_lbl"
-        android:layout_toRightOf="@+id/imgView"
+        android:layout_toRightOf="@+id/edit_profile_image_thumbnail"
         android:text="@string/edit_profile_spinner_gender_prompt"
         android:textColor="#372c24" />
 
@@ -88,8 +88,8 @@
         android:id="@+id/startChat_btn"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imgView"
-        android:layout_below="@+id/imgView"
+        android:layout_alignLeft="@+id/edit_profile_image_thumbnail"
+        android:layout_below="@+id/edit_profile_image_thumbnail"
         android:layout_marginTop="20dp"
         android:text="@string/chat_btn" />
 

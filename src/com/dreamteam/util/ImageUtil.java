@@ -54,11 +54,10 @@ public class ImageUtil {
 	}
 
 	public static Bitmap loadBitmap(String filePath) {
-		BitmapFactory.Options options = getOptions(filePath); 
+		BitmapFactory.Options options = getOptions(filePath);
 		Bitmap bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
-		Log.d("Result an img with density " + bitmap.getDensity() + " size " + bitmap.getWidth() + " x " + bitmap.getHeight() + " and "
-				+ bitmap.getByteCount() + " bytes");
-		
+		Log.d("Result an img with density " + bitmap.getDensity() + " size " + bitmap.getWidth() + " x " + bitmap.getHeight() + " and " + bitmap.getByteCount() + " bytes");
+
 		int rotate = 0;
 		ExifInterface exif = null;
 		try {
@@ -94,7 +93,13 @@ public class ImageUtil {
 	public static Bitmap bitmapForThumbnail(Bitmap bitmap) {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 		int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-		int thumbnail_size_in_dp = (display_size_in_dp - 32) / 4; // 32 = 6 x 5 ossia il cell spacing x3 + il padding x2
+		int thumbnail_size_in_dp = (display_size_in_dp - 32) / 4; // 32 = 6 x 5
+																	// ossia il
+																	// cell
+																	// spacing
+																	// x3 + il
+																	// padding
+																	// x2
 		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
 	}
 
@@ -203,14 +208,14 @@ public class ImageUtil {
 
 		return scaledBitmap;
 	}
-	
+
 	private static Bitmap scaleThumbnail(Bitmap bitmap, int boundBoxInDp) {
 		// Get current dimensions
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
-	    int px = Math.round(boundBoxInDp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)); 
+		int px = Math.round(boundBoxInDp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, px, px, false);
 		Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and "
 				+ scaledBitmap.getByteCount() + " bytes");
