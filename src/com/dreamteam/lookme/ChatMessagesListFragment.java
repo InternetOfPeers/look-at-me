@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,13 +30,14 @@ public class ChatMessagesListFragment extends Fragment {
 		// Recupero la conversazione passata
 		final ChatConversation conversation = activity.getConversation();
 		if (conversation == null) {
-			// Se non Ë stata passata alcuna conversazione ritorno una vista
+			// Se non √® stata passata alcuna conversazione ritorno una vista
 			// vuota
 			// TODO Migliorare la messaggistica
-			activity.showDialog("Error", "Conversazione non trovata", false);
+			activity.showDialog(getActivity().getString(R.string.chat_messages_dialog_error_title), getActivity().getString(R.string.message_no_conversation_with_that_id),
+					false);
 			return view;
 		}
-		// Imposto il title dell'activity con il nome e l'et‡ della persona con
+		// Imposto il title dell'activity con il nome e l'et√† della persona con
 		// cui sto chattando
 		String age = conversation.getAge() > 0 ? ", " + String.valueOf(conversation.getAge()) : "";
 		activity.setTitle(conversation.getNickname() + age);
@@ -47,7 +48,7 @@ public class ChatMessagesListFragment extends Fragment {
 		messageListView.setAdapter(chatMessagesListAdapter);
 		mInputEditText = (EditText) view.findViewById(R.id.messageEdit);
 		// Imposto l'invio del messaggio di testo al click del pulsante send
-		Button sendButton = (Button) view.findViewById(R.id.sendButton);
+		ImageButton sendButton = (ImageButton) view.findViewById(R.id.sendButton);
 		sendButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -83,9 +84,9 @@ public class ChatMessagesListFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		Log.d();
 		super.onActivityCreated(savedInstanceState);
-		// TODO questo refresh puÚ crashare perchÈ chatMessagesListAdapter
-		// potrebbe essere ancora null. Non Ë detto che alla ricreazione
-		// dell'activity sia corrisposta gi‡ la ricreazione della view
+		// TODO questo refresh pu√≤ crashare perch√® chatMessagesListAdapter
+		// potrebbe essere ancora null. Non √® detto che alla ricreazione
+		// dell'activity sia corrisposta gi√† la ricreazione della view
 		// (onViewCreted) e quindi chatMessagesListAdapter potrebbe essere null.
 		refreshFragment();
 	}

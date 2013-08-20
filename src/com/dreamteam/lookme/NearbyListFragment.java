@@ -39,7 +39,6 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
-		Log.d();
 		Node node = (Node) nearbyListAdapter.getItem((int) clickedItemID);
 		Bundle parameters = new Bundle();
 		parameters.putString(Nav.PROFILE_ID_KEY, node.getId());
@@ -50,6 +49,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 	public void onStart() {
 		super.onStart();
 		Services.event.register(this);
+		refreshFragment();
 	}
 
 	@Override
@@ -73,6 +73,18 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 
 	private void refreshFragment() {
 		nearbyListAdapter.notifyDataSetChanged();
+		verifyNoUsers();
+	}
+
+	private void verifyNoUsers() {
+		// Verifica se è necessario mostrare un messaggio all'utente
+		GridView messageListView = (GridView) getView().findViewById(R.id.nearbyListView);
+		if (messageListView.getAdapter().getCount() > 0) {
+			getView().findViewById(R.id.nearby_no_users_yet).setVisibility(View.INVISIBLE);
+		} else {
+			getView().findViewById(R.id.nearby_no_users_yet).setVisibility(View.VISIBLE);
+		}
+
 	}
 
 }

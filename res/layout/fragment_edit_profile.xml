@@ -62,8 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:inputType="textPersonName" 
-                android:hint="@string/edit_profile_field_nickname_hint"/>
+                android:hint="@string/edit_profile_field_nickname_hint"
+                android:inputType="textPersonName" />
         </TableRow>
 
         <TableRow>

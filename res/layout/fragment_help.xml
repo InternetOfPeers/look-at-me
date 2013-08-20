@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:scrollbarSize="10dp"
-    android:scrollbarStyle="insideOverlay" >
+    android:scrollbarStyle="outsideOverlay" >
 
     <TextView
         android:id="@+id/help_text_info"

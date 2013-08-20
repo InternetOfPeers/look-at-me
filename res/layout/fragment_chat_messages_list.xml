@@ -20,12 +20,17 @@
         android:hint="@string/hint_chat_message_text"
         android:inputType="textAutoComplete" />
 
-    <Button
+    <ImageButton
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:background="@drawable/btn_chat_send"
+        android:contentDescription="@string/send_btn"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_social_send_now"
         android:text="@string/send_btn" />
 
     <ListView

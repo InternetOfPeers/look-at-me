@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.dreamteam.lookme.service.Services;
 import com.dreamteam.util.CommonUtils;
-import com.dreamteam.util.Log;
 
 public class ChatConversationsListAdapter extends BaseAdapter {
 

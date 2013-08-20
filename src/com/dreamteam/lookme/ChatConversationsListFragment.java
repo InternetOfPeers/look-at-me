@@ -46,6 +46,7 @@ public class ChatConversationsListFragment extends Fragment implements OnItemCli
 	public void onStart() {
 		super.onStart();
 		Services.event.register(this);
+		refreshFragment();
 	}
 
 	@Override
@@ -68,6 +69,17 @@ public class ChatConversationsListFragment extends Fragment implements OnItemCli
 
 	private void refreshFragment() {
 		conversationsListAdapter.notifyDataSetChanged();
+		verifyNoConversation();
 	}
 
+	private void verifyNoConversation() {
+		// Verifica se è necessario mostrare un messaggio all'utente
+		ListView messageListView = (ListView) getView().findViewById(R.id.messageListView);
+		if (messageListView.getAdapter().getCount() > 0) {
+			getView().findViewById(R.id.chat_conversations_message_no_conversation_yet).setVisibility(View.INVISIBLE);
+		} else {
+			getView().findViewById(R.id.chat_conversations_message_no_conversation_yet).setVisibility(View.VISIBLE);
+		}
+
+	}
 }

@@ -8,12 +8,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ChatConversationsActivity" >
 
+    <TextView
+        android:id="@+id/chat_conversations_message_no_conversation_yet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/chat_conversations_message_no_conversations_yet"
+        android:textStyle="italic" />
+
     <ListView
         android:id="@+id/messageListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" 
-        android:paddingBottom="@dimen/chat_conversations_list_padding_bottom">
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="@dimen/chat_conversations_list_padding_bottom" >
     </ListView>
 
 </RelativeLayout>
