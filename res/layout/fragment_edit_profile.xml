@@ -27,13 +27,31 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_profile_image" />
 
-            <Button
-                android:id="@+id/edit_profile_button_add_image"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:onClick="onAddImageButtonPressed"
-                android:text="@string/edit_profile_button_add_image_text" />
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/edit_profile_button_add_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:onClick="onAddImageButtonPressed"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/add_photo" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add photo"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            </LinearLayout>
+
         </TableRow>
 
         <TableRow>
