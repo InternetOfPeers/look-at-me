@@ -58,7 +58,7 @@ public class NearbyListAdapter extends BaseAdapter {
 		// Imposto i liked
 		ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);
 		if (Services.currentState.getLikedSet().contains(getItem(position).getId())) {
-			likedImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.love_icon));
+			likedImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.love_icon_small));
 		}
 		else {
 			// remove
