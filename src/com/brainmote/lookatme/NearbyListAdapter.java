@@ -56,9 +56,13 @@ public class NearbyListAdapter extends BaseAdapter {
 		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
 		photoImage.setImageBitmap(croppedImageProfile);
 		// Imposto i liked
+		ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);
 		if (Services.currentState.getLikedSet().contains(getItem(position).getId())) {
-			ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);
 			likedImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.love_icon));
+		}
+		else {
+			// remove
+			likedImage.setImageResource(android.R.color.transparent); 
 		}
 		return convertView;
 	}
