@@ -39,7 +39,7 @@ public class ChatConversationsListAdapter extends BaseAdapter {
 		List<String> conversationsKeyList = new ArrayList<String>();
 		conversationsKeyList.addAll(Services.currentState.getConversationsStore().keySet());
 		// TODO ordinare la lista di conversazioni in base all'ultimo messaggio
-		// ricevuto (la conversazione con i messaggi pi� recenti va in testa,
+		// ricevuto (la conversazione con i messaggi più recenti va in testa,
 		// come per gli SMS di android)
 		String conversationKey = conversationsKeyList.get(position);
 		return Services.currentState.getConversationsStore().get(conversationKey);
@@ -51,13 +51,16 @@ public class ChatConversationsListAdapter extends BaseAdapter {
 			// LayoutInflater class is used to instantiate layout XML file into
 			// its corresponding View objects.
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = layoutInflater.inflate(R.layout.fragment_chat_conversations_list_row, null);
+			convertView = layoutInflater.inflate(R.layout.fragment_chat_conversations_list_item, null);
 		}
 		// Recupero la conversazione selezionata
 		ChatConversation conversation = getItem(position);
 		// Mostro la persona con la quale sto chattando
 		TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
 		nickNameText.setText(conversation.getNickname());
+		// Mostro l'ultimo messaggio inviato
+		TextView lastMessage = (TextView) convertView.findViewById(R.id.lastMessageText);
+		lastMessage.setText(conversation.getLastMessage());
 		// Mostro il tempo trascorso dall'ultimo messaggio ricevuto nella
 		// conversazione
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);

@@ -80,4 +80,14 @@ public class ChatConversationImpl implements ChatConversation {
 		return otherAge;
 	}
 
+	@Override
+	public CharSequence getLastMessage() {
+		if (chatMessagesList.size() < 1)
+			return "";
+		ChatMessage message = chatMessagesList.get(chatMessagesList.size() - 1);
+		if (message == null)
+			return "";
+		return message.getText();
+	}
+
 }

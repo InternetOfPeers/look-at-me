@@ -47,7 +47,7 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = layoutInflater.inflate(R.layout.fragment_chat_messages_list_row, null);
+			convertView = layoutInflater.inflate(R.layout.fragment_chat_messages_list_item, null);
 		}
 		int backgroundResId;
 		Bitmap profileImageBitmap;

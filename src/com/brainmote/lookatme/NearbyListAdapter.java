@@ -47,7 +47,7 @@ public class NearbyListAdapter extends BaseAdapter {
 			// LayoutInflater class is used to instantiate layout XML file
 			// into its corresponding View objects.
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = layoutInflater.inflate(R.layout.fragment_nearby_list_single_row, null);
+			convertView = layoutInflater.inflate(R.layout.fragment_nearby_list_item, null);
 		}
 		// Imposto l'immagine del profilo
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);

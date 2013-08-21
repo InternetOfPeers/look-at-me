@@ -131,7 +131,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					dialog.dismiss();
 					if (clickedImage.isMainImage()) {
-						Toast.makeText(activity, R.string.message_cant_delete_profile_image, Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, R.string.message_cant_delete_profile_image, Toast.LENGTH_LONG).show();
 						return;
 					}
 					try {
