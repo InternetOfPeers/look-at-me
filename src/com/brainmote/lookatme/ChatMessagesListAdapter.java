@@ -5,13 +5,11 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.brainmote.lookatme.bean.ChatMessage;
@@ -53,20 +51,16 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 		Bitmap profileImageBitmap;
 		ChatMessage message = getItem(position);
 		// Imposto il background
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		if (message.isMine()) {
 			profileImageBitmap = ImageUtil.bitmapForCustomThumbnail(Services.currentState.getMyBasicProfile().getMainProfileImage().getImageBitmap(), 50);
-			backgroundResId = R.drawable.left_message_bg;
-			params.gravity = Gravity.RIGHT;
-		} else {
 			backgroundResId = R.drawable.right_message_bg;
+		} else {
+			backgroundResId = R.drawable.left_message_bg;
 			profileImageBitmap = conversation.getImageBitmap();
 		}
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
 		photoImage.setImageBitmap(profileImageBitmap);
 		convertView.setBackgroundResource(backgroundResId);
-		TextView nickNameText = (TextView) convertView.findViewById(R.id.nickNameText);
-		nickNameText.setText(message.getFromNickname());
 		TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
 		lastMessageText.setText(message.getText());
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);

@@ -17,7 +17,7 @@
         android:layout_rowSpan="2"
         android:contentDescription="@string/text_chat_alt_profile_image"
         android:paddingRight="10dp"
-        android:src="@drawable/ic_profile_image_placeholder" />
+        android:src="@drawable/ic_profile_image" />
 
     <TextView
         android:id="@+id/nickNameText"

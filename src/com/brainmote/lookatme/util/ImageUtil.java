@@ -187,7 +187,8 @@ public class ImageUtil {
 		// Get current dimensions
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
-		//Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
+		// Log.d("Scaling img with density " + bitmap.getDensity() + " size " +
+		// width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
 
 		// Determine how much to scale: the dimension requiring less scaling is
 		// closer to the its side. This way the image always stays inside your
