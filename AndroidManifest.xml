@@ -89,7 +89,7 @@
             android:parentActivityName=".ChatConversationsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MessagesActivity" />
+                android:value=".ChatConversationsActivity" />
         </activity>
         <activity
             android:name=".SettingsActivity"
