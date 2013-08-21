@@ -56,7 +56,9 @@ public class ImageUtil {
 	public static Bitmap loadBitmap(String filePath) {
 		BitmapFactory.Options options = getOptions(filePath);
 		Bitmap bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
-		Log.d("Result an img with density " + bitmap.getDensity() + " size " + bitmap.getWidth() + " x " + bitmap.getHeight() + " and " + bitmap.getByteCount() + " bytes");
+		// Log.d("Result an img with density " + bitmap.getDensity() + " size "
+		// + bitmap.getWidth() + " x " + bitmap.getHeight() + " and " +
+		// bitmap.getByteCount() + " bytes");
 
 		int rotate = 0;
 		ExifInterface exif = null;
@@ -80,7 +82,7 @@ public class ImageUtil {
 				break;
 			}
 
-			Log.d("Exif orientation is " + orientation);
+			// Log.d("Exif orientation is " + orientation);
 		}
 		if (rotate != 0) {
 			Matrix matrix = new Matrix();
@@ -137,7 +139,8 @@ public class ImageUtil {
 
 	private static Bitmap cropBitmap(Bitmap bitmap, int aspectWidth, int aspectHeight) {
 		// Assumo che la bitmap di partenza abbia altezza >= larghezza
-		Log.d("Cropping bitmap " + bitmap.getWidth() + " x " + bitmap.getHeight());
+		// Log.d("Cropping bitmap " + bitmap.getWidth() + " x " +
+		// bitmap.getHeight());
 		int newWidth = bitmap.getWidth();
 		int newHeight = bitmap.getHeight();
 		int offsetX = 0;
@@ -145,28 +148,28 @@ public class ImageUtil {
 		// Calcolo il rapporto destinazione e sorgente
 		float ratioSrc = (float) bitmap.getWidth() / (float) bitmap.getHeight();
 		float ratioDst = (float) aspectWidth / (float) aspectHeight;
-		Log.d("Src ratio is " + ratioSrc);
-		Log.d("Dst ratio is " + ratioDst);
+		// Log.d("Src ratio is " + ratioSrc);
+		// Log.d("Dst ratio is " + ratioDst);
 
 		if (ratioSrc > ratioDst) {
 			// l'immagine va stretta
-			Log.d("Reducing width");
+			// Log.d("Reducing width");
 			newWidth = (int) (bitmap.getHeight() * ratioDst);
 			offsetX = (bitmap.getWidth() - newWidth) / 2;
 		} else if (ratioSrc < ratioDst) {
 			// l'immagine va accorciata
-			Log.d("Reducing height");
+			// Log.d("Reducing height");
 			newHeight = (int) (bitmap.getWidth() / ratioDst);
 			offsetY = (bitmap.getHeight() - newHeight) / 2;
 		} else if (ratioSrc == ratioDst) {
 			// NOP
-			Log.d("No need to reduce image");
+			// Log.d("No need to reduce image");
 			return bitmap;
 		}
-		Log.d("New width is " + newWidth);
-		Log.d("New height is " + newHeight);
-		Log.d("Offset X is " + offsetX);
-		Log.d("Offset Y is " + offsetY);
+		// Log.d("New width is " + newWidth);
+		// Log.d("New height is " + newHeight);
+		// Log.d("Offset X is " + offsetX);
+		// Log.d("Offset Y is " + offsetY);
 		// I seguenti 4 controlli per evitare di avere valori negativi
 		if (offsetX < 0)
 			offsetX = 0;
@@ -200,22 +203,25 @@ public class ImageUtil {
 		// Create a new bitmap and convert it to a format understood by the
 		// ImageView
 		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-		Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and "
-				+ scaledBitmap.getByteCount() + " bytes");
+		// Log.d("Result an img with density " + scaledBitmap.getDensity() +
+		// " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight()
+		// + " and " + scaledBitmap.getByteCount() + " bytes");
 
 		return scaledBitmap;
 	}
 
 	private static Bitmap scaleThumbnail(Bitmap bitmap, int boundBoxInDp) {
 		// Get current dimensions
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		Log.d("Scaling img with density " + bitmap.getDensity() + " size " + width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
+		// int width = bitmap.getWidth();
+		// int height = bitmap.getHeight();
+		// Log.d("Scaling img with density " + bitmap.getDensity() + " size " +
+		// width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 		int px = Math.round(boundBoxInDp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, px, px, false);
-		Log.d("Result an img with density " + scaledBitmap.getDensity() + " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight() + " and "
-				+ scaledBitmap.getByteCount() + " bytes");
+		// Log.d("Result an img with density " + scaledBitmap.getDensity() +
+		// " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight()
+		// + " and " + scaledBitmap.getByteCount() + " bytes");
 
 		return scaledBitmap;
 	}

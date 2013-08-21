@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.brainmote.lookatme.service.NotificationService;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Nav;
 
@@ -35,7 +34,7 @@ public class ChatMessagesActivity extends CommonActivity {
 			break;
 		case R.id.action_view_profile:
 			Bundle parameters = new Bundle();
-			parameters.putString(Nav.PROFILE_ID_KEY, getConversation().getNodeId());
+			parameters.putString(Nav.NODE_KEY_ID, getConversation().getNodeId());
 			Nav.startActivityWithParameters(this, ProfileActivity.class, parameters);
 			break;
 		}
@@ -43,7 +42,7 @@ public class ChatMessagesActivity extends CommonActivity {
 	}
 
 	public ChatConversation getConversation() {
-		String conversationId = Nav.getParameters(this).getString(NotificationService.CONVERSATION_KEY_ID);
+		String conversationId = Nav.getParameters(this).getString(Nav.CONVERSATION_KEY_ID);
 		if (conversationId.isEmpty())
 			return null;
 		return Services.currentState.getConversationsStore().get(conversationId);

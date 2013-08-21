@@ -96,7 +96,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 			final Dialog dialog = new Dialog(activity);
 
 			// tell the Dialog to use the dialog.xml as it's layout description
-			dialog.setContentView(R.layout.chosed_image_dialog);
+			dialog.setContentView(R.layout.dialog_manage_image);
 			dialog.setTitle("What do u wanna do?");
 
 			Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(clickedImage.getImageBitmap());
@@ -131,7 +131,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					dialog.dismiss();
 					if (clickedImage.isMainImage()) {
-						Toast.makeText(activity, "YOU CAN'T DELETE YOUR MAIN IMAGE!CHOOSE ANOTHER ONE FIRST.", Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, R.string.message_cant_delete_profile_image, Toast.LENGTH_SHORT).show();
 						return;
 					}
 					try {

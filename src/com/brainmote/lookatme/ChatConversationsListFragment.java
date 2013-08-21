@@ -10,7 +10,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.brainmote.lookatme.service.Event;
-import com.brainmote.lookatme.service.NotificationService;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Nav;
 import com.squareup.otto.Subscribe;
@@ -38,7 +37,7 @@ public class ChatConversationsListFragment extends Fragment implements OnItemCli
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int clickedItemPosition, long clickedItemID) {
 		Bundle parameters = new Bundle();
-		parameters.putString(NotificationService.CONVERSATION_KEY_ID, conversationsListAdapter.getItem(clickedItemPosition).getId());
+		parameters.putString(Nav.CONVERSATION_KEY_ID, conversationsListAdapter.getItem(clickedItemPosition).getId());
 		Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 	}
 

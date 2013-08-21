@@ -5,9 +5,6 @@ import android.content.Context;
 
 public interface NotificationService {
 
-	final String NOTIFICATION_KEY_ID = "notification_key_id";
-	final String NODE_KEY_ID = "node_key_id";
-	final String CONVERSATION_KEY_ID = "conversation_key_id";
 	final int CHAT_ID = 0;
 	final int PROFILE_ID = 1;
 	final int LIKED_ID = 2;

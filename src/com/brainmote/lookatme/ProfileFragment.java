@@ -24,7 +24,6 @@ import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.Event;
-import com.brainmote.lookatme.service.NotificationService;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.ImageUtil;
@@ -53,7 +52,7 @@ public class ProfileFragment extends Fragment {
 		// recupero il node id, entro in attesa e invio la richiesta di full
 		// profile
 		Bundle parameters = getActivity().getIntent().getExtras();
-		final String nodeId = parameters.getString(Nav.PROFILE_ID_KEY);
+		final String nodeId = parameters.getString(Nav.NODE_KEY_ID);
 		buttonLike.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -71,7 +70,7 @@ public class ProfileFragment extends Fragment {
 				Services.businessLogic.startChat(nodeId);
 				Bundle parameters = new Bundle();
 				parameters.putString(
-						NotificationService.CONVERSATION_KEY_ID,
+						Nav.CONVERSATION_KEY_ID,
 						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeId).getProfile()
 								.getId()));
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);

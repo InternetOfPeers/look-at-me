@@ -45,7 +45,7 @@ public class ImageSpinnerAdapter extends ArrayAdapter<String> {
 	public View getCustomView(int position, View convertView, ViewGroup parent) {
 
 		LayoutInflater inflater = LayoutInflater.from(this.getContext());
-		View row = inflater.inflate(R.layout.custom_spinner, parent, false);
+		View row = inflater.inflate(R.layout.spinner_custom, parent, false);
 
 		TextView sub = (TextView) row.findViewById(R.id.textView2);
 		sub.setText(textSpinnerArray[position]);

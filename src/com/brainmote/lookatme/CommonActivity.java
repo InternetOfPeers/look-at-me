@@ -225,7 +225,7 @@ public abstract class CommonActivity extends Activity {
 
 	protected void showDialog(String title, String message, boolean isBlockingDialog) {
 		final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.dialog);
+		dialog.setContentView(R.layout.dialog_generic);
 		dialog.setTitle(title);
 		dialog.setCancelable(!isBlockingDialog);
 		TextView errorMsg = (TextView) dialog.findViewById(R.id.dialog_message);
@@ -247,7 +247,7 @@ public abstract class CommonActivity extends Activity {
 	protected void showFirstTimeDialog() {
 		// L'utente deve compilare il profilo prima di iniziare
 		final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.first_time_dialog);
+		dialog.setContentView(R.layout.dialog_first_launch);
 		dialog.setTitle(R.string.first_time_dialog_title);
 		dialog.setCancelable(false);
 		Button dialogButton = (Button) dialog.findViewById(R.id.first_time_dialog_button_go_to_profile);

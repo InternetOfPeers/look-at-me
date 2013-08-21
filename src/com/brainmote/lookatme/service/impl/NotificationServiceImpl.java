@@ -10,9 +10,10 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.SparseIntArray;
 
 import com.brainmote.lookatme.ChatMessagesActivity;
-import com.brainmote.lookatme.NearbyActivity;
+import com.brainmote.lookatme.ProfileActivity;
 import com.brainmote.lookatme.R;
 import com.brainmote.lookatme.service.NotificationService;
+import com.brainmote.lookatme.util.Nav;
 
 public class NotificationServiceImpl implements NotificationService {
 
@@ -28,24 +29,21 @@ public class NotificationServiceImpl implements NotificationService {
 	public void profileView(Context context, String fromName) {
 		String title = "Your profile has been visited";
 		String message = "Your profile has been visited by " + fromName;
-		// TOIMPROVE Andare al profilo della persona che ti ha visitato
-		notifyMessage(context, NearbyActivity.class, PROFILE_ID, title, message);
+		notifyMessage(context, ProfileActivity.class, PROFILE_ID, title, message);
 	}
 
 	@Override
 	public void like(Context context, String fromName, String fromNode) {
 		String title = fromName + " liked your profile!";
 		String message = fromName + " liked your profile!";
-		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(context, NearbyActivity.class, LIKED_ID, title, message, fromNode, null);
+		notifyMessage(context, ProfileActivity.class, LIKED_ID, title, message, fromNode, null);
 	}
 
 	@Override
 	public void perfectMatch(Context context, String fromName) {
 		String title = "Perfect match!";
 		String message = "You and " + fromName + " creates a perfect match!";
-		// TOIMPROVE Andare al profilo della persona che ti ha messo like
-		notifyMessage(context, NearbyActivity.class, PERFECT_MATCH_ID, title, message);
+		notifyMessage(context, ProfileActivity.class, PERFECT_MATCH_ID, title, message);
 	}
 
 	@Override
@@ -71,8 +69,8 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void clearActivityNotifications(Activity activity) {
 		if (activity != null && activity.getIntent() != null && activity.getIntent().getExtras() != null
-				&& activity.getIntent().getExtras().containsKey(NOTIFICATION_KEY_ID)) {
-			counters.put(activity.getIntent().getExtras().getInt(NOTIFICATION_KEY_ID), 0);
+				&& activity.getIntent().getExtras().containsKey(Nav.NOTIFICATION_KEY_ID)) {
+			counters.put(activity.getIntent().getExtras().getInt(Nav.NOTIFICATION_KEY_ID), 0);
 		}
 
 	}
@@ -99,9 +97,9 @@ public class NotificationServiceImpl implements NotificationService {
 				.setAutoCancel(true).setNumber(counters.get(notificationID));
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(context, destinationActivity);
-		resultIntent.putExtra(NOTIFICATION_KEY_ID, notificationID);
-		resultIntent.putExtra(NODE_KEY_ID, fromNodeId);
-		resultIntent.putExtra(CONVERSATION_KEY_ID, conversationId);
+		resultIntent.putExtra(Nav.NOTIFICATION_KEY_ID, notificationID);
+		resultIntent.putExtra(Nav.NODE_KEY_ID, fromNodeId);
+		resultIntent.putExtra(Nav.CONVERSATION_KEY_ID, conversationId);
 		// The stack builder object will contain an artificial back stack for
 		// the started Activity. This ensures that navigating backward from the
 		// Activity leads out of your application to the Home screen.

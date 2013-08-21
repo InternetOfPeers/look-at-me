@@ -94,26 +94,25 @@ public class EditProfileActivity extends CommonActivity {
 		try {
 			TextView nameScreen = (TextView) findViewById(R.id.edit_profile_field_name);
 			TextView surnameScreen = (TextView) findViewById(R.id.edit_profile_field_surname);
-			TextView usernameScreen = (TextView) findViewById(R.id.edit_profile_field_nickname);
+			TextView nickname = (TextView) findViewById(R.id.edit_profile_field_nickname);
 			Spinner spinnerAge = (Spinner) findViewById(R.id.edit_profile_spinner_age);
 			Spinner spinnerGender = (Spinner) findViewById(R.id.edit_profile_spinner_gender);
 			Spinner spinnerCountry = (Spinner) findViewById(R.id.edit_profile_spinner_country);
 			Spinner spinnerLanguage = (Spinner) findViewById(R.id.edit_profile_spinner_language);
 			ImageView imageView = (ImageView) findViewById(R.id.edit_profile_image_thumbnail);
-			if (usernameScreen.getText() == null || usernameScreen.getText().toString().equals("")) {
-				// Verifico anche che sia stata impostata
-				// un'immagine di profilo
-				if (imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
-					Toast.makeText(this, R.string.edit_profile_message_mandatory_fields_not_set, Toast.LENGTH_SHORT).show();
-					return;
-				}
+			// Verifico che sia inserito il nickname ed un'immagine di profilo
+			if (nickname.getText() == null || nickname.getText().toString().equals("")
+					|| imageView.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ic_profile_image).getConstantState())) {
+				Toast.makeText(this, R.string.edit_profile_message_mandatory_fields_not_set, Toast.LENGTH_SHORT).show();
+				return;
 			}
+
 			FullProfile profile = Services.currentState.getMyFullProfile();
 			if (profile == null)
 				profile = new FullProfile();
 			profile.setName(nameScreen.getText().toString());
 			profile.setSurname(surnameScreen.getText().toString());
-			profile.setNickname(usernameScreen.getText().toString());
+			profile.setNickname(nickname.getText().toString());
 			profile.setId(profileId);
 			String age = (String) spinnerAge.getSelectedItem();
 			if (age != null && !age.isEmpty() && !age.equals(getString(R.string.edit_profile_spinner_age_prompt)))
@@ -136,24 +135,6 @@ public class EditProfileActivity extends CommonActivity {
 			if (scrollGalleryAdapter.imageList.size() > 0) {
 				profile.setProfileImages(scrollGalleryAdapter.imageList);
 			}
-
-			// if (imageView.getDrawable() != null) {
-			// Bitmap bitmap = ((BitmapDrawable)
-			// imageView.getDrawable()).getBitmap();
-			//
-			// ProfileImage profileImage = null;
-			//
-			// if (scrollGalleryAdapter != null)
-			// profile.getProfileImages().addAll(scrollGalleryAdapter.imageList);
-			// else {
-			// profileImage = new ProfileImage();
-			// profileImage.setProfileId(profile.getId());
-			// profileImage.setImage(ImageUtil.bitmapToByteArray(bitmap));
-			// profileImage.setMainImage(true);
-			// profile.getProfileImages().add(profileImage);
-			// }
-			//
-			// }
 
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(this);
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
@@ -191,6 +172,7 @@ public class EditProfileActivity extends CommonActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Log.d();
 		if (requestCode == PHOTO_PICKED && resultCode == RESULT_OK && null != data) {
 			try {
 				Uri selectedImage = data.getData();

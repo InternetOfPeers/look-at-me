@@ -18,10 +18,12 @@ import com.google.common.collect.HashBiMap;
 public class Nav {
 
 	// costanti per il passaggio di parametri tra le activity
-	public static final String PROFILE_ID_KEY = "profile_id_key";
-
+	public final static String NOTIFICATION_KEY_ID = "notification_key_id";
+	public final static String NODE_KEY_ID = "node_key_id";
+	public final static String CONVERSATION_KEY_ID = "conversation_key_id";
+	// costanti private
 	private static final String STRING_VOID = "";
-	private static final String STRING_KEY = "string_key";
+	private static final String STRING_KEY_ID = "string_key_id";
 	private static final HashBiMap<Class<? extends Activity>, Integer> map;
 	static {
 		map = HashBiMap.create();
@@ -51,7 +53,7 @@ public class Nav {
 	 */
 	public static void startActivityWithString(Activity currentActivity, Class<? extends Activity> destinationActivity, String stringParameter) {
 		Bundle bundle = new Bundle();
-		bundle.putString(STRING_KEY, stringParameter);
+		bundle.putString(STRING_KEY_ID, stringParameter);
 		startActivityWithParameters(currentActivity, destinationActivity, bundle);
 	}
 
@@ -78,8 +80,8 @@ public class Nav {
 	 */
 	public static String getStringParameter(Activity currentActivity) {
 		if (currentActivity != null && currentActivity.getIntent() != null && currentActivity.getIntent().getExtras() != null
-				&& currentActivity.getIntent().getExtras().getString(STRING_KEY) != null) {
-			return currentActivity.getIntent().getExtras().getString(STRING_KEY);
+				&& currentActivity.getIntent().getExtras().getString(STRING_KEY_ID) != null) {
+			return currentActivity.getIntent().getExtras().getString(STRING_KEY_ID);
 		} else {
 			return STRING_VOID;
 		}
