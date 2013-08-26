@@ -63,6 +63,7 @@ public class ProfileFragment extends Fragment {
 				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().get(nodeId).getProfile().getNickname(), Toast.LENGTH_LONG).show();
 			}
 		});
+		buttonLike.setEnabled(false); // waiting for PROFILE_RECEIVED event
 
 		buttonChat.setOnClickListener(new OnClickListener() {
 			@Override
@@ -76,6 +77,7 @@ public class ProfileFragment extends Fragment {
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 		});
+		buttonChat.setEnabled(false); // waiting for PROFILE_RECEIVED event
 
 		if (AppSettings.fakeUsersEnabled && Services.businessLogic.isFakeUserNode(nodeId)) {
 			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser().getNode());
@@ -107,6 +109,8 @@ public class ProfileFragment extends Fragment {
 		switch (event.getEventType()) {
 		case PROFILE_RECEIVED:
 			prepareProfileAttributes();
+			buttonLike.setEnabled(true);
+			buttonChat.setEnabled(true); 
 			loadingDialog.dismiss();
 			break;
 		default:
