@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -16,7 +18,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brainmote.lookatme.bean.FullProfile;
@@ -85,8 +89,33 @@ public class ProfileFragment extends Fragment {
 		} else {
 			Services.businessLogic.requestFullProfile(nodeId);
 			loadingDialog = new ProgressDialog(getActivity());
-			loadingDialog.setTitle("Loading profile");
+			loadingDialog.setMessage(getActivity().getResources().getString(R.string.loading_profile_message));
+			loadingDialog.setCancelable(false);
 			loadingDialog.show();
+
+			// Dopo 15 secondi se il popup di caricamento non è stato chiuso,
+			// viene chiuso in automatico e viene mostrato il messaggio
+			// all'utente.
+			new Handler().postDelayed(new Runnable() {
+				public void run() {
+					if (loadingDialog.isShowing()) {
+						loadingDialog.dismiss();
+						final Dialog dialog = new Dialog(getActivity());
+						dialog.setContentView(R.layout.dialog_generic);
+						TextView errorMsg = (TextView) dialog.findViewById(R.id.dialog_message);
+						errorMsg.setText(getActivity().getResources().getString(R.string.no_profile_message));
+						Button dialogButton = (Button) dialog.findViewById(R.id.dialog_button_close);
+						dialogButton.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+								Nav.startActivity(getActivity(), NearbyActivity.class);
+							}
+						});
+						dialog.show();
+					}
+				}
+			}, 15000);
 		}
 
 		return view;
@@ -109,8 +138,6 @@ public class ProfileFragment extends Fragment {
 		switch (event.getEventType()) {
 		case PROFILE_RECEIVED:
 			prepareProfileAttributes();
-			buttonLike.setEnabled(true);
-			buttonChat.setEnabled(true); 
 			loadingDialog.dismiss();
 			break;
 		default:
@@ -123,6 +150,7 @@ public class ProfileFragment extends Fragment {
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		gallery_images = new ArrayList<Bitmap>();
 		if (profile != null) {
+			buttonChat.setEnabled(true);
 			// Imposto il title con il nickname e l'et� dell'utente
 			// selezionato
 			String age = profile.getAge() > 0 ? ", " + String.valueOf(profile.getAge()) : "";
