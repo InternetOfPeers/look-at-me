@@ -96,7 +96,7 @@ public class ImageUtil {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 		int display_size_in_px = Math.round(displayMetrics.widthPixels);
 		Log.d("Display width is " + display_size_in_px);
-		int numCols = 4; // qui prelevare il numero di colonne in base al layout
+		int numCols = 4; // TODO: qui prelevare il numero di colonne in base al layout
 		int verticalMargin = Services.currentState.getContext().getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
 		int thumbnailSpacing = Services.currentState.getContext().getResources().getDimensionPixelSize(R.dimen.nearby_thumbnail_spacing);
 		int thumbnail_size_in_px = (display_size_in_px - (verticalMargin * 2) - (thumbnailSpacing * (numCols - 1))) / numCols;
