@@ -240,8 +240,9 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 		ImageView imageView = (ImageView) findViewById(R.id.edit_profile_image_thumbnail);
-		imageView.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0,
-				profile.getProfileImages().get(0).getImage().length), R.dimen.edit_profile_thumbnail_size));
+		imageView.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(
+				BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length),
+				R.dimen.edit_profile_thumbnail_size));
 
 		// TextView interest = (TextView) findViewById(R.id.reg_interest);
 		// StringBuilder sb = new StringBuilder();

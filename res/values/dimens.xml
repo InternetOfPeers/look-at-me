@@ -10,5 +10,6 @@
     <dimen name="edit_profile_scroll_thumbnail_size">80dp</dimen>
     <dimen name="manage_image_thumbnail_size">80dp</dimen>
     <dimen name="chat_conversations_list_thumbnail_size">80dp</dimen>
+    <dimen name="image_thumbnail_spacing">6dp</dimen>
 
 </resources>

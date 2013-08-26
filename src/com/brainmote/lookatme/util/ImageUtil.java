@@ -96,7 +96,11 @@ public class ImageUtil {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
 		int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 		int numCols = 4; // qui prelevare il numero di colonne in base al layout
-		int thumbnail_size_in_dp = (R.dimen.nearby_thumbnail_spacing * (numCols + 1)) / numCols;//(display_size_in_dp - 30) / 4;
+		int thumbnail_size_in_dp = (R.dimen.nearby_thumbnail_spacing * (numCols + 1)) / numCols;// (display_size_in_dp
+																								// -
+																								// 30)
+																								// /
+																								// 4;
 		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
 	}
 

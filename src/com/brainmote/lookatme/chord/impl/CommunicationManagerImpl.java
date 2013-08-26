@@ -448,7 +448,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			Log.d("il device non era in join del chat channel " + conversationId + ", riprovo ora.");
 			chatChannel = joinChatChannel(conversationId);
 		}
-		// Manda all'utente un messaggio affinch� si agganci automaticamente al
+		// Manda all'utente un messaggio affinch� si agganci automaticamente
+		// al
 		// canale per chattare
 		return socialChannel.sendData(toNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
@@ -466,14 +467,15 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
 		// Per sicurezza effetto questo controllo. ATTENZIONE: se entra nell'if
 		// significa che il join viene fatto in questo momento, e che quindi il
-		// messaggio che stiamo mandando proprio ora non verr� ricevuto perch�
+		// messaggio che stiamo mandando proprio ora non verr� ricevuto
+		// perch�
 		// chord non fa in tempo a recepire i nodi presenti nel channel, e
 		// quindi considera inesistente il nodo al quale stiamo mandando questo
 		// messaggio. Serve quindi trovare un'altro modo per gestire questa
 		// eventualit�
 		if (chatChannel == null) {
-			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId + ", riprovo ora ma il nodo non ricever� il messaggio attuale: \""
-					+ text + "\"");
+			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId
+					+ ", riprovo ora ma il nodo non ricever� il messaggio attuale: \"" + text + "\"");
 			chatChannel = joinChatChannel(conversationId);
 		}
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
