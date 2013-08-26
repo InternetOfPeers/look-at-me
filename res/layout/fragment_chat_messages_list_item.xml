@@ -10,12 +10,13 @@
 
     <ImageView
         android:id="@+id/profilePhotoImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/chat_conversations_list_thumbnail_size"
+        android:layout_height="@dimen/chat_conversations_list_thumbnail_size"
         android:layout_gravity="center_vertical"
         android:layout_rowSpan="2"
         android:contentDescription="@string/text_chat_alt_profile_image"
         android:paddingRight="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
 
     <TextView

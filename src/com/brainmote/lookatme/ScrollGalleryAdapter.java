@@ -68,7 +68,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 		View retval = LayoutInflater.from(parent.getContext()).inflate(R.layout.scroll_gallery_item, null);
 		ImageView image = (ImageView) retval.findViewById(R.id.image);
 		// TODO: migliorare l'efficienza!!!
-		Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(getItem(position).getImageBitmap(), 80);
+		Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(getItem(position).getImageBitmap(), R.dimen.edit_profile_scroll_thumbnail_size);
 		image.setImageBitmap(thumbnailBitmap);
 		// imageWidth=image.getWidth();
 		// imageHeight=image.getHeight();
@@ -99,7 +99,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 			dialog.setContentView(R.layout.dialog_manage_image);
 			dialog.setTitle("What do u wanna do?");
 
-			Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(clickedImage.getImageBitmap());
+			Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(clickedImage.getImageBitmap(), R.dimen.manage_image_thumbnail_size);
 			ImageView image = (ImageView) dialog.findViewById(R.id.image);
 			image.setImageBitmap(thumbnailBitmap);
 
@@ -114,7 +114,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 						if (tempProfileImage.equals(clickedImage)) {
 							tempProfileImage.setMainImage(true);
 							ImageView imageView = (ImageView) activity.findViewById(R.id.edit_profile_image_thumbnail);
-							Bitmap thumbnailBitmap = ImageUtil.bitmapForThumbnail(tempProfileImage.getImageBitmap());
+							Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(tempProfileImage.getImageBitmap(), R.dimen.edit_profile_scroll_thumbnail_size);
 							imageView.setImageBitmap(thumbnailBitmap);
 						} else {
 							tempProfileImage.setMainImage(false);
