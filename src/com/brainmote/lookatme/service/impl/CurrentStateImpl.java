@@ -134,6 +134,16 @@ public class CurrentStateImpl implements CurrentState {
 	public boolean checkLikeMatch(String nodeId) {
 		return getILikeSet().contains(nodeId) && getLikedSet().contains(nodeId);
 	}
+	
+	@Override
+	public void reset() {
+		this.socialNodeMap = new HashMap<String, Node>();
+		this.profileViewed = null;
+		this.iLikeSet = new TreeSet<String>();
+		this.likedSet = new TreeSet<String>();
+		this.interestList = new TreeSet<Interest>();
+		// TODO: salvare le conversazioni appese?
+	}
 
 	public Set<Interest> getInterestList() {
 		return interestList;

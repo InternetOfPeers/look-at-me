@@ -29,6 +29,7 @@ public class SettingsActivity extends CommonActivity {
 				} else {
 					// Stop del servizio di comunicazione
 					Services.businessLogic.stop(getApplicationContext());
+					Services.currentState.reset();
 				}
 			}
 		});
