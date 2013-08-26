@@ -94,18 +94,17 @@ public class ImageUtil {
 
 	public static Bitmap bitmapForThumbnail(Bitmap bitmap) {
 		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
-		int display_size_in_dp = Math.round(displayMetrics.widthPixels / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+		int display_size_in_px = Math.round(displayMetrics.widthPixels);
 		int numCols = 4; // qui prelevare il numero di colonne in base al layout
-		int thumbnail_size_in_dp = (R.dimen.nearby_thumbnail_spacing * (numCols + 1)) / numCols;// (display_size_in_dp
-																								// -
-																								// 30)
-																								// /
-																								// 4;
-		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_dp);
+		int thumbnail_size_in_px = (display_size_in_px - (Services.currentState.getContext().getResources().getDimensionPixelSize(R.dimen.nearby_thumbnail_spacing) * (numCols + 1)))
+				/ numCols;
+		Log.d("Thumbnail bound box pixel " + thumbnail_size_in_px);
+		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), thumbnail_size_in_px);
 	}
 
-	public static Bitmap bitmapForCustomThumbnail(Bitmap bitmap, int dp) {
-		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), dp);
+	public static Bitmap bitmapForCustomThumbnail(Bitmap bitmap, int px) {
+		Log.d("Thumbnail bound box pixel " + px);
+		return scaleThumbnail(cropBitmap(bitmap, ASPECT_THUMBNAIL, ASPECT_THUMBNAIL), px);
 	}
 
 	public static Bitmap bitmapForGallery(Bitmap bitmap) {
@@ -213,15 +212,17 @@ public class ImageUtil {
 		return scaledBitmap;
 	}
 
-	private static Bitmap scaleThumbnail(Bitmap bitmap, int boundBoxInDp) {
+	private static Bitmap scaleThumbnail(Bitmap bitmap, int boundBoxInPx) {
 		// Get current dimensions
 		// int width = bitmap.getWidth();
 		// int height = bitmap.getHeight();
 		// Log.d("Scaling img with density " + bitmap.getDensity() + " size " +
 		// width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
-		DisplayMetrics displayMetrics = Services.currentState.getContext().getResources().getDisplayMetrics();
-		int px = Math.round(boundBoxInDp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, px, px, false);
+		// DisplayMetrics displayMetrics =
+		// Services.currentState.getContext().getResources().getDisplayMetrics();
+		// int px = Math.round(boundBoxInDp * (displayMetrics.xdpi /
+		// DisplayMetrics.DENSITY_DEFAULT));
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, boundBoxInPx, boundBoxInPx, false);
 		// Log.d("Result an img with density " + scaledBitmap.getDensity() +
 		// " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight()
 		// + " and " + scaledBitmap.getByteCount() + " bytes");

@@ -194,7 +194,7 @@ public class EditProfileActivity extends CommonActivity {
 				if (scrollGalleryAdapter.imageList.size() == 0) {
 					// setto come immagine principale
 					profileImage.setMainImage(true);
-					Bitmap photoThumbnail = ImageUtil.bitmapForCustomThumbnail(photo, R.dimen.edit_profile_thumbnail_size);
+					Bitmap photoThumbnail = ImageUtil.bitmapForCustomThumbnail(photo, getResources().getDimensionPixelSize(R.dimen.edit_profile_thumbnail_size));
 					ImageView imageView = (ImageView) findViewById(R.id.edit_profile_image_thumbnail);
 					imageView.setImageBitmap(photoThumbnail);
 				}
@@ -240,9 +240,8 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 		ImageView imageView = (ImageView) findViewById(R.id.edit_profile_image_thumbnail);
-		imageView.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(
-				BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile.getProfileImages().get(0).getImage().length),
-				R.dimen.edit_profile_thumbnail_size));
+		imageView.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(BitmapFactory.decodeByteArray(profile.getProfileImages().get(0).getImage(), 0, profile
+				.getProfileImages().get(0).getImage().length), getResources().getDimensionPixelSize(R.dimen.edit_profile_thumbnail_size)));
 
 		// TextView interest = (TextView) findViewById(R.id.reg_interest);
 		// StringBuilder sb = new StringBuilder();

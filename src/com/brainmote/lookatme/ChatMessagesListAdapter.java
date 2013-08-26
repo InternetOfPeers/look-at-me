@@ -52,7 +52,8 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 		ChatMessage message = getItem(position);
 		// Imposto il background
 		if (message.isMine()) {
-			profileImageBitmap = ImageUtil.bitmapForCustomThumbnail(Services.currentState.getMyBasicProfile().getMainProfileImage().getImageBitmap(), 50);
+			profileImageBitmap = ImageUtil.bitmapForCustomThumbnail(Services.currentState.getMyBasicProfile().getMainProfileImage().getImageBitmap(), Services.currentState
+					.getContext().getResources().getDimensionPixelSize(R.dimen.chat_conversations_list_thumbnail_size));
 			backgroundResId = R.drawable.right_message_bg;
 		} else {
 			backgroundResId = R.drawable.left_message_bg;

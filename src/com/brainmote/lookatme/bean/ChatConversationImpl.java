@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 
 import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.R;
+import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.ImageUtil;
 
 public class ChatConversationImpl implements ChatConversation {
@@ -25,7 +26,8 @@ public class ChatConversationImpl implements ChatConversation {
 		this.otherNickname = otherNickname;
 		this.otherAge = otherAge;
 		this.otherNodeId = otherNodeId;
-		this.otherImageBitamp = ImageUtil.bitmapForCustomThumbnail(otherImageBitamp, R.dimen.chat_conversations_list_thumbnail_size);
+		this.otherImageBitamp = ImageUtil.bitmapForCustomThumbnail(otherImageBitamp,
+				Services.currentState.getContext().getResources().getDimensionPixelSize(R.dimen.chat_conversations_list_thumbnail_size));
 		this.chatMessagesList = new ArrayList<ChatMessage>();
 		this.lastMessageTimestamp = new Date();
 	}
