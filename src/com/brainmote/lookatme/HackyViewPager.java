@@ -1,5 +1,7 @@
 package com.brainmote.lookatme;
 
+import com.brainmote.lookatme.util.Log;
+
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -33,7 +35,7 @@ public class HackyViewPager extends ViewPager {
 		try {
 			return super.onInterceptTouchEvent(ev);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			Log.d("Qualche casino con la gestione dei touch giocando con le immagini");
 			return false;
 		}
 	}

@@ -29,7 +29,7 @@ public class NearbyActivity extends CommonActivity {
 			super.onBackPressed();
 			return;
 		}
-		this.doubleBackToExitPressedOnce = true;
+		doubleBackToExitPressedOnce = true;
 		Toast.makeText(this, getString(R.string.click_back_again_to_exit), Toast.LENGTH_SHORT).show();
 		new Handler().postDelayed(new Runnable() {
 			@Override

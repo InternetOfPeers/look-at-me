@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -286,6 +287,16 @@ public abstract class CommonActivity extends Activity {
 		return profileComplete;
 	}
 
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		try {
+			return super.dispatchTouchEvent(ev);
+		} catch (Exception e) {
+			Log.d("Qualche casino con la gestione dei touch giocando con le immagini");
+			return false;
+		}
+	}
+
 	/**
 	 * 
 	 * @return
@@ -295,4 +306,5 @@ public abstract class CommonActivity extends Activity {
 		NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		return (wifi.isAvailable() && wifi.getDetailedState() == DetailedState.CONNECTED);
 	}
+
 }
