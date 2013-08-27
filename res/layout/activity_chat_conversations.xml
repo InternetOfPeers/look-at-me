@@ -3,13 +3,10 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
     <fragment
         android:id="@+id/fragment_conversations_list"
         android:name="com.brainmote.lookatme.ChatConversationsListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
     <include layout="@layout/drawer_list" />
-
 </android.support.v4.widget.DrawerLayout>

@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="6dip" >
-
     <CheckBox
         android:id="@+id/checkBoxAddInterest"
         android:layout_width="wrap_content"
@@ -13,7 +12,6 @@
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false" />
-
     <TextView
         android:id="@+id/interestId"
         android:layout_width="wrap_content"
@@ -21,5 +19,4 @@
         android:layout_alignBaseline="@+id/checkBoxAddInterest"
         android:layout_alignBottom="@+id/checkBoxAddInterest"
         android:layout_toRightOf="@+id/checkBoxAddInterest" />
-
 </RelativeLayout>

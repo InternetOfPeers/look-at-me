@@ -7,7 +7,6 @@
     android:paddingBottom="6dp"
     android:paddingTop="6dp"
     android:rowCount="2" >
-
     <ImageView
         android:id="@+id/profilePhotoImage"
         android:layout_width="@dimen/chat_conversations_list_thumbnail_size"
@@ -18,7 +17,6 @@
         android:paddingRight="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
-
     <TextView
         android:id="@+id/lastMessageText"
         android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
         android:singleLine="false"
         android:text="@string/text_chat_message"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <TextView
         android:id="@+id/lastMessageDate"
         android:layout_width="wrap_content"
@@ -40,5 +37,4 @@
         android:layout_gravity="right|top"
         android:text="@string/text_chat_datetime"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
 </GridLayout>

@@ -12,7 +12,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:scrollbarSize="10dp"
     android:scrollbarStyle="outsideOverlay" >
-
     <TextView
         android:id="@+id/help_text_info"
         android:layout_width="match_parent"
@@ -20,5 +19,4 @@
         android:gravity="left|top"
         android:padding="10dp"
         android:text="@string/help_text_info" />
-
 </ScrollView>

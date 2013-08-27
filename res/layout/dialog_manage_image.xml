@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal" >
-
     <ImageView
         android:id="@+id/image"
         android:layout_width="@dimen/manage_image_thumbnail_size"
@@ -14,19 +13,16 @@
         android:contentDescription="@string/profile_selected_image"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
-
     <LinearLayout
         android:layout_width="160dp"
         android:layout_height="85dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/image" >
-
         <LinearLayout
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-
             <ImageButton
                 android:id="@+id/mainImageButton"
                 android:layout_width="60dp"
@@ -36,7 +32,6 @@
                 android:contentDescription="@string/set_as_main"
                 android:scaleType="fitCenter"
                 android:src="@drawable/main_photo" />
-
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
@@ -45,12 +40,10 @@
                 android:text="@string/set_as_main"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-
             <ImageButton
                 android:id="@+id/deleteImageButton"
                 android:layout_width="60dp"
@@ -60,7 +53,6 @@
                 android:contentDescription="@string/delete"
                 android:scaleType="fitCenter"
                 android:src="@drawable/delete_photo" />
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
@@ -70,5 +62,4 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </LinearLayout>
-
 </RelativeLayout>

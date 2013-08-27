@@ -474,8 +474,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// messaggio. Serve quindi trovare un'altro modo per gestire questa
 		// eventualit�
 		if (chatChannel == null) {
-			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId
-					+ ", riprovo ora ma il nodo non ricever� il messaggio attuale: \"" + text + "\"");
+			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId + ", riprovo ora ma il nodo non ricever� il messaggio attuale: \""
+					+ text + "\"");
 			chatChannel = joinChatChannel(conversationId);
 		}
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);

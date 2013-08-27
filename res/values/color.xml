@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="action_bar_background">#FFFFFF</color>
     <color name="action_bar_divider">#FFFFFF</color>
     <color name="grid_state_pressed">#BB7dbcd3</color>
     <color name="grid_state_focused">#777dbcd3</color>
     <color name="itemPressHighlight">#8033b5e1</color>
     <color name="itemSelectedHighlight">#7066c6f2</color>
-
 </resources>

@@ -12,19 +12,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:scrollbarSize="10dp"
     android:scrollbarStyle="insideOverlay" >
-
     <Switch
         android:id="@+id/btn_toggle_communication_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:text="@string/button_toggle_service" />
-
     <TextView
         android:id="@+id/settings_communication_service"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/settings_communication_service_text"
         android:textStyle="italic" />
-
 </LinearLayout>

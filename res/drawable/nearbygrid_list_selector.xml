@@ -13,9 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:state_pressed="true"><shape>
             <solid android:color="@color/grid_state_pressed" />
         </shape></item>
@@ -23,5 +21,4 @@
             <solid android:color="@color/grid_state_focused" />
         </shape></item>
     <item android:drawable="@android:color/transparent"/>
-
 </selector>
