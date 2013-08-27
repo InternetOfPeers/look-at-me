@@ -66,7 +66,7 @@ public class Nav {
 	 */
 	public static void startActivityWithParameters(Activity currentActivity, Class<? extends Activity> destinationActivity, Bundle bundle) {
 		if (destinationActivity != null) {
-			Intent intent = new Intent(currentActivity, destinationActivity).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			Intent intent = new Intent(currentActivity, destinationActivity).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtras(bundle);
 			currentActivity.startActivity(intent);
 		}

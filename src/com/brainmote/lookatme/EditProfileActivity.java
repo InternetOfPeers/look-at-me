@@ -89,11 +89,11 @@ public class EditProfileActivity extends CommonActivity {
 			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
-	    // To avoid re-creation of activity with loss of image data
+		super.onConfigurationChanged(newConfig);
+		// To avoid re-creation of activity with loss of image data
 	}
 
 	public void onSaveButtonPressed(View view) {
