@@ -23,7 +23,6 @@ import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.FakeUser;
 import com.brainmote.lookatme.util.FakeUserImpl;
 import com.brainmote.lookatme.util.Log;
-import com.brainmote.lookatme.util.ScreenReceiver;
 
 public class BusinessLogicServiceImpl extends Service implements BusinessLogicService {
 
@@ -212,6 +211,12 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public boolean isConversationAlive(ChatConversation conversation) {
 		return communicationManager.requestActiveNodeList(conversation.getId()).contains(conversation.getNodeId());
+	}
+
+	@Override
+	public boolean isAppInForeground() {
+		//TODO
+		return false;
 	}
 
 }

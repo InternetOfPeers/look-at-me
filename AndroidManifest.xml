@@ -14,7 +14,7 @@
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 
-	application is running, the node’s status should be set to LCD-on.
+	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -113,10 +113,6 @@
             android:name="com.brainmote.lookatme.service.impl.BusinessLogicServiceImpl"
             android:enabled="true"
             android:exported="false" >
-<!--             <intent-filter> -->
-<!--                 <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_START" /> -->
-<!--                 <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_STOP" /> -->
-<!--             </intent-filter> -->
         </service>
     </application>
 
