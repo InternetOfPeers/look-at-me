@@ -221,6 +221,7 @@ public abstract class CommonActivity extends Activity {
 				NavUtils.navigateUpTo(this, upIntent);
 			}
 		}
+		finish();
 	};
 
 	/**
