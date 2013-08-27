@@ -1,11 +1,11 @@
 package com.brainmote.lookatme;
 
-import com.brainmote.lookatme.util.Log;
-
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import com.brainmote.lookatme.util.Log;
 
 /**
  * Hacky fix for Issue #4 and
