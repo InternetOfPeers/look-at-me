@@ -215,7 +215,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public boolean isAppInForeground() {
-		//TODO
+		// TODO
 		return false;
 	}
 

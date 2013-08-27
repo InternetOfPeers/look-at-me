@@ -17,6 +17,8 @@
 	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <uses-sdk
         android:minSdkVersion="14"

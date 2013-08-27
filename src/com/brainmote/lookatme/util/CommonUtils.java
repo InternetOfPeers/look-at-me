@@ -8,8 +8,12 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
+import android.content.Context;
 import android.os.Build;
 
 import com.brainmote.lookatme.R;
@@ -126,5 +130,11 @@ public class CommonUtils {
 			return;
 		} catch (InterruptedException localInterruptedException) {
 		}
+	}
+
+	public static boolean isMyActivityInForeground(Context context) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> services = activityManager.getRunningTasks(Integer.MAX_VALUE);
+		return services.get(0).topActivity.getPackageName().toString().equalsIgnoreCase(context.getPackageName().toString());
 	}
 }
