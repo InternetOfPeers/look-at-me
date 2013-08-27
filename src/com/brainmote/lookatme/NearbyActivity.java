@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
+import com.brainmote.lookatme.util.Log;
 
 public class NearbyActivity extends CommonActivity {
 
@@ -12,13 +13,10 @@ public class NearbyActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nearby);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
-		if (Services.businessLogic.isMyProfileComplete()) {
+		if (checkIfProfileIsCompleted()) {
 			// Verifico lo stato della connessione
 			if (!isConnectionAvailable() && !CommonUtils.isEmulator())
-				showDialog(getString(R.string.message_warning), getString(R.string.message_wifi_required), false);
-		} else {
-			showFirstTimeDialog();
+				showDialog(getString(R.string.message_warning), getString(R.string.message_wifi_required));
 		}
-
 	}
 }

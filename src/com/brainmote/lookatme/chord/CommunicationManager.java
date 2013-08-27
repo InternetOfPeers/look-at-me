@@ -5,6 +5,8 @@
  */
 package com.brainmote.lookatme.chord;
 
+import java.util.List;
+
 public interface CommunicationManager {
 
 	void startCommunication() throws CustomException;
@@ -24,5 +26,9 @@ public interface CommunicationManager {
 	boolean sendLike(String toNodeId);
 
 	boolean sendFullProfileResponse(String toNodeId);
+
+	List<String> requestActiveNodeList();
+
+	List<String> requestActiveNodeList(String channelId);
 
 }

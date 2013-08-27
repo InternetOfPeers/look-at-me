@@ -15,7 +15,7 @@ public class SettingsActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
-		checkProfileCompleted();
+		checkIfProfileIsCompleted();
 
 		// Verifica lo stato del servizio
 		Switch button = (Switch) findViewById(R.id.btn_toggle_communication_service);

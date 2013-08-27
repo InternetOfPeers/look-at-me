@@ -33,8 +33,7 @@ public class ChatMessagesListFragment extends Fragment {
 			// Se non è stata passata alcuna conversazione ritorno una vista
 			// vuota
 			// TODO Migliorare la messaggistica
-			activity.showDialog(getActivity().getString(R.string.chat_messages_dialog_error_title), getActivity().getString(R.string.message_no_conversation_with_that_id),
-					false);
+			activity.showDialog(getActivity().getString(R.string.chat_messages_dialog_error_title), getActivity().getString(R.string.message_no_conversation_with_that_id));
 			return view;
 		}
 		// Imposto il title dell'activity con il nome e l'età della persona con

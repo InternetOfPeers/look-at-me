@@ -9,7 +9,7 @@ public class ChatConversationsActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat_conversations);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
-		checkProfileCompleted();
+		checkIfProfileIsCompleted();
 	}
 
 }

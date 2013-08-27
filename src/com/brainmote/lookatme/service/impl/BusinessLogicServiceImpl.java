@@ -111,10 +111,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	/**
-	 * Poichè il costruttore viene referenziato da Android (anche se non
-	 * avviato direttamente) non è possibile impostare il costruttore come
-	 * privato. Ad ogni modo, per accedere correttamente all'istanza
-	 * dall'applicazione bisogna utilizzare la factory apposita.
+	 * Poichè il costruttore viene referenziato da Android (anche se non avviato
+	 * direttamente) non è possibile impostare il costruttore come privato. Ad
+	 * ogni modo, per accedere correttamente all'istanza dall'applicazione
+	 * bisogna utilizzare la factory apposita.
 	 */
 	public BusinessLogicServiceImpl() {
 	}
@@ -193,6 +193,16 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public boolean isMyProfileComplete() {
 		return Services.currentState.getMyBasicProfile() != null;
+	}
+
+	@Override
+	public boolean isNodeConnected(String nodeId) {
+		return communicationManager.requestActiveNodeList().contains(nodeId);
+	}
+
+	@Override
+	public boolean isConversationAlive(ChatConversation conversation) {
+		return communicationManager.requestActiveNodeList(conversation.getId()).contains(conversation.getNodeId());
 	}
 
 }

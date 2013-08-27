@@ -52,7 +52,7 @@ public interface CurrentState {
 	Set<Interest> getInterestList();
 
 	void setInterestList(Set<Interest> interestList);
-	
+
 	void reset();
 
 }

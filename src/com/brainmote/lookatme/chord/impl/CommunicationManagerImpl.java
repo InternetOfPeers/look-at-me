@@ -474,8 +474,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// messaggio. Serve quindi trovare un'altro modo per gestire questa
 		// eventualit�
 		if (chatChannel == null) {
-			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId
-					+ ", riprovo ora ma il nodo non ricever� il messaggio attuale: \"" + text + "\"");
+			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId + ", riprovo ora ma il nodo non ricever� il messaggio attuale: \""
+					+ text + "\"");
 			chatChannel = joinChatChannel(conversationId);
 		}
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
@@ -489,6 +489,25 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
 		return chatChannel.sendData(toNode, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public List<String> requestActiveNodeList(String channelId) {
+		IChordChannel channel = chord.getJoinedChannel(channelId);
+		if (channel == null)
+			return new ArrayList<String>();
+		return channel.getJoinedNodeList();
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public List<String> requestActiveNodeList() {
+		return requestActiveNodeList(AppSettings.SOCIAL_CHANNEL_NAME);
 	}
 
 }

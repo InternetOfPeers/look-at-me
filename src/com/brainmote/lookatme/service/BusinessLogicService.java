@@ -38,4 +38,8 @@ public interface BusinessLogicService {
 
 	boolean isMyProfileComplete();
 
+	boolean isNodeConnected(String nodeId);
+
+	boolean isConversationAlive(ChatConversation conversation);
+
 }

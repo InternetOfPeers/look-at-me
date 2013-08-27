@@ -13,7 +13,8 @@ public class ProfileActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
-		checkProfileCompleted();
+		setTitle("");
+		checkIfProfileIsCompleted();
 	}
 
 	@Override

@@ -134,7 +134,7 @@ public class CurrentStateImpl implements CurrentState {
 	public boolean checkLikeMatch(String nodeId) {
 		return getILikeSet().contains(nodeId) && getLikedSet().contains(nodeId);
 	}
-	
+
 	@Override
 	public void reset() {
 		this.socialNodeMap = new HashMap<String, Node>();

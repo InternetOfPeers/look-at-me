@@ -223,51 +223,72 @@ public abstract class CommonActivity extends Activity {
 		}
 	};
 
-	protected void showDialog(String title, String message, boolean isBlockingDialog) {
+	/**
+	 * Mostra un dialog
+	 * 
+	 * @param title
+	 *            Titolo del dialog
+	 * @param message
+	 *            Messaggio del dialog
+	 * @param buttonLabel
+	 *            Testo del pulsante
+	 * @param isBlocking
+	 *            Indica se il dialog è bloccante e può essere chiuso solamente
+	 *            tramite pulsante o meno
+	 * @param nextActivity
+	 *            Se valorizzato, indica quale activity viene avviata alla
+	 *            pressione del pulsante. Se null, viene ignorato.
+	 */
+	protected void showDialog(String title, String message, String buttonLabel, boolean isBlocking, final Class<? extends Activity> nextActivity) {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.dialog_generic);
 		dialog.setTitle(title);
-		dialog.setCancelable(!isBlockingDialog);
+		dialog.setCancelable(!isBlocking);
 		TextView errorMsg = (TextView) dialog.findViewById(R.id.dialog_message);
 		errorMsg.setText(message);
 		Button dialogButton = (Button) dialog.findViewById(R.id.dialog_button_close);
-		if (isBlockingDialog) {
-			dialogButton.setVisibility(View.GONE);
-		} else {
-			dialogButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					dialog.dismiss();
-				}
-			});
-		}
-		dialog.show();
-	}
-
-	protected void showFirstTimeDialog() {
-		// L'utente deve compilare il profilo prima di iniziare
-		final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.dialog_first_launch);
-		dialog.setTitle(R.string.first_time_dialog_title);
-		dialog.setCancelable(false);
-		Button dialogButton = (Button) dialog.findViewById(R.id.first_time_dialog_button_go_to_profile);
-		// if button is clicked, close the custom dialog
+		dialogButton.setText(buttonLabel);
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Nav.startActivity(CommonActivity.this, EditProfileActivity.class);
+				if (nextActivity != null) {
+					Nav.startActivity(CommonActivity.this, nextActivity);
+				}
 				dialog.dismiss();
 			}
 		});
 		dialog.show();
 	}
 
-	protected void checkProfileCompleted() {
-		if (!Services.businessLogic.isMyProfileComplete()) {
-			showFirstTimeDialog();
-		}
+	/**
+	 * Mostra un dialog non modale
+	 * 
+	 * @param title
+	 *            Titolo del dialog
+	 * @param message
+	 *            Messaggio del dialog
+	 */
+	protected void showDialog(String title, String message) {
+		showDialog(title, message, getResources().getString(R.string.dialog_button_close_label), false, null);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	protected boolean checkIfProfileIsCompleted() {
+		boolean profileComplete = Services.businessLogic.isMyProfileComplete();
+		if (!profileComplete) {
+			showDialog(getResources().getString(R.string.first_time_dialog_title), getResources().getString(R.string.first_time_dialog_message),
+					getResources().getString(R.string.first_time_dialog_button_go_to_profile_text), true, EditProfileActivity.class);
+		}
+		return profileComplete;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	protected boolean isConnectionAvailable() {
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

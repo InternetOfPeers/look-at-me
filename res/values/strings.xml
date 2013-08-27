@@ -116,8 +116,10 @@
     <string name="view_profile_label_like">Like</string>
     <string name="view_profile_lbl_chat">Chat</string>
     <string name="view_profile_btn_chat">Chat</string>
-    <string name="loading_profile_message">Please wait...</string>
-    <string name="no_profile_message">Profile no more available. Back to Nearby</string>
+    <string name="loading_profile_message">Please wait&#8230;</string>
+    <string name="no_profile_title">Profile not found.</string>
+    <string name="no_profile_message">It seems the user you are searching for is no more available, let\'s search someone else nearby.</string>
+    <string name="no_profile_button_label">Search nearby</string>
 
     <!-- HELP -->
     <string name="title_help_activity">Help</string>

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -18,9 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brainmote.lookatme.bean.FullProfile;
@@ -43,32 +40,32 @@ public class ProfileFragment extends Fragment {
 	private List<Bitmap> gallery_images;
 
 	private ProgressDialog loadingDialog;
+	private boolean profileReady;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
+		profileReady = false;
 		View view = inflater.inflate(R.layout.fragment_profile, null);
-		buttonLike = (ImageButton) view.findViewById(R.id.buttonLike);
-		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
 		gallery_images = new ArrayList<Bitmap>();
 		profilePhoto.setAdapter(new SamplePagerAdapter());
-		// recupero il node id, entro in attesa e invio la richiesta di full
-		// profile
+		// recupero il node id
 		Bundle parameters = getActivity().getIntent().getExtras();
 		final String nodeId = parameters.getString(Nav.NODE_KEY_ID);
+		// preparo i pulsanti
+		buttonLike = (LikeButton) view.findViewById(R.id.buttonLike);
+		buttonLike.setEnabled(false); // waiting for PROFILE_RECEIVED event
 		buttonLike.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Services.businessLogic.sendLike(nodeId);
-				buttonLike.setEnabled(likeButtonIsEnabledFor(nodeId));
-				// change image to disabled button
-				buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
+				buttonLike.setEnabled(false);
 				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().get(nodeId).getProfile().getNickname(), Toast.LENGTH_LONG).show();
 			}
 		});
-		buttonLike.setEnabled(false); // waiting for PROFILE_RECEIVED event
-
+		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
+		buttonChat.setEnabled(false); // waiting for PROFILE_RECEIVED event
 		buttonChat.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -81,41 +78,47 @@ public class ProfileFragment extends Fragment {
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 		});
-		buttonChat.setEnabled(false); // waiting for PROFILE_RECEIVED event
-
+		// Verifico se è il profilo di un utente fake
 		if (AppSettings.fakeUsersEnabled && Services.businessLogic.isFakeUserNode(nodeId)) {
 			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser().getNode());
 			prepareProfileAttributes();
 		} else {
-			Services.businessLogic.requestFullProfile(nodeId);
-			loadingDialog = new ProgressDialog(getActivity());
-			loadingDialog.setMessage(getActivity().getResources().getString(R.string.loading_profile_message));
-			loadingDialog.setCancelable(false);
-			loadingDialog.show();
-
-			// Dopo 15 secondi se il popup di caricamento non è stato chiuso,
-			// viene chiuso in automatico e viene mostrato il messaggio
-			// all'utente.
-			new Handler().postDelayed(new Runnable() {
-				public void run() {
-					if (loadingDialog.isShowing()) {
-						loadingDialog.dismiss();
-						final Dialog dialog = new Dialog(getActivity());
-						dialog.setContentView(R.layout.dialog_generic);
-						TextView errorMsg = (TextView) dialog.findViewById(R.id.dialog_message);
-						errorMsg.setText(getActivity().getResources().getString(R.string.no_profile_message));
-						Button dialogButton = (Button) dialog.findViewById(R.id.dialog_button_close);
-						dialogButton.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								dialog.dismiss();
-								Nav.startActivity(getActivity(), NearbyActivity.class);
-							}
-						});
-						dialog.show();
+			// Controllo se il nodo è ancora presente
+			final CommonActivity activity = (CommonActivity) getActivity();
+			if (Services.businessLogic.isNodeConnected(nodeId)) {
+				// invio la richiesta di full profile
+				Services.businessLogic.requestFullProfile(nodeId);
+				// apro un dialog di attesa se trascorre troppo tempo dalla
+				// richiesta
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						if (!profileReady) {
+							loadingDialog = new ProgressDialog(getActivity());
+							loadingDialog.setMessage(getActivity().getResources().getString(R.string.loading_profile_message));
+							loadingDialog.setCancelable(false);
+							loadingDialog.show();
+							// Dopo AppSettings.LOADING_PROFILE_TIMEOUT
+							// millisecondi, se il popup di caricamento non è
+							// stato chiuso, viene chiuso in automatico e viene
+							// mostrato il messaggio di errore all'utente.
+							new Handler().postDelayed(new Runnable() {
+								public void run() {
+									if (loadingDialog.isShowing()) {
+										loadingDialog.dismiss();
+										activity.showDialog(activity.getString(R.string.no_profile_title), activity.getString(R.string.no_profile_message),
+												activity.getString(R.string.no_profile_button_label), true, NearbyActivity.class);
+									}
+								}
+							}, AppSettings.LOADING_PROFILE_TIMEOUT);
+						}
 					}
-				}
-			}, 15000);
+				}, AppSettings.WAIT_BEFORE_SHOWING_LOADING_PROFILE_DIALOG);
+
+			} else {
+				activity.showDialog(activity.getString(R.string.no_profile_title), activity.getString(R.string.no_profile_message),
+						activity.getString(R.string.no_profile_button_label), true, NearbyActivity.class);
+			}
 		}
 
 		return view;
@@ -138,7 +141,8 @@ public class ProfileFragment extends Fragment {
 		switch (event.getEventType()) {
 		case PROFILE_RECEIVED:
 			prepareProfileAttributes();
-			loadingDialog.dismiss();
+			if (loadingDialog != null)
+				loadingDialog.dismiss();
 			break;
 		default:
 			break;
@@ -164,12 +168,9 @@ public class ProfileFragment extends Fragment {
 				gallery_images.add(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
 			}
 			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
-			if (!likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId())) {
-				// change image to disabled button
-				buttonLike.setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
-			}
 		}
 		profilePhoto.getAdapter().notifyDataSetChanged();
+		profileReady = true;
 	}
 
 	private boolean likeButtonIsEnabledFor(String nodeId) {
