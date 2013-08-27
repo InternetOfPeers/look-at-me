@@ -14,7 +14,7 @@
     <!--
 	Optional: A node cannot receive a UDP broadcast if it is in LCD-off status. 
 	Therefore, if developers want the node to discover other nodes while the 
-	application is running, the node’s status should be set to LCD-on.
+	application is running, the node’s status should be set to LCD-on.
     -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -53,9 +53,9 @@
         </activity>
         <activity
             android:name=".EditProfileActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_profile_activity"
-            android:parentActivityName=".NearbyActivity"
-            android:configChanges="orientation|screenSize" >
+            android:parentActivityName=".NearbyActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NearbyActivity" />
@@ -110,11 +110,12 @@
         </activity>
 
         <service
-            android:name="com.brainmote.lookme.service.impl.BusinessLogicServiceImpl"
-            android:enabled="true" >
+            android:name="com.brainmote.lookatme.service.impl.BusinessLogicServiceImpl"
+            android:enabled="true"
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.brainmote.lookme.service.BusinessLogicOperationsImpl.SERVICE_START" />
-                <action android:name="com.brainmote.lookme.service.BusinessLogicOperationsImpl.SERVICE_STOP" />
+                <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_START" />
+                <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_STOP" />
             </intent-filter>
         </service>
     </application>
