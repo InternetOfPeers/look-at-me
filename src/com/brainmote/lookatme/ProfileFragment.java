@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
 									if (loadingDialog.isShowing()) {
 										loadingDialog.dismiss();
 										activity.showDialog(activity.getString(R.string.no_profile_title), activity.getString(R.string.no_profile_message),
-												activity.getString(R.string.no_profile_button_label), true, NearbyActivity.class);
+												activity.getString(R.string.no_profile_button_label), NearbyActivity.class, true, true);
 									}
 								}
 							}, AppSettings.LOADING_PROFILE_TIMEOUT);
@@ -117,7 +117,7 @@ public class ProfileFragment extends Fragment {
 
 			} else {
 				activity.showDialog(activity.getString(R.string.no_profile_title), activity.getString(R.string.no_profile_message),
-						activity.getString(R.string.no_profile_button_label), true, NearbyActivity.class);
+						activity.getString(R.string.no_profile_button_label), NearbyActivity.class, true, true);
 			}
 		}
 

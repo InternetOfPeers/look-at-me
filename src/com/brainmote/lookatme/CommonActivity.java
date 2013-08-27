@@ -3,6 +3,8 @@ package com.brainmote.lookatme;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
@@ -14,6 +16,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -202,7 +205,6 @@ public abstract class CommonActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Log.d();
 		// Verifico se presente un parent
 		Intent upIntent = NavUtils.getParentActivityIntent(this);
 		if (upIntent != null) {
@@ -234,18 +236,36 @@ public abstract class CommonActivity extends Activity {
 	 *            Messaggio del dialog
 	 * @param buttonLabel
 	 *            Testo del pulsante
-	 * @param isBlocking
-	 *            Indica se il dialog è bloccante e può essere chiuso solamente
-	 *            tramite pulsante o meno
 	 * @param nextActivity
 	 *            Se valorizzato, indica quale activity viene avviata alla
 	 *            pressione del pulsante. Se null, viene ignorato.
+	 * @param isBlocking
+	 *            Indica se il dialog è bloccante e può essere chiuso solamente
+	 *            tramite pulsante o meno
+	 * @param isBackButtonEnabled
+	 *            Indica se il dialog propaga la pressione del backbutton
+	 *            all'activity che l'ha chiamato. Mettere a false se si vuole il
+	 *            comportamento normale di dismiss del dialog, sempre che il
+	 *            dialog non sia bloccante. Se viene messo a true, si perde il
+	 *            normale comportamento di dismiss del dialog.
 	 */
-	protected void showDialog(String title, String message, String buttonLabel, boolean isBlocking, final Class<? extends Activity> nextActivity) {
+	protected void showDialog(String title, String message, String buttonLabel, final Class<? extends Activity> nextActivity, boolean isBlocking, boolean isBackButtonEnabled) {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.dialog_generic);
 		dialog.setTitle(title);
 		dialog.setCancelable(!isBlocking);
+		if (isBackButtonEnabled) {
+			dialog.setOnKeyListener(new OnKeyListener() {
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+						CommonActivity.this.onBackPressed();
+						return true;
+					}
+					return false;
+				}
+			});
+		}
 		TextView errorMsg = (TextView) dialog.findViewById(R.id.dialog_message);
 		errorMsg.setText(message);
 		Button dialogButton = (Button) dialog.findViewById(R.id.dialog_button_close);
@@ -271,7 +291,7 @@ public abstract class CommonActivity extends Activity {
 	 *            Messaggio del dialog
 	 */
 	protected void showDialog(String title, String message) {
-		showDialog(title, message, getResources().getString(R.string.dialog_button_close_label), false, null);
+		showDialog(title, message, getResources().getString(R.string.dialog_button_close_label), null, false, false);
 	}
 
 	/**
@@ -282,7 +302,7 @@ public abstract class CommonActivity extends Activity {
 		boolean profileComplete = Services.businessLogic.isMyProfileComplete();
 		if (!profileComplete) {
 			showDialog(getResources().getString(R.string.first_time_dialog_title), getResources().getString(R.string.first_time_dialog_message),
-					getResources().getString(R.string.first_time_dialog_button_go_to_profile_text), true, EditProfileActivity.class);
+					getResources().getString(R.string.first_time_dialog_button_go_to_profile_text), EditProfileActivity.class, true, true);
 		}
 		return profileComplete;
 	}
