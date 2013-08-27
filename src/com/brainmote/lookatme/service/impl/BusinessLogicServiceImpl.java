@@ -5,8 +5,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 
 import com.brainmote.lookatme.ChatConversation;
@@ -21,10 +23,11 @@ import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.FakeUser;
 import com.brainmote.lookatme.util.FakeUserImpl;
 import com.brainmote.lookatme.util.Log;
+import com.brainmote.lookatme.util.ScreenReceiver;
 
 public class BusinessLogicServiceImpl extends Service implements BusinessLogicService {
 
-	private static final String SERVICE_PREFIX = "com.brainmote.lookatme.service.BusinessLogicOperationsImpl.";
+	private static final String SERVICE_PREFIX = "com.brainmote.lookatme.service.BusinessLogicServiceImpl.";
 	private static final String SERVICE_START = SERVICE_PREFIX + "SERVICE_START";
 	private static final String SERVICE_STOP = SERVICE_PREFIX + "SERVICE_STOP";
 
@@ -32,6 +35,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	private CommunicationManager communicationManager;
 	private FakeUser fakeUser;
 	private Set<String> fakeUserNodeList = new HashSet<String>();
+	private BroadcastReceiver screenReceiver;
 
 	/**
 	 * 
@@ -49,6 +53,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
+		// Registro il receiver per ascoltare lo stand-by del telefono
+		IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		screenReceiver = new ScreenReceiver();
+		context.registerReceiver(screenReceiver, filter);
 		// Se necessario creo un fake user
 		if (AppSettings.fakeUsersEnabled) {
 			for (int i = 0; i < AppSettings.fakeUsers; i++) {
