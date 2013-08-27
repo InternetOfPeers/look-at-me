@@ -10,7 +10,7 @@ public class HelpActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
-		checkIfProfileIsCompleted();
+		//checkIfProfileIsCompleted();
 	};
 
 }
