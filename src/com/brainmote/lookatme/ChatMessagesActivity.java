@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Nav;
@@ -33,9 +34,17 @@ public class ChatMessagesActivity extends CommonActivity {
 			onBackPressed();
 			break;
 		case R.id.action_view_profile:
-			Bundle parameters = new Bundle();
-			parameters.putString(Nav.NODE_KEY_ID, getConversation().getNodeId());
-			Nav.startActivityWithParameters(this, ProfileActivity.class, parameters);
+			String nodeId = getConversation().getNodeId();
+			// Verifico che il nodo sia ancora disponibile
+			if (Services.businessLogic.isNodeConnected(nodeId)) {
+				Bundle parameters = new Bundle();
+				parameters.putString(Nav.NODE_KEY_ID, nodeId);
+				Nav.startActivityWithParameters(this, ProfileActivity.class, parameters);
+			} else {
+				// L'utente non è più online e non posso vederne il profilo
+				Toast toast = Toast.makeText(this, R.string.user_is_not_nearby_anymore, Toast.LENGTH_SHORT);
+				toast.show();
+			}
 			break;
 		}
 		return true;

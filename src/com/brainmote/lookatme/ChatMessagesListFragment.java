@@ -55,26 +55,22 @@ public class ChatMessagesListFragment extends Fragment {
 				if (text != null && !text.isEmpty()) {
 					// Verifico che il nodo a cui mandare il messaggio sia
 					// ancora attivo
-					String nodeId = conversation.getNodeId();
-					if (nodeIsValid(nodeId)) {
+					if (Services.businessLogic.isConversationAlive(conversation)) {
+						String nodeId = conversation.getNodeId();
 						// Invio il messaggio al nodo
 						Services.businessLogic.sendChatMessage(nodeId, text);
 						mInputEditText.getText().clear();
 						ChatMessagesListFragment.this.refreshFragment();
 						scrollMyListViewToBottom();
 					} else {
-						// TODO Migliorare la messaggistica
+						// L'utente non è più online e non posso mandargli
+						// messaggi
 						Toast toast = Toast.makeText(ChatMessagesListFragment.this.getActivity(), R.string.unable_to_send_chat_message, Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				}
 			}
 
-			private boolean nodeIsValid(String node) {
-				// TODO Verificare che il nodo a cui mandare il messaggio sia
-				// ancora attivo
-				return true;
-			}
 		});
 		return view;
 	}

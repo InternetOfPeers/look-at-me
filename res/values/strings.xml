@@ -18,7 +18,6 @@
     <string name="gender_transgender">Transgender</string>
     <string name="text_interest">interest</string>
     <string name="title_splashscreen">splash</string>
-    <string name="unable_to_send_chat_message">unable to comunicate to chosed user</string>
     <string name="send_btn">Send</string>
     <string name="delete">Delete</string>
     <string name="setAsMainImage">Set as main image</string>
@@ -163,5 +162,7 @@
     <string name="edit_profile_image_thumbnail_alt">Profile thumbnail</string>
     <string name="message_cant_delete_profile_image">This is your current profile image and it can\'t be deleted. Please choose another profile image if you want to delete this one.</string>
     <string name="click_back_again_to_exit">Please click BACK again to exit</string>
+    <string name="unable_to_send_chat_message">Message NOT sent. This user isn\'t nearby anymore.</string>
+    <string name="user_is_not_nearby_anymore">This user isn\'t nearby anymore.</string>
 
 </resources>
