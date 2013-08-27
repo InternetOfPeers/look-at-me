@@ -54,7 +54,8 @@
         <activity
             android:name=".EditProfileActivity"
             android:label="@string/title_profile_activity"
-            android:parentActivityName=".NearbyActivity" >
+            android:parentActivityName=".NearbyActivity"
+            android:configChanges="orientation|screenSize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NearbyActivity" />

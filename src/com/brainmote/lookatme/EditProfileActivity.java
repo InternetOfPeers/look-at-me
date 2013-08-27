@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -87,6 +88,12 @@ public class EditProfileActivity extends CommonActivity {
 		} catch (Exception e) {
 			Log.e("errore during create of registration activity! error: " + e.getMessage());
 		}
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    // To avoid re-creation of activity with loss of image data
 	}
 
 	public void onSaveButtonPressed(View view) {
