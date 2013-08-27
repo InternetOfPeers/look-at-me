@@ -113,10 +113,10 @@
             android:name="com.brainmote.lookatme.service.impl.BusinessLogicServiceImpl"
             android:enabled="true"
             android:exported="false" >
-            <intent-filter>
-                <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_START" />
-                <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_STOP" />
-            </intent-filter>
+<!--             <intent-filter> -->
+<!--                 <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_START" /> -->
+<!--                 <action android:name="com.brainmote.lookatme.service.BusinessLogicOperationsImpl.SERVICE_STOP" /> -->
+<!--             </intent-filter> -->
         </service>
     </application>
 
