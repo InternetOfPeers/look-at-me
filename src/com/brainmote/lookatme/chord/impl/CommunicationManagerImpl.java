@@ -233,12 +233,18 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					break;
 				case START_CHAT_MESSAGE:
 					String myId = Services.currentState.getMyBasicProfile().getId();
-					Node nodeTo = Services.currentState.getSocialNodeMap().get(senderNodeId);
-					if (nodeTo != null) {
-						String profileId = Services.currentState.getSocialNodeMap().get(senderNodeId).getProfile().getId();
+					if (Services.currentState.getSocialNodeMap().containsNode(senderNodeId)) {
+						String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(senderNodeId);
 						String chatChannelName = CommonUtils.getConversationId(myId, profileId);
 						joinChatChannel(chatChannelName);
-					} else {
+					}
+//					Node nodeTo = Services.currentState.getSocialNodeMap().get(senderNodeId);
+//					if (nodeTo != null) {
+//						String profileId = Services.currentState.getSocialNodeMap().get(senderNodeId).getProfile().getId();
+//						String chatChannelName = CommonUtils.getConversationId(myId, profileId);
+//						joinChatChannel(chatChannelName);
+//					} 
+					else {
 						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
 					}
 					break;
@@ -420,7 +426,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	public boolean startChat(String toNode) {
 		Log.d();
 		String myProfileId = Services.currentState.getMyBasicProfile().getId();
-		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().get(toNode).getProfile();
+		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().findNodeByNodeId(toNode).getProfile();
 		String otherProfileId = otherProfile.getId();
 		String conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
@@ -428,7 +434,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// crea
 		if (conversation == null) {
 			conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
-			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile.getNickname(), otherProfile.getAge(), toNode, otherProfile
+			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile.getNickname(), otherProfile.getAge(), otherProfile
 					.getMainProfileImage().getImageBitmap()));
 		}
 		// Effettua il join al canale prescelto per la chat
@@ -450,7 +456,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		Profile myProfile = Services.currentState.getMyBasicProfile();
 
 		// TODO QUI VA IN NULLPOINTER EXCEPTION DOPO UN TEMPO DI INUTILIZZO
-		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().get(toNode).getProfile();
+		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().findNodeByNodeId(toNode).getProfile();
 
 		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfile.getId());
 		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);

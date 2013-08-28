@@ -18,6 +18,7 @@ import com.brainmote.lookatme.chord.impl.CommunicationManagerImpl;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.BusinessLogicService;
 import com.brainmote.lookatme.service.Services;
+import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.FakeUser;
 import com.brainmote.lookatme.util.FakeUserImpl;
 import com.brainmote.lookatme.util.Log;
@@ -207,7 +208,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public boolean isConversationAlive(ChatConversation conversation) {
-		return communicationManager.requestActiveNodeList(conversation.getId()).contains(conversation.getNodeId());
+		//return communicationManager.requestActiveNodeList(conversation.getId()).contains(conversation.getNodeId());
+		// Recupero il node id a partire dal conversation id dal quale estraggo il profile id :)
+		String otherNodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
+		return communicationManager.requestActiveNodeList(conversation.getId()).contains(otherNodeId);
 	}
 
 	@Override

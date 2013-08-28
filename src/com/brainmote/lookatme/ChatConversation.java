@@ -18,8 +18,6 @@ public interface ChatConversation {
 
 	Bitmap getImageBitmap();
 
-	String getNodeId();
-
 	ChatMessage getMessage(int position);
 
 	int size();

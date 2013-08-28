@@ -53,26 +53,34 @@ public class CommonUtils {
 		else
 			return otherProfileId + "_" + myId;
 	}
-
-	public static Node getNodeFromConversationId(String conversationId) {
+	
+	public static String getProfileIdFromConversationId(String conversationId) {
 		String[] nodes = conversationId.split("_");
 		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
-			return getNodeFromProfileId(nodes[0]);
+			return nodes[0];
 		else
-			return getNodeFromProfileId(nodes[1]);
+			return nodes[1];
 	}
 
-	public static Node getNodeFromProfileId(String profileId) {
-		Collection<Node> nodeJoined = Services.currentState.getSocialNodeMap().values();
-		Iterator<Node> iter = nodeJoined.iterator();
-		while (iter.hasNext()) {
-			Node tempNode = iter.next();
-			if (tempNode.getProfile().getId().equalsIgnoreCase(profileId))
-				return tempNode;
-		}
-		Log.d("getNodeFromProfileId profile not found!profileId: " + profileId);
-		return null;
-	}
+//	public static Node getNodeFromConversationId(String conversationId) {
+//		String[] nodes = conversationId.split("_");
+//		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
+//			return getNodeFromProfileId(nodes[0]);
+//		else
+//			return getNodeFromProfileId(nodes[1]);
+//	}
+
+//	public static Node getNodeFromProfileId(String profileId) {
+//		Collection<Node> nodeJoined = Services.currentState.getSocialNodeMap().values();
+//		Iterator<Node> iter = nodeJoined.iterator();
+//		while (iter.hasNext()) {
+//			Node tempNode = iter.next();
+//			if (tempNode.getProfile().getId().equalsIgnoreCase(profileId))
+//				return tempNode;
+//		}
+//		Log.d("getNodeFromProfileId profile not found!profileId: " + profileId);
+//		return null;
+//	}
 
 	/**
 	 * Get a diff between two dates

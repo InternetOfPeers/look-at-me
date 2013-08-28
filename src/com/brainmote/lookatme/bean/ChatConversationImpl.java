@@ -16,16 +16,14 @@ public class ChatConversationImpl implements ChatConversation {
 	private String conversationId;
 	private String otherNickname;
 	private int otherAge;
-	private String otherNodeId;
 	private Bitmap otherImageBitamp;
 	private Date lastMessageTimestamp;
 	private List<ChatMessage> chatMessagesList;
 
-	public ChatConversationImpl(String conversationId, String otherNickname, int otherAge, String otherNodeId, Bitmap otherImageBitamp) {
+	public ChatConversationImpl(String conversationId, String otherNickname, int otherAge, Bitmap otherImageBitamp) {
 		this.conversationId = conversationId;
 		this.otherNickname = otherNickname;
 		this.otherAge = otherAge;
-		this.otherNodeId = otherNodeId;
 		this.otherImageBitamp = ImageUtil.bitmapForCustomThumbnail(otherImageBitamp,
 				Services.currentState.getContext().getResources().getDimensionPixelSize(R.dimen.chat_conversations_list_thumbnail_size));
 		this.chatMessagesList = new ArrayList<ChatMessage>();
@@ -50,11 +48,6 @@ public class ChatConversationImpl implements ChatConversation {
 	@Override
 	public Bitmap getImageBitmap() {
 		return otherImageBitamp;
-	}
-
-	@Override
-	public String getNodeId() {
-		return otherNodeId;
 	}
 
 	@Override

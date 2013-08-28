@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.brainmote.lookatme.service.Services;
+import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Nav;
 
 public class ChatMessagesActivity extends CommonActivity {
@@ -34,7 +35,8 @@ public class ChatMessagesActivity extends CommonActivity {
 			onBackPressed();
 			break;
 		case R.id.action_view_profile:
-			String nodeId = getConversation().getNodeId();
+			String nodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(getConversation().getId()));
+			//String nodeId = getConversation().getNodeId();
 			// Verifico che il nodo sia ancora disponibile
 			if (Services.businessLogic.isNodeConnected(nodeId)) {
 				Bundle parameters = new Bundle();

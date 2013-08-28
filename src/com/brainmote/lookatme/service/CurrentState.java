@@ -10,6 +10,7 @@ import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.chord.Node;
+import com.brainmote.lookatme.util.SocialNodeMap;
 
 public interface CurrentState {
 
@@ -19,7 +20,7 @@ public interface CurrentState {
 
 	Map<String, ChatConversation> getConversationsStore();
 
-	Map<String, Node> getSocialNodeMap();
+	SocialNodeMap getSocialNodeMap();
 
 	void putSocialNodeInMap(Node node);
 

@@ -14,12 +14,13 @@ import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.service.CurrentState;
+import com.brainmote.lookatme.util.SocialNodeMap;
 
 public class CurrentStateImpl implements CurrentState {
 
 	private Map<String, ChatConversation> conversationsStore = new HashMap<String, ChatConversation>();
 
-	private Map<String, Node> socialNodeMap = new HashMap<String, Node>();
+	private SocialNodeMap socialNodeMap = new SocialNodeMap();
 
 	private Set<String> iLikeSet = new TreeSet<String>();
 
@@ -49,13 +50,13 @@ public class CurrentStateImpl implements CurrentState {
 	}
 
 	@Override
-	public Map<String, Node> getSocialNodeMap() {
+	public SocialNodeMap getSocialNodeMap() {
 		return socialNodeMap;
 	}
 
 	@Override
 	public void putSocialNodeInMap(Node node) {
-		socialNodeMap.put(node.getId(), node);
+		socialNodeMap.put(node);
 		// TODO Devo verificare che se è già presente una conversazione con
 		// l'utente, nel qual caso serve aggiornare la Conversation con il nuovo
 		// nodeId
@@ -130,7 +131,7 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public String getNickname(String nodeId) {
-		return getSocialNodeMap().get(nodeId).getProfile().getNickname();
+		return getSocialNodeMap().findNodeByNodeId(nodeId).getProfile().getNickname();
 	}
 
 	@Override
@@ -140,7 +141,7 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public void reset() {
-		this.socialNodeMap = new HashMap<String, Node>();
+		this.socialNodeMap = new SocialNodeMap();
 		this.profileViewed = null;
 		this.iLikeSet = new TreeSet<String>();
 		this.likedSet = new TreeSet<String>();

@@ -76,7 +76,7 @@ public class FakeUserImpl implements FakeUser {
 
 	@Override
 	public ChatConversation getConversation(String myProfileId) {
-		return new ChatConversationImpl(CommonUtils.getConversationId(myProfileId, profile.getId()), profile.getNickname(), profile.getAge(), getNode().getId(), profile
+		return new ChatConversationImpl(CommonUtils.getConversationId(myProfileId, profile.getId()), profile.getNickname(), profile.getAge(), profile
 				.getMainProfileImage().getImageBitmap());
 	}
 

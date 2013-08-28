@@ -1,6 +1,5 @@
 package com.brainmote.lookatme;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -32,7 +31,7 @@ public class NearbyListAdapter extends BaseAdapter {
 
 	@Override
 	public Node getItem(int position) {
-		List<Node> nodeList = new ArrayList<Node>(Services.currentState.getSocialNodeMap().values());
+		List<Node> nodeList = Services.currentState.getSocialNodeMap().getNodeList();
 		return nodeList.get(position);
 	}
 

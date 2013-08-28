@@ -44,7 +44,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.currentState.addLikedToSet(fromNodeId);
 		Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
 		if (Services.currentState.checkLikeMatch(fromNodeId)) {
-			Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().get(fromNodeId).getProfile().getNickname()));
+			Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().findNodeByNodeId(fromNodeId).getProfile().getNickname()));
 			Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId));
 		}
 		Services.notification.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId), fromNodeId);
@@ -52,8 +52,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
 	public void onChatMessageReceived(String fromNodeId, String message) {
-		Node node = Services.currentState.getSocialNodeMap().get(fromNodeId);
-		String nodeId = node.getId();
+		Node node = Services.currentState.getSocialNodeMap().findNodeByNodeId(fromNodeId);
 		BasicProfile otherProfile = (BasicProfile) node.getProfile();
 		String otherNickName = otherProfile.getNickname();
 		int otherAge = otherProfile.getAge();
@@ -62,7 +61,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
 		if (conversation == null || conversation.isEmpty())
-			conversation = new ChatConversationImpl(conversationId, otherNickName, otherAge, nodeId, otherProfile.getMainProfileImage().getImageBitmap());
+			conversation = new ChatConversationImpl(conversationId, otherNickName, otherAge, otherProfile.getMainProfileImage().getImageBitmap());
 		ChatMessage chatMessage = new ChatMessage(otherNickName, myProfile.getNickname(), message, false);
 		conversation.addMessage(chatMessage);
 		Services.businessLogic.storeConversation(conversation);

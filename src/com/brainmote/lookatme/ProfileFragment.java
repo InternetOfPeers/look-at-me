@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
 			public void onClick(View v) {
 				Services.businessLogic.sendLike(nodeId);
 				buttonLike.setEnabled(false);
-				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().get(nodeId).getProfile().getNickname(), Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().findNodeByNodeId(nodeId).getProfile().getNickname(), Toast.LENGTH_LONG).show();
 			}
 		});
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
@@ -73,8 +73,7 @@ public class ProfileFragment extends Fragment {
 				Bundle parameters = new Bundle();
 				parameters.putString(
 						Nav.CONVERSATION_KEY_ID,
-						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().get(nodeId).getProfile()
-								.getId()));
+						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(), Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId)));
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 		});

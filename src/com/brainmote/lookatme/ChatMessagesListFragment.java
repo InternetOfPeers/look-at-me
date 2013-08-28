@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
+import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.squareup.otto.Subscribe;
 
@@ -56,7 +57,8 @@ public class ChatMessagesListFragment extends Fragment {
 					// Verifico che il nodo a cui mandare il messaggio sia
 					// ancora attivo
 					if (Services.businessLogic.isConversationAlive(conversation)) {
-						String nodeId = conversation.getNodeId();
+						//String nodeId = conversation.getNodeId();
+						String nodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
 						// Invio il messaggio al nodo
 						Services.businessLogic.sendChatMessage(nodeId, text);
 						mInputEditText.getText().clear();
