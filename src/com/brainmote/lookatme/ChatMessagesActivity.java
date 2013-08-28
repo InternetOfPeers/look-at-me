@@ -36,7 +36,7 @@ public class ChatMessagesActivity extends CommonActivity {
 			break;
 		case R.id.action_view_profile:
 			String nodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(getConversation().getId()));
-			//String nodeId = getConversation().getNodeId();
+			// String nodeId = getConversation().getNodeId();
 			// Verifico che il nodo sia ancora disponibile
 			if (Services.businessLogic.isNodeConnected(nodeId)) {
 				Bundle parameters = new Bundle();

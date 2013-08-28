@@ -42,6 +42,4 @@ public interface BusinessLogicService {
 
 	boolean isConversationAlive(ChatConversation conversation);
 
-	boolean isAppInForeground();
-
 }

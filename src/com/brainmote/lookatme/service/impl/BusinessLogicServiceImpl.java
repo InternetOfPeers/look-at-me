@@ -208,16 +208,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public boolean isConversationAlive(ChatConversation conversation) {
-		//return communicationManager.requestActiveNodeList(conversation.getId()).contains(conversation.getNodeId());
-		// Recupero il node id a partire dal conversation id dal quale estraggo il profile id :)
-		String otherNodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
+		// Recupero il node id a partire dal conversation id dal quale estraggo
+		// il profile id :)
+		String profileId = CommonUtils.getProfileIdFromConversationId(conversation.getId());
+		String otherNodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(profileId);
 		return communicationManager.requestActiveNodeList(conversation.getId()).contains(otherNodeId);
 	}
-
-	@Override
-	public boolean isAppInForeground() {
-		// TODO
-		return false;
-	}
-
 }

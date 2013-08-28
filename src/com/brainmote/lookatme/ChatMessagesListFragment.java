@@ -54,10 +54,12 @@ public class ChatMessagesListFragment extends Fragment {
 			public void onClick(View v) {
 				String text = mInputEditText.getText().toString();
 				if (text != null && !text.isEmpty()) {
+					// Verifico di essere agganciato al canale di questa chat
+					// TODO
 					// Verifico che il nodo a cui mandare il messaggio sia
 					// ancora attivo
 					if (Services.businessLogic.isConversationAlive(conversation)) {
-						//String nodeId = conversation.getNodeId();
+						// String nodeId = conversation.getNodeId();
 						String nodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
 						// Invio il messaggio al nodo
 						Services.businessLogic.sendChatMessage(nodeId, text);

@@ -232,20 +232,14 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					communicationListener.onBasicProfileNodeReceived(updatedNode);
 					break;
 				case START_CHAT_MESSAGE:
+					Log.d("Ricevuta richiesta di start chat");
 					String myId = Services.currentState.getMyBasicProfile().getId();
 					if (Services.currentState.getSocialNodeMap().containsNode(senderNodeId)) {
 						String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(senderNodeId);
 						String chatChannelName = CommonUtils.getConversationId(myId, profileId);
 						joinChatChannel(chatChannelName);
-					}
-//					Node nodeTo = Services.currentState.getSocialNodeMap().get(senderNodeId);
-//					if (nodeTo != null) {
-//						String profileId = Services.currentState.getSocialNodeMap().get(senderNodeId).getProfile().getId();
-//						String chatChannelName = CommonUtils.getConversationId(myId, profileId);
-//						joinChatChannel(chatChannelName);
-//					} 
-					else {
-						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
+					} else {
+						Log.d("PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
 					}
 					break;
 				case LIKE:

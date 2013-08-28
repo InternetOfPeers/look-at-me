@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +16,6 @@ import android.os.Build;
 import android.os.PowerManager;
 
 import com.brainmote.lookatme.R;
-import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.enumattribute.Country;
 import com.brainmote.lookatme.enumattribute.Gender;
 import com.brainmote.lookatme.service.Services;
@@ -53,7 +50,7 @@ public class CommonUtils {
 		else
 			return otherProfileId + "_" + myId;
 	}
-	
+
 	public static String getProfileIdFromConversationId(String conversationId) {
 		String[] nodes = conversationId.split("_");
 		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
@@ -61,26 +58,6 @@ public class CommonUtils {
 		else
 			return nodes[1];
 	}
-
-//	public static Node getNodeFromConversationId(String conversationId) {
-//		String[] nodes = conversationId.split("_");
-//		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
-//			return getNodeFromProfileId(nodes[0]);
-//		else
-//			return getNodeFromProfileId(nodes[1]);
-//	}
-
-//	public static Node getNodeFromProfileId(String profileId) {
-//		Collection<Node> nodeJoined = Services.currentState.getSocialNodeMap().values();
-//		Iterator<Node> iter = nodeJoined.iterator();
-//		while (iter.hasNext()) {
-//			Node tempNode = iter.next();
-//			if (tempNode.getProfile().getId().equalsIgnoreCase(profileId))
-//				return tempNode;
-//		}
-//		Log.d("getNodeFromProfileId profile not found!profileId: " + profileId);
-//		return null;
-//	}
 
 	/**
 	 * Get a diff between two dates
