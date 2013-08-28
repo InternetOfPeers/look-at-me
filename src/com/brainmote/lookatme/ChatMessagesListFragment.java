@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.squareup.otto.Subscribe;
 
@@ -37,6 +36,8 @@ public class ChatMessagesListFragment extends Fragment {
 			activity.showDialog(getActivity().getString(R.string.chat_messages_dialog_error_title), getActivity().getString(R.string.message_no_conversation_with_that_id));
 			return view;
 		}
+		// TODO Aggiorno i dati della conversation
+
 		// Imposto il title dell'activity con il nome e l'età della persona con
 		// cui sto chattando
 		String age = conversation.getAge() > 0 ? ", " + String.valueOf(conversation.getAge()) : "";
@@ -54,15 +55,7 @@ public class ChatMessagesListFragment extends Fragment {
 			public void onClick(View v) {
 				String text = mInputEditText.getText().toString();
 				if (text != null && !text.isEmpty()) {
-					// Verifico di essere agganciato al canale di questa chat
-					// TODO
-					// Verifico che il nodo a cui mandare il messaggio sia
-					// ancora attivo
-					if (Services.businessLogic.isConversationAlive(conversation)) {
-						// String nodeId = conversation.getNodeId();
-						String nodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
-						// Invio il messaggio al nodo
-						Services.businessLogic.sendChatMessage(nodeId, text);
+					if (Services.businessLogic.sendChatMessage(conversation, text)) {
 						mInputEditText.getText().clear();
 						ChatMessagesListFragment.this.refreshFragment();
 						scrollMyListViewToBottom();
@@ -79,14 +72,14 @@ public class ChatMessagesListFragment extends Fragment {
 		return view;
 	}
 
+	private void updateConversation(ChatConversation conversation) {
+		// TODO Auto-generated method stub
+
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d();
 		super.onActivityCreated(savedInstanceState);
-		// TODO questo refresh può crashare perchè chatMessagesListAdapter
-		// potrebbe essere ancora null. Non è detto che alla ricreazione
-		// dell'activity sia corrisposta già la ricreazione della view
-		// (onViewCreted) e quindi chatMessagesListAdapter potrebbe essere null.
 		refreshFragment();
 	}
 

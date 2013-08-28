@@ -24,8 +24,6 @@ public interface BusinessLogicService {
 
 	void refreshSocialList();
 
-	boolean sendChatMessage(String nodeTo, String message);
-
 	void notifyMyProfileIsUpdated();
 
 	Set<Interest> getFullInterestList();
@@ -38,8 +36,19 @@ public interface BusinessLogicService {
 
 	boolean isMyProfileComplete();
 
-	boolean isNodeConnected(String nodeId);
+	boolean isNodeAlive(String nodeId);
 
-	boolean isConversationAlive(ChatConversation conversation);
+	/**
+	 * Invia un messaggio di testo all'interno del contesto della conversazione
+	 * passata
+	 * 
+	 * @param conversation
+	 *            La conversazione di riferimento a cui mandare il messaggio
+	 * @param messageText
+	 *            Il testo del messaggio da inviare
+	 * @return Restituisce true se il messaggio è stato correttamente inviato,
+	 *         false in caso contrario
+	 */
+	boolean sendChatMessage(ChatConversation conversation, String messageText);
 
 }

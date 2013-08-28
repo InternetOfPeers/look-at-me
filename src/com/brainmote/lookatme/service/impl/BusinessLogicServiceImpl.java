@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.brainmote.lookatme.ChatConversation;
+import com.brainmote.lookatme.bean.ChatMessage;
 import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.chord.CommunicationManager;
 import com.brainmote.lookatme.chord.CustomException;
@@ -153,16 +154,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public void refreshSocialList() {
 		// DEBUG: Elenco attuale dei nodi
-		for (String node : communicationManager.requestActiveNodeList()) {
+		for (String node : communicationManager.getActiveNodeList()) {
 			Log.d("nodo attivo " + node);
 		}
 
 		communicationManager.requestAllProfiles();
-	}
-
-	@Override
-	public boolean sendChatMessage(String toNode, String message) {
-		return communicationManager.sendChatMessage(toNode, message);
 	}
 
 	@Override
@@ -202,16 +198,28 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	@Override
-	public boolean isNodeConnected(String nodeId) {
-		return communicationManager.requestActiveNodeList().contains(nodeId);
+	public boolean isNodeAlive(String nodeId) {
+		return communicationManager.getActiveNodeList().contains(nodeId);
 	}
 
 	@Override
-	public boolean isConversationAlive(ChatConversation conversation) {
-		// Recupero il node id a partire dal conversation id dal quale estraggo
-		// il profile id :)
-		String profileId = CommonUtils.getProfileIdFromConversationId(conversation.getId());
-		String otherNodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(profileId);
-		return communicationManager.requestActiveNodeList(conversation.getId()).contains(otherNodeId);
+	public boolean sendChatMessage(ChatConversation conversation, String messageText) {
+		// Verifico che alla conversazione corrisponda un nodo che conosco e che
+		// sia inserito nella mappa
+		String toNode = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
+		if (toNode == null)
+			return false;
+		// Verifico che il nodo sia tutt'ora attivo
+		if (!isNodeAlive(toNode))
+			return false;
+		// Tento l'invio il messaggio
+		if (communicationManager.sendChatMessage(conversation.getId(), toNode, messageText)) {
+			// Aggiorno la conversation e la memorizzo
+			Services.businessLogic.storeConversation(conversation.addMessage(new ChatMessage(messageText, true)));
+			return true;
+		}
+		return false;
+
 	}
+
 }

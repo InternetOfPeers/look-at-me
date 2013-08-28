@@ -19,7 +19,7 @@ public interface CommunicationManager {
 
 	boolean notifyMyProfileIsUpdated();
 
-	boolean sendChatMessage(String toNodeId, String message);
+	boolean sendChatMessage(String privateChannelId, String toNodeId, String message);
 
 	boolean startChat(String toNodeId);
 
@@ -27,8 +27,8 @@ public interface CommunicationManager {
 
 	boolean sendFullProfileResponse(String toNodeId);
 
-	List<String> requestActiveNodeList();
+	List<String> getActiveNodeList();
 
-	List<String> requestActiveNodeList(String channelId);
+	List<String> getActiveNodeListInChannel(String channelId);
 
 }

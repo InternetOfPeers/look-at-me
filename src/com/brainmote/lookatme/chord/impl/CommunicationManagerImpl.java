@@ -10,7 +10,6 @@ import android.os.Looper;
 import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatConversationImpl;
-import com.brainmote.lookatme.bean.ChatMessage;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Profile;
 import com.brainmote.lookatme.chord.ChordErrorManager;
@@ -392,7 +391,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	private Message obtainMyProfileMessage(Profile myProfile, MessageType type, String receiverNodeName) {
-		Log.d();
 		Message message = new Message(type);
 		message.setSenderNodeName(chord.getName());
 		message.setReceiverNodeName(receiverNodeName); // this maybe null
@@ -417,10 +415,9 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean startChat(String toNode) {
-		Log.d();
+	public boolean startChat(String withNode) {
 		String myProfileId = Services.currentState.getMyBasicProfile().getId();
-		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().findNodeByNodeId(toNode).getProfile();
+		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().findNodeByNodeId(withNode).getProfile();
 		String otherProfileId = otherProfile.getId();
 		String conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
@@ -438,53 +435,44 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			chatChannel = joinChatChannel(conversationId);
 		}
 		// Manda all'utente un messaggio affinchè si agganci automaticamente
-		// al
-		// canale per chattare
-		return socialChannel.sendData(toNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
+		// al canale per chattare
+		return socialChannel.sendData(withNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
 	@Override
-	public boolean sendChatMessage(String toNode, String text) {
-		Log.d();
-		// Preparo la conversation ed il messaggio
-		Profile myProfile = Services.currentState.getMyBasicProfile();
-
-		// TODO QUI VA IN NULLPOINTER EXCEPTION DOPO UN TEMPO DI INUTILIZZO
-		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().findNodeByNodeId(toNode).getProfile();
-
-		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfile.getId());
-		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
-		// Per sicurezza effetto questo controllo. ATTENZIONE: se entra nell'if
-		// significa che il join viene fatto in questo momento, e che quindi il
-		// messaggio che stiamo mandando proprio ora non verrà ricevuto
-		// perchè chord non fa in tempo a recepire i nodi presenti nel channel,
-		// e
-		// quindi considera inesistente il nodo al quale stiamo mandando questo
-		// messaggio. Serve quindi trovare un'altro modo per gestire questa
-		// eventualità
-		if (chatChannel == null) {
-			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId + ", riprovo ora ma il nodo non ricever� il messaggio attuale: \""
-					+ text + "\"");
-			chatChannel = joinChatChannel(conversationId);
+	public boolean sendChatMessage(String privateChannelId, String toNode, String text) {
+		IChordChannel privateChannel = chord.getJoinedChannel(privateChannelId);
+		if (privateChannel == null) {
+			// ATTENZIONE: se entra nell'if significa che il join viene fatto in
+			// questo momento, e che quindi il messaggio che stiamo mandando
+			// proprio ora non verrà ricevuto perchè chord non fa in tempo a
+			// recepire i nodi presenti nel channel, e quindi considera
+			// inesistente il nodo al quale stiamo mandando questo messaggio.
+			// Serve quindi trovare un'altro modo per gestire questa eventualità
+			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + privateChannelId
+					+ ", riprovo ora ma l'altro nodo non riceverà il messaggio attuale: \"" + text + "\"");
+			if (!startChat(toNode)) {
+				Log.e("Fallita la richiesta di ripresa della chat con il nodo " + toNode);
+				return false;
+			}
 		}
-		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
-		conversation.addMessage(new ChatMessage(myProfile.getNickname(), otherProfile.getNickname(), text, true));
-		// Memorizzo la conversation ed invio il messaggio
-		Services.businessLogic.storeConversation(conversation);
-		// Preparo il messaggio chord
+		// Preparo il messaggio chord da inviare
 		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(toNode);
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
-		return chatChannel.sendData(toNode, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
-
+		return privateChannel.sendData(toNode, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 	}
 
 	/**
+	 * Restituisce l'elenco dei nodi attualmente connessi al canale specificato
 	 * 
+	 * @param channelId
+	 * @return Restituisce l'elenco dei nodi attualmente connessi al canale
+	 *         specificato
 	 */
 	@Override
-	public List<String> requestActiveNodeList(String channelId) {
+	public List<String> getActiveNodeListInChannel(String channelId) {
 		IChordChannel channel = chord.getJoinedChannel(channelId);
 		if (channel == null)
 			return new ArrayList<String>();
@@ -492,11 +480,13 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	/**
+	 * Restituisce l'elenco di tutti gli utenti che sono connessi al canale
+	 * principale
 	 * 
 	 */
 	@Override
-	public List<String> requestActiveNodeList() {
-		return requestActiveNodeList(AppSettings.SOCIAL_CHANNEL_NAME);
+	public List<String> getActiveNodeList() {
+		return getActiveNodeListInChannel(AppSettings.SOCIAL_CHANNEL_NAME);
 	}
 
 }

@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment {
 		} else {
 			// Controllo se il nodo è ancora presente
 			final CommonActivity activity = (CommonActivity) getActivity();
-			if (Services.businessLogic.isNodeConnected(nodeId)) {
+			if (Services.businessLogic.isNodeAlive(nodeId)) {
 				// invio la richiesta di full profile
 				Services.businessLogic.requestFullProfile(nodeId);
 				// apro un dialog di attesa se trascorre troppo tempo dalla

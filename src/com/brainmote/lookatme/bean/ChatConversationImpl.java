@@ -61,9 +61,10 @@ public class ChatConversationImpl implements ChatConversation {
 	}
 
 	@Override
-	public void addMessage(ChatMessage message) {
+	public ChatConversation addMessage(ChatMessage message) {
 		chatMessagesList.add(message);
 		lastMessageTimestamp = message.getTimestamp();
+		return this;
 	}
 
 	@Override

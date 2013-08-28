@@ -22,7 +22,7 @@ public interface ChatConversation {
 
 	int size();
 
-	void addMessage(ChatMessage message);
+	ChatConversation addMessage(ChatMessage message);
 
 	boolean isEmpty();
 

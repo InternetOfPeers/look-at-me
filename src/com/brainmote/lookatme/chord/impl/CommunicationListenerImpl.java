@@ -62,7 +62,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
 		if (conversation == null || conversation.isEmpty())
 			conversation = new ChatConversationImpl(conversationId, otherNickName, otherAge, otherProfile.getMainProfileImage().getImageBitmap());
-		ChatMessage chatMessage = new ChatMessage(otherNickName, myProfile.getNickname(), message, false);
+		ChatMessage chatMessage = new ChatMessage(message, false);
 		conversation.addMessage(chatMessage);
 		Services.businessLogic.storeConversation(conversation);
 		Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, otherNickName));

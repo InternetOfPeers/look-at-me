@@ -582,8 +582,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	private void saveMessage(long conversationID, ChatMessage chatMessage) {
 		try {
 			ContentValues contentValues = new ContentValues();
-			contentValues.put(TABLE_MESSAGES_COLUMN_FROM_NICKNAME, chatMessage.getFromNickname());
-			contentValues.put(TABLE_MESSAGES_COLUMN_TO_NICKNAME, chatMessage.getToNickname());
+			contentValues.put(TABLE_MESSAGES_COLUMN_FROM_NICKNAME, "REMOVED - NOT USED ANYMORE");
+			contentValues.put(TABLE_MESSAGES_COLUMN_TO_NICKNAME, "REMOVED - NOT USED ANYMORE");
 			contentValues.put(TABLE_MESSAGES_COLUMN_CONVERSATION_ID, conversationID);
 			contentValues.put(TABLE_MESSAGES_COLUMN_DATA, chatMessage.getText());
 			contentValues.put(TABLE_MESSAGES_COLUMN_IS_MINE, chatMessage.isMine());
@@ -612,9 +612,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			if (cursor.moveToFirst()) {
 				do {
-					ChatMessage chat = new ChatMessage(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_FROM_NICKNAME)), cursor.getString(cursor
-							.getColumnIndex(TABLE_MESSAGES_COLUMN_TO_NICKNAME)), cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_DATA)),
-							Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_IS_MINE))));
+					ChatMessage chat = new ChatMessage(cursor.getString(cursor.getColumnIndex(TABLE_MESSAGES_COLUMN_DATA)), Boolean.parseBoolean(cursor.getString(cursor
+							.getColumnIndex(TABLE_MESSAGES_COLUMN_IS_MINE))));
 					messageList.add(chat);
 
 				} while (cursor.moveToNext());
