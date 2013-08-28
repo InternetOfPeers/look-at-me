@@ -70,11 +70,11 @@ public interface DBOpenHelper {
 	public static final String TABLE_MESSAGES_COLUMN_IS_MINE = "is_mine";
 	
 	public static final String TABLE_LIKE = "like_tb";
-	public static final String TABLE_LIKE_COLUMN_PROFILE_ID = "profile_id";
+	public static final String TABLE_LIKE_COLUMN_PROFILE_ID = "like_profile_id";
 	public static final String TABLE_LIKE_COLUMN_COUNT_ALIAS = "like_count";
 	
 	public static final String TABLE_VISIT = "visit_tb";
-	public static final String TABLE_VISIT_COLUMN_PROFILE_ID = "profile_id";
+	public static final String TABLE_VISIT_COLUMN_PROFILE_ID = "visit_profile_id";
 	public static final String TABLE_VISIT_COLUMN_COUNT_ALIAS = "visit_count";
 
 	public SQLiteDatabase getWritableDatabase();
