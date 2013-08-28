@@ -19,7 +19,6 @@ import com.brainmote.lookatme.chord.impl.CommunicationManagerImpl;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.BusinessLogicService;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.FakeUser;
 import com.brainmote.lookatme.util.FakeUserImpl;
 import com.brainmote.lookatme.util.Log;
@@ -153,11 +152,6 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public void refreshSocialList() {
-		// DEBUG: Elenco attuale dei nodi
-		for (String node : communicationManager.getActiveNodeList()) {
-			Log.d("nodo attivo " + node);
-		}
-
 		communicationManager.requestAllProfiles();
 	}
 
@@ -199,27 +193,32 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public boolean isNodeAlive(String nodeId) {
-		return communicationManager.getActiveNodeList().contains(nodeId);
+		return communicationManager.isNodeAlive(nodeId);
 	}
 
 	@Override
 	public boolean sendChatMessage(ChatConversation conversation, String messageText) {
 		// Verifico che alla conversazione corrisponda un nodo che conosco e che
 		// sia inserito nella mappa
-		String toNode = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
+		String toNode = communicationManager.getNodeIdFromConversation(conversation);
 		if (toNode == null)
 			return false;
 		// Verifico che il nodo sia tutt'ora attivo
 		if (!isNodeAlive(toNode))
 			return false;
 		// Tento l'invio il messaggio
-		if (communicationManager.sendChatMessage(conversation.getId(), toNode, messageText)) {
+		if (communicationManager.sendChatMessage(conversation, messageText)) {
 			// Aggiorno la conversation e la memorizzo
 			Services.businessLogic.storeConversation(conversation.addMessage(new ChatMessage(messageText, true)));
 			return true;
 		}
 		return false;
 
+	}
+
+	@Override
+	public void joinConversation(ChatConversation conversation) {
+		communicationManager.checkAndJoinChatConversation(conversation);
 	}
 
 }

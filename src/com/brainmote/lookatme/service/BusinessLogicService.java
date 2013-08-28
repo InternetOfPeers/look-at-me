@@ -51,4 +51,13 @@ public interface BusinessLogicService {
 	 */
 	boolean sendChatMessage(ChatConversation conversation, String messageText);
 
+	/**
+	 * Effettua tutte le operazioni del caso per far entrare l'utente nella
+	 * conversazione corrispondente
+	 * 
+	 * @param conversation
+	 *            La conversazione alla quale l'utente vuole partecipare
+	 */
+	void joinConversation(ChatConversation conversation);
+
 }

@@ -1,8 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <item
         android:id="@+id/action_force_refresh"
-        android:icon="@drawable/ic_social_person"
+        android:icon="@drawable/ic_navigation_refresh"
         android:orderInCategory="100"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_force_refresh"/>
+
 </menu>

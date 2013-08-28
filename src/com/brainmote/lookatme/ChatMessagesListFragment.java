@@ -36,6 +36,9 @@ public class ChatMessagesListFragment extends Fragment {
 			activity.showDialog(getActivity().getString(R.string.chat_messages_dialog_error_title), getActivity().getString(R.string.message_no_conversation_with_that_id));
 			return view;
 		}
+		// Mi assicuro che l'utente si connetta al canale privato della
+		// conversazione
+		Services.businessLogic.joinConversation(conversation);
 		// TODO Aggiorno i dati della conversation
 
 		// Imposto il title dell'activity con il nome e l'età della persona con
@@ -67,7 +70,6 @@ public class ChatMessagesListFragment extends Fragment {
 					}
 				}
 			}
-
 		});
 		return view;
 	}

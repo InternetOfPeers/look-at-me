@@ -440,37 +440,55 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean sendChatMessage(String privateChannelId, String toNode, String text) {
-		IChordChannel privateChannel = chord.getJoinedChannel(privateChannelId);
-		if (privateChannel == null) {
-			// ATTENZIONE: se entra nell'if significa che il join viene fatto in
-			// questo momento, e che quindi il messaggio che stiamo mandando
-			// proprio ora non verrà ricevuto perchè chord non fa in tempo a
-			// recepire i nodi presenti nel channel, e quindi considera
-			// inesistente il nodo al quale stiamo mandando questo messaggio.
-			// Serve quindi trovare un'altro modo per gestire questa eventualità
-			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + privateChannelId
-					+ ", riprovo ora ma l'altro nodo non riceverà il messaggio attuale: \"" + text + "\"");
-			if (!startChat(toNode)) {
-				Log.e("Fallita la richiesta di ripresa della chat con il nodo " + toNode);
-				return false;
-			}
+	public boolean sendChatMessage(ChatConversation conversation, String text) {
+		// Verifico lo stato della conversazione corrente
+		if (!checkAndJoinChatConversation(conversation)) {
+			return false;
 		}
+		IChordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
+		String toNodeId = getNodeIdFromConversation(conversation);
 		// Preparo il messaggio chord da inviare
 		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
-		chordMessage.setReceiverNodeName(toNode);
+		chordMessage.setReceiverNodeName(toNodeId);
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
-		return privateChannel.sendData(toNode, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
+		return privateChannel.sendData(toNodeId, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 	}
 
-	/**
-	 * Restituisce l'elenco dei nodi attualmente connessi al canale specificato
-	 * 
-	 * @param channelId
-	 * @return Restituisce l'elenco dei nodi attualmente connessi al canale
-	 *         specificato
-	 */
+	@Override
+	public boolean checkAndJoinChatConversation(ChatConversation conversation) {
+		boolean chatConversationReady = true;
+		String toNodeId = getNodeIdFromConversation(conversation);
+		// Verifico che l'utente con il quale voglio parlare esista
+		if (isNodeAlive(toNodeId)) {
+			// Verifico di essere connesso al canale privato della chat
+			IChordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
+			if (privateChannel == null) {
+				Log.w("Non sono in join nel canale privato " + conversation.getId() + ", rieseguo una richiesta di chat.");
+				startChat(toNodeId);
+				chatConversationReady = false;
+			}
+			// Se esiste verifico che sia correttamente in join sul canale
+			if (!getActiveNodeListInChannel(conversation.getId()).contains(toNodeId)) {
+				Log.w("Il nodo " + toNodeId + " con cui voglio parlare non è connesso al canale privato " + conversation.getId() + ", mando un invito al join");
+				startChat(toNodeId);
+				chatConversationReady = false;
+			}
+		}
+		// Restituisce lo stato della conversazione
+		return chatConversationReady;
+	}
+
+	@Override
+	public String getNodeIdFromConversation(ChatConversation conversation) {
+		return Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
+	}
+
+	@Override
+	public boolean isNodeAlive(String nodeId) {
+		return getActiveNodeList().contains(nodeId);
+	}
+
 	@Override
 	public List<String> getActiveNodeListInChannel(String channelId) {
 		IChordChannel channel = chord.getJoinedChannel(channelId);
@@ -479,14 +497,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		return channel.getJoinedNodeList();
 	}
 
-	/**
-	 * Restituisce l'elenco di tutti gli utenti che sono connessi al canale
-	 * principale
-	 * 
-	 */
 	@Override
 	public List<String> getActiveNodeList() {
 		return getActiveNodeListInChannel(AppSettings.SOCIAL_CHANNEL_NAME);
 	}
-
 }
