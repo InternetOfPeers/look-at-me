@@ -27,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 	@Override
 	public void chatMessage(Context context, String fromName, String fromNodeId, String message, String conversationId) {
-		String title = "Messagge from " + fromName;
+		String title = "New messagge from " + fromName;
 		notifyMessage(context, ChatMessagesActivity.class, CHAT_ID, title, message, fromNodeId, conversationId);
 	}
 
@@ -96,15 +96,21 @@ public class NotificationServiceImpl implements NotificationService {
 
 	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message, String fromNodeId,
 			String conversationId) {
-		// Verifica lo stato dell'applicazione (standby o attualmente
-		// utilizzata) e si comporta di conseguenza
-		// TODO Considerare anche che se il monitor è spento andrebbe comunque
-		// inviata la notifica come se l'app fosse in background, perchè
-		// effettivamente l'utente non la può vedere
-		if (CommonUtils.isMyActivityInForeground(context)) {
-			// Mostro un toast che notifica l'evento
-			// TODO NON mostrare il toast se sono nella chat vera e propria
-			Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+		// Verifica lo stato dell'applicazione, standby o attualmente
+		// utilizzata, monitor on o off, e si comporta di conseguenza
+		if (CommonUtils.isApplicationInForeground(context) && CommonUtils.isScreenOn(context)) {
+			// Modifico il messaggio se la notifica è di chat
+			if (notificationID == CHAT_ID)
+				message = title;
+			// Verifica il tipo di notifica: se è di tipo chat e l'utente è
+			// nella chat activity, non mostra il toase
+			if (notificationID == CHAT_ID && CommonUtils.getForegroundActivityClassName(context).equals(ChatMessagesActivity.class.getCanonicalName())) {
+				// TODO Eseguo un suono discreto di default, non quello di
+				// notifica normale
+			} else {
+				// Mostro un toast
+				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+			}
 		} else {
 			// Creo una notifica di sistema
 			// Aumenta il counter per il tipo di notifica selezionato

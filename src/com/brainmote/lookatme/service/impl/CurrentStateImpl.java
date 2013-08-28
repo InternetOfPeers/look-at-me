@@ -56,6 +56,9 @@ public class CurrentStateImpl implements CurrentState {
 	@Override
 	public void putSocialNodeInMap(Node node) {
 		socialNodeMap.put(node.getId(), node);
+		// TODO Devo verificare che se è già presente una conversazione con
+		// l'utente, nel qual caso serve aggiornare la Conversation con il nuovo
+		// nodeId
 	}
 
 	@Override

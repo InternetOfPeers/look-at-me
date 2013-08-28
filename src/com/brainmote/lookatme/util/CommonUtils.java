@@ -15,6 +15,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.os.Build;
+import android.os.PowerManager;
 
 import com.brainmote.lookatme.R;
 import com.brainmote.lookatme.chord.Node;
@@ -132,9 +133,26 @@ public class CommonUtils {
 		}
 	}
 
-	public static boolean isMyActivityInForeground(Context context) {
-		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		List<RunningTaskInfo> services = activityManager.getRunningTasks(Integer.MAX_VALUE);
-		return services.get(0).topActivity.getPackageName().toString().equalsIgnoreCase(context.getPackageName().toString());
+	public static boolean isApplicationInForeground(Context context) {
+		return getForegroundActivityPackageName(context).equalsIgnoreCase(context.getPackageName().toString());
 	}
+
+	public static boolean isScreenOn(Context context) {
+		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+		return pm.isScreenOn();
+	}
+
+	public static String getForegroundActivityPackageName(Context context) {
+		return getApplicationServices(context).get(0).topActivity.getPackageName().toString();
+	}
+
+	public static String getForegroundActivityClassName(Context context) {
+		return getApplicationServices(context).get(0).topActivity.getClassName();
+	}
+
+	private static List<RunningTaskInfo> getApplicationServices(Context context) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		return activityManager.getRunningTasks(Integer.MAX_VALUE);
+	}
+
 }
