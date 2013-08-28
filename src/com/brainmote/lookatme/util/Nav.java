@@ -9,6 +9,7 @@ import com.brainmote.lookatme.EditProfileActivity;
 import com.brainmote.lookatme.HelpActivity;
 import com.brainmote.lookatme.NearbyActivity;
 import com.brainmote.lookatme.SettingsActivity;
+import com.brainmote.lookatme.StatisticsActivity;
 import com.google.common.collect.HashBiMap;
 
 /**
@@ -32,6 +33,7 @@ public class Nav {
 		map.put(ChatConversationsActivity.class, 2);
 		map.put(SettingsActivity.class, 3);
 		map.put(HelpActivity.class, 4);
+		map.put(StatisticsActivity.class, 5);
 	}
 
 	/**

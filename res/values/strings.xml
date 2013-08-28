@@ -13,6 +13,7 @@
     <string name="title_settings_activity">Settings</string>
     <string name="title_feelings_activity">Feelings</string>
     <string name="title_chat_activity">Chat</string>
+    <string name="title_statistics_activity">Statistics</string>
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="gender_transgender">Transgender</string>
@@ -49,6 +50,7 @@
         <item>Conversations</item>
         <item>Settings</item>
         <item>Help</item>
+        <item>Statistics</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

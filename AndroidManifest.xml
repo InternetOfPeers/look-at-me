@@ -99,6 +99,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NearbyActivity" />
         </activity>
+        <activity
+            android:name=".StatisticsActivity"
+            android:label="@string/title_statistics_activity"
+            android:parentActivityName=".NearbyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NearbyActivity" />
+        </activity>
         <service
             android:name="com.brainmote.lookatme.service.impl.BusinessLogicServiceImpl"
             android:enabled="true"
