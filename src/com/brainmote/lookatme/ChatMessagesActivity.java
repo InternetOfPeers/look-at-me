@@ -28,7 +28,7 @@ public class ChatMessagesActivity extends CommonActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Verifica quale elemento è stato premunto
+		// Verifica quale elemento è stato premuto
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();

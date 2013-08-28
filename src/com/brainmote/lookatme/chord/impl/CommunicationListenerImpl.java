@@ -10,7 +10,6 @@ import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.EventType;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
-import com.brainmote.lookatme.util.Log;
 
 public class CommunicationListenerImpl implements CommunicationListener {
 
@@ -24,33 +23,24 @@ public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
 	public void onBasicProfileNodeReceived(Node node) {
-		Log.d();
 		Services.currentState.putSocialNodeInMap(node);
 		Services.event.post(new Event(EventType.NODE_JOINED, node.getId()));
 	}
 
 	@Override
 	public void onFullProfileNodeReceived(Node node) {
-		Log.d();
 		Services.currentState.setProfileViewed(node);
 		Services.event.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
 	}
 
 	@Override
 	public void onNodeLeft(String nodeId) {
-		Log.d();
 		Services.currentState.removeSocialNodeFromMap(nodeId);
 		Services.event.post(new Event(EventType.NODE_LEFT, nodeId));
 	}
 
 	@Override
-	public void onProfileNodeUpdated(Node node) {
-		Log.d();
-	}
-
-	@Override
 	public void onLikeReceived(String fromNodeId) {
-		Log.d();
 		Services.currentState.addLikedToSet(fromNodeId);
 		Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
 		if (Services.currentState.checkLikeMatch(fromNodeId)) {
@@ -62,7 +52,6 @@ public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
 	public void onChatMessageReceived(String fromNodeId, String message) {
-		Log.d("node " + fromNodeId + " says: " + message);
 		Node node = Services.currentState.getSocialNodeMap().get(fromNodeId);
 		String nodeId = node.getId();
 		BasicProfile otherProfile = (BasicProfile) node.getProfile();

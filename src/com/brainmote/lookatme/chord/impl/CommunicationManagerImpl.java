@@ -77,7 +77,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		for (IChordChannel channel : chord.getJoinedChannelList()) {
 			joinedChannelName.add(channel.getName());
 		}
-		// Da capire perch� ritorna sempre il messaggio:
+		// Da capire perchè ritorna sempre il messaggio:
 		// "can't find channel (com.brainmote.lookatme.SOCIAL_CHANNEL)"
 		for (String channelName : joinedChannelName) {
 			Log.d("leaving channel " + channelName);
@@ -152,9 +152,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			@Override
 			public void onNodeJoined(String arg0, String arg1) {
 				Log.d("joinSocialChannel");
-				// send a preview profile request silently
-				sendBasicProfileRequest(arg0);
-				// it will be notified after receive his profile
+				// Mando a tutti una richiesta di aggiornamento del profile
+				Services.businessLogic.refreshSocialList();
 			}
 
 			@Override
@@ -188,61 +187,64 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			}
 
 			@Override
-			public void onDataReceived(String arg0, String arg1, String arg2, byte[][] arg3) {
+			public void onDataReceived(String senderNodeId, String arg1, String arg2, byte[][] arg3) {
 				Log.d("joinSocialChannel");
 				// here can be received profiles, previews, etc.
 				MessageType messageType = MessageType.valueOf(arg2);
 				byte[] chordMessageByte = arg3[0];
 				Message message = null;
 				if (chordMessageByte != null && chordMessageByte.length > 0) {
-					message = Message.obtainChordMessage(chordMessageByte, arg0);
+					message = Message.obtainChordMessage(chordMessageByte, senderNodeId);
 				}
 				switch (messageType) {
 				case BASIC_PROFILE_REQUEST:
-					// send my basic profile to arg0 node only if exists
+					Log.d("Qualcuno ha chiesto il mio profilo...");
+					// Mando il mio profilo solamente se già completo
 					if (Services.currentState.getMyBasicProfile() != null) {
-						sendBasicProfileResponse(arg0);
+						sendBasicProfileResponse(senderNodeId);
 					}
 					break;
 				case BASIC_PROFILE:
+					Log.d("Ho ricevuto un basic profile dal nodo " + senderNodeId);
 					BasicProfile basicProfile = (BasicProfile) message.getObject(MessageType.BASIC_PROFILE.toString());
 					Node basicNode = new Node();
-					basicNode.setId(arg0);
+					basicNode.setId(senderNodeId);
 					basicNode.setProfile(basicProfile);
 					communicationListener.onBasicProfileNodeReceived(basicNode);
 					break;
 				case FULL_PROFILE_REQUEST:
 					// send my full profile to arg0 node
-					sendFullProfileResponse(arg0);
+					sendFullProfileResponse(senderNodeId);
 					break;
 				case FULL_PROFILE:
 					FullProfile fullProfile = (FullProfile) message.getObject(MessageType.FULL_PROFILE.toString());
 					Node fullNode = new Node();
-					fullNode.setId(arg0);
+					fullNode.setId(senderNodeId);
 					fullNode.setProfile(fullProfile);
 					communicationListener.onFullProfileNodeReceived(fullNode);
 					break;
 				case PROFILE_UPDATE:
+					Log.d("Ho ricevuto l'aggiornamento di un profilo");
 					BasicProfile updatedProfile = (BasicProfile) message.getObject(MessageType.PROFILE_UPDATE.toString());
 					Node updatedNode = new Node();
-					updatedNode.setId(arg0);
+					updatedNode.setId(senderNodeId);
 					updatedNode.setProfile(updatedProfile);
 					communicationListener.onBasicProfileNodeReceived(updatedNode);
 					break;
 				case START_CHAT_MESSAGE:
 					String myId = Services.currentState.getMyBasicProfile().getId();
-					Node nodeTo = Services.currentState.getSocialNodeMap().get(arg0);
+					Node nodeTo = Services.currentState.getSocialNodeMap().get(senderNodeId);
 					if (nodeTo != null) {
-						String profileId = Services.currentState.getSocialNodeMap().get(arg0).getProfile().getId();
+						String profileId = Services.currentState.getSocialNodeMap().get(senderNodeId).getProfile().getId();
 						String chatChannelName = CommonUtils.getConversationId(myId, profileId);
 						joinChatChannel(chatChannelName);
 					} else {
 						android.util.Log.d("START CHAT MESSAGE", "PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
 					}
-
 					break;
 				case LIKE:
-					communicationListener.onLikeReceived(arg0);
+					Log.d("Ho ricevuto un like");
+					communicationListener.onLikeReceived(senderNodeId);
 					break;
 				default:
 					break;
@@ -354,19 +356,10 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean requestAllProfiles() {
-		Log.d();
-		if (isSocialChannelReady()) {
-			List<String> socialNodeList = socialChannel.getJoinedNodeList();
-			Log.d("there are " + socialNodeList.size() + " nodes joined to social channel");
-			return socialChannel.sendDataToAll(MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
-		} else
-			return false;
-	}
-
-	private boolean isSocialChannelReady() {
-		Log.d();
-		return socialChannel != null;
+	public void requestAllProfiles() {
+		if (socialChannel != null) {
+			socialChannel.sendDataToAll(MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
+		}
 	}
 
 	@Override
@@ -377,10 +370,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		} else {
 			return false;
 		}
-	}
-
-	private boolean sendBasicProfileRequest(String nodeTo) {
-		return socialChannel.sendData(nodeTo, MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	private boolean sendBasicProfileResponse(String nodeTo) {
@@ -435,7 +424,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		String otherProfileId = otherProfile.getId();
 		String conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
-		// Se una conversazione con lo stesso id non � mai stata iniziata, la
+		// Se una conversazione con lo stesso id non è mai stata iniziata, la
 		// crea
 		if (conversation == null) {
 			conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
@@ -448,7 +437,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			Log.d("il device non era in join del chat channel " + conversationId + ", riprovo ora.");
 			chatChannel = joinChatChannel(conversationId);
 		}
-		// Manda all'utente un messaggio affinch� si agganci automaticamente
+		// Manda all'utente un messaggio affinchè si agganci automaticamente
 		// al
 		// canale per chattare
 		return socialChannel.sendData(toNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
@@ -467,12 +456,12 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
 		// Per sicurezza effetto questo controllo. ATTENZIONE: se entra nell'if
 		// significa che il join viene fatto in questo momento, e che quindi il
-		// messaggio che stiamo mandando proprio ora non verr� ricevuto
-		// perch�
-		// chord non fa in tempo a recepire i nodi presenti nel channel, e
+		// messaggio che stiamo mandando proprio ora non verrà ricevuto
+		// perchè chord non fa in tempo a recepire i nodi presenti nel channel,
+		// e
 		// quindi considera inesistente il nodo al quale stiamo mandando questo
 		// messaggio. Serve quindi trovare un'altro modo per gestire questa
-		// eventualit�
+		// eventualità
 		if (chatChannel == null) {
 			Log.d("ATTENZIONE! ATTENZIONE! Il device non era in join del chat channel " + conversationId + ", riprovo ora ma il nodo non ricever� il messaggio attuale: \""
 					+ text + "\"");

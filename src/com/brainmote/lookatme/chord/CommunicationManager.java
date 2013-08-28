@@ -13,7 +13,7 @@ public interface CommunicationManager {
 
 	void stopCommunication();
 
-	boolean requestAllProfiles();
+	void requestAllProfiles();
 
 	boolean requestFullProfile(String fromNodeId);
 

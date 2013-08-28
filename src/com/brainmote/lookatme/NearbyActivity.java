@@ -2,9 +2,13 @@ package com.brainmote.lookatme;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.brainmote.lookatme.constants.AppSettings;
+import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
 
 public class NearbyActivity extends CommonActivity {
@@ -21,6 +25,24 @@ public class NearbyActivity extends CommonActivity {
 			if (!isConnectionAvailable() && !CommonUtils.isEmulator())
 				showDialog(getString(R.string.message_warning), getString(R.string.message_wifi_required));
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.nearby, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Verifica quale elemento è stato premuto
+		switch (item.getItemId()) {
+		case R.id.action_force_refresh:
+			Services.businessLogic.refreshSocialList();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

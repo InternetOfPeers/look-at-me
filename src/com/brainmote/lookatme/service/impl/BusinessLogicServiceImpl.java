@@ -159,6 +159,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public void refreshSocialList() {
+		// DEBUG: Elenco attuale dei nodi
+		for (String node : communicationManager.requestActiveNodeList()) {
+			Log.d("nodo attivo " + node);
+		}
+
 		communicationManager.requestAllProfiles();
 	}
 

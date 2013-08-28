@@ -98,11 +98,12 @@ public class NotificationServiceImpl implements NotificationService {
 			String conversationId) {
 		// Verifica lo stato dell'applicazione (standby o attualmente
 		// utilizzata) e si comporta di conseguenza
-		// TODO Considerare anche che se il monitor è spento andrebbe comunque
-		// inviata la notifica come se l'app fosse in background, perché
-		// effettivamente l'utente non la può vedere
+		// TODO Considerare anche che se il monitor Ã¨ spento andrebbe comunque
+		// inviata la notifica come se l'app fosse in background, perchÃ¨
+		// effettivamente l'utente non la puÃ² vedere
 		if (CommonUtils.isMyActivityInForeground(context)) {
 			// Mostro un toast che notifica l'evento
+			// TODO NON mostrare il toast se sono nella chat vera e propria
 			Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 		} else {
 			// Creo una notifica di sistema
@@ -132,14 +133,16 @@ public class NotificationServiceImpl implements NotificationService {
 			mNotificationManager.notify(notificationID, mBuilder.build());
 			// Emetto un suono di default per la notifica
 			MediaPlayer mp = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
-			mp.setOnCompletionListener(new OnCompletionListener() {
-				@Override
-				public void onCompletion(MediaPlayer mp) {
-					Log.i();
-					mp.release();
-				}
-			});
-			mp.start();
+			if (mp != null) {
+				mp.setOnCompletionListener(new OnCompletionListener() {
+					@Override
+					public void onCompletion(MediaPlayer mp) {
+						Log.i();
+						mp.release();
+					}
+				});
+				mp.start();
+			}
 		}
 	}
 
