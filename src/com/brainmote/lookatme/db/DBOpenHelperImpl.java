@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,6 +23,7 @@ import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.Profile;
 import com.brainmote.lookatme.bean.ProfileImage;
+import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.google.common.base.Optional;
 
@@ -92,6 +94,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				+ TABLE_MESSAGES_COLUMN_TO_NICKNAME + " TEXT, " + TABLE_MESSAGES_COLUMN_DATA + " BLOB, " + TABLE_MESSAGES_COLUMN_IS_MINE + " TEXT, "
 				+ TABLE_MESSAGES_COLUMN_MESSAGE_DATE + " TEXT ); ");
 
+		db.execSQL("CREATE TABLE " + TABLE_LIKE + "(" + TABLE_LIKE_COLUMN_PROFILE_ID + " TEXT PRIMARY KEY); ");
+		
+		db.execSQL("CREATE TABLE " + TABLE_VISIT + "(" + TABLE_VISIT_COLUMN_PROFILE_ID + " TEXT PRIMARY KEY); ");
 	}
 
 	@Override
@@ -725,6 +730,48 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			Log.e("DB", "error on isProfileCompiled,error is: " + e.getMessage());
 		}
 		return false;
+
+	}
+	
+	@Override
+	public Statistics getStatistics() {
+		Cursor cursor = null;
+		Statistics statistics = new Statistics();
+		try {
+
+			cursor = database.rawQuery("SELECT count(" + TABLE_LIKE_COLUMN_PROFILE_ID + ") AS " + TABLE_LIKE_COLUMN_COUNT_ALIAS 
+					+ ", count(" + TABLE_VISIT_COLUMN_PROFILE_ID + ") AS " + TABLE_VISIT_COLUMN_COUNT_ALIAS
+					+ " FROM " + TABLE_LIKE + ", " + TABLE_VISIT, new String[] {});
+
+			if (cursor.moveToFirst()) {
+				//do {
+					statistics.setVisitCount(cursor.getInt(cursor.getColumnIndex(TABLE_VISIT_COLUMN_COUNT_ALIAS)));
+					statistics.setLikeCount(cursor.getInt(cursor.getColumnIndex(TABLE_LIKE_COLUMN_COUNT_ALIAS)));
+					return statistics;
+				//} while (cursor.moveToNext());
+
+			}
+		} catch (Throwable e) {
+			Log.e("db", "error on getting getBasicProfile: " + e.getMessage());
+		} finally {
+			if (!cursor.isClosed())
+				cursor.close();
+		}
+		return statistics;
+	}
+	
+	@Override
+	public void updateStatistics(Set<String> profileIdLike, Set<String> profileIdVisit) {
+		for (String profileId : profileIdLike) {
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(TABLE_LIKE_COLUMN_PROFILE_ID, profileId);
+			database.insert(TABLE_LIKE, null, contentValues);
+		}
+		for (String profileId : profileIdVisit) {
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(TABLE_VISIT_COLUMN_PROFILE_ID, profileId);
+			database.insert(TABLE_VISIT, null, contentValues);
+		}
 
 	}
 

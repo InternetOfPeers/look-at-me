@@ -27,14 +27,14 @@ public class SocialNodeMap {
 			Node removed = nodeMap.remove(idMap.get(node.getProfile().getId()));
 			idMap.remove(removed.getProfile().getId());
 			// aggiorno le strutture like e liked con il nuovo id
-			if (Services.currentState.getILikeSet().contains(removed.getId())) {
-				Services.currentState.removeILikeFromSet(removed.getId());
-				Services.currentState.addILikeToSet(node.getId());
-			}
-			if (Services.currentState.getLikedSet().contains(removed.getId())) {
-				Services.currentState.removeLikedFromSet(removed.getId());
-				Services.currentState.addLikedToSet(node.getId());
-			}
+//			if (Services.currentState.getILikeSet().contains(removed.getId())) {
+//				Services.currentState.removeILikeFromSet(removed.getId());
+//				Services.currentState.addILikeToSet(node.getId());
+//			}
+//			if (Services.currentState.getLikedSet().contains(removed.getId())) {
+//				Services.currentState.removeLikedFromSet(removed.getId());
+//				Services.currentState.addLikedToSet(node.getId());
+//			}
 		}
 		nodeMap.put(node.getId(), node);
 		idMap.put(node.getProfile().getId(), node.getId());

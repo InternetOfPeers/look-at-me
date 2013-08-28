@@ -136,7 +136,8 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	public void sendLike(String nodeId) {
 		Log.d();
 		if (communicationManager.sendLike(nodeId)) {
-			Services.currentState.addILikeToSet(nodeId);
+			String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId);
+			Services.currentState.addILikeToSet(profileId);
 		}
 	}
 

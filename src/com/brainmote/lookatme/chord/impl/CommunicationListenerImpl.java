@@ -41,9 +41,10 @@ public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
 	public void onLikeReceived(String fromNodeId) {
-		Services.currentState.addLikedToSet(fromNodeId);
+		String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(fromNodeId);
+		Services.currentState.addLikedToSet(profileId);
 		Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
-		if (Services.currentState.checkLikeMatch(fromNodeId)) {
+		if (Services.currentState.checkLikeMatch(profileId)) {
 			Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().findNodeByNodeId(fromNodeId).getProfile().getNickname()));
 			Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId));
 		}

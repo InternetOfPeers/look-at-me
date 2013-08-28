@@ -214,6 +214,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 				case FULL_PROFILE_REQUEST:
 					// send my full profile to arg0 node
 					sendFullProfileResponse(senderNodeId);
+					Services.currentState.addVisitSet(Services.currentState.getSocialNodeMap().getProfileIdByNodeId(senderNodeId));
 					break;
 				case FULL_PROFILE:
 					FullProfile fullProfile = (FullProfile) message.getObject(MessageType.FULL_PROFILE.toString());

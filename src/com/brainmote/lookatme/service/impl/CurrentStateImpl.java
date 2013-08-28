@@ -11,6 +11,7 @@ import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
+import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.service.CurrentState;
@@ -31,6 +32,10 @@ public class CurrentStateImpl implements CurrentState {
 	private Context currentContext;
 
 	private Set<Interest> interestList = new TreeSet<Interest>();
+	
+	private Statistics statistics;
+	
+	private Set<String> visitSet = new TreeSet<String>();
 
 	@Override
 	public FullProfile getMyFullProfile() {
@@ -73,13 +78,13 @@ public class CurrentStateImpl implements CurrentState {
 	}
 
 	@Override
-	public void addILikeToSet(String nodeName) {
-		iLikeSet.add(nodeName);
+	public void addILikeToSet(String profileId) {
+		iLikeSet.add(profileId);
 	}
 
 	@Override
-	public void removeILikeFromSet(String nodeName) {
-		iLikeSet.remove(nodeName);
+	public void removeILikeFromSet(String profileId) {
+		iLikeSet.remove(profileId);
 	}
 
 	@Override
@@ -88,13 +93,13 @@ public class CurrentStateImpl implements CurrentState {
 	}
 
 	@Override
-	public void addLikedToSet(String nodeName) {
-		likedSet.add(nodeName);
+	public void addLikedToSet(String profileId) {
+		likedSet.add(profileId);
 	}
 
 	@Override
-	public void removeLikedFromSet(String nodeName) {
-		likedSet.remove(nodeName);
+	public void removeLikedFromSet(String profileId) {
+		likedSet.remove(profileId);
 	}
 
 	@Override
@@ -135,17 +140,17 @@ public class CurrentStateImpl implements CurrentState {
 	}
 
 	@Override
-	public boolean checkLikeMatch(String nodeId) {
-		return getILikeSet().contains(nodeId) && getLikedSet().contains(nodeId);
+	public boolean checkLikeMatch(String profileId) {
+		return getILikeSet().contains(profileId) && getLikedSet().contains(profileId);
 	}
 
 	@Override
 	public void reset() {
 		this.socialNodeMap = new SocialNodeMap();
 		this.profileViewed = null;
-		this.iLikeSet = new TreeSet<String>();
-		this.likedSet = new TreeSet<String>();
-		this.interestList = new TreeSet<Interest>();
+		//this.iLikeSet = new TreeSet<String>();
+		//this.likedSet = new TreeSet<String>();
+		//this.interestList = new TreeSet<Interest>();
 		// TODO: salvare le conversazioni appese?
 	}
 
@@ -156,5 +161,29 @@ public class CurrentStateImpl implements CurrentState {
 	public void setInterestList(Set<Interest> interestList) {
 		this.interestList = interestList;
 	}
+	
+	@Override
+	public Statistics getStatistics() {
+		if (statistics == null) {
+			statistics = DBOpenHelperImpl.getInstance(getContext()).getStatistics();
+		}
+		return statistics;
+	}
+	
+	@Override
+	public Set<String> getVisitSet() {
+		return this.visitSet;
+	}
+	
+	@Override
+	public void addVisitSet(String profileId) {
+		visitSet.add(profileId);
+	}
+	
+	@Override
+	public void removeVisitSet(String profileId){
+		visitSet.remove(profileId);
+	}
+
 
 }

@@ -175,7 +175,8 @@ public class ProfileFragment extends Fragment {
 	}
 
 	private boolean likeButtonIsEnabledFor(String nodeId) {
-		return !Services.currentState.getILikeSet().contains(nodeId);
+		String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId);
+		return !Services.currentState.getILikeSet().contains(profileId);
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {

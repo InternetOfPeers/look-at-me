@@ -9,6 +9,7 @@ import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
+import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.util.SocialNodeMap;
 
@@ -28,15 +29,15 @@ public interface CurrentState {
 
 	Set<String> getILikeSet();
 
-	void addILikeToSet(String nodeName);
+	void addILikeToSet(String profileId);
 
-	void removeILikeFromSet(String nodeName);
+	void removeILikeFromSet(String profileId);
 
 	Set<String> getLikedSet();
 
-	void addLikedToSet(String nodeName);
+	void addLikedToSet(String profileId);
 
-	void removeLikedFromSet(String nodeName);
+	void removeLikedFromSet(String profileId);
 
 	Node getProfileViewed();
 
@@ -48,12 +49,20 @@ public interface CurrentState {
 
 	String getNickname(String nodeId);
 
-	boolean checkLikeMatch(String nodeId);
+	boolean checkLikeMatch(String profileId);
 
 	Set<Interest> getInterestList();
 
 	void setInterestList(Set<Interest> interestList);
 
 	void reset();
+	
+	Statistics getStatistics();
+	
+	Set<String> getVisitSet();
+	
+	void addVisitSet(String profileId);
+	
+	void removeVisitSet(String profileId);
 
 }

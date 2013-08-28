@@ -1,6 +1,7 @@
 package com.brainmote.lookatme.db;
 
 import java.util.List;
+import java.util.Set;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -10,6 +11,7 @@ import com.brainmote.lookatme.bean.Conversation;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.ProfileImage;
+import com.brainmote.lookatme.bean.Statistics;
 
 public interface DBOpenHelper {
 
@@ -66,6 +68,14 @@ public interface DBOpenHelper {
 	public static final String TABLE_MESSAGES_COLUMN_FROM_NICKNAME = "from_nickname";
 	public static final String TABLE_MESSAGES_COLUMN_MESSAGE_DATE = "date";
 	public static final String TABLE_MESSAGES_COLUMN_IS_MINE = "is_mine";
+	
+	public static final String TABLE_LIKE = "like_tb";
+	public static final String TABLE_LIKE_COLUMN_PROFILE_ID = "profile_id";
+	public static final String TABLE_LIKE_COLUMN_COUNT_ALIAS = "like_count";
+	
+	public static final String TABLE_VISIT = "visit_tb";
+	public static final String TABLE_VISIT_COLUMN_PROFILE_ID = "profile_id";
+	public static final String TABLE_VISIT_COLUMN_COUNT_ALIAS = "visit_count";
 
 	public SQLiteDatabase getWritableDatabase();
 
@@ -210,5 +220,9 @@ public interface DBOpenHelper {
 	public List<Conversation> getConversations();
 
 	public void saveOrUpdateConversation(long conversationID, List<ChatMessage> chatMessageList, BasicProfile profile) throws Exception;
+	
+	public Statistics getStatistics();
+	
+	public void updateStatistics(Set<String> profileIdLike, Set<String> profileIdVisit);
 
 }
