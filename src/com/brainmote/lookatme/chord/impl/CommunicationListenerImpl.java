@@ -10,29 +10,26 @@ import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.EventType;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
-import com.brainmote.lookatme.util.Log;
 
 public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
-	public void onCommunicationStarted() {
-	}
-
-	@Override
-	public void onCommunicationStopped() {
-	}
-
-	@Override
 	public void onBasicProfileNodeReceived(Node node) {
-		Log.i(node.getId());
 		Services.currentState.putSocialNodeInMap(node);
-		Services.event.post(new Event(EventType.NODE_JOINED, node.getId()));
+		Services.event.post(new Event(EventType.BASIC_PROFILE_RECEIVED, node.getId()));
 	}
 
 	@Override
 	public void onFullProfileNodeReceived(Node node) {
 		Services.currentState.setProfileViewed(node);
-		Services.event.post(new Event(EventType.PROFILE_RECEIVED, node.getId()));
+		Services.event.post(new Event(EventType.FULL_PROFILE_RECEIVED, node.getId()));
+	}
+
+	@Override
+	public void onNodeJoined(String nodeId) {
+		// Mando a tutti una richiesta di aggiornamento del profile
+		Services.businessLogic.refreshSocialList();
+		Services.event.post(new Event(EventType.NODE_JOINED, nodeId));
 	}
 
 	@Override
@@ -45,12 +42,13 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	public void onLikeReceived(String fromNodeId) {
 		String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(fromNodeId);
 		Services.currentState.addLikedToSet(profileId);
-		Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
 		if (Services.currentState.checkLikeMatch(profileId)) {
-			Services.event.post(new Event(EventType.LIKE_MATCH, Services.currentState.getSocialNodeMap().findNodeByNodeId(fromNodeId).getProfile().getNickname()));
 			Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId));
+			Services.event.post(new Event(EventType.LIKE_RECEIVED_AND_MATCH, fromNodeId));
+		} else {
+			Services.notification.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId), fromNodeId);
+			Services.event.post(new Event(EventType.LIKE_RECEIVED, fromNodeId));
 		}
-		Services.notification.like(Services.currentState.getContext(), Services.currentState.getNickname(fromNodeId), fromNodeId);
 	}
 
 	@Override
@@ -68,7 +66,8 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		ChatMessage chatMessage = new ChatMessage(message, false);
 		conversation.addMessage(chatMessage);
 		Services.businessLogic.storeConversation(conversation);
-		Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, otherNickName));
 		Services.notification.chatMessage(Services.currentState.getContext(), otherNickName, fromNodeId, message, conversationId);
+		Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, fromNodeId));
 	}
+
 }

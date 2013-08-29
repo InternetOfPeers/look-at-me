@@ -150,7 +150,7 @@ public class ProfileFragment extends Fragment {
 	@Subscribe
 	public void onEventReceived(Event event) {
 		switch (event.getEventType()) {
-		case PROFILE_RECEIVED:
+		case FULL_PROFILE_RECEIVED:
 			prepareProfileAttributes();
 			if (loadingDialog != null)
 				loadingDialog.dismiss();

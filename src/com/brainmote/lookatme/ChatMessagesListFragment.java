@@ -102,6 +102,10 @@ public class ChatMessagesListFragment extends Fragment {
 		switch (event.getEventType()) {
 		case CHAT_MESSAGE_RECEIVED:
 			refreshFragment();
+			// TODO Immagino che questo evento scatti anche quando ricevo un
+			// messaggio in una conversazione diversa da quella che sto
+			// visualizzando, quindi è da controllare perché altrimenti è errata
+			// senso l'operazione di scroll
 			scrollMyListViewToBottom();
 			break;
 		default:

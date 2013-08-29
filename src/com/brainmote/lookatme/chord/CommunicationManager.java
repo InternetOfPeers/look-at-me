@@ -22,8 +22,6 @@ public interface CommunicationManager {
 
 	boolean sendLike(String toNodeId);
 
-	boolean sendFullProfileResponse(String toNodeId);
-
 	/**
 	 * Restituisce l'elenco di tutti gli utenti che sono connessi al canale
 	 * principale

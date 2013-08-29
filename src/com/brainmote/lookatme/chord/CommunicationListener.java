@@ -2,11 +2,9 @@ package com.brainmote.lookatme.chord;
 
 public interface CommunicationListener {
 
-	public void onCommunicationStarted();
-
-	public void onCommunicationStopped();
-
 	public void onBasicProfileNodeReceived(Node node);
+
+	public void onNodeJoined(String nodeId);
 
 	public void onNodeLeft(String nodeName);
 

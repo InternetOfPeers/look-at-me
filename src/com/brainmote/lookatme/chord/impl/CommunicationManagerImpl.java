@@ -62,8 +62,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// this.chord.setTempDirectory(chordFilePath);
 		chord.setHandleEventLooper(looper);
 		errorManager.checkError(startChord());
-		// notify started communication
-		communicationListener.onCommunicationStarted();
 	}
 
 	@Override
@@ -83,8 +81,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			chord.leaveChannel(channelName);
 		}
 		chord.stop();
-		// notify stopped communication
-		communicationListener.onCommunicationStopped();
 	}
 
 	private IChordChannel joinPublicChannel() {
@@ -144,14 +140,13 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 			@Override
 			public void onNodeJoined(String nodeId, String arg1) {
-				Log.i("Il nodo che è appena apparso: " + nodeId);
-				// Mando a tutti una richiesta di aggiornamento del profile
-				Services.businessLogic.refreshSocialList();
+				Log.i("Il nodo che è appena apparso: " + nodeId + " - " + arg1);
+				communicationListener.onNodeJoined(nodeId);
 			}
 
 			@Override
 			public void onNodeLeft(String nodeId, String arg1) {
-				Log.i("Il nodo che è appena scomparso: " + nodeId);
+				Log.i("Il nodo che è appena scomparso: " + nodeId + " - " + arg1);
 				communicationListener.onNodeLeft(nodeId);
 			}
 
@@ -187,7 +182,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 			@Override
 			public void onDataReceived(String senderNodeId, String arg1, String arg2, byte[][] arg3) {
-				Log.d("joinSocialChannel");
+				Log.d("joinSocialChannel -" + arg1 + " - " + arg2);
 				// here can be received profiles, previews, etc.
 				MessageType messageType = MessageType.valueOf(arg2);
 				byte[] chordMessageByte = arg3[0];
@@ -298,7 +293,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			}
 
 			@Override
-			public void onDataReceived(String fromNode, String arg1, String arg2, byte[][] arg3) {
+			public void onDataReceived(String fromNodeId, String arg1, String arg2, byte[][] arg3) {
 				Log.d("joinChatChannel");
 				// here can be received only chat messages
 				MessageType messageType = MessageType.valueOf(arg2);
@@ -307,10 +302,10 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					byte[] chordMessageByte = arg3[0];
 					Message message = null;
 					if (chordMessageByte != null && chordMessageByte.length > 0) {
-						message = Message.obtainChordMessage(chordMessageByte, fromNode);
+						message = Message.obtainChordMessage(chordMessageByte, fromNodeId);
 					}
 					String chatMessage = (String) message.getObject(MessageType.CHAT_MESSAGE.toString());
-					communicationListener.onChatMessageReceived(fromNode, chatMessage);
+					communicationListener.onChatMessageReceived(fromNodeId, chatMessage);
 					break;
 				default:
 					break;
@@ -381,8 +376,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		}
 	}
 
-	@Override
-	public boolean sendFullProfileResponse(String nodeTo) {
+	private boolean sendFullProfileResponse(String nodeTo) {
 		Message message = obtainMyProfileMessage(Services.currentState.getMyFullProfile(), MessageType.FULL_PROFILE, nodeTo);
 		if (message != null) {
 			return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE.toString(), obtainPayload(message));
