@@ -84,7 +84,6 @@
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/bottom_profile_gradient"
                 android:gravity="bottom"
                 android:orientation="vertical"
