@@ -18,12 +18,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.constants.AppSettings;
+import com.brainmote.lookatme.enumattribute.Gender;
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
@@ -38,6 +41,10 @@ public class ProfileFragment extends Fragment {
 	private ImageButton buttonLike;
 	private ImageButton buttonChat;
 	private List<Bitmap> gallery_images;
+	
+	private ImageView genderImage;
+	private TextView textName;
+	private TextView textSurname;
 
 	private ProgressDialog loadingDialog;
 	private boolean profileReady;
@@ -47,6 +54,9 @@ public class ProfileFragment extends Fragment {
 		Log.d();
 		profileReady = false;
 		View view = inflater.inflate(R.layout.fragment_profile, null);
+		genderImage = (ImageView) view.findViewById(R.id.imageGender);
+		textName = (TextView) view.findViewById(R.id.textName);
+		textSurname = (TextView) view.findViewById(R.id.textSurname);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
 		gallery_images = new ArrayList<Bitmap>();
 		profilePhoto.setAdapter(new SamplePagerAdapter());
@@ -155,6 +165,24 @@ public class ProfileFragment extends Fragment {
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		gallery_images = new ArrayList<Bitmap>();
 		if (profile != null) {
+			if (profile.getName() != null) {
+				textName.setText(profile.getName());
+			}
+			if (profile.getSurname() != null) {
+				textSurname.setText(profile.getSurname());
+			}
+			Gender gender = Gender.parse(profile.getGender());
+			switch (gender) {
+			case F:
+				genderImage.setImageResource(R.drawable.venus_symbol);
+				break;
+			case M:
+				genderImage.setImageResource(R.drawable.mars_symbol);
+				break;
+			case TG:
+				genderImage.setImageResource(R.drawable.transgender_symbol);
+				break;
+			}
 			buttonChat.setEnabled(true);
 			// Imposto il title con il nickname e l'et� dell'utente
 			// selezionato
