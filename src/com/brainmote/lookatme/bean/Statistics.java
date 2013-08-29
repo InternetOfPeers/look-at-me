@@ -1,26 +1,28 @@
 package com.brainmote.lookatme.bean;
 
 public class Statistics {
-	
+
 	private static final int VISIT_WEIGTH = 1;
 	private static final int LIKE_WEIGHT = 3;
 
 	private int visitCount;
 	private int likeCount;
-	
+
 	public Statistics() {
 		visitCount = 0;
 		likeCount = 0;
 	}
 
 	public float getScore() {
+		if (visitCount == 0)
+			return 0;
 		return VISIT_WEIGTH + ((likeCount * LIKE_WEIGHT) / visitCount);
 	}
-	
+
 	public float getRating() {
 		float score = getScore();
 		float rating = 0;
-		if (score >= 2 && score < 4) 
+		if (score >= 2 && score < 4)
 			rating = 0.5f;
 		else if (score >= 4 && score < 6)
 			rating = 1;
@@ -50,13 +52,13 @@ public class Statistics {
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
 	}
-	
+
 	public void incVisit() {
 		this.visitCount++;
 	}
-	
+
 	public void incLike() {
 		this.likeCount++;
 	}
-	
+
 }

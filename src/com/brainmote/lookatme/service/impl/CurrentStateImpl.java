@@ -32,9 +32,9 @@ public class CurrentStateImpl implements CurrentState {
 	private Context currentContext;
 
 	private Set<Interest> interestList = new TreeSet<Interest>();
-	
+
 	private Statistics statistics;
-	
+
 	private Set<String> visitSet = new TreeSet<String>();
 
 	@Override
@@ -148,9 +148,9 @@ public class CurrentStateImpl implements CurrentState {
 	public void reset() {
 		this.socialNodeMap = new SocialNodeMap();
 		this.profileViewed = null;
-		//this.iLikeSet = new TreeSet<String>();
-		//this.likedSet = new TreeSet<String>();
-		//this.interestList = new TreeSet<Interest>();
+		// this.iLikeSet = new TreeSet<String>();
+		// this.likedSet = new TreeSet<String>();
+		// this.interestList = new TreeSet<Interest>();
 		// TODO: salvare le conversazioni appese?
 	}
 
@@ -161,7 +161,7 @@ public class CurrentStateImpl implements CurrentState {
 	public void setInterestList(Set<Interest> interestList) {
 		this.interestList = interestList;
 	}
-	
+
 	@Override
 	public Statistics getStatistics() {
 		if (statistics == null) {
@@ -169,21 +169,20 @@ public class CurrentStateImpl implements CurrentState {
 		}
 		return statistics;
 	}
-	
+
 	@Override
 	public Set<String> getVisitSet() {
 		return this.visitSet;
 	}
-	
+
 	@Override
 	public void addVisitSet(String profileId) {
 		visitSet.add(profileId);
 	}
-	
+
 	@Override
-	public void removeVisitSet(String profileId){
+	public void removeVisitSet(String profileId) {
 		visitSet.remove(profileId);
 	}
-
 
 }

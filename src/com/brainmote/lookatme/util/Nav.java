@@ -31,9 +31,9 @@ public class Nav {
 		map.put(EditProfileActivity.class, 0);
 		map.put(NearbyActivity.class, 1);
 		map.put(ChatConversationsActivity.class, 2);
-		map.put(SettingsActivity.class, 3);
-		map.put(HelpActivity.class, 4);
-		map.put(StatisticsActivity.class, 5);
+		map.put(StatisticsActivity.class, 3);
+		map.put(SettingsActivity.class, 4);
+		map.put(HelpActivity.class, 5);
 	}
 
 	/**

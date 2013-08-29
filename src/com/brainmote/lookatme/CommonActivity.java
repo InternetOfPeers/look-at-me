@@ -165,7 +165,6 @@ public abstract class CommonActivity extends Activity {
 	}
 
 	protected void selectItem(int position) {
-		Log.d();
 		if (menuEnabled) {
 			// update selected item and title, then close the drawer
 			// mDrawerList.setItemChecked(position, true);

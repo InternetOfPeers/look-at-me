@@ -56,13 +56,13 @@ public interface CurrentState {
 	void setInterestList(Set<Interest> interestList);
 
 	void reset();
-	
+
 	Statistics getStatistics();
-	
+
 	Set<String> getVisitSet();
-	
+
 	void addVisitSet(String profileId);
-	
+
 	void removeVisitSet(String profileId);
 
 }
