@@ -223,6 +223,8 @@ public interface DBOpenHelper {
 
 	public Statistics getStatistics();
 
-	public void updateStatistics(Set<String> profileIdLike, Set<String> profileIdVisit);
+	public void addLike(String profileId);
+	
+	public void addVisit(String profileId);
 
 }

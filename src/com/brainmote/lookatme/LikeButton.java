@@ -22,9 +22,9 @@ public class LikeButton extends ImageButton {
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		if (enabled) {
-			setImageDrawable(getResources().getDrawable(R.drawable.love_icon));
-		} else {
 			setImageDrawable(getResources().getDrawable(R.drawable.love_icon_grey));
+		} else {
+			setImageDrawable(getResources().getDrawable(R.drawable.love_icon));
 		}
 	}
 

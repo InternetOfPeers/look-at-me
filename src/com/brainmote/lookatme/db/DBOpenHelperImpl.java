@@ -760,18 +760,43 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	@Override
-	public void updateStatistics(Set<String> profileIdLike, Set<String> profileIdVisit) {
-		for (String profileId : profileIdLike) {
+	public void addLike(String profileId) {
+		if (selectProfileIdFromStatisticsTable(profileId, TABLE_LIKE, TABLE_LIKE_COLUMN_PROFILE_ID) == null) {
 			ContentValues contentValues = new ContentValues();
 			contentValues.put(TABLE_LIKE_COLUMN_PROFILE_ID, profileId);
 			database.insert(TABLE_LIKE, null, contentValues);
 		}
-		for (String profileId : profileIdVisit) {
+	}
+	
+	public void addVisit(String profileId) {
+		if (selectProfileIdFromStatisticsTable(profileId, TABLE_VISIT, TABLE_VISIT_COLUMN_PROFILE_ID) == null) {
 			ContentValues contentValues = new ContentValues();
 			contentValues.put(TABLE_VISIT_COLUMN_PROFILE_ID, profileId);
 			database.insert(TABLE_VISIT, null, contentValues);
 		}
+	}
+	
+	private String selectProfileIdFromStatisticsTable(String profileId, String table, String tableColumn) {
+		Cursor cursor = null;
+		String result = null;
+		try {
 
+			cursor = database.rawQuery("SELECT " + tableColumn + " FROM " + table + " WHERE " + tableColumn + "=? ", new String[] { profileId });
+
+			if (cursor.moveToFirst()) {
+				//do {
+					result = cursor.getString(cursor.getColumnIndex(tableColumn));
+					return result;
+				//} while (cursor.moveToNext());
+
+			}
+		} catch (Throwable e) {
+			Log.e("db", "error on loading from " + table + " : " + e.getMessage() + " profile ID:" + profileId);
+		} finally {
+			if (!cursor.isClosed())
+				cursor.close();
+		}
+		return null;
 	}
 
 }

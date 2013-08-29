@@ -57,10 +57,6 @@ public interface CurrentState {
 
 	Statistics getStatistics();
 
-	Set<String> getVisitSet();
-
 	void addVisitSet(String profileId);
-
-	void removeVisitSet(String profileId);
 
 }
