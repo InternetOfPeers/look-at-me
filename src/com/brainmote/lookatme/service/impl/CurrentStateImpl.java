@@ -1,25 +1,23 @@
 package com.brainmote.lookatme.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import android.content.Context;
 
-import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
+import com.brainmote.lookatme.service.ConversationStore;
 import com.brainmote.lookatme.service.CurrentState;
 import com.brainmote.lookatme.util.SocialNodeMap;
 
 public class CurrentStateImpl implements CurrentState {
 
-	private Map<String, ChatConversation> conversationsStore = new HashMap<String, ChatConversation>();
+	private ConversationStore conversationsStore = new ConversationStoreImpl();
 
 	private SocialNodeMap socialNodeMap = new SocialNodeMap();
 
@@ -50,7 +48,7 @@ public class CurrentStateImpl implements CurrentState {
 	}
 
 	@Override
-	public Map<String, ChatConversation> getConversationsStore() {
+	public ConversationStore getConversationsStore() {
 		return conversationsStore;
 	}
 

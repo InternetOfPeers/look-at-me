@@ -16,6 +16,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 	@Override
 	public void onBasicProfileNodeReceived(Node node) {
 		Services.currentState.putSocialNodeInMap(node);
+		Services.currentState.getConversationsStore().updateConversationsByNode(node);
 		Services.event.post(new Event(EventType.BASIC_PROFILE_RECEIVED, node.getId()));
 	}
 
@@ -62,7 +63,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
 		if (conversation == null || conversation.isEmpty())
-			conversation = new ChatConversationImpl(conversationId, otherNickName, otherAge, otherProfile.getMainProfileImage().getImageBitmap());
+			conversation = new ChatConversationImpl(conversationId, otherProfile);
 		ChatMessage chatMessage = new ChatMessage(message, false);
 		conversation.addMessage(chatMessage);
 		Services.businessLogic.storeConversation(conversation);

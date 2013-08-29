@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.Log;
 import com.brainmote.lookatme.util.Nav;
 import com.squareup.otto.Subscribe;
 
@@ -68,7 +67,6 @@ public class ChatConversationsListFragment extends Fragment implements OnItemCli
 	}
 
 	private void refreshFragment() {
-		Log.d();
 		conversationsListAdapter.notifyDataSetChanged();
 		verifyNoConversation();
 	}

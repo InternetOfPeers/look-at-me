@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
-import com.brainmote.lookatme.util.Log;
 
 public class ChatConversationsListAdapter extends BaseAdapter {
 
@@ -37,7 +36,6 @@ public class ChatConversationsListAdapter extends BaseAdapter {
 
 	@Override
 	public ChatConversation getItem(int position) {
-		Log.d();
 		List<String> conversationsKeyList = new ArrayList<String>();
 		conversationsKeyList.addAll(Services.currentState.getConversationsStore().keySet());
 		// TODO ordinare la lista di conversazioni in base all'ultimo messaggio

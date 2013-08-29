@@ -52,6 +52,10 @@ public class ProfileFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
+
+		// TODO Ricordarsi di posticipare l'aggancio dei listener perché non
+		// viene più utilizzato l'enabled/disabled
+
 		profileReady = false;
 		View view = inflater.inflate(R.layout.fragment_profile, null);
 		genderImage = (ImageView) view.findViewById(R.id.imageGender);

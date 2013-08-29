@@ -52,14 +52,6 @@ public class CommonUtils {
 			return otherProfileId + "_" + myId;
 	}
 
-	public static String getProfileIdFromConversationId(String conversationId) {
-		String[] nodes = conversationId.split("_");
-		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
-			return nodes[0];
-		else
-			return nodes[1];
-	}
-
 	/**
 	 * Get a diff between two dates
 	 * 

@@ -1,11 +1,9 @@
 package com.brainmote.lookatme.service;
 
-import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
 
-import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
@@ -19,7 +17,7 @@ public interface CurrentState {
 
 	BasicProfile getMyBasicProfile();
 
-	Map<String, ChatConversation> getConversationsStore();
+	ConversationStore getConversationsStore();
 
 	SocialNodeMap getSocialNodeMap();
 

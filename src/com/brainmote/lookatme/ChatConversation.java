@@ -4,6 +4,7 @@ import java.util.Date;
 
 import android.graphics.Bitmap;
 
+import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatMessage;
 
 public interface ChatConversation {
@@ -27,5 +28,7 @@ public interface ChatConversation {
 	boolean isEmpty();
 
 	CharSequence getLastMessage();
+
+	void setBasicProfile(BasicProfile basicProfile);
 
 }

@@ -14,20 +14,16 @@ import com.brainmote.lookatme.util.ImageUtil;
 public class ChatConversationImpl implements ChatConversation {
 
 	private String conversationId;
-	private String otherNickname;
-	private int otherAge;
-	private Bitmap otherImageBitamp;
+	private BasicProfile basicProfile;
+	private Bitmap otherThumbnail;
 	private Date lastMessageTimestamp;
 	private List<ChatMessage> chatMessagesList;
 
-	public ChatConversationImpl(String conversationId, String otherNickname, int otherAge, Bitmap otherImageBitamp) {
+	public ChatConversationImpl(String conversationId, BasicProfile basicProfile) {
 		this.conversationId = conversationId;
-		this.otherNickname = otherNickname;
-		this.otherAge = otherAge;
-		this.otherImageBitamp = ImageUtil.bitmapForCustomThumbnail(otherImageBitamp,
-				Services.currentState.getContext().getResources().getDimensionPixelSize(R.dimen.chat_conversations_list_thumbnail_size));
 		this.chatMessagesList = new ArrayList<ChatMessage>();
 		this.lastMessageTimestamp = new Date();
+		setBasicProfile(basicProfile);
 	}
 
 	@Override
@@ -37,7 +33,7 @@ public class ChatConversationImpl implements ChatConversation {
 
 	@Override
 	public String getNickname() {
-		return otherNickname;
+		return basicProfile.getNickname();
 	}
 
 	@Override
@@ -47,7 +43,7 @@ public class ChatConversationImpl implements ChatConversation {
 
 	@Override
 	public Bitmap getImageBitmap() {
-		return otherImageBitamp;
+		return otherThumbnail;
 	}
 
 	@Override
@@ -74,7 +70,7 @@ public class ChatConversationImpl implements ChatConversation {
 
 	@Override
 	public int getAge() {
-		return otherAge;
+		return basicProfile.getAge();
 	}
 
 	@Override
@@ -85,6 +81,14 @@ public class ChatConversationImpl implements ChatConversation {
 		if (message == null)
 			return "";
 		return message.getText();
+	}
+
+	@Override
+	public void setBasicProfile(BasicProfile basicProfile) {
+		this.basicProfile = basicProfile;
+		this.otherThumbnail = ImageUtil.bitmapForCustomThumbnail(basicProfile.getMainProfileImage().getImageBitmap(), Services.currentState.getContext().getResources()
+				.getDimensionPixelSize(R.dimen.chat_conversations_list_thumbnail_size));
+
 	}
 
 }

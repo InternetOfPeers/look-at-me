@@ -39,8 +39,6 @@ public class ChatMessagesListFragment extends Fragment {
 		// Mi assicuro che l'utente si connetta al canale privato della
 		// conversazione
 		Services.businessLogic.joinConversation(conversation);
-		// TODO Aggiorno i dati della conversation
-
 		// Imposto il title dell'activity con il nome e l'età della persona con
 		// cui sto chattando
 		String age = conversation.getAge() > 0 ? ", " + String.valueOf(conversation.getAge()) : "";
@@ -74,11 +72,6 @@ public class ChatMessagesListFragment extends Fragment {
 		return view;
 	}
 
-	private void updateConversation(ChatConversation conversation) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -107,6 +100,13 @@ public class ChatMessagesListFragment extends Fragment {
 			// visualizzando, quindi è da controllare perché altrimenti è errata
 			// senso l'operazione di scroll
 			scrollMyListViewToBottom();
+			break;
+		case BASIC_PROFILE_RECEIVED:
+			refreshFragment();
+			ChatMessagesActivity activity = (ChatMessagesActivity) getActivity();
+			ChatConversation conversation = activity.getConversation();
+			String age = conversation.getAge() > 0 ? ", " + String.valueOf(conversation.getAge()) : "";
+			activity.setTitle(conversation.getNickname() + age);
 			break;
 		default:
 			break;

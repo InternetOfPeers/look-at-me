@@ -420,8 +420,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// crea
 		if (conversation == null) {
 			conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
-			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile.getNickname(), otherProfile.getAge(), otherProfile
-					.getMainProfileImage().getImageBitmap()));
+			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile));
 		}
 		// Effettua il join al canale prescelto per la chat
 		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
@@ -476,7 +475,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public String getNodeIdFromConversation(ChatConversation conversation) {
-		return Services.currentState.getSocialNodeMap().getNodeIdByProfileId(CommonUtils.getProfileIdFromConversationId(conversation.getId()));
+		return Services.currentState.getSocialNodeMap().getNodeIdByProfileId(Services.businessLogic.getProfileIdFromConversationId(conversation.getId()));
 	}
 
 	@Override

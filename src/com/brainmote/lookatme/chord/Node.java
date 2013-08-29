@@ -1,11 +1,12 @@
 package com.brainmote.lookatme.chord;
 
+import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.Profile;
 
 public class Node {
 
 	private String id;
-	private Profile profile;
+	private BasicProfile basicProfile;
 
 	public String getId() {
 		return id;
@@ -16,11 +17,11 @@ public class Node {
 	}
 
 	public Profile getProfile() {
-		return profile;
+		return basicProfile;
 	}
 
-	public void setProfile(Profile profile) {
-		this.profile = profile;
+	public void setProfile(BasicProfile basicProfile) {
+		this.basicProfile = basicProfile;
 	}
 
 }

@@ -219,6 +219,15 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	@Override
+	public String getProfileIdFromConversationId(String conversationId) {
+		String[] nodes = conversationId.split("_");
+		if (!Services.currentState.getMyBasicProfile().getId().equals(nodes[0]))
+			return nodes[0];
+		else
+			return nodes[1];
+	}
+
+	@Override
 	public void joinConversation(ChatConversation conversation) {
 		communicationManager.checkAndJoinChatConversation(conversation);
 	}

@@ -38,6 +38,8 @@ public interface BusinessLogicService {
 
 	boolean isNodeAlive(String nodeId);
 
+	String getProfileIdFromConversationId(String conversationId);
+
 	/**
 	 * Invia un messaggio di testo all'interno del contesto della conversazione
 	 * passata
