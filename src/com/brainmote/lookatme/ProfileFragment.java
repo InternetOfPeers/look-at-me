@@ -26,6 +26,7 @@ import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.constants.AppSettings;
+import com.brainmote.lookatme.enumattribute.Country;
 import com.brainmote.lookatme.enumattribute.Gender;
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
@@ -41,7 +42,8 @@ public class ProfileFragment extends Fragment {
 	private ImageButton buttonLike;
 	private ImageButton buttonChat;
 	private List<Bitmap> gallery_images;
-
+	
+	private ImageView countryImage;
 	private ImageView genderImage;
 	private TextView textName;
 	private TextView textSurname;
@@ -54,6 +56,7 @@ public class ProfileFragment extends Fragment {
 		Log.d();
 		profileReady = false;
 		View view = inflater.inflate(R.layout.fragment_profile, null);
+		countryImage = (ImageView) view.findViewById(R.id.imageCountry);
 		genderImage = (ImageView) view.findViewById(R.id.imageGender);
 		textName = (TextView) view.findViewById(R.id.textName);
 		textSurname = (TextView) view.findViewById(R.id.textSurname);
@@ -65,7 +68,7 @@ public class ProfileFragment extends Fragment {
 		final String nodeId = parameters.getString(Nav.NODE_KEY_ID);
 		// preparo i pulsanti
 		buttonLike = (LikeButton) view.findViewById(R.id.buttonLike);
-		buttonLike.setEnabled(false); // waiting for PROFILE_RECEIVED event
+		//buttonLike.setEnabled(false); // waiting for PROFILE_RECEIVED event
 		buttonLike.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -170,6 +173,41 @@ public class ProfileFragment extends Fragment {
 			}
 			if (profile.getSurname() != null) {
 				textSurname.setText(profile.getSurname());
+			}
+			if (profile.getLivingCountry() != null) {
+				Country country = Country.parse(profile.getLivingCountry());
+				switch (country) {
+				case CA:
+					countryImage.setImageResource(R.drawable.canada);
+					break;
+				case CN:
+					countryImage.setImageResource(R.drawable.china);
+					break;
+				case DE:
+					countryImage.setImageResource(R.drawable.germany);
+					break;
+				case FR:
+					countryImage.setImageResource(R.drawable.france);
+					break;
+				case IT:
+					countryImage.setImageResource(R.drawable.italy);
+					break;
+				case JA:
+					countryImage.setImageResource(R.drawable.japan);
+					break;
+				case KR:
+					countryImage.setImageResource(R.drawable.korea);
+					break;
+				case TW:
+					countryImage.setImageResource(R.drawable.taiwan);
+					break;
+				case UK:
+					countryImage.setImageResource(R.drawable.uk);
+					break;
+				case US:
+					countryImage.setImageResource(R.drawable.us); 
+					break;
+				}
 			}
 			Gender gender = Gender.parse(profile.getGender());
 			switch (gender) {
