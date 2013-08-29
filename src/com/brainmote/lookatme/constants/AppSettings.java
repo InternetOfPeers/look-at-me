@@ -11,7 +11,7 @@ public interface AppSettings {
 
 	static final String SOCIAL_CHANNEL_NAME = "com.brainmote.lookatme.SOCIAL_CHANNEL";
 
-	static final int fakeUsers = 4;
+	static final int fakeUsers = 0;
 	static final boolean fakeUsersEnabled = fakeUsers > 0;
 
 }
