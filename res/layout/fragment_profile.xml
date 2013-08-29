@@ -98,8 +98,11 @@
 
                     <ImageView
                         android:id="@+id/imageGender"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp" />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/gender_background"
+                        android:cropToPadding="true"
+                        android:padding="4dp" />
 
                     <TextView
                         android:id="@+id/textName"
