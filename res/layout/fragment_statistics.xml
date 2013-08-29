@@ -7,23 +7,19 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_horizontal_margin" >
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-
         <ImageView
             android:id="@+id/statisticsThumbnail"
             android:layout_width="@dimen/edit_profile_thumbnail_size"
             android:layout_height="@dimen/edit_profile_thumbnail_size"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_profile_image" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-
             <RatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="150dp"
@@ -34,21 +30,17 @@
                 android:isIndicator="false"
                 android:longClickable="false"
                 android:numStars="3"
-                android:rating="1" />
-
+                android:rating="0" />
             <TextView
                 android:id="@+id/textScore"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="Score: 10"
+                android:text="Score: 0"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="italic" />
-
         </LinearLayout>
-
     </LinearLayout>
-
     <TextView
         android:id="@+id/textVisitCount"
         android:layout_width="match_parent"
@@ -57,7 +49,6 @@
         android:text="Your profile has been visited N times"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="italic" />
-
     <TextView
         android:id="@+id/textLikeCount"
         android:layout_width="match_parent"
@@ -66,5 +57,4 @@
         android:text="You received N like"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="italic" />
-
 </LinearLayout>

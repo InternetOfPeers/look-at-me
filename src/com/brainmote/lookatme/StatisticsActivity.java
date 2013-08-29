@@ -9,7 +9,6 @@ public class StatisticsActivity extends CommonActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_statistics);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
-		checkIfProfileIsCompleted();
 	}
 
 }

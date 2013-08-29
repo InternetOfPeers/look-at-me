@@ -10,10 +10,10 @@
     <string name="title_manage_interest_activity">Interest</string>
     <string name="title_add_interest_activity">Add Interest</string>
     <string name="title_messages_activity">Conversations</string>
+    <string name="title_statistics_activity">Statistics</string>
     <string name="title_settings_activity">Settings</string>
     <string name="title_feelings_activity">Feelings</string>
     <string name="title_chat_activity">Chat</string>
-    <string name="title_statistics_activity">Statistics</string>
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="gender_transgender">Transgender</string>
