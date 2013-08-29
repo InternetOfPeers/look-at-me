@@ -32,7 +32,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	private boolean isRunning;
 	private CommunicationManager communicationManager;
 	private FakeUser fakeUser;
-	private Set<String> fakeUserNodeList = new HashSet<String>();
+	private Set<String> fakeUserNodeList;
 
 	/**
 	 * 
@@ -50,8 +50,9 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
-		// Se necessario creo un fake user
+		// Se necessario creo dei fake user
 		if (AppSettings.fakeUsersEnabled) {
+			fakeUserNodeList = new HashSet<String>();
 			for (int i = 0; i < AppSettings.fakeUsers; i++) {
 				// Creo un fakeuser
 				fakeUser = new FakeUserImpl(context);

@@ -154,7 +154,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 				Log.i("Il nodo che è appena scomparso: " + nodeId);
 				communicationListener.onNodeLeft(nodeId);
 			}
-			
+
 			@Override
 			public void onFileWillReceive(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6) {
 				Log.d("NOT IMPLEMENTED");

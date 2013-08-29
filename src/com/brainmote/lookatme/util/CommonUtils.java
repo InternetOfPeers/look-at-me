@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.PowerManager;
 
 import com.brainmote.lookatme.R;
+import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.enumattribute.Country;
 import com.brainmote.lookatme.enumattribute.Gender;
 import com.brainmote.lookatme.service.Services;
@@ -140,4 +141,11 @@ public class CommonUtils {
 		return activityManager.getRunningTasks(Integer.MAX_VALUE);
 	}
 
+	public static void debugPrintCurrentNodeList() {
+		Log.d("Elenco dei nodeId presenti nella SocialMap:");
+		for (Node nodo : Services.currentState.getSocialNodeMap().getNodeList()) {
+			Log.d(nodo.getId());
+		}
+		Log.d("--------------------------");
+	}
 }

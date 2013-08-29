@@ -23,19 +23,27 @@ public class FakeUserImpl implements FakeUser {
 	final String FAKE_NUMBER = String.valueOf(id);
 	FullProfile profile;
 	String profileId = FAKE_NUMBER;
-	String nickname = "Lucy";
+	String nickname = "Lulu";
+	String name = "Lucy";
+	String surname = "Taylor";
 	String gender = "Female";
 	int age = 26;
 	List<String> tags = null;
 	long profileImageId = id;
 	Node node;
+	String primaryLanguage = "ITALIAN";
+	String birthCountry = "ITALY";
 
 	public FakeUserImpl(Context context) {
 		profile = new FullProfile();
 		profile.setId(profileId);
 		profile.setNickname(nickname);
+		profile.setName(name);
+		profile.setSurname(surname);
 		profile.setGender(gender);
 		profile.setAge(age);
+		profile.setPrimaryLanguage(primaryLanguage);
+		profile.setBirthCountry(birthCountry);
 		profile.setTags(tags);
 		profile.setMainProfileImage(createProfileImage(context, "fake_user_main_profile_image.jpg"));
 		List<ProfileImage> profileImages = new ArrayList<ProfileImage>();

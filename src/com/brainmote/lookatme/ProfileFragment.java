@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
 	private ImageButton buttonLike;
 	private ImageButton buttonChat;
 	private List<Bitmap> gallery_images;
-	
+
 	private ImageView genderImage;
 	private TextView textName;
 	private TextView textSurname;
