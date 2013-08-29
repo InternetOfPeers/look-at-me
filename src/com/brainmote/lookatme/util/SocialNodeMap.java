@@ -43,7 +43,8 @@ public class SocialNodeMap {
 
 	public void remove(String nodeId) {
 		Node removed = nodeMap.remove(nodeId);
-		idMap.remove(removed.getProfile().getId());
+		if (removed != null)
+			idMap.remove(removed.getProfile().getId());
 	}
 
 	public int size() {

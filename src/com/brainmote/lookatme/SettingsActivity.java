@@ -16,12 +16,10 @@ public class SettingsActivity extends CommonActivity {
 		setContentView(R.layout.activity_settings);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
 		checkIfProfileIsCompleted();
-
 		// Verifica lo stato del servizio
 		Switch button = (Switch) findViewById(R.id.btn_toggle_communication_service);
 		button.setChecked(Services.businessLogic.isRunning());
 		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
 			public void onCheckedChanged(CompoundButton buttonView, boolean enable) {
 				if (enable) {
 					// Start del servizio di comunicazione

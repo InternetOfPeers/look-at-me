@@ -10,6 +10,7 @@ import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.EventType;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
+import com.brainmote.lookatme.util.Log;
 
 public class CommunicationListenerImpl implements CommunicationListener {
 
@@ -23,6 +24,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 
 	@Override
 	public void onBasicProfileNodeReceived(Node node) {
+		Log.i(node.getId());
 		Services.currentState.putSocialNodeInMap(node);
 		Services.event.post(new Event(EventType.NODE_JOINED, node.getId()));
 	}

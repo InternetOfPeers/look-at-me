@@ -143,18 +143,18 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		return chord.joinChannel(AppSettings.SOCIAL_CHANNEL_NAME, new IChordChannelListener() {
 
 			@Override
-			public void onNodeLeft(String nodeId, String arg1) {
-				Log.d();
-				communicationListener.onNodeLeft(nodeId);
-			}
-
-			@Override
-			public void onNodeJoined(String arg0, String arg1) {
-				Log.d("joinSocialChannel");
+			public void onNodeJoined(String nodeId, String arg1) {
+				Log.i("Il nodo che è appena apparso: " + nodeId);
 				// Mando a tutti una richiesta di aggiornamento del profile
 				Services.businessLogic.refreshSocialList();
 			}
 
+			@Override
+			public void onNodeLeft(String nodeId, String arg1) {
+				Log.i("Il nodo che è appena scomparso: " + nodeId);
+				communicationListener.onNodeLeft(nodeId);
+			}
+			
 			@Override
 			public void onFileWillReceive(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6) {
 				Log.d("NOT IMPLEMENTED");
@@ -502,4 +502,5 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	public List<String> getActiveNodeList() {
 		return getActiveNodeListInChannel(AppSettings.SOCIAL_CHANNEL_NAME);
 	}
+
 }

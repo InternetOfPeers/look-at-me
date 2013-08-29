@@ -15,6 +15,8 @@ import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.service.CurrentState;
+import com.brainmote.lookatme.service.Services;
+import com.brainmote.lookatme.util.Log;
 import com.brainmote.lookatme.util.SocialNodeMap;
 
 public class CurrentStateImpl implements CurrentState {
@@ -61,15 +63,20 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public void putSocialNodeInMap(Node node) {
+		Log.i("Il nodo da aggiungere è " + node.getId());
+		printCurrentNodeList();
 		socialNodeMap.put(node);
-		// TODO Devo verificare che se è già presente una conversazione con
-		// l'utente, nel qual caso serve aggiornare la Conversation con il nuovo
-		// nodeId
+		printCurrentNodeList();
+		Log.i("------------------------------");
 	}
 
 	@Override
-	public void removeSocialNodeFromMap(String nodeName) {
-		socialNodeMap.remove(nodeName);
+	public void removeSocialNodeFromMap(String nodeId) {
+		Log.i("Il nodo da rimuovere è " + nodeId);
+		printCurrentNodeList();
+		socialNodeMap.remove(nodeId);
+		printCurrentNodeList();
+		Log.i("------------------------------");
 	}
 
 	@Override
@@ -185,4 +192,10 @@ public class CurrentStateImpl implements CurrentState {
 		visitSet.remove(profileId);
 	}
 
+	public void printCurrentNodeList() {
+		Log.i("La situazione attuale dei nodi:");
+		for (Node nodo : Services.currentState.getSocialNodeMap().getNodeList()) {
+			Log.i(nodo.getId());
+		}
+	}
 }
