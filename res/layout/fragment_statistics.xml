@@ -16,21 +16,26 @@
             android:layout_height="@dimen/edit_profile_thumbnail_size"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_profile_image" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical" >
+
             <RatingBar
                 android:id="@+id/ratingBar"
-                android:layout_width="150dp"
+                android:layout_width="145dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:clickable="false"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
-                android:isIndicator="false"
+                android:isIndicator="true"
                 android:longClickable="false"
                 android:numStars="3"
                 android:rating="0" />
+
             <TextView
                 android:id="@+id/textScore"
                 android:layout_width="match_parent"

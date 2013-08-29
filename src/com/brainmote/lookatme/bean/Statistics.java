@@ -14,9 +14,9 @@ public class Statistics {
 	}
 
 	public float getScore() {
-		if (visitCount == 0)
+		if (getVisitCount() == 0)
 			return 0;
-		return VISIT_WEIGTH + ((likeCount * LIKE_WEIGHT) / visitCount);
+		return (float) VISIT_WEIGTH + (((float) getLikeCount() * (float) LIKE_WEIGHT) / (float) getVisitCount());
 	}
 
 	public float getRating() {
