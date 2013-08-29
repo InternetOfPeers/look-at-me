@@ -33,10 +33,6 @@ public class CurrentStateImpl implements CurrentState {
 
 	private Set<Interest> interestList = new TreeSet<Interest>();
 
-	private Statistics statistics;
-
-	private Set<String> visitSet = new TreeSet<String>();
-
 	@Override
 	public FullProfile getMyFullProfile() {
 		return DBOpenHelperImpl.getInstance(getContext()).getMyFullProfile();
@@ -92,6 +88,8 @@ public class CurrentStateImpl implements CurrentState {
 	@Override
 	public void addLikedToSet(String profileId) {
 		likedSet.add(profileId);
+		// salvo nel DB
+		DBOpenHelperImpl.getInstance(getContext()).addLike(profileId);
 	}
 
 	@Override
@@ -161,25 +159,13 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public Statistics getStatistics() {
-		if (statistics == null) {
-			statistics = DBOpenHelperImpl.getInstance(getContext()).getStatistics();
-		}
-		return statistics;
-	}
-
-	@Override
-	public Set<String> getVisitSet() {
-		return this.visitSet;
+		return DBOpenHelperImpl.getInstance(getContext()).getStatistics();
 	}
 
 	@Override
 	public void addVisitSet(String profileId) {
-		visitSet.add(profileId);
-	}
-
-	@Override
-	public void removeVisitSet(String profileId) {
-		visitSet.remove(profileId);
+		// salvo nel DB
+		DBOpenHelperImpl.getInstance(getContext()).addVisit(profileId);
 	}
 
 }

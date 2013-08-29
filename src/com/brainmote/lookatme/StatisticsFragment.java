@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.ImageUtil;
+import com.squareup.otto.Subscribe;
 
 public class StatisticsFragment extends Fragment {
 
@@ -31,21 +33,48 @@ public class StatisticsFragment extends Fragment {
 			statisticsThumbnail.setImageBitmap(bitmapThumbnail);
 
 			ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
-			ratingBar.setRating(Services.currentState.getStatistics().getRating());
-
 			textScore = (TextView) view.findViewById(R.id.textScore);
-			String score = "Score: " + Services.currentState.getStatistics().getScore();
-			textScore.setText(score);
-
 			textVisitCount = (TextView) view.findViewById(R.id.textVisitCount);
-			String visitCount = "Your profile has been visited " + Services.currentState.getStatistics().getVisitCount() + " times";
-			textVisitCount.setText(visitCount);
-
 			textLikeCount = (TextView) view.findViewById(R.id.textLikeCount);
-			String likeCount = "You received " + Services.currentState.getStatistics().getLikeCount() + " likes";
-			textLikeCount.setText(likeCount);
+			
+			refreshFragment();
 		}
 		return view;
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		Services.event.register(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		Services.event.unregister(this);
+	}
+	
+	@Subscribe
+	public void onEventReceived(Event event) {
+		switch (event.getEventType()) {
+		case VISIT_RECEIVED:
+		case LIKE_RECEIVED:
+		case LIKE_RECEIVED_AND_MATCH:
+			refreshFragment();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	private void refreshFragment() {
+		ratingBar.setRating(Services.currentState.getStatistics().getRating());
+		String score = "Score: " + Services.currentState.getStatistics().getScore();
+		textScore.setText(score);
+		String visitCount = "Your profile has been visited " + Services.currentState.getStatistics().getVisitCount() + " times";
+		textVisitCount.setText(visitCount);
+		String likeCount = "You received " + Services.currentState.getStatistics().getLikeCount() + " likes";
+		textLikeCount.setText(likeCount);
 	}
 
 }
