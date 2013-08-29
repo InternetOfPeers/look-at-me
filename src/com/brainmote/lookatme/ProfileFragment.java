@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
 	private ImageButton buttonLike;
 	private ImageButton buttonChat;
 	private List<Bitmap> gallery_images;
-	
+
 	private ImageView countryImage;
 	private ImageView genderImage;
 	private TextView textName;
@@ -72,30 +72,7 @@ public class ProfileFragment extends Fragment {
 		final String nodeId = parameters.getString(Nav.NODE_KEY_ID);
 		// preparo i pulsanti
 		buttonLike = (LikeButton) view.findViewById(R.id.buttonLike);
-		//buttonLike.setEnabled(false); // waiting for PROFILE_RECEIVED event
-		buttonLike.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Services.businessLogic.sendLike(nodeId);
-				buttonLike.setEnabled(false);
-				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().findNodeByNodeId(nodeId).getProfile().getNickname(), Toast.LENGTH_LONG)
-						.show();
-			}
-		});
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
-		buttonChat.setEnabled(false); // waiting for PROFILE_RECEIVED event
-		buttonChat.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Services.businessLogic.startChat(nodeId);
-				Bundle parameters = new Bundle();
-				parameters.putString(
-						Nav.CONVERSATION_KEY_ID,
-						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(),
-								Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId)));
-				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
-			}
-		});
 		// Verifico se è il profilo di un utente fake
 		if (AppSettings.fakeUsersEnabled && Services.businessLogic.isFakeUserNode(nodeId)) {
 			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser().getNode());
@@ -168,7 +145,7 @@ public class ProfileFragment extends Fragment {
 	}
 
 	public void prepareProfileAttributes() {
-		Node profileNode = Services.currentState.getProfileViewed();
+		final Node profileNode = Services.currentState.getProfileViewed();
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		gallery_images = new ArrayList<Bitmap>();
 		if (profile != null) {
@@ -209,7 +186,7 @@ public class ProfileFragment extends Fragment {
 					countryImage.setImageResource(R.drawable.uk);
 					break;
 				case US:
-					countryImage.setImageResource(R.drawable.us); 
+					countryImage.setImageResource(R.drawable.us);
 					break;
 				}
 			}
@@ -240,6 +217,27 @@ public class ProfileFragment extends Fragment {
 			}
 			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
 		}
+		buttonLike.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Services.businessLogic.sendLike(profileNode.getId());
+				buttonLike.setEnabled(false);
+				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().findNodeByNodeId(profileNode.getId()).getProfile().getNickname(),
+						Toast.LENGTH_LONG).show();
+			}
+		});
+		buttonChat.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Services.businessLogic.startChat(profileNode.getId());
+				Bundle parameters = new Bundle();
+				parameters.putString(
+						Nav.CONVERSATION_KEY_ID,
+						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(),
+								Services.currentState.getSocialNodeMap().getProfileIdByNodeId(profileNode.getId())));
+				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
+			}
+		});
 		profilePhoto.getAdapter().notifyDataSetChanged();
 		profileReady = true;
 	}
