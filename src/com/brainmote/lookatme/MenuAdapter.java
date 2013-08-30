@@ -59,7 +59,7 @@ public class MenuAdapter extends BaseAdapter {
 			icon.setImageResource(R.drawable.ic_statistics);
 			break;
 		case 4:
-			icon.setImageResource(R.drawable.ic_action_settings);
+			icon.setImageResource(R.drawable.ic_settings);
 			break;
 		case 5:
 			icon.setImageResource(R.drawable.ic_help);
