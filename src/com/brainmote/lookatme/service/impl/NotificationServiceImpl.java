@@ -17,6 +17,7 @@ import com.brainmote.lookatme.ChatMessagesActivity;
 import com.brainmote.lookatme.ProfileActivity;
 import com.brainmote.lookatme.R;
 import com.brainmote.lookatme.service.NotificationService;
+import com.brainmote.lookatme.service.NotificationType;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.brainmote.lookatme.util.Nav;
@@ -28,57 +29,62 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void chatMessage(Context context, String fromName, String fromNodeId, String message, String conversationId) {
 		String title = "New messagge from " + fromName;
-		notifyMessage(context, ChatMessagesActivity.class, CHAT_ID, title, message, fromNodeId, conversationId);
+		notifyMessage(context, ChatMessagesActivity.class, NotificationType.CHAT_MESSAGE_RECEIVED, title, message, fromNodeId, conversationId);
 	}
 
 	@Override
 	public void profileView(Context context, String fromName) {
 		String title = "Your profile has been visited";
 		String message = "Your profile has been visited by " + fromName;
-		notifyMessage(context, ProfileActivity.class, PROFILE_ID, title, message);
+		notifyMessage(context, ProfileActivity.class, NotificationType.YOUR_PROFILE_WAS_VISITED, title, message);
 	}
 
 	@Override
 	public void like(Context context, String fromName, String fromNode) {
 		String title = fromName + " liked your profile!";
 		String message = fromName + " liked your profile!";
-		notifyMessage(context, ProfileActivity.class, LIKED_ID, title, message, fromNode, null);
+		notifyMessage(context, ProfileActivity.class, NotificationType.SOMEONE_LIKED_YOU, title, message, fromNode, null);
 	}
 
 	@Override
 	public void perfectMatch(Context context, String fromName) {
 		String title = "Perfect match!";
 		String message = "You and " + fromName + " creates a perfect match!";
-		notifyMessage(context, ProfileActivity.class, PERFECT_MATCH_ID, title, message);
+		notifyMessage(context, ProfileActivity.class, NotificationType.PERFECT_MATCH, title, message);
 	}
 
 	@Override
 	public int getChatMessagePendingNotifications() {
-		return getPendingNotifications(CHAT_ID);
+		return getPendingNotifications(NotificationType.CHAT_MESSAGE_RECEIVED);
 	}
 
 	@Override
 	public int getProfileViewPendingNotifications() {
-		return getPendingNotifications(PROFILE_ID);
+		return getPendingNotifications(NotificationType.YOUR_PROFILE_WAS_VISITED);
 	}
 
 	@Override
 	public int getLikePendingNotifications() {
-		return getPendingNotifications(LIKED_ID);
+		return getPendingNotifications(NotificationType.SOMEONE_LIKED_YOU);
 	}
 
 	@Override
 	public int getPerfectMatchPendingNotifications() {
-		return getPendingNotifications(PERFECT_MATCH_ID);
+		return getPendingNotifications(NotificationType.PERFECT_MATCH);
 	}
 
 	@Override
-	public void clearActivityNotifications(Activity activity) {
+	public void clearExternalSystemNotifications(Activity activity) {
 		if (activity != null && activity.getIntent() != null && activity.getIntent().getExtras() != null
 				&& activity.getIntent().getExtras().containsKey(Nav.NOTIFICATION_KEY_ID)) {
 			counters.put(activity.getIntent().getExtras().getInt(Nav.NOTIFICATION_KEY_ID), 0);
 		}
+	}
 
+	@Override
+	public void clearLocalNotifications(NotificationType notificationType) {
+		Log.d("clear " + notificationType);
+		counters.put(notificationType.getInt(), 0);
 	}
 
 	/**
@@ -90,34 +96,39 @@ public class NotificationServiceImpl implements NotificationService {
 	 * @param title
 	 * @param message
 	 */
-	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message) {
+	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, NotificationType notificationID, String title, String message) {
 		notifyMessage(context, destinationActivity, notificationID, title, message, null, null);
 	}
 
-	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, int notificationID, String title, String message, String fromNodeId,
-			String conversationId) {
+	private void notifyMessage(Context context, Class<? extends Activity> destinationActivity, NotificationType notificationID, String title, String message,
+			String fromNodeId, String conversationId) {
 		// Verifica lo stato dell'applicazione, standby o attualmente
 		// utilizzata, monitor on o off, e si comporta di conseguenza
 		if (CommonUtils.isApplicationInForeground(context) && CommonUtils.isScreenOn(context)) {
 			// Modifico il messaggio se la notifica è di chat
-			if (notificationID == CHAT_ID)
+			if (notificationID == NotificationType.CHAT_MESSAGE_RECEIVED)
 				message = title;
 			// Verifica il tipo di notifica: se è di tipo chat e l'utente è
-			// nella chat activity, non mostra il toase
-			if (notificationID == CHAT_ID && CommonUtils.getForegroundActivityClassName(context).equals(ChatMessagesActivity.class.getCanonicalName())) {
+			// nella chat activity, non mostra il toast
+			if (notificationID == NotificationType.CHAT_MESSAGE_RECEIVED
+					&& CommonUtils.getForegroundActivityClassName(context).equals(ChatMessagesActivity.class.getCanonicalName())) {
 				// TODO Eseguo un suono discreto di default, non quello di
 				// notifica normale
 			} else {
 				// Mostro un toast
 				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+				// Emetto un suono di default per la notifica
+				planNotificationSound(context);
+				// Aumento il counter della chat
+				counters.put(notificationID.getInt(), counters.get(notificationID.getInt()) + 1);
 			}
 		} else {
 			// Creo una notifica di sistema
 			// Aumenta il counter per il tipo di notifica selezionato
-			counters.put(notificationID, counters.get(notificationID) + 1);
+			counters.put(notificationID.getInt(), counters.get(notificationID.getInt()) + 1);
 			// Crea la notifica da inviare
 			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(message)
-					.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true).setNumber(counters.get(notificationID));
+					.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true).setNumber(counters.get(notificationID.getInt()));
 			// Creates an explicit intent for an Activity in your app
 			Intent resultIntent = new Intent(context, destinationActivity);
 			resultIntent.putExtra(Nav.NOTIFICATION_KEY_ID, notificationID);
@@ -136,24 +147,28 @@ public class NotificationServiceImpl implements NotificationService {
 			mBuilder.setContentIntent(resultPendingIntent);
 			NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			// mId allows you to update the notification later on.
-			mNotificationManager.notify(notificationID, mBuilder.build());
+			mNotificationManager.notify(notificationID.getInt(), mBuilder.build());
 			// Emetto un suono di default per la notifica
-			MediaPlayer mp = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
-			if (mp != null) {
-				mp.setOnCompletionListener(new OnCompletionListener() {
-					@Override
-					public void onCompletion(MediaPlayer mp) {
-						Log.i();
-						mp.release();
-					}
-				});
-				mp.start();
-			}
+			planNotificationSound(context);
 		}
 	}
 
-	private int getPendingNotifications(int notificationID) {
-		return counters.get(notificationID);
+	private void planNotificationSound(Context context) {
+		MediaPlayer mp = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
+		if (mp != null) {
+			mp.setOnCompletionListener(new OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					Log.i();
+					mp.release();
+				}
+			});
+			mp.start();
+		}
+	}
+
+	private int getPendingNotifications(NotificationType notificationID) {
+		return counters.get(notificationID.getInt());
 	}
 
 	private NotificationServiceImpl() {

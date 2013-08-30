@@ -46,16 +46,16 @@ public abstract class CommonActivity extends Activity {
 	protected Bundle extras;
 
 	protected boolean isRootLevel;
+	private MenuListAdapter menuListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d();
 		// Preparo gli eventuali extra passati da chi ha chiamato l'activity
 		extras = getIntent().getExtras() != null ? getIntent().getExtras() : new Bundle();
 		// Cancella le notifiche appese se l'utente proviene da fuori l'app ed a
 		// premuto su un banner di notifica
-		Services.notification.clearActivityNotifications(this);
+		Services.notification.clearExternalSystemNotifications(this);
 	}
 
 	protected void initDrawerMenu(Bundle savedInstanceState, Class<? extends Activity> activityClass, boolean isRootLevel) {
@@ -71,7 +71,8 @@ public abstract class CommonActivity extends Activity {
 		// opens
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// set up the drawer's list view with items and click listener
-		mDrawerList.setAdapter(new MenuAdapter(this, mPlanetTitles));
+		menuListAdapter = new MenuListAdapter(this, mPlanetTitles);
+		mDrawerList.setAdapter(menuListAdapter);
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
@@ -117,7 +118,6 @@ public abstract class CommonActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.d();
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.common, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -131,10 +131,14 @@ public abstract class CommonActivity extends Activity {
 			// If the nav drawer is open, hide action items related to the
 			// content view
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			// MenuItem actionSettingsButton =
-			// menu.findItem(R.id.action_settings);
-			// if (actionSettingsButton != null)
-			// actionSettingsButton.setVisible(!drawerOpen);
+			MenuItem menuAction = menu.findItem(R.id.action_force_refresh);
+			if (menuAction != null)
+				menuAction.setVisible(!drawerOpen);
+			// Poiché potrebbero esserci delle notifiche da visualizzare
+			// (numerello
+			// vicino alla voce di menu), aggiorno il menu
+			if (menuListAdapter != null)
+				menuListAdapter.notifyDataSetChanged();
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}

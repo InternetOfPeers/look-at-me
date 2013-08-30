@@ -5,12 +5,7 @@ import android.content.Context;
 
 public interface NotificationService {
 
-	final int CHAT_ID = 0;
-	final int PROFILE_ID = 1;
-	final int LIKED_ID = 2;
-	final int PERFECT_MATCH_ID = 3;
-
-	void clearActivityNotifications(Activity context);
+	void clearExternalSystemNotifications(Activity context);
 
 	void chatMessage(Context context, String fromName, String fromNodeId, String message, String conversationId);
 
@@ -27,4 +22,6 @@ public interface NotificationService {
 	void perfectMatch(Context context, String fromName);
 
 	int getPerfectMatchPendingNotifications();
+
+	void clearLocalNotifications(NotificationType notificationType);
 }

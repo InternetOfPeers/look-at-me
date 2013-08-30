@@ -10,7 +10,7 @@
     <string name="title_edit_profile_activity">MyProfile</string>
     <string name="title_manage_interest_activity">Interest</string>
     <string name="title_add_interest_activity">Add Interest</string>
-    <string name="title_messages_activity">Conversations</string>
+    <string name="title_messages_activity">Chat</string>
     <string name="title_statistics_activity">Statistics</string>
     <string name="title_settings_activity">Settings</string>
     <string name="title_feelings_activity">Feelings</string>
@@ -48,7 +48,7 @@
     <string-array name="menu_items">
         <item>Profile</item>
         <item>Nearby</item>
-        <item>Conversations</item>
+        <item>Chat</item>
         <item>Statistics</item>
         <item>Settings</item>
         <item>Help</item>

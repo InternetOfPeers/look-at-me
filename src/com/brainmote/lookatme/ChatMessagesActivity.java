@@ -6,6 +6,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.brainmote.lookatme.service.NotificationType;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Nav;
 
@@ -49,6 +50,13 @@ public class ChatMessagesActivity extends CommonActivity {
 			break;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Cancello le notifiche di chat
+		Services.notification.clearLocalNotifications(NotificationType.CHAT_MESSAGE_RECEIVED);
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	public ChatConversation getConversation() {

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.brainmote.lookatme.constants.AppSettings;
+import com.brainmote.lookatme.service.NotificationType;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
 
@@ -43,6 +44,13 @@ public class NearbyActivity extends CommonActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Cancello le notifiche di like
+		Services.notification.clearLocalNotifications(NotificationType.SOMEONE_LIKED_YOU);
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

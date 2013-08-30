@@ -1,6 +1,10 @@
 package com.brainmote.lookatme;
 
 import android.os.Bundle;
+import android.view.Menu;
+
+import com.brainmote.lookatme.service.NotificationType;
+import com.brainmote.lookatme.service.Services;
 
 public class ChatConversationsActivity extends CommonActivity {
 
@@ -12,4 +16,10 @@ public class ChatConversationsActivity extends CommonActivity {
 		checkIfProfileIsCompleted();
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Cancello le notifiche di chat
+		Services.notification.clearLocalNotifications(NotificationType.CHAT_MESSAGE_RECEIVED);
+		return super.onPrepareOptionsMenu(menu);
+	}
 }
