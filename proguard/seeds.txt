@@ -1,0 +1,798 @@
+android.support.v4.app.BackStackState
+android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.Fragment$SavedState
+android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentManagerState
+android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentState
+android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentTabHost: void setOnTabChangedListener(android.widget.TabHost$OnTabChangeListener)
+android.support.v4.app.FragmentTabHost$SavedState
+android.support.v4.app.FragmentTabHost$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColor(int)
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColorResource(int)
+android.support.v4.view.PagerTabStrip: int getTabIndicatorColor()
+android.support.v4.view.PagerTabStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+android.support.v4.view.PagerTabStrip: void setBackgroundColor(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundResource(int)
+android.support.v4.view.PagerTabStrip: void setDrawFullUnderline(boolean)
+android.support.v4.view.PagerTabStrip: boolean getDrawFullUnderline()
+android.support.v4.view.PagerTabStrip: int getMinHeight()
+android.support.v4.view.PagerTitleStrip: void setSingleLineAllCaps(android.widget.TextView)
+android.support.v4.view.PagerTitleStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTitleStrip: int getTextSpacing()
+android.support.v4.view.PagerTitleStrip: void setNonPrimaryAlpha(float)
+android.support.v4.view.PagerTitleStrip: void setTextColor(int)
+android.support.v4.view.PagerTitleStrip: void setGravity(int)
+android.support.v4.view.PagerTitleStrip: int getMinHeight()
+android.support.v4.view.ViewPager: ViewPager(android.content.Context)
+android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager: void setScrollState(int)
+android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
+android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
+android.support.v4.view.ViewPager: void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener)
+android.support.v4.view.ViewPager: int getClientWidth()
+android.support.v4.view.ViewPager: void setCurrentItem(int)
+android.support.v4.view.ViewPager: int getCurrentItem()
+android.support.v4.view.ViewPager: void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener)
+android.support.v4.view.ViewPager: void setChildrenDrawingOrderEnabledCompat(boolean)
+android.support.v4.view.ViewPager: int getOffscreenPageLimit()
+android.support.v4.view.ViewPager: void setOffscreenPageLimit(int)
+android.support.v4.view.ViewPager: void setPageMargin(int)
+android.support.v4.view.ViewPager: int getPageMargin()
+android.support.v4.view.ViewPager: void setPageMarginDrawable(android.graphics.drawable.Drawable)
+android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
+android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
+android.support.v4.view.ViewPager$SavedState
+android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.DrawerLayout
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context)
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet,int)
+android.support.v4.widget.DrawerLayout: void setScrimColor(int)
+android.support.v4.widget.DrawerLayout: void setDrawerListener(android.support.v4.widget.DrawerLayout$DrawerListener)
+android.support.v4.widget.DrawerLayout: void setDrawerLockMode(int)
+android.support.v4.widget.DrawerLayout$SavedState
+android.support.v4.widget.DrawerLayout$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.SlidingPaneLayout: void setParallaxDistance(int)
+android.support.v4.widget.SlidingPaneLayout: int getParallaxDistance()
+android.support.v4.widget.SlidingPaneLayout: void setSliderFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getSliderFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setCoveredFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getCoveredFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setPanelSlideListener(android.support.v4.widget.SlidingPaneLayout$PanelSlideListener)
+android.support.v4.widget.SlidingPaneLayout: void setShadowDrawable(android.graphics.drawable.Drawable)
+android.support.v4.widget.SlidingPaneLayout: void setShadowResource(int)
+android.support.v4.widget.SlidingPaneLayout$SavedState
+android.support.v4.widget.SlidingPaneLayout$SavedState: android.os.Parcelable$Creator CREATOR
+com.brainmote.lookatme.AddInterestActivity
+com.brainmote.lookatme.AddInterestActivity: AddInterestActivity()
+com.brainmote.lookatme.ChatConversationsActivity
+com.brainmote.lookatme.ChatConversationsActivity: ChatConversationsActivity()
+com.brainmote.lookatme.ChatConversationsListFragment
+com.brainmote.lookatme.ChatConversationsListFragment: ChatConversationsListFragment()
+com.brainmote.lookatme.ChatMessagesActivity
+com.brainmote.lookatme.ChatMessagesActivity: ChatMessagesActivity()
+com.brainmote.lookatme.ChatMessagesListFragment
+com.brainmote.lookatme.ChatMessagesListFragment: ChatMessagesListFragment()
+com.brainmote.lookatme.CommonActivity: CommonActivity()
+com.brainmote.lookatme.EditProfileActivity
+com.brainmote.lookatme.EditProfileActivity: EditProfileActivity()
+com.brainmote.lookatme.EditProfileActivity: void onSaveButtonPressed(android.view.View)
+com.brainmote.lookatme.EditProfileActivity: void onAddImageButtonPressed(android.view.View)
+com.brainmote.lookatme.HackyViewPager
+com.brainmote.lookatme.HackyViewPager: HackyViewPager(android.content.Context,android.util.AttributeSet)
+com.brainmote.lookatme.HackyViewPager: HackyViewPager(android.content.Context)
+com.brainmote.lookatme.HelpActivity
+com.brainmote.lookatme.HelpActivity: HelpActivity()
+com.brainmote.lookatme.HelpFragment
+com.brainmote.lookatme.HelpFragment: HelpFragment()
+com.brainmote.lookatme.LikeButton
+com.brainmote.lookatme.LikeButton: LikeButton(android.content.Context)
+com.brainmote.lookatme.LikeButton: LikeButton(android.content.Context,android.util.AttributeSet)
+com.brainmote.lookatme.LikeButton: LikeButton(android.content.Context,android.util.AttributeSet,int)
+com.brainmote.lookatme.LikeButton: void setEnabled(boolean)
+com.brainmote.lookatme.ManageInterestActivity
+com.brainmote.lookatme.ManageInterestActivity: ManageInterestActivity()
+com.brainmote.lookatme.ManageInterestActivity: void onAddInterest(android.view.View)
+com.brainmote.lookatme.NearbyActivity
+com.brainmote.lookatme.NearbyActivity: NearbyActivity()
+com.brainmote.lookatme.NearbyListFragment
+com.brainmote.lookatme.NearbyListFragment: NearbyListFragment()
+com.brainmote.lookatme.ProfileActivity
+com.brainmote.lookatme.ProfileActivity: ProfileActivity()
+com.brainmote.lookatme.ProfileFragment
+com.brainmote.lookatme.ProfileFragment: ProfileFragment()
+com.brainmote.lookatme.R$array: int age_array
+com.brainmote.lookatme.R$array: int country_array
+com.brainmote.lookatme.R$array: int gender_array
+com.brainmote.lookatme.R$array: int language_array
+com.brainmote.lookatme.R$array: int menu_items
+com.brainmote.lookatme.R$color: int action_bar_background
+com.brainmote.lookatme.R$color: int action_bar_divider
+com.brainmote.lookatme.R$color: int aliceblue
+com.brainmote.lookatme.R$color: int antiquewhite
+com.brainmote.lookatme.R$color: int aqua
+com.brainmote.lookatme.R$color: int aquamarine
+com.brainmote.lookatme.R$color: int azure
+com.brainmote.lookatme.R$color: int beige
+com.brainmote.lookatme.R$color: int bisque
+com.brainmote.lookatme.R$color: int black
+com.brainmote.lookatme.R$color: int blanchedalmond
+com.brainmote.lookatme.R$color: int blue
+com.brainmote.lookatme.R$color: int blueviolet
+com.brainmote.lookatme.R$color: int brown
+com.brainmote.lookatme.R$color: int burlywood
+com.brainmote.lookatme.R$color: int cadetblue
+com.brainmote.lookatme.R$color: int chartreuse
+com.brainmote.lookatme.R$color: int chocolate
+com.brainmote.lookatme.R$color: int coral
+com.brainmote.lookatme.R$color: int cornflowerblue
+com.brainmote.lookatme.R$color: int cornsilk
+com.brainmote.lookatme.R$color: int crimson
+com.brainmote.lookatme.R$color: int cyan
+com.brainmote.lookatme.R$color: int darkblue
+com.brainmote.lookatme.R$color: int darkcyan
+com.brainmote.lookatme.R$color: int darkgoldenrod
+com.brainmote.lookatme.R$color: int darkgray
+com.brainmote.lookatme.R$color: int darkgreen
+com.brainmote.lookatme.R$color: int darkkhaki
+com.brainmote.lookatme.R$color: int darkmagenta
+com.brainmote.lookatme.R$color: int darkolivegreen
+com.brainmote.lookatme.R$color: int darkorange
+com.brainmote.lookatme.R$color: int darkorchid
+com.brainmote.lookatme.R$color: int darkred
+com.brainmote.lookatme.R$color: int darksalmon
+com.brainmote.lookatme.R$color: int darkseagreen
+com.brainmote.lookatme.R$color: int darkslateblue
+com.brainmote.lookatme.R$color: int darkslategray
+com.brainmote.lookatme.R$color: int darkturquoise
+com.brainmote.lookatme.R$color: int darkviolet
+com.brainmote.lookatme.R$color: int deeppink
+com.brainmote.lookatme.R$color: int deepskyblue
+com.brainmote.lookatme.R$color: int dimgray
+com.brainmote.lookatme.R$color: int dodgerblue
+com.brainmote.lookatme.R$color: int firebrick
+com.brainmote.lookatme.R$color: int floralwhite
+com.brainmote.lookatme.R$color: int forestgreen
+com.brainmote.lookatme.R$color: int fuchsia
+com.brainmote.lookatme.R$color: int gainsboro
+com.brainmote.lookatme.R$color: int ghostwhite
+com.brainmote.lookatme.R$color: int gold
+com.brainmote.lookatme.R$color: int goldenrod
+com.brainmote.lookatme.R$color: int gray
+com.brainmote.lookatme.R$color: int green
+com.brainmote.lookatme.R$color: int greenyellow
+com.brainmote.lookatme.R$color: int grid_state_focused
+com.brainmote.lookatme.R$color: int grid_state_pressed
+com.brainmote.lookatme.R$color: int honeydew
+com.brainmote.lookatme.R$color: int hotpink
+com.brainmote.lookatme.R$color: int indianred
+com.brainmote.lookatme.R$color: int indigo
+com.brainmote.lookatme.R$color: int itemPressHighlight
+com.brainmote.lookatme.R$color: int itemSelectedHighlight
+com.brainmote.lookatme.R$color: int ivory
+com.brainmote.lookatme.R$color: int khaki
+com.brainmote.lookatme.R$color: int lavender
+com.brainmote.lookatme.R$color: int lavenderblush
+com.brainmote.lookatme.R$color: int lawngreen
+com.brainmote.lookatme.R$color: int lemonchiffon
+com.brainmote.lookatme.R$color: int lightblue
+com.brainmote.lookatme.R$color: int lightcoral
+com.brainmote.lookatme.R$color: int lightcyan
+com.brainmote.lookatme.R$color: int lightgoldenrodyellow
+com.brainmote.lookatme.R$color: int lightgreen
+com.brainmote.lookatme.R$color: int lightgrey
+com.brainmote.lookatme.R$color: int lightpink
+com.brainmote.lookatme.R$color: int lightsalmon
+com.brainmote.lookatme.R$color: int lightseagreen
+com.brainmote.lookatme.R$color: int lightskyblue
+com.brainmote.lookatme.R$color: int lightslategray
+com.brainmote.lookatme.R$color: int lightsteelblue
+com.brainmote.lookatme.R$color: int lightyellow
+com.brainmote.lookatme.R$color: int lime
+com.brainmote.lookatme.R$color: int limegreen
+com.brainmote.lookatme.R$color: int linen
+com.brainmote.lookatme.R$color: int magenta
+com.brainmote.lookatme.R$color: int maroon
+com.brainmote.lookatme.R$color: int mediumaquamarine
+com.brainmote.lookatme.R$color: int mediumblue
+com.brainmote.lookatme.R$color: int mediumorchid
+com.brainmote.lookatme.R$color: int mediumpurple
+com.brainmote.lookatme.R$color: int mediumseagreen
+com.brainmote.lookatme.R$color: int mediumslateblue
+com.brainmote.lookatme.R$color: int mediumspringgreen
+com.brainmote.lookatme.R$color: int mediumturquoise
+com.brainmote.lookatme.R$color: int mediumvioletred
+com.brainmote.lookatme.R$color: int midnightblue
+com.brainmote.lookatme.R$color: int mintcream
+com.brainmote.lookatme.R$color: int mistyrose
+com.brainmote.lookatme.R$color: int moccasin
+com.brainmote.lookatme.R$color: int navajowhite
+com.brainmote.lookatme.R$color: int navy
+com.brainmote.lookatme.R$color: int oldlace
+com.brainmote.lookatme.R$color: int olive
+com.brainmote.lookatme.R$color: int olivedrab
+com.brainmote.lookatme.R$color: int orange
+com.brainmote.lookatme.R$color: int orangered
+com.brainmote.lookatme.R$color: int orchid
+com.brainmote.lookatme.R$color: int palegoldenrod
+com.brainmote.lookatme.R$color: int palegreen
+com.brainmote.lookatme.R$color: int paleturquoise
+com.brainmote.lookatme.R$color: int palevioletred
+com.brainmote.lookatme.R$color: int papayawhip
+com.brainmote.lookatme.R$color: int peachpuff
+com.brainmote.lookatme.R$color: int peru
+com.brainmote.lookatme.R$color: int pink
+com.brainmote.lookatme.R$color: int plum
+com.brainmote.lookatme.R$color: int powderblue
+com.brainmote.lookatme.R$color: int purple
+com.brainmote.lookatme.R$color: int red
+com.brainmote.lookatme.R$color: int rosybrown
+com.brainmote.lookatme.R$color: int royalblue
+com.brainmote.lookatme.R$color: int saddlebrown
+com.brainmote.lookatme.R$color: int salmon
+com.brainmote.lookatme.R$color: int sandybrown
+com.brainmote.lookatme.R$color: int seagreen
+com.brainmote.lookatme.R$color: int seashell
+com.brainmote.lookatme.R$color: int sienna
+com.brainmote.lookatme.R$color: int silver
+com.brainmote.lookatme.R$color: int skyblue
+com.brainmote.lookatme.R$color: int slateblue
+com.brainmote.lookatme.R$color: int slategray
+com.brainmote.lookatme.R$color: int snow
+com.brainmote.lookatme.R$color: int springgreen
+com.brainmote.lookatme.R$color: int steelblue
+com.brainmote.lookatme.R$color: int tan
+com.brainmote.lookatme.R$color: int teal
+com.brainmote.lookatme.R$color: int thistle
+com.brainmote.lookatme.R$color: int tomato
+com.brainmote.lookatme.R$color: int turquoise
+com.brainmote.lookatme.R$color: int violet
+com.brainmote.lookatme.R$color: int wheat
+com.brainmote.lookatme.R$color: int white
+com.brainmote.lookatme.R$color: int whitesmoke
+com.brainmote.lookatme.R$color: int yellow
+com.brainmote.lookatme.R$color: int yellowgreen
+com.brainmote.lookatme.R$dimen: int activity_horizontal_margin
+com.brainmote.lookatme.R$dimen: int activity_vertical_margin
+com.brainmote.lookatme.R$dimen: int chat_conversations_list_padding_bottom
+com.brainmote.lookatme.R$dimen: int chat_conversations_list_thumbnail_size
+com.brainmote.lookatme.R$dimen: int edit_profile_scroll_thumbnail_size
+com.brainmote.lookatme.R$dimen: int edit_profile_thumbnail_size
+com.brainmote.lookatme.R$dimen: int manage_image_thumbnail_size
+com.brainmote.lookatme.R$dimen: int nearby_thumbnail_spacing
+com.brainmote.lookatme.R$dimen: int scrollbar_size
+com.brainmote.lookatme.R$drawable: int add_photo
+com.brainmote.lookatme.R$drawable: int bottom_profile_gradient
+com.brainmote.lookatme.R$drawable: int btn_chat_send
+com.brainmote.lookatme.R$drawable: int button_profile_gradient
+com.brainmote.lookatme.R$drawable: int canada
+com.brainmote.lookatme.R$drawable: int chat_icon
+com.brainmote.lookatme.R$drawable: int china
+com.brainmote.lookatme.R$drawable: int delete_photo
+com.brainmote.lookatme.R$drawable: int drawer_shadow
+com.brainmote.lookatme.R$drawable: int france
+com.brainmote.lookatme.R$drawable: int gender_background
+com.brainmote.lookatme.R$drawable: int germany
+com.brainmote.lookatme.R$drawable: int ic_action_settings
+com.brainmote.lookatme.R$drawable: int ic_conversations
+com.brainmote.lookatme.R$drawable: int ic_drawer
+com.brainmote.lookatme.R$drawable: int ic_edit_profile
+com.brainmote.lookatme.R$drawable: int ic_help
+com.brainmote.lookatme.R$drawable: int ic_launcher
+com.brainmote.lookatme.R$drawable: int ic_navigation_previous_item
+com.brainmote.lookatme.R$drawable: int ic_navigation_refresh
+com.brainmote.lookatme.R$drawable: int ic_nearby
+com.brainmote.lookatme.R$drawable: int ic_profile_image
+com.brainmote.lookatme.R$drawable: int ic_settings
+com.brainmote.lookatme.R$drawable: int ic_social_person
+com.brainmote.lookatme.R$drawable: int ic_social_send_now
+com.brainmote.lookatme.R$drawable: int ic_statistics
+com.brainmote.lookatme.R$drawable: int ic_void
+com.brainmote.lookatme.R$drawable: int italy
+com.brainmote.lookatme.R$drawable: int japan
+com.brainmote.lookatme.R$drawable: int korea
+com.brainmote.lookatme.R$drawable: int left_message_bg
+com.brainmote.lookatme.R$drawable: int love_icon
+com.brainmote.lookatme.R$drawable: int love_icon_grey
+com.brainmote.lookatme.R$drawable: int love_icon_small
+com.brainmote.lookatme.R$drawable: int main_photo
+com.brainmote.lookatme.R$drawable: int mars_symbol
+com.brainmote.lookatme.R$drawable: int menu_notification_number_background
+com.brainmote.lookatme.R$drawable: int nearbygrid_list_selector
+com.brainmote.lookatme.R$drawable: int profile_thumbnail_border
+com.brainmote.lookatme.R$drawable: int right_message_bg
+com.brainmote.lookatme.R$drawable: int splashscreen
+com.brainmote.lookatme.R$drawable: int splashscreen_r
+com.brainmote.lookatme.R$drawable: int taiwan
+com.brainmote.lookatme.R$drawable: int transgender_symbol
+com.brainmote.lookatme.R$drawable: int uk
+com.brainmote.lookatme.R$drawable: int us
+com.brainmote.lookatme.R$drawable: int venus_symbol
+com.brainmote.lookatme.R$id: int action_force_refresh
+com.brainmote.lookatme.R$id: int action_view_profile
+com.brainmote.lookatme.R$id: int btn_toggle_communication_service
+com.brainmote.lookatme.R$id: int button1
+com.brainmote.lookatme.R$id: int buttonChat
+com.brainmote.lookatme.R$id: int buttonLike
+com.brainmote.lookatme.R$id: int chatMessagesListView
+com.brainmote.lookatme.R$id: int chat_conversations_message_no_conversation_yet
+com.brainmote.lookatme.R$id: int checkBoxAddInterest
+com.brainmote.lookatme.R$id: int deleteImageButton
+com.brainmote.lookatme.R$id: int dialog_button_close
+com.brainmote.lookatme.R$id: int dialog_message
+com.brainmote.lookatme.R$id: int drawer_item_notification_number
+com.brainmote.lookatme.R$id: int drawer_layout
+com.brainmote.lookatme.R$id: int edit_profile_button_add_image
+com.brainmote.lookatme.R$id: int edit_profile_button_save
+com.brainmote.lookatme.R$id: int edit_profile_field_name
+com.brainmote.lookatme.R$id: int edit_profile_field_nickname
+com.brainmote.lookatme.R$id: int edit_profile_field_surname
+com.brainmote.lookatme.R$id: int edit_profile_image_list
+com.brainmote.lookatme.R$id: int edit_profile_image_thumbnail
+com.brainmote.lookatme.R$id: int edit_profile_label_age
+com.brainmote.lookatme.R$id: int edit_profile_label_country
+com.brainmote.lookatme.R$id: int edit_profile_label_gender
+com.brainmote.lookatme.R$id: int edit_profile_label_language
+com.brainmote.lookatme.R$id: int edit_profile_label_name
+com.brainmote.lookatme.R$id: int edit_profile_label_nickname
+com.brainmote.lookatme.R$id: int edit_profile_label_surname
+com.brainmote.lookatme.R$id: int edit_profile_spinner_age
+com.brainmote.lookatme.R$id: int edit_profile_spinner_country
+com.brainmote.lookatme.R$id: int edit_profile_spinner_gender
+com.brainmote.lookatme.R$id: int edit_profile_spinner_language
+com.brainmote.lookatme.R$id: int fragment_chat_list
+com.brainmote.lookatme.R$id: int fragment_conversations_list
+com.brainmote.lookatme.R$id: int fragment_help
+com.brainmote.lookatme.R$id: int fragment_list
+com.brainmote.lookatme.R$id: int fragment_profile
+com.brainmote.lookatme.R$id: int fragment_statistics
+com.brainmote.lookatme.R$id: int hackyViewPager
+com.brainmote.lookatme.R$id: int help_text_info
+com.brainmote.lookatme.R$id: int image
+com.brainmote.lookatme.R$id: int imageCountry
+com.brainmote.lookatme.R$id: int imageGender
+com.brainmote.lookatme.R$id: int imageLiked
+com.brainmote.lookatme.R$id: int imageView1
+com.brainmote.lookatme.R$id: int image_logo
+com.brainmote.lookatme.R$id: int interestId
+com.brainmote.lookatme.R$id: int interestListView
+com.brainmote.lookatme.R$id: int labelChat
+com.brainmote.lookatme.R$id: int labelLike
+com.brainmote.lookatme.R$id: int lastMessageDate
+com.brainmote.lookatme.R$id: int lastMessageText
+com.brainmote.lookatme.R$id: int left_drawer
+com.brainmote.lookatme.R$id: int linearLayout1
+com.brainmote.lookatme.R$id: int mainImageButton
+com.brainmote.lookatme.R$id: int messageEdit
+com.brainmote.lookatme.R$id: int messageListView
+com.brainmote.lookatme.R$id: int myInterestListView
+com.brainmote.lookatme.R$id: int nearbyListView
+com.brainmote.lookatme.R$id: int nearby_no_users_yet
+com.brainmote.lookatme.R$id: int nickNameText
+com.brainmote.lookatme.R$id: int profilePhotoImage
+com.brainmote.lookatme.R$id: int ratingBar
+com.brainmote.lookatme.R$id: int relativeLayout1
+com.brainmote.lookatme.R$id: int sendButton
+com.brainmote.lookatme.R$id: int settings_communication_service
+com.brainmote.lookatme.R$id: int statisticsThumbnail
+com.brainmote.lookatme.R$id: int textLabel
+com.brainmote.lookatme.R$id: int textLikeCount
+com.brainmote.lookatme.R$id: int textName
+com.brainmote.lookatme.R$id: int textScore
+com.brainmote.lookatme.R$id: int textSurname
+com.brainmote.lookatme.R$id: int textView1
+com.brainmote.lookatme.R$id: int textView2
+com.brainmote.lookatme.R$id: int textVisitCount
+com.brainmote.lookatme.R$layout: int activity_add_interest
+com.brainmote.lookatme.R$layout: int activity_chat_conversations
+com.brainmote.lookatme.R$layout: int activity_chat_messages
+com.brainmote.lookatme.R$layout: int activity_edit_profile
+com.brainmote.lookatme.R$layout: int activity_help
+com.brainmote.lookatme.R$layout: int activity_manage_interest
+com.brainmote.lookatme.R$layout: int activity_nearby
+com.brainmote.lookatme.R$layout: int activity_profile
+com.brainmote.lookatme.R$layout: int activity_settings
+com.brainmote.lookatme.R$layout: int activity_splashscreen
+com.brainmote.lookatme.R$layout: int activity_statistics
+com.brainmote.lookatme.R$layout: int dialog_generic
+com.brainmote.lookatme.R$layout: int dialog_manage_image
+com.brainmote.lookatme.R$layout: int drawer_list
+com.brainmote.lookatme.R$layout: int drawer_list_item
+com.brainmote.lookatme.R$layout: int fragment_chat_conversations_list
+com.brainmote.lookatme.R$layout: int fragment_chat_conversations_list_item
+com.brainmote.lookatme.R$layout: int fragment_chat_messages_list
+com.brainmote.lookatme.R$layout: int fragment_chat_messages_list_item
+com.brainmote.lookatme.R$layout: int fragment_edit_profile
+com.brainmote.lookatme.R$layout: int fragment_help
+com.brainmote.lookatme.R$layout: int fragment_nearby_list
+com.brainmote.lookatme.R$layout: int fragment_nearby_list_item
+com.brainmote.lookatme.R$layout: int fragment_profile
+com.brainmote.lookatme.R$layout: int fragment_settings
+com.brainmote.lookatme.R$layout: int fragment_statistics
+com.brainmote.lookatme.R$layout: int interest_info_add
+com.brainmote.lookatme.R$layout: int interest_info_manage
+com.brainmote.lookatme.R$layout: int scroll_gallery_item
+com.brainmote.lookatme.R$layout: int spinner_custom
+com.brainmote.lookatme.R$menu: int chat_conversations
+com.brainmote.lookatme.R$menu: int common
+com.brainmote.lookatme.R$menu: int nearby
+com.brainmote.lookatme.R$string: int action_force_refresh
+com.brainmote.lookatme.R$string: int action_settings
+com.brainmote.lookatme.R$string: int action_view_profile
+com.brainmote.lookatme.R$string: int app_name
+com.brainmote.lookatme.R$string: int blink_btn
+com.brainmote.lookatme.R$string: int button_toggle_service
+com.brainmote.lookatme.R$string: int chat_btn
+com.brainmote.lookatme.R$string: int chat_conversations_message_no_conversations_yet
+com.brainmote.lookatme.R$string: int chat_messages_dialog_error_title
+com.brainmote.lookatme.R$string: int click_back_again_to_exit
+com.brainmote.lookatme.R$string: int country_CA
+com.brainmote.lookatme.R$string: int country_CN
+com.brainmote.lookatme.R$string: int country_DE
+com.brainmote.lookatme.R$string: int country_FR
+com.brainmote.lookatme.R$string: int country_IT
+com.brainmote.lookatme.R$string: int country_JA
+com.brainmote.lookatme.R$string: int country_KR
+com.brainmote.lookatme.R$string: int country_TW
+com.brainmote.lookatme.R$string: int country_UK
+com.brainmote.lookatme.R$string: int country_US
+com.brainmote.lookatme.R$string: int delete
+com.brainmote.lookatme.R$string: int dialog_button_close_label
+com.brainmote.lookatme.R$string: int drawer_close
+com.brainmote.lookatme.R$string: int drawer_open
+com.brainmote.lookatme.R$string: int edit_profile_add_image_select_picture
+com.brainmote.lookatme.R$string: int edit_profile_button_add_image_text
+com.brainmote.lookatme.R$string: int edit_profile_button_save_profile_text
+com.brainmote.lookatme.R$string: int edit_profile_button_save_profile_text_first_time
+com.brainmote.lookatme.R$string: int edit_profile_field_name_hint
+com.brainmote.lookatme.R$string: int edit_profile_field_nickname_hint
+com.brainmote.lookatme.R$string: int edit_profile_field_surname_hint
+com.brainmote.lookatme.R$string: int edit_profile_image_thumbnail_alt
+com.brainmote.lookatme.R$string: int edit_profile_image_thumbnail_description
+com.brainmote.lookatme.R$string: int edit_profile_label_age_text
+com.brainmote.lookatme.R$string: int edit_profile_label_country_text
+com.brainmote.lookatme.R$string: int edit_profile_label_gender_text
+com.brainmote.lookatme.R$string: int edit_profile_label_language_text
+com.brainmote.lookatme.R$string: int edit_profile_label_name_text
+com.brainmote.lookatme.R$string: int edit_profile_label_nickname_text
+com.brainmote.lookatme.R$string: int edit_profile_label_surname_text
+com.brainmote.lookatme.R$string: int edit_profile_message_mandatory_fields_not_set
+com.brainmote.lookatme.R$string: int edit_profile_message_profile_saved
+com.brainmote.lookatme.R$string: int edit_profile_message_unable_to_load_image
+com.brainmote.lookatme.R$string: int edit_profile_spinner_age_prompt
+com.brainmote.lookatme.R$string: int edit_profile_spinner_country_prompt
+com.brainmote.lookatme.R$string: int edit_profile_spinner_gender_prompt
+com.brainmote.lookatme.R$string: int edit_profile_spinner_language_prompt
+com.brainmote.lookatme.R$string: int first_time_dialog_button_go_to_profile_text
+com.brainmote.lookatme.R$string: int first_time_dialog_message
+com.brainmote.lookatme.R$string: int first_time_dialog_title
+com.brainmote.lookatme.R$string: int gender_female
+com.brainmote.lookatme.R$string: int gender_male
+com.brainmote.lookatme.R$string: int gender_transgender
+com.brainmote.lookatme.R$string: int help_text_info
+com.brainmote.lookatme.R$string: int hint_chat_message_text
+com.brainmote.lookatme.R$string: int language_de
+com.brainmote.lookatme.R$string: int language_en
+com.brainmote.lookatme.R$string: int language_fr
+com.brainmote.lookatme.R$string: int language_fr_CA
+com.brainmote.lookatme.R$string: int language_it
+com.brainmote.lookatme.R$string: int language_ja
+com.brainmote.lookatme.R$string: int language_ko
+com.brainmote.lookatme.R$string: int language_zh
+com.brainmote.lookatme.R$string: int language_zh_CN
+com.brainmote.lookatme.R$string: int language_zh_TW
+com.brainmote.lookatme.R$string: int loading_profile_message
+com.brainmote.lookatme.R$string: int message_cant_delete_profile_image
+com.brainmote.lookatme.R$string: int message_no_conversation_with_that_id
+com.brainmote.lookatme.R$string: int message_warning
+com.brainmote.lookatme.R$string: int message_wifi_required
+com.brainmote.lookatme.R$string: int nearby_message_no_users_yet
+com.brainmote.lookatme.R$string: int no_profile_button_label
+com.brainmote.lookatme.R$string: int no_profile_message
+com.brainmote.lookatme.R$string: int no_profile_title
+com.brainmote.lookatme.R$string: int profile_selected_image
+com.brainmote.lookatme.R$string: int send_btn
+com.brainmote.lookatme.R$string: int setAsMainImage
+com.brainmote.lookatme.R$string: int set_as_main
+com.brainmote.lookatme.R$string: int settings_communication_service_text
+com.brainmote.lookatme.R$string: int text_chat_alt_profile_image
+com.brainmote.lookatme.R$string: int text_chat_datetime
+com.brainmote.lookatme.R$string: int text_chat_message
+com.brainmote.lookatme.R$string: int text_chat_sender
+com.brainmote.lookatme.R$string: int text_hint_txt
+com.brainmote.lookatme.R$string: int text_interest
+com.brainmote.lookatme.R$string: int text_matching_score
+com.brainmote.lookatme.R$string: int text_profile_liked
+com.brainmote.lookatme.R$string: int text_profile_photo_image
+com.brainmote.lookatme.R$string: int title_add_interest_activity
+com.brainmote.lookatme.R$string: int title_chat_activity
+com.brainmote.lookatme.R$string: int title_edit_profile_activity
+com.brainmote.lookatme.R$string: int title_feelings_activity
+com.brainmote.lookatme.R$string: int title_help_activity
+com.brainmote.lookatme.R$string: int title_manage_interest_activity
+com.brainmote.lookatme.R$string: int title_messages_activity
+com.brainmote.lookatme.R$string: int title_profile_activity
+com.brainmote.lookatme.R$string: int title_settings_activity
+com.brainmote.lookatme.R$string: int title_social_activity
+com.brainmote.lookatme.R$string: int title_splash_activity
+com.brainmote.lookatme.R$string: int title_splashscreen
+com.brainmote.lookatme.R$string: int title_statistics_activity
+com.brainmote.lookatme.R$string: int unable_to_send_chat_message
+com.brainmote.lookatme.R$string: int user_is_not_nearby_anymore
+com.brainmote.lookatme.R$string: int viewFullProfile_btn
+com.brainmote.lookatme.R$string: int view_profile_btn_chat
+com.brainmote.lookatme.R$string: int view_profile_btn_like
+com.brainmote.lookatme.R$string: int view_profile_label_like
+com.brainmote.lookatme.R$string: int view_profile_lbl_chat
+com.brainmote.lookatme.R$string: int void_placeholder
+com.brainmote.lookatme.R$string: int vote_btn
+com.brainmote.lookatme.R$style: int ActionBar
+com.brainmote.lookatme.R$style: int AppBaseTheme
+com.brainmote.lookatme.R$style: int AppTheme
+com.brainmote.lookatme.R$style: int NearbyGridLayout
+com.brainmote.lookatme.SettingsActivity
+com.brainmote.lookatme.SettingsActivity: SettingsActivity()
+com.brainmote.lookatme.SplashActivity
+com.brainmote.lookatme.SplashActivity: SplashActivity()
+com.brainmote.lookatme.StatisticsActivity
+com.brainmote.lookatme.StatisticsActivity: StatisticsActivity()
+com.brainmote.lookatme.StatisticsFragment
+com.brainmote.lookatme.StatisticsFragment: StatisticsFragment()
+com.brainmote.lookatme.chord.MessageType: com.brainmote.lookatme.chord.MessageType[] values()
+com.brainmote.lookatme.chord.MessageType: com.brainmote.lookatme.chord.MessageType valueOf(java.lang.String)
+com.brainmote.lookatme.enumattribute.Color: com.brainmote.lookatme.enumattribute.Color[] values()
+com.brainmote.lookatme.enumattribute.Color: com.brainmote.lookatme.enumattribute.Color valueOf(java.lang.String)
+com.brainmote.lookatme.enumattribute.Country: com.brainmote.lookatme.enumattribute.Country[] values()
+com.brainmote.lookatme.enumattribute.Country: com.brainmote.lookatme.enumattribute.Country valueOf(java.lang.String)
+com.brainmote.lookatme.enumattribute.Gender: com.brainmote.lookatme.enumattribute.Gender[] values()
+com.brainmote.lookatme.enumattribute.Gender: com.brainmote.lookatme.enumattribute.Gender valueOf(java.lang.String)
+com.brainmote.lookatme.enumattribute.Language: com.brainmote.lookatme.enumattribute.Language[] values()
+com.brainmote.lookatme.enumattribute.Language: com.brainmote.lookatme.enumattribute.Language valueOf(java.lang.String)
+com.brainmote.lookatme.enumattribute.SexualPreference: com.brainmote.lookatme.enumattribute.SexualPreference[] values()
+com.brainmote.lookatme.enumattribute.SexualPreference: com.brainmote.lookatme.enumattribute.SexualPreference valueOf(java.lang.String)
+com.brainmote.lookatme.service.EventType: com.brainmote.lookatme.service.EventType[] values()
+com.brainmote.lookatme.service.EventType: com.brainmote.lookatme.service.EventType valueOf(java.lang.String)
+com.brainmote.lookatme.service.NotificationType: com.brainmote.lookatme.service.NotificationType[] values()
+com.brainmote.lookatme.service.NotificationType: com.brainmote.lookatme.service.NotificationType valueOf(java.lang.String)
+com.brainmote.lookatme.service.impl.BusinessLogicServiceImpl
+com.brainmote.lookatme.service.impl.BusinessLogicServiceImpl: BusinessLogicServiceImpl()
+com.devsmart.android.ui.EqualSpaceLayout: void setOrientation(int)
+com.devsmart.android.ui.HorizontalListView
+com.devsmart.android.ui.HorizontalListView: HorizontalListView(android.content.Context,android.util.AttributeSet)
+com.devsmart.android.ui.HorizontalListView: void setOnItemSelectedListener(android.widget.AdapterView$OnItemSelectedListener)
+com.devsmart.android.ui.HorizontalListView: void setOnItemClickListener(android.widget.AdapterView$OnItemClickListener)
+com.devsmart.android.ui.HorizontalListView: void setOnItemLongClickListener(android.widget.AdapterView$OnItemLongClickListener)
+com.devsmart.android.ui.HorizontalListView: android.widget.ListAdapter getAdapter()
+com.devsmart.android.ui.HorizontalListView: android.view.View getSelectedView()
+com.devsmart.android.ui.HorizontalListView: void setAdapter(android.widget.ListAdapter)
+com.devsmart.android.ui.HorizontalListView: void setHeightMeasureMode(boolean)
+com.devsmart.android.ui.HorizontalListView: void setSelection(int)
+com.devsmart.android.ui.HorizontalListView: android.widget.Adapter getAdapter()
+com.devsmart.android.ui.HorizontalListView: void setAdapter(android.widget.Adapter)
+com.google.common.base.AbstractIterator$State: com.google.common.base.AbstractIterator$State[] values()
+com.google.common.base.AbstractIterator$State: com.google.common.base.AbstractIterator$State valueOf(java.lang.String)
+com.google.common.base.CaseFormat: com.google.common.base.CaseFormat[] values()
+com.google.common.base.CaseFormat: com.google.common.base.CaseFormat valueOf(java.lang.String)
+com.google.common.base.Functions$IdentityFunction: com.google.common.base.Functions$IdentityFunction[] values()
+com.google.common.base.Functions$IdentityFunction: com.google.common.base.Functions$IdentityFunction valueOf(java.lang.String)
+com.google.common.base.Functions$ToStringFunction: com.google.common.base.Functions$ToStringFunction[] values()
+com.google.common.base.Functions$ToStringFunction: com.google.common.base.Functions$ToStringFunction valueOf(java.lang.String)
+com.google.common.base.Predicates$ObjectPredicate: com.google.common.base.Predicates$ObjectPredicate[] values()
+com.google.common.base.Predicates$ObjectPredicate: com.google.common.base.Predicates$ObjectPredicate valueOf(java.lang.String)
+com.google.common.base.Suppliers$SupplierFunction: com.google.common.base.Suppliers$SupplierFunction[] values()
+com.google.common.base.Suppliers$SupplierFunction: com.google.common.base.Suppliers$SupplierFunction valueOf(java.lang.String)
+com.google.common.cache.CacheBuilder$NullListener: com.google.common.cache.CacheBuilder$NullListener[] values()
+com.google.common.cache.CacheBuilder$NullListener: com.google.common.cache.CacheBuilder$NullListener valueOf(java.lang.String)
+com.google.common.cache.CacheBuilder$OneWeigher: com.google.common.cache.CacheBuilder$OneWeigher[] values()
+com.google.common.cache.CacheBuilder$OneWeigher: com.google.common.cache.CacheBuilder$OneWeigher valueOf(java.lang.String)
+com.google.common.cache.LocalCache$EntryFactory: com.google.common.cache.LocalCache$EntryFactory[] values()
+com.google.common.cache.LocalCache$EntryFactory: com.google.common.cache.LocalCache$EntryFactory valueOf(java.lang.String)
+com.google.common.cache.LocalCache$NullEntry: com.google.common.cache.LocalCache$NullEntry[] values()
+com.google.common.cache.LocalCache$NullEntry: com.google.common.cache.LocalCache$NullEntry valueOf(java.lang.String)
+com.google.common.cache.LocalCache$Strength: com.google.common.cache.LocalCache$Strength[] values()
+com.google.common.cache.LocalCache$Strength: com.google.common.cache.LocalCache$Strength valueOf(java.lang.String)
+com.google.common.cache.RemovalCause: com.google.common.cache.RemovalCause[] values()
+com.google.common.cache.RemovalCause: com.google.common.cache.RemovalCause valueOf(java.lang.String)
+com.google.common.collect.AbstractIterator$State: com.google.common.collect.AbstractIterator$State[] values()
+com.google.common.collect.AbstractIterator$State: com.google.common.collect.AbstractIterator$State valueOf(java.lang.String)
+com.google.common.collect.BoundType: com.google.common.collect.BoundType[] values()
+com.google.common.collect.BoundType: com.google.common.collect.BoundType valueOf(java.lang.String)
+com.google.common.collect.Constraints$NotNullConstraint: com.google.common.collect.Constraints$NotNullConstraint[] values()
+com.google.common.collect.Constraints$NotNullConstraint: com.google.common.collect.Constraints$NotNullConstraint valueOf(java.lang.String)
+com.google.common.collect.GenericMapMaker$NullListener: com.google.common.collect.GenericMapMaker$NullListener[] values()
+com.google.common.collect.GenericMapMaker$NullListener: com.google.common.collect.GenericMapMaker$NullListener valueOf(java.lang.String)
+com.google.common.collect.Interners$WeakInterner$Dummy: com.google.common.collect.Interners$WeakInterner$Dummy[] values()
+com.google.common.collect.Interners$WeakInterner$Dummy: com.google.common.collect.Interners$WeakInterner$Dummy valueOf(java.lang.String)
+com.google.common.collect.MapConstraints$NotNullMapConstraint: com.google.common.collect.MapConstraints$NotNullMapConstraint[] values()
+com.google.common.collect.MapConstraints$NotNullMapConstraint: com.google.common.collect.MapConstraints$NotNullMapConstraint valueOf(java.lang.String)
+com.google.common.collect.MapMaker$RemovalCause: com.google.common.collect.MapMaker$RemovalCause[] values()
+com.google.common.collect.MapMaker$RemovalCause: com.google.common.collect.MapMaker$RemovalCause valueOf(java.lang.String)
+com.google.common.collect.MapMakerInternalMap$EntryFactory: com.google.common.collect.MapMakerInternalMap$EntryFactory[] values()
+com.google.common.collect.MapMakerInternalMap$EntryFactory: com.google.common.collect.MapMakerInternalMap$EntryFactory valueOf(java.lang.String)
+com.google.common.collect.MapMakerInternalMap$NullEntry: com.google.common.collect.MapMakerInternalMap$NullEntry[] values()
+com.google.common.collect.MapMakerInternalMap$NullEntry: com.google.common.collect.MapMakerInternalMap$NullEntry valueOf(java.lang.String)
+com.google.common.collect.MapMakerInternalMap$Strength: com.google.common.collect.MapMakerInternalMap$Strength[] values()
+com.google.common.collect.MapMakerInternalMap$Strength: com.google.common.collect.MapMakerInternalMap$Strength valueOf(java.lang.String)
+com.google.common.collect.Maps$EntryFunction: com.google.common.collect.Maps$EntryFunction[] values()
+com.google.common.collect.Maps$EntryFunction: com.google.common.collect.Maps$EntryFunction valueOf(java.lang.String)
+com.google.common.collect.SortedLists$KeyAbsentBehavior: com.google.common.collect.SortedLists$KeyAbsentBehavior[] values()
+com.google.common.collect.SortedLists$KeyAbsentBehavior: com.google.common.collect.SortedLists$KeyAbsentBehavior valueOf(java.lang.String)
+com.google.common.collect.SortedLists$KeyPresentBehavior: com.google.common.collect.SortedLists$KeyPresentBehavior[] values()
+com.google.common.collect.SortedLists$KeyPresentBehavior: com.google.common.collect.SortedLists$KeyPresentBehavior valueOf(java.lang.String)
+com.google.common.collect.TreeMultiset$Aggregate: com.google.common.collect.TreeMultiset$Aggregate[] values()
+com.google.common.collect.TreeMultiset$Aggregate: com.google.common.collect.TreeMultiset$Aggregate valueOf(java.lang.String)
+com.google.common.hash.BloomFilterStrategies: com.google.common.hash.BloomFilterStrategies[] values()
+com.google.common.hash.BloomFilterStrategies: com.google.common.hash.BloomFilterStrategies valueOf(java.lang.String)
+com.google.common.hash.Funnels$ByteArrayFunnel: com.google.common.hash.Funnels$ByteArrayFunnel[] values()
+com.google.common.hash.Funnels$ByteArrayFunnel: com.google.common.hash.Funnels$ByteArrayFunnel valueOf(java.lang.String)
+com.google.common.hash.Funnels$IntegerFunnel: com.google.common.hash.Funnels$IntegerFunnel[] values()
+com.google.common.hash.Funnels$IntegerFunnel: com.google.common.hash.Funnels$IntegerFunnel valueOf(java.lang.String)
+com.google.common.hash.Funnels$LongFunnel: com.google.common.hash.Funnels$LongFunnel[] values()
+com.google.common.hash.Funnels$LongFunnel: com.google.common.hash.Funnels$LongFunnel valueOf(java.lang.String)
+com.google.common.hash.Funnels$StringFunnel: com.google.common.hash.Funnels$StringFunnel[] values()
+com.google.common.hash.Funnels$StringFunnel: com.google.common.hash.Funnels$StringFunnel valueOf(java.lang.String)
+com.google.common.hash.Hashing$ChecksumType: com.google.common.hash.Hashing$ChecksumType[] values()
+com.google.common.hash.Hashing$ChecksumType: com.google.common.hash.Hashing$ChecksumType valueOf(java.lang.String)
+com.google.common.io.FileWriteMode: com.google.common.io.FileWriteMode[] values()
+com.google.common.io.FileWriteMode: com.google.common.io.FileWriteMode valueOf(java.lang.String)
+com.google.common.primitives.Booleans$LexicographicalComparator: com.google.common.primitives.Booleans$LexicographicalComparator[] values()
+com.google.common.primitives.Booleans$LexicographicalComparator: com.google.common.primitives.Booleans$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.Chars$LexicographicalComparator: com.google.common.primitives.Chars$LexicographicalComparator[] values()
+com.google.common.primitives.Chars$LexicographicalComparator: com.google.common.primitives.Chars$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.Doubles$LexicographicalComparator: com.google.common.primitives.Doubles$LexicographicalComparator[] values()
+com.google.common.primitives.Doubles$LexicographicalComparator: com.google.common.primitives.Doubles$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.Floats$LexicographicalComparator: com.google.common.primitives.Floats$LexicographicalComparator[] values()
+com.google.common.primitives.Floats$LexicographicalComparator: com.google.common.primitives.Floats$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.Ints$LexicographicalComparator: com.google.common.primitives.Ints$LexicographicalComparator[] values()
+com.google.common.primitives.Ints$LexicographicalComparator: com.google.common.primitives.Ints$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.Longs$LexicographicalComparator: com.google.common.primitives.Longs$LexicographicalComparator[] values()
+com.google.common.primitives.Longs$LexicographicalComparator: com.google.common.primitives.Longs$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.Shorts$LexicographicalComparator: com.google.common.primitives.Shorts$LexicographicalComparator[] values()
+com.google.common.primitives.Shorts$LexicographicalComparator: com.google.common.primitives.Shorts$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.SignedBytes$LexicographicalComparator: com.google.common.primitives.SignedBytes$LexicographicalComparator[] values()
+com.google.common.primitives.SignedBytes$LexicographicalComparator: com.google.common.primitives.SignedBytes$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$PureJavaComparator: com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$PureJavaComparator[] values()
+com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$PureJavaComparator: com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$PureJavaComparator valueOf(java.lang.String)
+com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$UnsafeComparator: com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$UnsafeComparator[] values()
+com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$UnsafeComparator: com.google.common.primitives.UnsignedBytes$LexicographicalComparatorHolder$UnsafeComparator valueOf(java.lang.String)
+com.google.common.primitives.UnsignedInts$LexicographicalComparator: com.google.common.primitives.UnsignedInts$LexicographicalComparator[] values()
+com.google.common.primitives.UnsignedInts$LexicographicalComparator: com.google.common.primitives.UnsignedInts$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.primitives.UnsignedLongs$LexicographicalComparator: com.google.common.primitives.UnsignedLongs$LexicographicalComparator[] values()
+com.google.common.primitives.UnsignedLongs$LexicographicalComparator: com.google.common.primitives.UnsignedLongs$LexicographicalComparator valueOf(java.lang.String)
+com.google.common.reflect.TypeToken$TypeFilter: com.google.common.reflect.TypeToken$TypeFilter[] values()
+com.google.common.reflect.TypeToken$TypeFilter: com.google.common.reflect.TypeToken$TypeFilter valueOf(java.lang.String)
+com.google.common.reflect.Types$ClassOwnership: com.google.common.reflect.Types$ClassOwnership[] values()
+com.google.common.reflect.Types$ClassOwnership: com.google.common.reflect.Types$ClassOwnership valueOf(java.lang.String)
+com.google.common.reflect.Types$JavaVersion: com.google.common.reflect.Types$JavaVersion[] values()
+com.google.common.reflect.Types$JavaVersion: com.google.common.reflect.Types$JavaVersion valueOf(java.lang.String)
+com.google.common.util.concurrent.CycleDetectingLockFactory$Policies: com.google.common.util.concurrent.CycleDetectingLockFactory$Policies[] values()
+com.google.common.util.concurrent.CycleDetectingLockFactory$Policies: com.google.common.util.concurrent.CycleDetectingLockFactory$Policies valueOf(java.lang.String)
+com.google.common.util.concurrent.Service$State: com.google.common.util.concurrent.Service$State[] values()
+com.google.common.util.concurrent.Service$State: com.google.common.util.concurrent.Service$State valueOf(java.lang.String)
+com.samsung.chord.ChordAgent
+com.samsung.chord.ChordAgent: int ChordInit(java.lang.String)
+com.samsung.chord.ChordAgent: int ChordInit(java.lang.String,java.lang.String)
+com.samsung.chord.ChordAgent: boolean ChordRelease()
+com.samsung.chord.ChordAgent: void setUsingInterface(java.lang.String)
+com.samsung.chord.ChordAgent: java.lang.String getUsingInterfaceName()
+com.samsung.chord.ChordAgent: void setConnectivityState(int)
+com.samsung.chord.ChordAgent: int getChordAgentState()
+com.samsung.chord.ChordAgent: boolean ChordStart()
+com.samsung.chord.ChordAgent: boolean ChordStop()
+com.samsung.chord.ChordAgent: int joinChannel(java.lang.String,int)
+com.samsung.chord.ChordAgent: int leaveChannelEx(java.lang.String)
+com.samsung.chord.ChordAgent: java.lang.String[] getJoinedChannelList()
+com.samsung.chord.ChordAgent: java.lang.String[] getConnectedNodeList(java.lang.String)
+com.samsung.chord.ChordAgent: void setLivenessTimeout(long)
+com.samsung.chord.ChordAgent: void setUdpDiscover(boolean)
+com.samsung.chord.ChordAgent: void setNodeExpiry(boolean)
+com.samsung.chord.ChordAgent: int getDiscoveryPortNumber()
+com.samsung.chord.ChordAgent: java.lang.String getDiscoveryIP()
+com.samsung.chord.ChordAgent: java.lang.String getNodeIpAddress(java.lang.String,java.lang.String)
+com.samsung.chord.ChordAgent: int sendData(java.lang.String,java.lang.String,java.lang.String,byte[][])
+com.samsung.chord.ChordAgent: java.lang.String shareFile(java.lang.String,java.lang.String,java.lang.String,java.lang.String,long)
+com.samsung.chord.ChordAgent: boolean acceptFile(java.lang.String,java.lang.String,long,int,long)
+com.samsung.chord.ChordAgent: boolean rejectFile(java.lang.String,java.lang.String)
+com.samsung.chord.ChordAgent: boolean cancelFile(java.lang.String,java.lang.String)
+com.samsung.chord.ChordAgent: void onNodeJoinedSender(java.lang.String)
+javax.annotation.CheckForNull
+javax.annotation.CheckForSigned
+javax.annotation.CheckReturnValue
+javax.annotation.CheckReturnValue: javax.annotation.meta.When when()
+javax.annotation.Detainted
+javax.annotation.MatchesPattern
+javax.annotation.MatchesPattern: java.lang.String value()
+javax.annotation.MatchesPattern: int flags()
+javax.annotation.MatchesPattern$Checker
+javax.annotation.MatchesPattern$Checker: MatchesPattern$Checker()
+javax.annotation.MatchesPattern$Checker: javax.annotation.meta.When forConstantValue(javax.annotation.MatchesPattern,java.lang.Object)
+javax.annotation.MatchesPattern$Checker: javax.annotation.meta.When forConstantValue(java.lang.annotation.Annotation,java.lang.Object)
+javax.annotation.Nonnegative
+javax.annotation.Nonnegative: javax.annotation.meta.When when()
+javax.annotation.Nonnegative$Checker
+javax.annotation.Nonnegative$Checker: Nonnegative$Checker()
+javax.annotation.Nonnegative$Checker: javax.annotation.meta.When forConstantValue(javax.annotation.Nonnegative,java.lang.Object)
+javax.annotation.Nonnegative$Checker: javax.annotation.meta.When forConstantValue(java.lang.annotation.Annotation,java.lang.Object)
+javax.annotation.Nonnull
+javax.annotation.Nonnull: javax.annotation.meta.When when()
+javax.annotation.Nonnull$Checker
+javax.annotation.Nonnull$Checker: Nonnull$Checker()
+javax.annotation.Nonnull$Checker: javax.annotation.meta.When forConstantValue(javax.annotation.Nonnull,java.lang.Object)
+javax.annotation.Nonnull$Checker: javax.annotation.meta.When forConstantValue(java.lang.annotation.Annotation,java.lang.Object)
+javax.annotation.Nullable
+javax.annotation.OverridingMethodsMustInvokeSuper
+javax.annotation.ParametersAreNonnullByDefault
+javax.annotation.PropertyKey
+javax.annotation.PropertyKey: javax.annotation.meta.When when()
+javax.annotation.RegEx
+javax.annotation.RegEx: javax.annotation.meta.When when()
+javax.annotation.RegEx$Checker
+javax.annotation.RegEx$Checker: RegEx$Checker()
+javax.annotation.RegEx$Checker: javax.annotation.meta.When forConstantValue(javax.annotation.RegEx,java.lang.Object)
+javax.annotation.RegEx$Checker: javax.annotation.meta.When forConstantValue(java.lang.annotation.Annotation,java.lang.Object)
+javax.annotation.Signed
+javax.annotation.Syntax
+javax.annotation.Syntax: java.lang.String value()
+javax.annotation.Syntax: javax.annotation.meta.When when()
+javax.annotation.Tainted
+javax.annotation.Untainted
+javax.annotation.Untainted: javax.annotation.meta.When when()
+javax.annotation.WillClose
+javax.annotation.WillCloseWhenClosed
+javax.annotation.WillNotClose
+javax.annotation.concurrent.GuardedBy
+javax.annotation.concurrent.GuardedBy: java.lang.String value()
+javax.annotation.concurrent.Immutable
+javax.annotation.concurrent.NotThreadSafe
+javax.annotation.concurrent.ThreadSafe
+javax.annotation.meta.Exclusive
+javax.annotation.meta.Exhaustive
+javax.annotation.meta.TypeQualifier
+javax.annotation.meta.TypeQualifier: java.lang.Class applicableTo()
+javax.annotation.meta.TypeQualifierDefault
+javax.annotation.meta.TypeQualifierDefault: java.lang.annotation.ElementType[] value()
+javax.annotation.meta.TypeQualifierNickname
+javax.annotation.meta.TypeQualifierValidator
+javax.annotation.meta.TypeQualifierValidator: javax.annotation.meta.When forConstantValue(java.lang.annotation.Annotation,java.lang.Object)
+javax.annotation.meta.When
+javax.annotation.meta.When: javax.annotation.meta.When ALWAYS
+javax.annotation.meta.When: javax.annotation.meta.When UNKNOWN
+javax.annotation.meta.When: javax.annotation.meta.When MAYBE
+javax.annotation.meta.When: javax.annotation.meta.When NEVER
+javax.annotation.meta.When: javax.annotation.meta.When[] $VALUES
+javax.annotation.meta.When: javax.annotation.meta.When[] values()
+javax.annotation.meta.When: javax.annotation.meta.When valueOf(java.lang.String)
+javax.annotation.meta.When: When(java.lang.String,int)
+javax.annotation.meta.When: void <clinit>()
+javax.inject.Inject
+javax.inject.Named
+javax.inject.Named: java.lang.String value()
+javax.inject.Provider
+javax.inject.Provider: java.lang.Object get()
+javax.inject.Qualifier
+javax.inject.Scope
+javax.inject.Singleton
+uk.co.senab.photoview.PhotoView: android.graphics.RectF getDisplayRect()
+uk.co.senab.photoview.PhotoView: float getMinScale()
+uk.co.senab.photoview.PhotoView: float getMidScale()
+uk.co.senab.photoview.PhotoView: float getMaxScale()
+uk.co.senab.photoview.PhotoView: float getScale()
+uk.co.senab.photoview.PhotoView: android.widget.ImageView$ScaleType getScaleType()
+uk.co.senab.photoview.PhotoView: void setAllowParentInterceptOnEdge(boolean)
+uk.co.senab.photoview.PhotoView: void setMinScale(float)
+uk.co.senab.photoview.PhotoView: void setMidScale(float)
+uk.co.senab.photoview.PhotoView: void setMaxScale(float)
+uk.co.senab.photoview.PhotoView: void setImageDrawable(android.graphics.drawable.Drawable)
+uk.co.senab.photoview.PhotoView: void setImageResource(int)
+uk.co.senab.photoview.PhotoView: void setImageURI(android.net.Uri)
+uk.co.senab.photoview.PhotoView: void setOnMatrixChangeListener(uk.co.senab.photoview.PhotoViewAttacher$OnMatrixChangedListener)
+uk.co.senab.photoview.PhotoView: void setOnLongClickListener(android.view.View$OnLongClickListener)
+uk.co.senab.photoview.PhotoView: void setOnPhotoTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnPhotoTapListener)
+uk.co.senab.photoview.PhotoView: void setOnViewTapListener(uk.co.senab.photoview.PhotoViewAttacher$OnViewTapListener)
+uk.co.senab.photoview.PhotoView: void setScaleType(android.widget.ImageView$ScaleType)
+uk.co.senab.photoview.PhotoView: void setZoomable(boolean)
