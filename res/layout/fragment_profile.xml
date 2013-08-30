@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+
         <com.brainmote.lookatme.HackyViewPager
             android:id="@+id/hackyViewPager"
             android:layout_width="match_parent"
@@ -78,7 +80,6 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#fff" />
                 </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -130,8 +131,7 @@
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
     </RelativeLayout>
+
 </LinearLayout>

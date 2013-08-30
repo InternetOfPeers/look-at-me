@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MenuAdapter extends BaseAdapter {
-	
+
 	private Activity activity;
 	private String[] menuLabels;
-	
+
 	public MenuAdapter(Activity activity, String[] menuLabels) {
 		this.activity = activity;
 		this.menuLabels = menuLabels;
@@ -44,8 +44,9 @@ public class MenuAdapter extends BaseAdapter {
 		}
 		TextView label = (TextView) convertView.findViewById(R.id.textLabel);
 		label.setText(getItem(position));
+
 		ImageView icon = (ImageView) convertView.findViewById(R.id.imageView1);
-		switch(position) {
+		switch (position) {
 		case 0:
 			icon.setImageResource(R.drawable.ic_edit_profile);
 			break;
@@ -68,6 +69,4 @@ public class MenuAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	
-	
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="ivory">#FFFFF0</color>
     <color name="lightyellow">#FFFFE0</color>
     <color name="snow">#FFFAFA</color>
@@ -124,4 +125,5 @@
     <color name="darkgreen">#006400</color>
     <color name="mediumblue">#0000CD</color>
     <color name="darkblue">#00008B</color>
+
 </resources>

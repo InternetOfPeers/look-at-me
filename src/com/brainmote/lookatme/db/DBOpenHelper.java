@@ -1,7 +1,6 @@
 package com.brainmote.lookatme.db;
 
 import java.util.List;
-import java.util.Set;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -224,7 +223,7 @@ public interface DBOpenHelper {
 	public Statistics getStatistics();
 
 	public void addLike(String profileId);
-	
+
 	public void addVisit(String profileId);
 
 }
