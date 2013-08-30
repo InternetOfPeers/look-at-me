@@ -7,9 +7,11 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_horizontal_margin" >
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
+
         <ImageView
             android:id="@+id/statisticsThumbnail"
             android:layout_width="@dimen/edit_profile_thumbnail_size"
@@ -46,6 +48,7 @@
                 android:textStyle="italic" />
         </LinearLayout>
     </LinearLayout>
+
     <TextView
         android:id="@+id/textVisitCount"
         android:layout_width="match_parent"
@@ -54,6 +57,7 @@
         android:text="Your profile has been visited N times"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="italic" />
+
     <TextView
         android:id="@+id/textLikeCount"
         android:layout_width="match_parent"
@@ -62,4 +66,5 @@
         android:text="You received N like"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="italic" />
+
 </LinearLayout>

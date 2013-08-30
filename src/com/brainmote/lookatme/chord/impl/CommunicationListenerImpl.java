@@ -70,7 +70,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.notification.chatMessage(Services.currentState.getContext(), otherNickName, fromNodeId, message, conversationId);
 		Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, fromNodeId));
 	}
-	
+
 	@Override
 	public void onFullProfileRequestReceived(String nodeId) {
 		Services.currentState.addVisitSet(Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId));

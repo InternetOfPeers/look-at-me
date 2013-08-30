@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -767,7 +766,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.insert(TABLE_LIKE, null, contentValues);
 		}
 	}
-	
+
 	public void addVisit(String profileId) {
 		if (selectProfileIdFromStatisticsTable(profileId, TABLE_VISIT, TABLE_VISIT_COLUMN_PROFILE_ID) == null) {
 			ContentValues contentValues = new ContentValues();
@@ -775,7 +774,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.insert(TABLE_VISIT, null, contentValues);
 		}
 	}
-	
+
 	private String selectProfileIdFromStatisticsTable(String profileId, String table, String tableColumn) {
 		Cursor cursor = null;
 		String result = null;
@@ -784,10 +783,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			cursor = database.rawQuery("SELECT " + tableColumn + " FROM " + table + " WHERE " + tableColumn + "=? ", new String[] { profileId });
 
 			if (cursor.moveToFirst()) {
-				//do {
-					result = cursor.getString(cursor.getColumnIndex(tableColumn));
-					return result;
-				//} while (cursor.moveToNext());
+				// do {
+				result = cursor.getString(cursor.getColumnIndex(tableColumn));
+				return result;
+				// } while (cursor.moveToNext());
 
 			}
 		} catch (Throwable e) {

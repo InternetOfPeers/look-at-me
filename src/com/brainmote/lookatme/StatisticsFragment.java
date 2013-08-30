@@ -36,12 +36,12 @@ public class StatisticsFragment extends Fragment {
 			textScore = (TextView) view.findViewById(R.id.textScore);
 			textVisitCount = (TextView) view.findViewById(R.id.textVisitCount);
 			textLikeCount = (TextView) view.findViewById(R.id.textLikeCount);
-			
+
 			refreshFragment();
 		}
 		return view;
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -53,7 +53,7 @@ public class StatisticsFragment extends Fragment {
 		super.onStop();
 		Services.event.unregister(this);
 	}
-	
+
 	@Subscribe
 	public void onEventReceived(Event event) {
 		switch (event.getEventType()) {
@@ -66,7 +66,7 @@ public class StatisticsFragment extends Fragment {
 			break;
 		}
 	}
-	
+
 	private void refreshFragment() {
 		ratingBar.setRating(Services.currentState.getStatistics().getRating());
 		String score = "Score: " + Services.currentState.getStatistics().getScore();

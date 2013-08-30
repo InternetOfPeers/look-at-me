@@ -13,7 +13,7 @@ public interface CommunicationListener {
 	public void onLikeReceived(String fromNode);
 
 	public void onChatMessageReceived(String fromNode, String message);
-	
+
 	public void onFullProfileRequestReceived(String nodeId);
 
 }
