@@ -50,6 +50,7 @@ public class NearbyActivity extends CommonActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// Cancello le notifiche di like
 		Services.notification.clearLocalNotifications(NotificationType.SOMEONE_LIKED_YOU);
+		Services.notification.clearLocalNotifications(NotificationType.PERFECT_MATCH);
 		return super.onPrepareOptionsMenu(menu);
 	}
 

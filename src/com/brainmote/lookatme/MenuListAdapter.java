@@ -55,10 +55,13 @@ public class MenuListAdapter extends BaseAdapter {
 			break;
 		case 1:
 			icon.setImageResource(R.drawable.ic_nearby);
-			pendingMessages = Services.notification.getLikePendingNotifications();
+			pendingMessages = Services.notification.getLikePendingNotifications() + Services.notification.getPerfectMatchPendingNotifications();
 			if (pendingMessages > 0) {
 				notificationNumber.setText(String.valueOf(pendingMessages));
 				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+			} else {
+				notificationNumber.setText("");
+				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.ic_void));
 			}
 			break;
 		case 2:
@@ -67,6 +70,9 @@ public class MenuListAdapter extends BaseAdapter {
 			if (pendingMessages > 0) {
 				notificationNumber.setText(String.valueOf(pendingMessages));
 				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+			} else {
+				notificationNumber.setText("");
+				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.ic_void));
 			}
 			break;
 		case 3:

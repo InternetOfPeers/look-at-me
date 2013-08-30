@@ -126,7 +126,6 @@ public abstract class CommonActivity extends Activity {
 	/* Called whenever we call invalidateOptionsMenu() */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		Log.d();
 		if (mDrawerLayout != null && mDrawerList != null) {
 			// If the nav drawer is open, hide action items related to the
 			// content view
@@ -137,8 +136,9 @@ public abstract class CommonActivity extends Activity {
 			// Poiché potrebbero esserci delle notifiche da visualizzare
 			// (numerello
 			// vicino alla voce di menu), aggiorno il menu
-			if (menuListAdapter != null)
+			if (menuListAdapter != null) {
 				menuListAdapter.notifyDataSetChanged();
+			}
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
