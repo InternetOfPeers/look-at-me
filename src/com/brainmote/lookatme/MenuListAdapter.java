@@ -2,6 +2,7 @@ package com.brainmote.lookatme;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,10 +59,18 @@ public class MenuListAdapter extends BaseAdapter {
 			pendingMessages = Services.notification.getLikePendingNotifications() + Services.notification.getPerfectMatchPendingNotifications();
 			if (pendingMessages > 0) {
 				notificationNumber.setText(String.valueOf(pendingMessages));
-				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+				if (Build.VERSION.SDK_INT >= 16) {
+					notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+				} else {
+					notificationNumber.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+				}
 			} else {
 				notificationNumber.setText("");
-				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.ic_void));
+				if (Build.VERSION.SDK_INT >= 16) {
+					notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.ic_void));
+				} else {
+					notificationNumber.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.ic_void));
+				}
 			}
 			break;
 		case 2:
@@ -69,10 +78,18 @@ public class MenuListAdapter extends BaseAdapter {
 			pendingMessages = Services.notification.getChatMessagePendingNotifications();
 			if (pendingMessages > 0) {
 				notificationNumber.setText(String.valueOf(pendingMessages));
-				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+				if (Build.VERSION.SDK_INT >= 16) {
+					notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+				} else {
+					notificationNumber.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
+				}
 			} else {
 				notificationNumber.setText("");
-				notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.ic_void));
+				if (Build.VERSION.SDK_INT >= 16) {
+					notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.ic_void));
+				} else {
+					notificationNumber.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.ic_void));
+				}
 			}
 			break;
 		case 3:
