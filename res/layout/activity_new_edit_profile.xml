@@ -6,7 +6,7 @@
     
     <fragment
         android:id="@+id/fragment_new_edit_profile"
-        android:name="com.brainmote.lookatme.NewEditProfileFragment"
+        android:name="com.brainmote.lookatme.EditProfileFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     

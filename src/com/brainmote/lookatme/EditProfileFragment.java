@@ -39,7 +39,7 @@ import com.brainmote.lookatme.util.Log;
 import com.brainmote.lookatme.util.Nav;
 import com.devsmart.android.ui.HorizontalListView;
 
-public class NewEditProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment {
 
 	private View view;
 	private ImageButton mainProfileImage;
@@ -62,8 +62,6 @@ public class NewEditProfileFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_new_edit_profile, null);
 		calculateImageWidthPixel();
-		
-		FullProfile oldProfile = Services.currentState.getMyFullProfile();
 		
 		mainProfileImage = (ImageButton) view.findViewById(R.id.editProfileMainImage);
 		
@@ -98,14 +96,15 @@ public class NewEditProfileFragment extends Fragment {
 		spinnerGender.setAdapter(new ImageSpinnerAdapter(getActivity(), R.id.editProfileSpinnerGender, CommonUtils.genderArray, CommonUtils.genderImages));
 		spinnerCountry.setAdapter(new ImageSpinnerAdapter(getActivity(), R.id.editProfileSpinnerCountry, CommonUtils.countryArray, CommonUtils.countryImages));
 		
+
 		listview = (HorizontalListView) view.findViewById(R.id.editProfileImageList);
 		scrollGalleryAdapter = new ScrollGalleryAdapter(getActivity());
 		listview.setAdapter(scrollGalleryAdapter);
 		
+		FullProfile oldProfile = Services.currentState.getMyFullProfile();
 		if (oldProfile != null) {
 			profileId = oldProfile.getId();
 			switchToUpdateAccount(oldProfile);
-			scrollGalleryAdapter.setProfileImageList(oldProfile.getProfileImages());
 			noPhoto = false;
 		} else {
 			WifiManager manager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
@@ -218,6 +217,10 @@ public class NewEditProfileFragment extends Fragment {
 		if (profile.getGender() != null && !profile.getGender().isEmpty()) {
 			setSpinnerSelectedStringValue(spinnerGender, (profile.getGender()));
 		}
+		
+		if (profile.getProfileImages() != null) {
+			scrollGalleryAdapter.setProfileImageList(profile.getProfileImages());
+		}
 
 		mainProfileImage.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(profile.getProfileImages().get(0).getImageBitmap(), widthPx));
 
@@ -231,6 +234,7 @@ public class NewEditProfileFragment extends Fragment {
 		// interest.setOnFocusChangeListener(new InterestOnFocusListner(this));
 
 		//saveButton.setText(R.string.edit_profile_button_save_profile_text);
+		refreshFragment();
 	}
 	
 	private void refreshFragment() {

@@ -116,7 +116,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 						ProfileImage tempProfileImage = iter.next();
 						if (tempProfileImage.equals(clickedImage)) {
 							tempProfileImage.setMainImage(true);
-							ImageView imageView = (ImageView) activity.findViewById(R.id.edit_profile_image_thumbnail);
+							ImageView imageView = (ImageView) activity.findViewById(R.id.editProfileMainImage);
 							Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(tempProfileImage.getImageBitmap(), Services.currentState.getContext().getResources()
 									.getDimensionPixelSize(R.dimen.edit_profile_thumbnail_size));
 							imageView.setImageBitmap(thumbnailBitmap);

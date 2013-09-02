@@ -52,7 +52,6 @@
         <item>Statistics</item>
         <item>Settings</item>
         <item>Help</item>
-        <item>NewEdit</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>

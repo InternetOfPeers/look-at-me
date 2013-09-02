@@ -48,13 +48,21 @@
         </activity>
         <activity
             android:name=".EditProfileActivity"
-            android:configChanges="orientation|screenSize"
             android:label="@string/title_profile_activity"
-            android:parentActivityName=".NearbyActivity" >
-            <meta-data
+            android:parentActivityName=".NearbyActivity">
+            <meta-data 
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NearbyActivity" />
         </activity>
+<!--         <activity -->
+<!--             android:name=".EditProfileActivity" -->
+<!--             android:configChanges="orientation|screenSize" -->
+<!--             android:label="@string/title_profile_activity" -->
+<!--             android:parentActivityName=".NearbyActivity" > -->
+<!--             <meta-data -->
+<!--                 android:name="android.support.PARENT_ACTIVITY" -->
+<!--                 android:value=".NearbyActivity" /> -->
+<!--         </activity> -->
         <activity
             android:name=".ManageInterestActivity"
             android:label="@string/title_manage_interest_activity"
@@ -92,14 +100,6 @@
             android:label="@string/title_statistics_activity"
             android:parentActivityName=".NearbyActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NearbyActivity" />
-        </activity>
-        <activity
-            android:name=".NewEditProfileActivity"
-            android:label="newEditProfile"
-            android:parentActivityName=".NearbyActivity">
-            <meta-data 
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NearbyActivity" />
         </activity>
