@@ -68,17 +68,17 @@ public class EditProfileFragment extends Fragment {
 		tabs.setup();
 		
 		TabSpec tabSpecData = tabs.newTabSpec("Profile");
-		tabSpecData.setIndicator("TAB1");
+		tabSpecData.setIndicator("", getResources().getDrawable(R.drawable.ic_edit_profile));
 		tabSpecData.setContent(R.id.tab_data);
 		tabs.addTab(tabSpecData);
 		
 		TabSpec tabSpecPhoto = tabs.newTabSpec("Photo");
-		tabSpecPhoto.setIndicator("TAB2");
+		tabSpecPhoto.setIndicator("", getResources().getDrawable(R.drawable.ic_photo));
 		tabSpecPhoto.setContent(R.id.tab_photo);
 		tabs.addTab(tabSpecPhoto);
 		
 		TabSpec tabSpecInterests = tabs.newTabSpec("Interests");
-		tabSpecInterests.setIndicator("TAB3");
+		tabSpecInterests.setIndicator("", getResources().getDrawable(R.drawable.ic_star));
 		tabSpecInterests.setContent(R.id.tab_interests);
 		tabs.addTab(tabSpecInterests);
 		
