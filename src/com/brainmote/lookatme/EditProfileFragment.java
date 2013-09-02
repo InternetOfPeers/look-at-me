@@ -59,7 +59,7 @@ public class EditProfileFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.fragment_new_edit_profile, null);
+		view = inflater.inflate(R.layout.fragment_edit_profile, null);
 		calculateImageWidthPixel();
 		
 		mainProfileImage = (ImageView) view.findViewById(R.id.editProfileMainImage);

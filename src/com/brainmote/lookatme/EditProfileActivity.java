@@ -25,7 +25,7 @@ public class EditProfileActivity extends CommonActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_edit_profile);
+		setContentView(R.layout.activity_edit_profile);
 		editProfileFragment = (EditProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_new_edit_profile);
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
 	}
