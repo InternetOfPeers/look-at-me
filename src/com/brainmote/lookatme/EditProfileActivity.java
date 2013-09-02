@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
+import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.ImageUtil;
 import com.brainmote.lookatme.util.Log;
@@ -75,6 +76,10 @@ public class EditProfileActivity extends CommonActivity {
 				Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_LONG).show();
 			}
 		}
+	}
+	
+	public void setMainProfileImage(ProfileImage photo) {
+		editProfileFragment.setMainProfileImage(photo);
 	}
 
 }

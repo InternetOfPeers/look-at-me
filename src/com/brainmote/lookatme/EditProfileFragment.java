@@ -264,8 +264,7 @@ public class EditProfileFragment extends Fragment {
 			// setto come immagine principale
 			profileImage.setMainImage(true);
 			Bitmap photoThumbnail = ImageUtil.bitmapForCustomThumbnail(photo, widthPx);
-			ImageView imageView = (ImageView) view.findViewById(R.id.editProfileMainImage);
-			imageView.setImageBitmap(photoThumbnail);
+			mainProfileImage.setImageBitmap(photoThumbnail);
 		}
 
 		scrollGalleryAdapter.imageList.add(profileImage);
@@ -288,4 +287,8 @@ public class EditProfileFragment extends Fragment {
 		widthPx = widthPx - (getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin)) * 2;
 	}
 
+	public void setMainProfileImage(ProfileImage photo) {
+		Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(photo.getImageBitmap(), widthPx);
+		mainProfileImage.setImageBitmap(thumbnailBitmap);
+	}
 }
