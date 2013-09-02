@@ -17,6 +17,7 @@ import com.brainmote.lookatme.util.Log;
 public class EditProfileActivity extends CommonActivity {
 	
 	protected static final int PHOTO_PICKED = 0;
+	protected static final int MAIN_PHOTO_PICKED = 1;
 	
 	private EditProfileFragment editProfileFragment;
 	

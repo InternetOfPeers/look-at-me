@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -42,7 +41,7 @@ import com.devsmart.android.ui.HorizontalListView;
 public class EditProfileFragment extends Fragment {
 
 	private View view;
-	private ImageButton mainProfileImage;
+	private ImageView mainProfileImage;
 	private Spinner spinnerAge;
 	private Spinner spinnerGender;
 	private Spinner spinnerCountry;
@@ -63,7 +62,7 @@ public class EditProfileFragment extends Fragment {
 		view = inflater.inflate(R.layout.fragment_new_edit_profile, null);
 		calculateImageWidthPixel();
 		
-		mainProfileImage = (ImageButton) view.findViewById(R.id.editProfileMainImage);
+		mainProfileImage = (ImageView) view.findViewById(R.id.editProfileMainImage);
 		
 		TabHost tabs = (TabHost) view.findViewById(R.id.editProfileTabs);
 		tabs.setup();
