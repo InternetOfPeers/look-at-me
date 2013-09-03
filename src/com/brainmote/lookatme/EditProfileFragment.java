@@ -51,55 +51,54 @@ public class EditProfileFragment extends Fragment {
 	private TextView surnameScreen;
 	private TextView nicknameScreen;
 	private Button saveButton;
-	
+
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 	private String profileId;
 	private int widthPx;
 	private boolean noPhoto;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_edit_profile, null);
 		calculateImageWidthPixel();
-		
+
 		mainProfileImage = (ImageView) view.findViewById(R.id.editProfileMainImage);
-		
+
 		TabHost tabs = (TabHost) view.findViewById(R.id.editProfileTabs);
 		tabs.setup();
-		
+
 		TabSpec tabSpecData = tabs.newTabSpec("Profile");
 		tabSpecData.setIndicator("", getResources().getDrawable(R.drawable.ic_edit_profile));
 		tabSpecData.setContent(R.id.tab_data);
 		tabs.addTab(tabSpecData);
-		
+
 		TabSpec tabSpecPhoto = tabs.newTabSpec("Photo");
 		tabSpecPhoto.setIndicator("", getResources().getDrawable(R.drawable.ic_photo));
 		tabSpecPhoto.setContent(R.id.tab_photo);
 		tabs.addTab(tabSpecPhoto);
-		
+
 		TabSpec tabSpecInterests = tabs.newTabSpec("Interests");
 		tabSpecInterests.setIndicator("", getResources().getDrawable(R.drawable.ic_star));
 		tabSpecInterests.setContent(R.id.tab_interests);
 		tabs.addTab(tabSpecInterests);
-		
+
 		spinnerAge = (Spinner) view.findViewById(R.id.editProfileSpinnerAge);
 		spinnerGender = (Spinner) view.findViewById(R.id.editProfileSpinnerGender);
 		spinnerCountry = (Spinner) view.findViewById(R.id.editProfileSpinnerCountry);
 		spinnerCountry = (Spinner) view.findViewById(R.id.editProfileSpinnerCountry);
 		spinnerLanguage = (Spinner) view.findViewById(R.id.editProfileSpinnerLanguage);
-		
+
 		nameScreen = (TextView) view.findViewById(R.id.editProfileFieldName);
 		surnameScreen = (TextView) view.findViewById(R.id.editProfileFieldSurname);
 		nicknameScreen = (TextView) view.findViewById(R.id.editProfileFieldNickname);
-		
+
 		spinnerGender.setAdapter(new ImageSpinnerAdapter(getActivity(), R.id.editProfileSpinnerGender, CommonUtils.genderArray, CommonUtils.genderImages));
 		spinnerCountry.setAdapter(new ImageSpinnerAdapter(getActivity(), R.id.editProfileSpinnerCountry, CommonUtils.countryArray, CommonUtils.countryImages));
-		
 
 		listview = (HorizontalListView) view.findViewById(R.id.editProfileImageList);
 		scrollGalleryAdapter = new ScrollGalleryAdapter(getActivity());
 		listview.setAdapter(scrollGalleryAdapter);
-		
+
 		FullProfile oldProfile = Services.currentState.getMyFullProfile();
 		if (oldProfile != null) {
 			profileId = oldProfile.getId();
@@ -119,17 +118,17 @@ public class EditProfileFragment extends Fragment {
 			setSpinnerSelectedStringValue(spinnerCountry, Country.toString(Country.parse(country)));
 			String language = locale.getLanguage();
 			setSpinnerSelectedStringValue(spinnerLanguage, Language.toString(Language.parse(language)));
-			
+
 			Bitmap noProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image);
 			mainProfileImage.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(noProfileImage, widthPx));
 			noPhoto = true;
 		}
-		
+
 		saveButton = (Button) view.findViewById(R.id.buttonSaveProfile);
-		
+
 		return view;
 	}
-	
+
 	public void saveProfile() {
 		Log.d();
 		try {
@@ -188,14 +187,14 @@ public class EditProfileFragment extends Fragment {
 		}
 
 	}
-	
+
 	private void setSpinnerSelectedStringValue(Spinner spinner, String value) {
 		ArrayAdapter<String> myAdapter = (ArrayAdapter) spinner.getAdapter();
 		int spinnerPosition = myAdapter.getPosition(value);
 		spinner.setSelection(spinnerPosition);
 
 	}
-	
+
 	private void switchToUpdateAccount(FullProfile profile) {
 		nameScreen.setText(profile.getName());
 		surnameScreen.setText(profile.getSurname());
@@ -216,7 +215,7 @@ public class EditProfileFragment extends Fragment {
 		if (profile.getGender() != null && !profile.getGender().isEmpty()) {
 			setSpinnerSelectedStringValue(spinnerGender, (profile.getGender()));
 		}
-		
+
 		if (profile.getProfileImages() != null) {
 			scrollGalleryAdapter.setProfileImageList(profile.getProfileImages());
 		}
@@ -232,29 +231,29 @@ public class EditProfileFragment extends Fragment {
 		// interest.setText(sb.toString());
 		// interest.setOnFocusChangeListener(new InterestOnFocusListner(this));
 
-		//saveButton.setText(R.string.edit_profile_button_save_profile_text);
+		// saveButton.setText(R.string.edit_profile_button_save_profile_text);
 		refreshFragment();
 	}
-	
+
 	private void refreshFragment() {
 		scrollGalleryAdapter.notifyDataSetChanged();
 	}
-	
-//	private class InterestOnFocusListner implements OnFocusChangeListener {
-//		private Activity activity;
-//
-//		public InterestOnFocusListner(Activity activity) {
-//			this.activity = activity;
-//		}
-//
-//		@Override
-//		public void onFocusChange(View v, boolean hasFocus) {
-//			if (hasFocus) {
-//				Nav.startActivity(activity, ManageInterestActivity.class);
-//			}
-//		}
-//	}
-	
+
+	// private class InterestOnFocusListner implements OnFocusChangeListener {
+	// private Activity activity;
+	//
+	// public InterestOnFocusListner(Activity activity) {
+	// this.activity = activity;
+	// }
+	//
+	// @Override
+	// public void onFocusChange(View v, boolean hasFocus) {
+	// if (hasFocus) {
+	// Nav.startActivity(activity, ManageInterestActivity.class);
+	// }
+	// }
+	// }
+
 	public void addProfileImage(Bitmap photo) {
 		ProfileImage profileImage = new ProfileImage();
 		profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
@@ -271,14 +270,14 @@ public class EditProfileFragment extends Fragment {
 		noPhoto = false;
 		refreshFragment();
 	}
-	
+
 	private void calculateImageWidthPixel() {
 		// Display metrics per adattare l'immagine del profilo
 		DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 		int display_size_in_px = Math.round(displayMetrics.widthPixels);
 		Log.d("Display width is " + display_size_in_px);
 		widthPx = display_size_in_px;
-		
+
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			widthPx = widthPx / 2;
 			if (widthPx < 240)

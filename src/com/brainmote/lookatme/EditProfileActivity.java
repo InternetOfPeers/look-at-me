@@ -16,12 +16,12 @@ import com.brainmote.lookatme.util.ImageUtil;
 import com.brainmote.lookatme.util.Log;
 
 public class EditProfileActivity extends CommonActivity {
-	
+
 	protected static final int PHOTO_PICKED = 0;
 	protected static final int MAIN_PHOTO_PICKED = 1;
-	
+
 	private EditProfileFragment editProfileFragment;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,11 +29,11 @@ public class EditProfileActivity extends CommonActivity {
 		editProfileFragment = (EditProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_edit_profile);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
 	}
-	
+
 	public void onSaveButtonPressed(View view) {
 		editProfileFragment.saveProfile();
 	}
-	
+
 	public void onAddImageButtonPressed(View view) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
@@ -45,7 +45,7 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -63,7 +63,7 @@ public class EditProfileActivity extends CommonActivity {
 				cursor.close();
 
 				Bitmap photo = ImageUtil.loadBitmap(filePath);
-				
+
 				editProfileFragment.addProfileImage(photo);
 
 			} catch (OutOfMemoryError e) {
@@ -77,7 +77,7 @@ public class EditProfileActivity extends CommonActivity {
 			}
 		}
 	}
-	
+
 	public void setMainProfileImage(ProfileImage photo) {
 		editProfileFragment.setMainProfileImage(photo);
 	}
