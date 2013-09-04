@@ -269,8 +269,9 @@ public class ImageUtil {
 	}
 
 	public static boolean isFilePathValid(String filePath) {
+		Log.d("filePath: " + filePath);
 		if (filePath.startsWith("https:") || filePath.startsWith("http:"))
 			return false;
-		return false;
+		return true;
 	}
 }
