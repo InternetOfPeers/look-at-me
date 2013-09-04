@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Look@me</string>
     <string name="action_settings">Settings</string>
     <string name="action_force_refresh">Force refresh</string>
     <string name="title_social_activity">Nearby</string>
-    <string name="title_splash_activity">Look@Me</string>
+    <string name="title_splash_activity">Look@me</string>
     <string name="title_profile_activity">Profile</string>
     <string name="title_edit_profile_activity">MyProfile</string>
     <string name="title_manage_interest_activity">Interest</string>
@@ -53,7 +52,6 @@
         <item>Settings</item>
         <item>Help</item>
     </string-array>
-
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="button_toggle_service">Communication service</string>
@@ -72,7 +70,6 @@
     <string name="text_chat_datetime">date</string>
     <string name="hint_chat_message_text">Type your message here</string>
     <string name="action_view_profile">View profile</string>
-
     <string-array name="gender_array">
         <item>@string/edit_profile_spinner_gender_prompt</item>
         <item>@string/gender_male</item>
@@ -105,7 +102,6 @@
         <item>@string/language_zh_CN</item>
         <item>@string/language_zh_TW</item>
     </string-array>
-
     <string name="text_profile_liked">He/She likes you</string>
     <!-- VIEW PROFILE -->
     <string name="text_profile_photo_image">profile image</string>
@@ -161,5 +157,4 @@
     <string name="unable_to_send_chat_message">Message NOT sent. This user isn\'t nearby anymore.</string>
     <string name="user_is_not_nearby_anymore">This user isn\'t nearby anymore.</string>
     <string name="void_placeholder">Placeholder</string>
-
 </resources>
