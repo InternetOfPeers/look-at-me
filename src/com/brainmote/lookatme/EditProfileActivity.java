@@ -66,7 +66,7 @@ public class EditProfileActivity extends CommonActivity {
 		}
 		Bitmap photo = ImageUtil.loadBitmap(filePath);
 		if (photo == null) {
-			Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		editProfileFragment.addProfileImage(photo);
