@@ -84,7 +84,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 		for (ProfileImage image : imageList) {
 			this.imageList.add(image);
 		}
-		//this.imageList = imageList;
+		// this.imageList = imageList;
 	}
 
 	private class ImageClickListener implements OnClickListener {

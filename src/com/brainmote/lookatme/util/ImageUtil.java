@@ -53,13 +53,34 @@ public class ImageUtil {
 
 	}
 
+	/**
+	 * 
+	 * @param filePath
+	 * @return
+	 */
 	public static Bitmap loadBitmap(String filePath) {
+		if (!isFilePathValid(filePath))
+			return null;
 		BitmapFactory.Options options = getOptions(filePath);
-		Bitmap bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+		Bitmap bitmap = null;
+		try {
+			// Carico l'immagine
+			bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+		} catch (OutOfMemoryError oome) {
+			Log.d("Out of memory error... cleaning memory");
+			CommonUtils.cleanMem();
+			// Riprovo a caricare l'immagine
+			try {
+				bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+			} catch (Exception e) {
+				// Rinuncio
+				Log.d(e);
+				return null;
+			}
+		}
 		// Log.d("Result an img with density " + bitmap.getDensity() + " size "
 		// + bitmap.getWidth() + " x " + bitmap.getHeight() + " and " +
 		// bitmap.getByteCount() + " bytes");
-
 		int rotate = 0;
 		ExifInterface exif = null;
 		try {
@@ -87,7 +108,21 @@ public class ImageUtil {
 		if (rotate != 0) {
 			Matrix matrix = new Matrix();
 			matrix.postRotate(rotate);
-			return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+			try {
+				// Carico l'immagine
+				bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+			} catch (OutOfMemoryError oome) {
+				Log.d("Out of memory error... cleaning memory");
+				CommonUtils.cleanMem();
+				// Riprovo a caricare l'immagine
+				try {
+					bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+				} catch (Exception e) {
+					// Rinuncio
+					Log.d(e);
+					return null;
+				}
+			}
 		}
 		return bitmap;
 	}
@@ -231,5 +266,11 @@ public class ImageUtil {
 		// + " and " + scaledBitmap.getByteCount() + " bytes");
 
 		return scaledBitmap;
+	}
+
+	public static boolean isFilePathValid(String filePath) {
+		if (filePath.startsWith("https:") || filePath.startsWith("http:"))
+			return false;
+		return false;
 	}
 }

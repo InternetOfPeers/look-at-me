@@ -55,6 +55,31 @@ public class Log {
 		android.util.Log.wtf(getCallingClassName(), getCallingMethod() + SEPARATOR + Strings.nullToEmpty(message));
 	}
 
+	public static void d(Object object) {
+		if (object != null)
+			android.util.Log.d(getCallingClassName(), getCallingMethod() + SEPARATOR + object.toString());
+	}
+
+	public static void i(Object object) {
+		if (object != null)
+			android.util.Log.i(getCallingClassName(), getCallingMethod() + SEPARATOR + object.toString());
+	}
+
+	public static void w(Object object) {
+		if (object != null)
+			android.util.Log.w(getCallingClassName(), getCallingMethod() + SEPARATOR + object.toString());
+	}
+
+	public static void e(Object object) {
+		if (object != null)
+			android.util.Log.e(getCallingClassName(), getCallingMethod() + SEPARATOR + object.toString());
+	}
+
+	public static void wtf(Object object) {
+		if (object != null)
+			android.util.Log.wtf(getCallingClassName(), getCallingMethod() + SEPARATOR + object.toString());
+	}
+
 	private static String getCallingClassName() {
 		String[] classNameSplit = Thread.currentThread().getStackTrace()[NESTING_LEVEL].getClassName().split("\\.");
 		return classNameSplit[classNameSplit.length - 1];

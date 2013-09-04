@@ -11,17 +11,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.brainmote.lookatme.bean.ProfileImage;
-import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.ImageUtil;
 import com.brainmote.lookatme.util.Log;
 
 public class EditProfileActivity extends CommonActivity {
-	
+
 	protected static final int PHOTO_PICKED = 0;
 	protected static final int MAIN_PHOTO_PICKED = 1;
-	
+
 	private EditProfileFragment editProfileFragment;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,11 +28,11 @@ public class EditProfileActivity extends CommonActivity {
 		editProfileFragment = (EditProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_edit_profile);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
 	}
-	
+
 	public void onSaveButtonPressed(View view) {
 		editProfileFragment.saveProfile();
 	}
-	
+
 	public void onAddImageButtonPressed(View view) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
@@ -45,39 +44,34 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.d();
-		if (requestCode == PHOTO_PICKED && resultCode == Activity.RESULT_OK && null != data) {
-			try {
-				Uri selectedImage = data.getData();
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		// Verifoc se l'utente ha annullato l'inserimento di una nuova immagine
+		if (requestCode != PHOTO_PICKED || resultCode != Activity.RESULT_OK || data == null)
+			return;
 
-				Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-				cursor.moveToFirst();
-
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String filePath = cursor.getString(columnIndex);
-				cursor.close();
-
-				Bitmap photo = ImageUtil.loadBitmap(filePath);
-				
-				editProfileFragment.addProfileImage(photo);
-
-			} catch (OutOfMemoryError e) {
-				Log.d("Out of memory error... cleaning memory");
-				Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_LONG).show();
-				CommonUtils.cleanMem();
-			} catch (Exception e) {
-				e.printStackTrace();
-				Log.e("error changing image, error: " + e.toString());
-				Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_LONG).show();
-			}
+		Uri selectedImage = data.getData();
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+		cursor.moveToFirst();
+		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+		String filePath = cursor.getString(columnIndex);
+		cursor.close();
+		// verifico che il percorso del file sia un percorso valido
+		if (!ImageUtil.isFilePathValid(filePath)) {
+			Toast.makeText(getApplicationContext(), R.string.edit_profile_message_not_valid_image_path, Toast.LENGTH_LONG).show();
+			return;
 		}
+		Bitmap photo = ImageUtil.loadBitmap(filePath);
+		if (photo == null) {
+			Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_LONG).show();
+			return;
+		}
+		editProfileFragment.addProfileImage(photo);
 	}
-	
+
 	public void setMainProfileImage(ProfileImage photo) {
 		editProfileFragment.setMainProfileImage(photo);
 	}
