@@ -63,15 +63,19 @@ public class ImageUtil {
 			return null;
 		BitmapFactory.Options options = getOptions(filePath);
 		Bitmap bitmap = null;
+		Bitmap tempBitmap = null;
 		try {
 			// Carico l'immagine
-			bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+			tempBitmap = BitmapFactory.decodeFile(filePath, options);
+			if (tempBitmap == null)
+				return null;
+			bitmap = scaleImage(tempBitmap, DEFAULT_SIZE_IN_DP);
 		} catch (OutOfMemoryError oome) {
 			Log.d("Out of memory error... cleaning memory");
 			CommonUtils.cleanMem();
 			// Riprovo a caricare l'immagine
 			try {
-				bitmap = scaleImage(BitmapFactory.decodeFile(filePath, options), DEFAULT_SIZE_IN_DP);
+				bitmap = scaleImage(tempBitmap, DEFAULT_SIZE_IN_DP);
 			} catch (Exception e) {
 				// Rinuncio
 				Log.d(e);

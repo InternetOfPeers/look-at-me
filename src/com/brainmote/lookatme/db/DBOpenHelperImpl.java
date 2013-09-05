@@ -13,7 +13,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatMessage;
@@ -24,6 +23,7 @@ import com.brainmote.lookatme.bean.Profile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.util.CommonUtils;
+import com.brainmote.lookatme.util.Log;
 import com.google.common.base.Optional;
 
 public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
@@ -44,7 +44,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	private String DEVICE_ID = null;
 
-	public static DBOpenHelper getInstance(Context ctx) {
+	public static DBOpenHelper getInstance(Context context) {
 
 		// TODO Il context potrebbe essere NULL per qualche motivo (lungo
 		// inutilizzo?), quindi predisporsi per gestire la situazione
@@ -53,7 +53,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		// don't accidentally leak an Activity's context.
 		// See this article for more information: http://bit.ly/6LRzfx
 		if (mInstance == null) {
-			mInstance = new DBOpenHelperImpl(ctx.getApplicationContext());
+			Log.d("context is null? " + (context == null));
+			mInstance = new DBOpenHelperImpl(context);
 		}
 		return mInstance;
 	}
@@ -120,7 +121,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			// while (iterImage.hasNext())
 			// saveOrUpdateImage(iterImage.next());
 		} catch (Exception e) {
-			Log.e("db", "error onUpgrade : " + e.getMessage());
+			Log.e("error onUpgrade : " + e.getMessage());
 		}
 
 	}
@@ -172,7 +173,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				saveOrUpdateImage(iter.next());
 			}
 		} else
-			Log.e("db", "problem saving profile,this profile has no foto profileId:" + profile.getId());
+			Log.e("problem saving profile,this profile has no foto profileId:" + profile.getId());
 
 		return getFullProfile(profile.getId());
 
@@ -229,7 +230,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Exception e) {
-			Log.e("db", "error on getting all Profiles: " + e.getMessage());
+			Log.e("error on getting all Profiles: " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -254,7 +255,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Exception e) {
-			Log.e("db", "error on pugrading DB while getting all Profiles: " + e.getMessage());
+			Log.e("error on pugrading DB while getting all Profiles: " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -271,7 +272,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
-			Log.e("db", "error on deleting ALL profiles : " + e.getMessage());
+			Log.e("error on deleting ALL profiles : " + e.getMessage());
 		} finally {
 		}
 
@@ -285,7 +286,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
-			Log.e("db", "error on deleting specific Image : " + e.getMessage() + " image ID:" + profileID);
+			Log.e("error on deleting specific Image : " + e.getMessage() + " image ID:" + profileID);
 		} finally {
 		}
 
@@ -295,9 +296,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		try {
 			return getFullProfile(DEVICE_ID);
 		} catch (Exception e) {
-			Log.e("db", "error on getting getContact: " + e.getMessage());
+			Log.e("error on getting getContact: " + e.getMessage());
 		}
-		Log.d("db", "my contact not found,deviceID: " + tm.getDeviceId());
+		Log.d("my contact not found,deviceID: " + tm.getDeviceId());
 		return null;
 
 	}
@@ -323,12 +324,12 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				} while (cursor.moveToNext());
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on getting getContact: " + e.getMessage());
+			Log.e("error on getting getContact: " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
 		}
-		Log.d("db", "contact not found,contactID: " + contactID);
+		Log.d("contact not found,contactID: " + contactID);
 		return tempProfile;
 	}
 
@@ -336,9 +337,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		try {
 			return getBasicProfile(DEVICE_ID);
 		} catch (Exception e) {
-			Log.e("db", "error on getting getBasicProfile: " + e.getMessage());
+			Log.e("error on getting getBasicProfile: " + e.getMessage());
 		}
-		Log.d("db", "Basic Profile not found,deviceID: " + tm.getDeviceId());
+		Log.d("Basic Profile not found,deviceID: " + tm.getDeviceId());
 		return null;
 
 	}
@@ -362,12 +363,12 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on getting getBasicProfile: " + e.getMessage());
+			Log.e("error on getting getBasicProfile: " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
 		}
-		Log.d("db", "basicProfile not found,contactID: " + contactID);
+		Log.d("basicProfile not found,contactID: " + contactID);
 		return tempProfile;
 	}
 
@@ -391,7 +392,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on upgrading DB while loading allImages : " + e.getMessage());
+			Log.e("error on upgrading DB while loading allImages : " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -422,7 +423,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading allImages : " + e.getMessage() + " profile ID:" + profileId);
+			Log.e("error on loading allImages : " + e.getMessage() + " profile ID:" + profileId);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -450,7 +451,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading specific Image : " + e.getMessage() + " image ID:" + profileImageId);
+			Log.e("error on loading specific Image : " + e.getMessage() + " image ID:" + profileImageId);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -466,7 +467,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
-			Log.e("db", "error on deleting specific Image : " + e.getMessage() + " image ID:" + profileImageId);
+			Log.e("error on deleting specific Image : " + e.getMessage() + " image ID:" + profileImageId);
 		} finally {
 		}
 
@@ -493,7 +494,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading profile main image : " + e.getMessage() + " profile ID:" + profileId);
+			Log.e("error on loading profile main image : " + e.getMessage() + " profile ID:" + profileId);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -563,7 +564,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading conversations : " + e.getMessage());
+			Log.e("error on loading conversations : " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -578,7 +579,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
-			Log.e("db", "error on deleting conversation messages : " + e.getMessage() + " conversation ID:" + conversationId);
+			Log.e("error on deleting conversation messages : " + e.getMessage() + " conversation ID:" + conversationId);
 		} finally {
 		}
 	}
@@ -594,7 +595,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			contentValues.put(TABLE_MESSAGES_COLUMN_MESSAGE_DATE, chatMessage.getTimestamp().toString());
 			database.insert(TABLE_MESSAGES, null, contentValues);
 		} catch (Throwable e) {
-			Log.e("db", "error on saving message : " + e.getMessage() + " conversation ID:" + conversationID);
+			Log.e("error on saving message : " + e.getMessage() + " conversation ID:" + conversationID);
 		} finally {
 		}
 	}
@@ -624,7 +625,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading getConversationMessages : " + e.getMessage() + " conversation ID:" + conversationID);
+			Log.e("error on loading getConversationMessages : " + e.getMessage() + " conversation ID:" + conversationID);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -667,7 +668,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading interests : " + e.getMessage());
+			Log.e("error on loading interests : " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -683,7 +684,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
-			Log.e("db", "error on deleting specific Interest : " + e.getMessage() + " interest ID:" + interestId);
+			Log.e("error on deleting specific Interest : " + e.getMessage() + " interest ID:" + interestId);
 		} finally {
 		}
 
@@ -726,7 +727,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			Optional<FullProfile> optional = Optional.fromNullable(getMyFullProfile());
 			return optional.isPresent();
 		} catch (Exception e) {
-			Log.e("DB", "error on isProfileCompiled,error is: " + e.getMessage());
+			Log.e("error on isProfileCompiled,error is: " + e.getMessage());
 		}
 		return false;
 
@@ -750,7 +751,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on getting getBasicProfile: " + e.getMessage());
+			Log.e("error on getting getBasicProfile: " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();
@@ -790,7 +791,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			}
 		} catch (Throwable e) {
-			Log.e("db", "error on loading from " + table + " : " + e.getMessage() + " profile ID:" + profileId);
+			Log.e("error on loading from " + table + " : " + e.getMessage() + " profile ID:" + profileId);
 		} finally {
 			if (!cursor.isClosed())
 				cursor.close();

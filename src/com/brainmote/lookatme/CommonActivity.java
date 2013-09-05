@@ -47,6 +47,8 @@ public abstract class CommonActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Salvo un contesto di utilità
+		Services.currentState.setContext(getApplicationContext());
 		// Preparo gli eventuali extra passati da chi ha chiamato l'activity
 		extras = getIntent().getExtras() != null ? getIntent().getExtras() : new Bundle();
 		// Cancella le notifiche appese se l'utente proviene da fuori l'app ed a

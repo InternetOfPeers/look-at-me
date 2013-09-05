@@ -15,13 +15,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/edit_profile_label_nickname_text" />
-        
+
         <EditText
             android:id="@+id/editProfileFieldNickname"
             android:layout_gravity="center_vertical"
             android:hint="@string/edit_profile_field_nickname_hint"
             android:inputType="textPersonName" />
-
     </TableRow>
 
     <TableRow
@@ -35,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/edit_profile_label_age_text" />
-        
+
         <Spinner
             android:id="@+id/editProfileSpinnerAge"
             android:layout_width="wrap_content"
@@ -44,7 +43,6 @@
             android:entries="@array/age_array"
             android:prompt="@string/edit_profile_spinner_age_prompt" >
         </Spinner>
-
     </TableRow>
 
     <TableRow
@@ -58,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/edit_profile_label_gender_text" />
-        
+
         <Spinner
             android:id="@+id/editProfileSpinnerGender"
             android:layout_width="wrap_content"
@@ -67,7 +65,6 @@
             android:entries="@array/gender_array"
             android:prompt="@string/edit_profile_spinner_gender_prompt" >
         </Spinner>
-
     </TableRow>
 
     <TableRow
@@ -81,18 +78,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/edit_profile_label_country_text" />
-		
+
         <Spinner
-	        android:id="@+id/editProfileSpinnerCountry"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:entries="@array/country_array"
-        	android:prompt="@string/edit_profile_spinner_country_prompt" >
+            android:id="@+id/editProfileSpinnerCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/country_array"
+            android:prompt="@string/edit_profile_spinner_country_prompt" >
         </Spinner>
-            
     </TableRow>
-    
+
     <TableRow
         android:id="@+id/tableRow5"
         android:layout_width="match_parent"
@@ -104,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/edit_profile_label_language_text" />
-        
+
         <Spinner
             android:id="@+id/editProfileSpinnerLanguage"
             android:layout_width="wrap_content"
@@ -112,9 +108,8 @@
             android:entries="@array/language_array"
             android:prompt="@string/edit_profile_spinner_language_prompt" >
         </Spinner>
-
     </TableRow>
-    
+
     <TableRow
         android:id="@+id/tableRow6"
         android:layout_width="match_parent"
@@ -131,9 +126,8 @@
             android:id="@+id/editProfileFieldName"
             android:hint="@string/edit_profile_field_name_hint"
             android:inputType="textPersonName" />
-    
     </TableRow>
-    
+
     <TableRow
         android:id="@+id/tableRow7"
         android:layout_width="match_parent"
@@ -150,6 +144,6 @@
             android:id="@+id/editProfileFieldSurname"
             android:hint="@string/edit_profile_field_surname_hint"
             android:inputType="textPersonName" />
-        
     </TableRow>
+
 </TableLayout>

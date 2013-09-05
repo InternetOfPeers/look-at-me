@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     android:orientation="vertical" >
-    
+
     <com.devsmart.android.ui.HorizontalListView
         android:id="@+id/editProfileImageList"
         android:layout_width="match_parent"
@@ -18,6 +18,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:background="#00000000"
+        android:contentDescription="@string/edit_profile_button_add_image_text"
         android:onClick="onAddImageButtonPressed"
         android:scaleType="fitCenter"
         android:src="@drawable/add_photo" />
@@ -28,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="8dp"
-        android:text="Add image"
+        android:text="@string/edit_profile_add_image_select_picture"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </LinearLayout>
