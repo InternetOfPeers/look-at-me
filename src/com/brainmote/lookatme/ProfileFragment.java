@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment {
 	private ImageView genderImage;
 	private TextView textName;
 	private TextView textSurname;
+	private TextView textStatus;
 
 	private ProgressDialog loadingDialog;
 	private boolean profileReady;
@@ -64,6 +65,7 @@ public class ProfileFragment extends Fragment {
 		genderImage = (ImageView) view.findViewById(R.id.imageGender);
 		textName = (TextView) view.findViewById(R.id.textName);
 		textSurname = (TextView) view.findViewById(R.id.textSurname);
+		textStatus = (TextView) view.findViewById(R.id.textStatus);
 		profilePhoto = (HackyViewPager) view.findViewById(R.id.hackyViewPager);
 		gallery_images = new ArrayList<Bitmap>();
 		profilePhoto.setAdapter(new SamplePagerAdapter());
@@ -149,6 +151,9 @@ public class ProfileFragment extends Fragment {
 		FullProfile profile = (FullProfile) profileNode.getProfile();
 		gallery_images = new ArrayList<Bitmap>();
 		if (profile != null) {
+			if (profile.getStatus() != null) {
+				textStatus.setText(profile.getStatus());
+			}
 			if (profile.getName() != null) {
 				textName.setText(profile.getName());
 			}

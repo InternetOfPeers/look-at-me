@@ -94,11 +94,26 @@
                 android:paddingRight="10dp"
                 android:paddingTop="30dp" >
 
-                <ImageView
-                    android:id="@+id/imageCountry"
-                    android:layout_width="32dp"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp" >
+
+                    <ImageView
+                        android:id="@+id/imageCountry"
+                        android:layout_width="32dp"
+                        android:layout_height="25dp" />
+                    
+                    <TextView
+                        android:id="@+id/textStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#FFFFFF" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -130,7 +145,9 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 
