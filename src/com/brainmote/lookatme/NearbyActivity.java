@@ -23,7 +23,7 @@ public class NearbyActivity extends CommonActivity {
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
 		if (checkIfProfileIsCompleted()) {
 			// Verifico lo stato della connessione
-			if (!isConnectionAvailable() && !CommonUtils.isEmulator())
+			if (!CommonUtils.isWifiConnected(this) && !CommonUtils.isEmulator())
 				showDialog(getString(R.string.message_warning), getString(R.string.message_wifi_required));
 		}
 	}

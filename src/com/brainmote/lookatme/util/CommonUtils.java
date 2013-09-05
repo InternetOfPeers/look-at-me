@@ -12,6 +12,10 @@ import java.util.concurrent.TimeUnit;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.DetailedState;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.PowerManager;
 
@@ -20,6 +24,8 @@ import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.enumattribute.Country;
 import com.brainmote.lookatme.enumattribute.Gender;
 import com.brainmote.lookatme.service.Services;
+import com.brainmote.reflection.Reflection;
+import com.google.common.base.Optional;
 
 public class CommonUtils {
 
@@ -139,5 +145,35 @@ public class CommonUtils {
 			Log.d(nodo.getId());
 		}
 		Log.d("--------------------------");
+	}
+
+	/**
+	 * Verifica se è presente una connessione di tipo WiFi e se il device
+	 * risulta correttamente connesso
+	 * 
+	 * @param context
+	 *            il contesto dell'applicazione
+	 * @return true se il device è connesso ad una rete WiFi, false in caso
+	 *         contrario
+	 */
+	public static boolean isWifiConnected(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		// Verifico che il device sia connesso ad una WiFi
+		if (networkInfo.isAvailable() && networkInfo.getDetailedState() == DetailedState.CONNECTED)
+			return true;
+		// Controllo a questo punto se almeno il device ha creato un access
+		// point WiFi, altrimenti non considero il device connesso
+		return isWifiApEnabled(context);
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	private static boolean isWifiApEnabled(Context context) {
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		return (Boolean) Optional.fromNullable(Reflection.invokeMethod_NoParameters_ReturnObject(wifiManager, "isWifiApEnabled")).or(false);
 	}
 }

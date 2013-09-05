@@ -2,14 +2,10 @@ package com.brainmote.lookatme;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.NetworkInfo.DetailedState;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.NavUtils;
@@ -326,16 +322,6 @@ public abstract class CommonActivity extends Activity {
 			Log.d("Qualche casino con la gestione dei touch giocando con le immagini");
 			return false;
 		}
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	protected boolean isConnectionAvailable() {
-		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		return (wifi.isAvailable() && wifi.getDetailedState() == DetailedState.CONNECTED);
 	}
 
 }

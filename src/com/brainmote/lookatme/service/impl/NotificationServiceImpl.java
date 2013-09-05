@@ -118,7 +118,7 @@ public class NotificationServiceImpl implements NotificationService {
 				// Mostro un toast
 				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 				// Emetto un suono di default per la notifica
-				planNotificationSound(context);
+				playNotificationSound(context);
 				// Aumento il counter della chat
 				counters.put(notificationID.getInt(), counters.get(notificationID.getInt()) + 1);
 			}
@@ -149,17 +149,16 @@ public class NotificationServiceImpl implements NotificationService {
 			// mId allows you to update the notification later on.
 			mNotificationManager.notify(notificationID.getInt(), mBuilder.build());
 			// Emetto un suono di default per la notifica
-			planNotificationSound(context);
+			playNotificationSound(context);
 		}
 	}
 
-	private void planNotificationSound(Context context) {
+	private void playNotificationSound(Context context) {
 		MediaPlayer mp = MediaPlayer.create(context, Settings.System.DEFAULT_NOTIFICATION_URI);
 		if (mp != null) {
 			mp.setOnCompletionListener(new OnCompletionListener() {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
-					Log.i();
 					mp.release();
 				}
 			});
