@@ -128,6 +128,11 @@ public class EditProfileFragment extends Fragment {
 
 		return view;
 	}
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    // Avoid restart of activity and loss of bitmap set in imageView
+	}
 
 	public void saveProfile() {
 		Log.d();
