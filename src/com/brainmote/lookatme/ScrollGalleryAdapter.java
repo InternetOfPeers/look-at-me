@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.brainmote.lookatme.db.DBOpenHelper;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.ImageUtil;
+import com.brainmote.lookatme.util.Log;
 
 public class ScrollGalleryAdapter extends BaseAdapter {
 
