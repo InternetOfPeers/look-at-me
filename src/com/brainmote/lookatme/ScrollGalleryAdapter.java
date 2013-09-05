@@ -85,6 +85,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 			this.imageList.add(image);
 		}
 		// this.imageList = imageList;
+		notifyDataSetChanged();
 	}
 
 	private class ImageClickListener implements OnClickListener {
@@ -149,7 +150,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 						}
 						imageList.remove(clickedImage);
 					} catch (Exception e) {
-						Log.e("imageGallery", "error during delete of image");
+						Log.e("error during delete of image");
 					}
 					notifyDataSetChanged();
 				}

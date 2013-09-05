@@ -135,7 +135,7 @@
     <string name="edit_profile_field_name_hint">Type your first name</string>
     <string name="edit_profile_field_surname_hint">Type your family name</string>
     <string name="edit_profile_spinner_gender_prompt">gender</string>
-    <string name="edit_profile_add_image_select_picture">Select Picture</string>
+    <string name="edit_profile_add_image_select_picture">Select picture</string>
     <string name="edit_profile_message_profile_saved">Profile saved</string>
     <string name="edit_profile_message_mandatory_fields_not_set">You need to insert at least an image and a nickname.</string>
     <string name="edit_profile_message_unable_to_load_image">Unable to load image.</string>

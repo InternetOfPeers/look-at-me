@@ -39,7 +39,7 @@ public class EditProfileActivity extends CommonActivity {
 			intent.setType("image/*");
 			startActivityForResult(Intent.createChooser(intent, getString(R.string.edit_profile_add_image_select_picture)), PHOTO_PICKED);
 		} catch (Exception e) {
-			Log.e("errore during registration! error: " + e.getMessage());
+			Log.e("Errore durante la selezione dell'immagine");
 			e.printStackTrace();
 		}
 
