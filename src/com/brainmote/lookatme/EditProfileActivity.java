@@ -17,7 +17,6 @@ import com.brainmote.lookatme.util.Log;
 public class EditProfileActivity extends CommonActivity {
 
 	protected static final int PHOTO_PICKED = 0;
-	protected static final int MAIN_PHOTO_PICKED = 1;
 
 	private EditProfileFragment editProfileFragment;
 
@@ -33,7 +32,7 @@ public class EditProfileActivity extends CommonActivity {
 		editProfileFragment.saveProfile();
 	}
 
-	public void onAddImageButtonPressed(View view) {
+	public void onSelectPictureButtonPressed(View view) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
 			intent.setType("image/*");
@@ -44,14 +43,26 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 	}
+	
+	public void onTakePictureButtonPressed(View view) {
+		try {
+			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+			startActivityForResult(Intent.createChooser(intent, getString(R.string.edit_profile_add_image_select_picture)), PHOTO_PICKED);
+		} catch (Exception e) {
+			Log.e("Errore durante la selezione dell'immagine");
+			e.printStackTrace();
+		}
+
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.d("Activity result started with " + requestCode);
 		super.onActivityResult(requestCode, resultCode, data);
 		// Verifoc se l'utente ha annullato l'inserimento di una nuova immagine
 		if (requestCode != PHOTO_PICKED || resultCode != Activity.RESULT_OK || data == null)
 			return;
-
+		
 		Uri selectedImage = data.getData();
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -65,6 +76,7 @@ public class EditProfileActivity extends CommonActivity {
 			return;
 		}
 		Bitmap photo = ImageUtil.loadBitmap(filePath);
+
 		if (photo == null) {
 			Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_SHORT).show();
 			return;

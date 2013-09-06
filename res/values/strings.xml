@@ -119,7 +119,8 @@
     <!-- EDIT PROFILE -->
     <string name="edit_profile_button_save_profile_text_first_time">Create profile</string>
     <string name="edit_profile_button_save_profile_text">Save profile</string>
-    <string name="edit_profile_button_add_image_text">Add image</string>
+    <string name="edit_profile_button_add_image_text">Select picture</string>
+    <string name="edit_profile_button_take_image_text">Take picture</string>
     <string name="edit_profile_image_thumbnail_description">Profile image</string>
     <string name="edit_profile_label_age_text">Age</string>
     <string name="edit_profile_label_nickname_text">Nickname</string>
