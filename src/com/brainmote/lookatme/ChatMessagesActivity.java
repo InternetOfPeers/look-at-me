@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.brainmote.lookatme.service.NotificationType;
 import com.brainmote.lookatme.service.Services;
@@ -45,8 +44,9 @@ public class ChatMessagesActivity extends CommonActivity {
 			} else {
 				// L'utente non è più online e non posso vederne il profilo
 				showDialog(getString(R.string.message_warning), getString(R.string.user_is_not_nearby_anymore));
-//				Toast toast = Toast.makeText(this, R.string.user_is_not_nearby_anymore, Toast.LENGTH_SHORT);
-//				toast.show();
+				// Toast toast = Toast.makeText(this,
+				// R.string.user_is_not_nearby_anymore, Toast.LENGTH_SHORT);
+				// toast.show();
 			}
 			break;
 		}

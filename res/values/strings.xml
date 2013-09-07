@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Look@me</string>
     <string name="action_settings">Settings</string>
     <string name="action_force_refresh">Force refresh</string>
@@ -52,6 +53,7 @@
         <item>Settings</item>
         <item>Help</item>
     </string-array>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="button_toggle_service">Communication service</string>
@@ -70,6 +72,7 @@
     <string name="text_chat_datetime">date</string>
     <string name="hint_chat_message_text">Type your message here</string>
     <string name="action_view_profile">View profile</string>
+
     <string-array name="gender_array">
         <item>@string/edit_profile_spinner_gender_prompt</item>
         <item>@string/gender_male</item>
@@ -102,6 +105,7 @@
         <item>@string/language_zh_CN</item>
         <item>@string/language_zh_TW</item>
     </string-array>
+
     <string name="text_profile_liked">He/She likes you</string>
     <!-- VIEW PROFILE -->
     <string name="text_profile_photo_image">profile image</string>
@@ -140,7 +144,7 @@
     <string name="edit_profile_message_profile_saved">Profile saved</string>
     <string name="edit_profile_message_mandatory_fields_not_set">You need to insert at least an image and a nickname.</string>
     <string name="edit_profile_message_unable_to_load_image">Unable to load image.</string>
-    <string name="edit_profile_message_not_valid_image_path">Unable to load a remote image, please select an image from your local storage.</string>    
+    <string name="edit_profile_message_not_valid_image_path">Unable to load a remote image, please select an image from your local storage.</string>
     <string name="first_time_dialog_message">Create your profile to start searching for new friends nearby</string>
     <string name="first_time_dialog_button_go_to_profile_text">Go to profile</string>
     <string name="message_warning">Warning</string>
@@ -159,4 +163,5 @@
     <string name="unable_to_send_chat_message">Message NOT sent. This user isn\'t nearby anymore.</string>
     <string name="user_is_not_nearby_anymore">This user isn\'t nearby anymore.</string>
     <string name="void_placeholder">Placeholder</string>
+
 </resources>

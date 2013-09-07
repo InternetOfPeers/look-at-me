@@ -325,7 +325,5 @@ public abstract class CommonActivity extends Activity {
 			return false;
 		}
 	}
-	
-
 
 }

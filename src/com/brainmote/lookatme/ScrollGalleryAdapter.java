@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.db.DBOpenHelper;
@@ -138,11 +137,14 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					dialog.dismiss();
 					if (clickedImage.isMainImage()) {
-						EditProfileActivity parent = (EditProfileActivity)activity;
-						parent.showDialog(parent.getResources().getString(R.string.message_warning), parent.getResources().getString(R.string.message_cant_delete_profile_image));
+						EditProfileActivity parent = (EditProfileActivity) activity;
+						parent.showDialog(parent.getResources().getString(R.string.message_warning),
+								parent.getResources().getString(R.string.message_cant_delete_profile_image));
 						return;
-//						Toast.makeText(activity, R.string.message_cant_delete_profile_image, Toast.LENGTH_LONG).show();
-//						return;
+						// Toast.makeText(activity,
+						// R.string.message_cant_delete_profile_image,
+						// Toast.LENGTH_LONG).show();
+						// return;
 					}
 					try {
 						// TODO: perché non posticipare i cambiamenti sul db

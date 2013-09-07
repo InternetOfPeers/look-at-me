@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Toast;
 
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.util.ImageUtil;
@@ -43,7 +42,7 @@ public class EditProfileActivity extends CommonActivity {
 		}
 
 	}
-	
+
 	public void onTakePictureButtonPressed(View view) {
 		try {
 			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -62,15 +61,15 @@ public class EditProfileActivity extends CommonActivity {
 		// Verifico se l'utente ha annullato l'inserimento di una nuova immagine
 		if (requestCode != PHOTO_PICKED || resultCode != Activity.RESULT_OK || data == null)
 			return;
-		
+
 		Uri selectedImage = data.getData();
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 		String filePath = cursor.getString(columnIndex);
-		
-		if(filePath == null) {
+
+		if (filePath == null) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_unable_to_load_image));
 			return;
 		}
@@ -78,16 +77,20 @@ public class EditProfileActivity extends CommonActivity {
 		// verifico che il percorso del file sia un percorso valido
 		if (!ImageUtil.isFilePathValid(filePath)) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_not_valid_image_path));
-			
-//			Toast.makeText(getApplicationContext(), R.string.edit_profile_message_not_valid_image_path, Toast.LENGTH_LONG).show();
+
+			// Toast.makeText(getApplicationContext(),
+			// R.string.edit_profile_message_not_valid_image_path,
+			// Toast.LENGTH_LONG).show();
 			return;
 		}
 		Bitmap photo = ImageUtil.loadBitmap(filePath);
 
 		if (photo == null) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_unable_to_load_image));
-			
-			//Toast.makeText(getApplicationContext(), R.string.edit_profile_message_unable_to_load_image, Toast.LENGTH_SHORT).show();
+
+			// Toast.makeText(getApplicationContext(),
+			// R.string.edit_profile_message_unable_to_load_image,
+			// Toast.LENGTH_SHORT).show();
 			return;
 		}
 		editProfileFragment.addProfileImage(photo);

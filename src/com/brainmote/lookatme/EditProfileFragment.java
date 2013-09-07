@@ -2,7 +2,6 @@ package com.brainmote.lookatme;
 
 import java.util.Locale;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -23,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
@@ -58,7 +56,6 @@ public class EditProfileFragment extends Fragment {
 	private int widthPx;
 	private boolean noPhoto;
 	private EditProfileActivity parentActivity;
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,9 +141,11 @@ public class EditProfileFragment extends Fragment {
 		try {
 			// Verifico che sia inserito il nickname ed un'immagine di profilo
 			if (nicknameScreen.getText() == null || nicknameScreen.getText().toString().equals("") || noPhoto) {
-				
+
 				parentActivity.showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_mandatory_fields_not_set));
-				//Toast.makeText(getActivity().getApplicationContext(), R.string.edit_profile_message_mandatory_fields_not_set, Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getActivity().getApplicationContext(),
+				// R.string.edit_profile_message_mandatory_fields_not_set,
+				// Toast.LENGTH_SHORT).show();
 				return;
 			}
 
@@ -183,10 +182,12 @@ public class EditProfileFragment extends Fragment {
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 			Services.businessLogic.notifyMyProfileIsUpdated();
 			switchToUpdateAccount(savedProfile);
-			
+
 			parentActivity.showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_profile_saved));
-//			Toast toast = Toast.makeText(getActivity().getApplicationContext(), R.string.edit_profile_message_profile_saved, Toast.LENGTH_SHORT);
-//			toast.show();
+			// Toast toast =
+			// Toast.makeText(getActivity().getApplicationContext(),
+			// R.string.edit_profile_message_profile_saved, Toast.LENGTH_SHORT);
+			// toast.show();
 
 			// Se necessario, aggiungo una conversazione fittizia
 			if (AppSettings.fakeUsersEnabled) {
