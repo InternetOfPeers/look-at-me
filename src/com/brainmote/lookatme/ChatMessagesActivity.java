@@ -44,8 +44,9 @@ public class ChatMessagesActivity extends CommonActivity {
 				Nav.startActivityWithParameters(this, ProfileActivity.class, parameters);
 			} else {
 				// L'utente non è più online e non posso vederne il profilo
-				Toast toast = Toast.makeText(this, R.string.user_is_not_nearby_anymore, Toast.LENGTH_SHORT);
-				toast.show();
+				showDialog(getString(R.string.message_warning), getString(R.string.user_is_not_nearby_anymore));
+//				Toast toast = Toast.makeText(this, R.string.user_is_not_nearby_anymore, Toast.LENGTH_SHORT);
+//				toast.show();
 			}
 			break;
 		}

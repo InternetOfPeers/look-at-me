@@ -227,8 +227,7 @@ public class ProfileFragment extends Fragment {
 			public void onClick(View v) {
 				Services.businessLogic.sendLike(profileNode.getId());
 				buttonLike.setEnabled(false);
-				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().findNodeByNodeId(profileNode.getId()).getProfile().getNickname(),
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().findNodeByNodeId(profileNode.getId()).getProfile().getNickname(),Toast.LENGTH_LONG).show();
 			}
 		});
 		buttonChat.setOnClickListener(new OnClickListener() {

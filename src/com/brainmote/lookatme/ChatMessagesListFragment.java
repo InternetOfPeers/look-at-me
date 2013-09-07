@@ -26,7 +26,7 @@ public class ChatMessagesListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d();
 		View view = inflater.inflate(R.layout.fragment_chat_messages_list, null);
-		ChatMessagesActivity activity = (ChatMessagesActivity) getActivity();
+		final ChatMessagesActivity activity = (ChatMessagesActivity) getActivity();
 		// Recupero la conversazione passata
 		final ChatConversation conversation = activity.getConversation();
 		if (conversation == null) {
@@ -63,8 +63,9 @@ public class ChatMessagesListFragment extends Fragment {
 					} else {
 						// L'utente non è più online e non posso mandargli
 						// messaggi
-						Toast toast = Toast.makeText(ChatMessagesListFragment.this.getActivity(), R.string.unable_to_send_chat_message, Toast.LENGTH_SHORT);
-						toast.show();
+						activity.showDialog(getString(R.string.message_warning), getString(R.string.unable_to_send_chat_message));
+//						Toast toast = Toast.makeText(ChatMessagesListFragment.this.getActivity(), R.string.unable_to_send_chat_message, Toast.LENGTH_SHORT);
+//						toast.show();
 					}
 				}
 			}

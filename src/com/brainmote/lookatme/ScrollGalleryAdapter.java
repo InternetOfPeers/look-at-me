@@ -138,8 +138,11 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					dialog.dismiss();
 					if (clickedImage.isMainImage()) {
-						Toast.makeText(activity, R.string.message_cant_delete_profile_image, Toast.LENGTH_LONG).show();
+						EditProfileActivity parent = (EditProfileActivity)activity;
+						parent.showDialog(parent.getResources().getString(R.string.message_warning), parent.getResources().getString(R.string.message_cant_delete_profile_image));
 						return;
+//						Toast.makeText(activity, R.string.message_cant_delete_profile_image, Toast.LENGTH_LONG).show();
+//						return;
 					}
 					try {
 						// TODO: perché non posticipare i cambiamenti sul db
