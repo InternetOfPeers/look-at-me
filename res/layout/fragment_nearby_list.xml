@@ -8,10 +8,10 @@
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <TextView
-        android:id="@+id/nearby_no_users_yet"
+        android:id="@+id/nearby_text_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/nearby_message_no_users_yet"
+        android:text="@string/void_placeholder"
         android:textStyle="italic" />
 
     <GridView

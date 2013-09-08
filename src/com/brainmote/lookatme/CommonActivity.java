@@ -127,18 +127,17 @@ public abstract class CommonActivity extends Activity {
 	/* Called whenever we call invalidateOptionsMenu() */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Se il menu è aperto, nascondo le icone riferite al contesto
+		// dell'activity (l'utente si deve concentrare sul menu, in pratica il
+		// contesto è cambiato)
 		if (mDrawerLayout != null && mDrawerList != null) {
-			// If the nav drawer is open, hide action items related to the
-			// content view
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			MenuItem menuAction = menu.findItem(R.id.action_offline_mode);
-			if (menuAction != null)
-				menuAction.setVisible(!drawerOpen);
-			menuAction = menu.findItem(R.id.action_force_refresh);
+			MenuItem menuAction = menu.findItem(R.id.action_force_refresh);
 			if (menuAction != null)
 				menuAction.setVisible(!drawerOpen);
 			// Poiché potrebbero esserci delle notifiche da visualizzare
-			// (numerello vicino alla voce di menu), aggiorno il menu
+			// (numerello vicino alla voce di menu), notifico un aggiornamento
+			// dei dati
 			if (menuListAdapter != null) {
 				menuListAdapter.notifyDataSetChanged();
 			}

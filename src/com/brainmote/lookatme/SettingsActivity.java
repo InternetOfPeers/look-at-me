@@ -1,13 +1,17 @@
 package com.brainmote.lookatme;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.Log;
 
 public class SettingsActivity extends CommonActivity {
+
+	private Menu menu;
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -17,19 +21,52 @@ public class SettingsActivity extends CommonActivity {
 		checkIfProfileIsCompleted();
 		// Verifica lo stato del servizio
 		Switch button = (Switch) findViewById(R.id.btn_toggle_communication_service);
-		button.setChecked(Services.businessLogic.isRunning());
+		button.setChecked(!Services.businessLogic.isRunning());
 		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean enable) {
 				if (enable) {
-					// Start del servizio di comunicazione
-					Services.businessLogic.start(getApplicationContext());
-				} else {
 					// Stop del servizio di comunicazione
 					Services.businessLogic.stop(getApplicationContext());
 					Services.currentState.reset();
+					// Mostro il warning sulla barra di menu
+					MenuItem menuItem = menu.findItem(R.id.action_offline_mode);
+					if (menuItem == null) {
+						MenuInflater inflater = getMenuInflater();
+						inflater.inflate(R.menu.offline_mode, menu);
+						menuItem = menu.findItem(R.id.action_offline_mode);
+					}
+					menuItem.setVisible(true);
+					// Poiché l'utente è già nella schermata dei settings,
+					// disabilito l'azione sul pulsante
+					menuItem.setEnabled(false);
+				} else {
+					// Start del servizio di comunicazione
+					Services.businessLogic.start(getApplicationContext());
+					// Nascondo il warning sulla barra di menu
+					MenuItem menuItem = menu.findItem(R.id.action_offline_mode);
+					if (menuItem != null) {
+						menuItem.setVisible(false);
+						// Poiché l'utente è già nella schermata dei settings,
+						// disabilito l'azione sul pulsante
+						menuItem.setEnabled(false);
+					}
 				}
 			}
 		});
 	};
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Aggiorno la reference al menu dell'activity
+		this.menu = menu;
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Aggiorno la reference al menu dell'activity
+		this.menu = menu;
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 }

@@ -56,7 +56,7 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="button_toggle_service">Communication service</string>
+    <string name="button_toggle_service">Offline mode</string>
     <!-- channel list dialog start -->
     <string name="text_matching_score">matching score</string>
     <string name="chat_btn">chat</string>
@@ -152,7 +152,7 @@
     <string name="first_time_dialog_title">First launch</string>
     <string name="chat_conversations_message_no_conversations_yet">There are still no conversations in here. Go to Nearby area and find someone to chat with.</string>
     <string name="nearby_message_no_users_yet">There are not connected people around you yet. Use another WiFi hotspot or simply wait, people will automatically appear here as soon as they connect.</string>
-    <string name="settings_communication_service_text">As long as you are connected to a WiFi network, Look@me will use the apposite Communication Service to talk with other people on the same network. If you are connected to a WiFi network but you don\'t want Look@me to be able to talk with other people, turn off this option.\n\nPlease note that Look@me does not require an internet connection in any case.</string>
+    <string name="settings_communication_service_text">As long as you are connected to a WiFi network, Look@me will be connected with other devices on the same network: you can interact with other people and they can do the same with you. If you enable \'Offline mode\' all features regarding other people will be disabled - you will not be discovered on the net, you will not be able to chat, etc.\n\nPlease note that Look@me does not require an internet connection in any case.</string>
     <string name="set_as_main">Set as main</string>
     <string name="profile_selected_image">profile selected image</string>
     <string name="chat_messages_dialog_error_title">Error</string>
@@ -165,5 +165,6 @@
     <string name="void_placeholder">Placeholder</string>
     <string name="dialog_image_management">Image management</string>
     <string name="action_title_offline_mode">Offline mode activated</string>
+    <string name="nearby_message_offline_mode">You are in \'Offline mode\' and you are not able to find other people around you.\n\nTo disable \'Offline mode\', go to the settings page tapping the warning icon on the top-right corner.</string>
 
 </resources>

@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
+import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.brainmote.lookatme.util.Nav;
 import com.squareup.otto.Subscribe;
@@ -73,18 +75,27 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 
 	private void refreshFragment() {
 		nearbyListAdapter.notifyDataSetChanged();
-		verifyNoUsers();
+		verifyNearbyState();
 	}
 
-	private void verifyNoUsers() {
-		// Verifica se è necessario mostrare un messaggio all'utente
+	/**
+	 * Verifica se è necessario mostrare un messaggio all'utente
+	 */
+	private void verifyNearbyState() {
 		GridView messageListView = (GridView) getView().findViewById(R.id.nearbyListView);
-		if (messageListView.getAdapter().getCount() > 0) {
-			getView().findViewById(R.id.nearby_no_users_yet).setVisibility(View.INVISIBLE);
-		} else {
-			getView().findViewById(R.id.nearby_no_users_yet).setVisibility(View.VISIBLE);
+		TextView messageText = (TextView) getView().findViewById(R.id.nearby_text_message);
+		// Verifico lo stato della connessione alla rete WiFi
+		if (!CommonUtils.isWifiConnected(this.getActivity()) && !CommonUtils.isEmulator()) {
+			messageText.setText(getString(R.string.message_wifi_required));
+			return;
 		}
-
+		// Verifica se il servizio di background è attivo
+		if (!Services.businessLogic.isRunning()) {
+			messageText.setText(getString(R.string.nearby_message_offline_mode));
+			return;
+		}
+		// Verifica se ci sono utenti visibili
+		messageText.setText((messageListView.getAdapter().getCount() > 0 ? "" : getString(R.string.nearby_message_no_users_yet)));
 	}
 
 }
