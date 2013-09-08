@@ -123,8 +123,8 @@
     <!-- EDIT PROFILE -->
     <string name="edit_profile_button_save_profile_text_first_time">Create profile</string>
     <string name="edit_profile_button_save_profile_text">Save profile</string>
-    <string name="edit_profile_button_add_image_text">Select picture</string>
-    <string name="edit_profile_button_take_image_text">Take picture</string>
+    <string name="edit_profile_button_add_image_text">Select a picture</string>
+    <string name="edit_profile_button_take_image_text">Take a picture</string>
     <string name="edit_profile_image_thumbnail_description">Profile image</string>
     <string name="edit_profile_label_age_text">Age</string>
     <string name="edit_profile_label_nickname_text">Nickname</string>
@@ -140,7 +140,7 @@
     <string name="edit_profile_field_name_hint">Type your first name</string>
     <string name="edit_profile_field_surname_hint">Type your family name</string>
     <string name="edit_profile_spinner_gender_prompt">gender</string>
-    <string name="edit_profile_add_image_select_picture">Select picture</string>
+    <string name="edit_profile_add_image_select_picture">Select a picture</string>
     <string name="edit_profile_message_profile_saved">Profile saved</string>
     <string name="edit_profile_message_mandatory_fields_not_set">You need to insert at least an image and a nickname.</string>
     <string name="edit_profile_message_unable_to_load_image">Unable to load image.</string>
@@ -150,7 +150,7 @@
     <string name="message_warning">Warning</string>
     <string name="message_wifi_required">No WiFi connection available. Connect to a WiFi hotspot to find new friends nearby.</string>
     <string name="first_time_dialog_title">First launch</string>
-    <string name="chat_conversations_message_no_conversations_yet">There are still no conversations in here. Go to Nearby area and find someone to start chat with.</string>
+    <string name="chat_conversations_message_no_conversations_yet">There are still no conversations in here. Go to Nearby area and find someone to chat with.</string>
     <string name="nearby_message_no_users_yet">There are not connected people around you yet. Use another WiFi hotspot or simply wait, people will automatically appear here as soon as they connect.</string>
     <string name="settings_communication_service_text">As long as you are connected to a WiFi network, Look@me will use the apposite Communication Service to talk with other people on the same network. If you are connected to a WiFi network but you don\'t want Look@me to be able to talk with other people, turn off this option.\n\nPlease note that Look@me does not require an internet connection in any case.</string>
     <string name="set_as_main">Set as main</string>
@@ -163,6 +163,7 @@
     <string name="unable_to_send_chat_message">Message NOT sent. This user isn\'t nearby anymore.</string>
     <string name="user_is_not_nearby_anymore">This user isn\'t nearby anymore.</string>
     <string name="void_placeholder">Placeholder</string>
-    <string name="dialog_image_management">What do u wanna do?</string>
+    <string name="dialog_image_management">Image management</string>
+    <string name="action_title_offline_mode">Offline mode activated</string>
 
 </resources>

@@ -30,8 +30,11 @@ public class NearbyActivity extends CommonActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.nearby, menu);
+		// Se l'utente è online, visualizzo il pulsante di refresh
+		if (Services.businessLogic.isRunning()) {
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.nearby, menu);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 

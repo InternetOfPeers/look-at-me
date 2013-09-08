@@ -18,7 +18,8 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/sendButton"
         android:hint="@string/hint_chat_message_text"
-        android:inputType="textAutoComplete" />
+        android:inputType="textAutoComplete"
+        android:singleLine="false" />
 
     <ImageButton
         android:id="@+id/sendButton"

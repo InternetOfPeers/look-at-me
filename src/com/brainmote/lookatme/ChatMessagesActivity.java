@@ -21,8 +21,11 @@ public class ChatMessagesActivity extends CommonActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.chat_conversations, menu);
+		// Se l'utente è online, visualizzo il pulsante del profilo utente
+		if (Services.businessLogic.isRunning()) {
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.chat_conversations, menu);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 

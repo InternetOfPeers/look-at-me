@@ -11,7 +11,6 @@ public class SettingsActivity extends CommonActivity {
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
-		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		initDrawerMenu(savedInstanceState, this.getClass(), true);

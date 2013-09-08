@@ -116,8 +116,11 @@ public abstract class CommonActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.common, menu);
+		// Se il servizio non sta girando, mostro l'icona di offline mode
+		if (!Services.businessLogic.isRunning()) {
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.offline_mode, menu);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -128,12 +131,14 @@ public abstract class CommonActivity extends Activity {
 			// If the nav drawer is open, hide action items related to the
 			// content view
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			MenuItem menuAction = menu.findItem(R.id.action_force_refresh);
+			MenuItem menuAction = menu.findItem(R.id.action_offline_mode);
+			if (menuAction != null)
+				menuAction.setVisible(!drawerOpen);
+			menuAction = menu.findItem(R.id.action_force_refresh);
 			if (menuAction != null)
 				menuAction.setVisible(!drawerOpen);
 			// Poiché potrebbero esserci delle notifiche da visualizzare
-			// (numerello
-			// vicino alla voce di menu), aggiorno il menu
+			// (numerello vicino alla voce di menu), aggiorno il menu
 			if (menuListAdapter != null) {
 				menuListAdapter.notifyDataSetChanged();
 			}
@@ -143,7 +148,12 @@ public abstract class CommonActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.d();
+		// Verifica se è stato premuto l'icona di offline mode
+		switch (item.getItemId()) {
+		case R.id.action_offline_mode:
+			Nav.startActivity(this, SettingsActivity.class);
+			return true;
+		}
 		if (isRootLevel) {
 			mDrawerToggle.onOptionsItemSelected(item);
 			return true;
@@ -160,7 +170,6 @@ public abstract class CommonActivity extends Activity {
 	protected class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Log.d();
 			selectItem(position);
 		}
 	}
