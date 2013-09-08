@@ -57,7 +57,6 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Node node = Services.currentState.getSocialNodeMap().findNodeByNodeId(fromNodeId);
 		BasicProfile otherProfile = (BasicProfile) node.getProfile();
 		String otherNickName = otherProfile.getNickname();
-		int otherAge = otherProfile.getAge();
 		String otherProfileId = otherProfile.getId();
 		BasicProfile myProfile = Services.currentState.getMyBasicProfile();
 		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfileId);

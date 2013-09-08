@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -49,18 +48,14 @@ public class EditProfileFragment extends Fragment {
 	private TextView nameScreen;
 	private TextView surnameScreen;
 	private TextView nicknameScreen;
-	private Button saveButton;
-
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 	private String profileId;
 	private int widthPx;
 	private boolean noPhoto;
-	private EditProfileActivity parentActivity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_edit_profile, null);
-		parentActivity = (EditProfileActivity) getActivity();
 		calculateImageWidthPixel();
 
 		mainProfileImage = (ImageView) view.findViewById(R.id.editProfileMainImage);
@@ -124,9 +119,6 @@ public class EditProfileFragment extends Fragment {
 			mainProfileImage.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(noProfileImage, widthPx));
 			noPhoto = true;
 		}
-
-		saveButton = (Button) view.findViewById(R.id.buttonSaveProfile);
-
 		return view;
 	}
 
@@ -141,14 +133,9 @@ public class EditProfileFragment extends Fragment {
 		try {
 			// Verifico che sia inserito il nickname ed un'immagine di profilo
 			if (nicknameScreen.getText() == null || nicknameScreen.getText().toString().equals("") || noPhoto) {
-
-				parentActivity.showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_mandatory_fields_not_set));
-				// Toast.makeText(getActivity().getApplicationContext(),
-				// R.string.edit_profile_message_mandatory_fields_not_set,
-				// Toast.LENGTH_SHORT).show();
+				((CommonActivity) getActivity()).showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_mandatory_fields_not_set));
 				return;
 			}
-
 			FullProfile profile = Services.currentState.getMyFullProfile();
 			if (profile == null)
 				profile = new FullProfile();
@@ -183,19 +170,11 @@ public class EditProfileFragment extends Fragment {
 			Services.businessLogic.notifyMyProfileIsUpdated();
 			switchToUpdateAccount(savedProfile);
 
-			parentActivity.showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_profile_saved));
-			// Toast toast =
-			// Toast.makeText(getActivity().getApplicationContext(),
-			// R.string.edit_profile_message_profile_saved, Toast.LENGTH_SHORT);
-			// toast.show();
-
 			// Se necessario, aggiungo una conversazione fittizia
 			if (AppSettings.fakeUsersEnabled) {
 				Services.businessLogic.storeConversation(Services.businessLogic.getFakeUser().getConversation(Services.currentState.getMyBasicProfile().getId()));
 			}
-
 			Nav.startActivity(getActivity(), NearbyActivity.class);
-
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
@@ -204,7 +183,7 @@ public class EditProfileFragment extends Fragment {
 	}
 
 	private void setSpinnerSelectedStringValue(Spinner spinner, String value) {
-		ArrayAdapter<String> myAdapter = (ArrayAdapter) spinner.getAdapter();
+		ArrayAdapter<String> myAdapter = (ArrayAdapter<String>) spinner.getAdapter();
 		int spinnerPosition = myAdapter.getPosition(value);
 		spinner.setSelection(spinnerPosition);
 

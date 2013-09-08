@@ -40,7 +40,6 @@ public class EditProfileActivity extends CommonActivity {
 			Log.e("Errore durante la selezione dell'immagine");
 			e.printStackTrace();
 		}
-
 	}
 
 	public void onTakePictureButtonPressed(View view) {
@@ -51,7 +50,6 @@ public class EditProfileActivity extends CommonActivity {
 			Log.e("Errore durante la selezione dell'immagine");
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -61,36 +59,25 @@ public class EditProfileActivity extends CommonActivity {
 		// Verifico se l'utente ha annullato l'inserimento di una nuova immagine
 		if (requestCode != PHOTO_PICKED || resultCode != Activity.RESULT_OK || data == null)
 			return;
-
 		Uri selectedImage = data.getData();
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 		String filePath = cursor.getString(columnIndex);
-
+		cursor.close();
+		// verifico che il percorso del file sia un percorso valido
 		if (filePath == null) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_unable_to_load_image));
 			return;
 		}
-		cursor.close();
-		// verifico che il percorso del file sia un percorso valido
 		if (!ImageUtil.isFilePathValid(filePath)) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_not_valid_image_path));
-
-			// Toast.makeText(getApplicationContext(),
-			// R.string.edit_profile_message_not_valid_image_path,
-			// Toast.LENGTH_LONG).show();
 			return;
 		}
 		Bitmap photo = ImageUtil.loadBitmap(filePath);
-
 		if (photo == null) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_unable_to_load_image));
-
-			// Toast.makeText(getApplicationContext(),
-			// R.string.edit_profile_message_unable_to_load_image,
-			// Toast.LENGTH_SHORT).show();
 			return;
 		}
 		editProfileFragment.addProfileImage(photo);

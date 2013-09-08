@@ -63,11 +63,6 @@ public class ChatMessagesListFragment extends Fragment {
 						// L'utente non è più online e non posso mandargli
 						// messaggi
 						activity.showDialog(getString(R.string.message_warning), getString(R.string.unable_to_send_chat_message));
-						// Toast toast =
-						// Toast.makeText(ChatMessagesListFragment.this.getActivity(),
-						// R.string.unable_to_send_chat_message,
-						// Toast.LENGTH_SHORT);
-						// toast.show();
 					}
 				}
 			}

@@ -1,5 +1,6 @@
 package com.brainmote.lookatme;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -37,6 +38,8 @@ public class MenuListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
@@ -78,14 +81,14 @@ public class MenuListAdapter extends BaseAdapter {
 			pendingMessages = Services.notification.getChatMessagePendingNotifications();
 			if (pendingMessages > 0) {
 				notificationNumber.setText(String.valueOf(pendingMessages));
-				if (Build.VERSION.SDK_INT >= 16) {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 					notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
 				} else {
 					notificationNumber.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.menu_notification_number_background));
 				}
 			} else {
 				notificationNumber.setText("");
-				if (Build.VERSION.SDK_INT >= 16) {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 					notificationNumber.setBackground(activity.getResources().getDrawable(R.drawable.ic_void));
 				} else {
 					notificationNumber.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.ic_void));
@@ -104,4 +107,5 @@ public class MenuListAdapter extends BaseAdapter {
 		}
 		return convertView;
 	}
+
 }

@@ -83,10 +83,7 @@ public class CommonUtils {
 		else if (getDateDiff(date1, date2, TimeUnit.DAYS) <= 7)
 			return getDateDiff(date1, date2, TimeUnit.MINUTES) + " days ago";
 		else {
-			SimpleDateFormat dfDate_day = new SimpleDateFormat("dd/MM/yyyy");
-			String dt = "";
-			Calendar c = Calendar.getInstance();
-			return dfDate_day.format(c.getTime());
+			return new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
 		}
 	}
 
@@ -94,18 +91,12 @@ public class CommonUtils {
 		return "goldfish".equals(Build.HARDWARE);
 	}
 
-	public static String parseDate(Date d) {
-		Calendar cal = Calendar.getInstance();
-		cal.getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		return (sdf.format(d.getTime()));
+	public static String parseDate(Date date) {
+		return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date.getTime());
 	}
 
-	public static Date parseDate(String s) throws Exception {
-		Calendar cal = Calendar.getInstance();
-		cal.getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		return sdf.parse(s);
+	public static Date parseDate(String date) throws Exception {
+		return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(date);
 	}
 
 	public static void cleanMem() {

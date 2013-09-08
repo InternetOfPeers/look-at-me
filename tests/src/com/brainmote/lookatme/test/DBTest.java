@@ -1,16 +1,21 @@
 package com.brainmote.lookatme.test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.brainmote.lookatme.SplashActivity;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Interest;
+import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.db.DBOpenHelper;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
+import com.brainmote.lookatme.util.ImageUtil;
 import com.jayway.android.robotium.solo.Solo;
 
 public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
@@ -81,18 +86,24 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 
 	public void testDB() {
 		try {
-			// TODO test sulle immagini
 			dbOpenHelper.getWritableDatabase().beginTransaction();
 			File imgFile = new File("/sdcard/Images/test_image.jpg");
-			Bitmap myBitmap = null;
+			Bitmap photo = null;
 			if (imgFile.exists()) {
-				myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+				photo = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 			}
+			ProfileImage profileImage = new ProfileImage();
+			profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
+			profileImage.setProfileId("1");
+			List<ProfileImage> profileImageList = new ArrayList<ProfileImage>();
+			profileImageList.add(profileImage);
 			FullProfile profileToBeSaved = new FullProfile();
 			profileToBeSaved.setId("1");
 			profileToBeSaved.setName("Riccardo");
 			profileToBeSaved.setSurname("Alfrilli");
 			profileToBeSaved.setNickname("AlfaOmega83");
+			profileToBeSaved.setMainProfileImage(profileImage);
+			profileToBeSaved.setProfileImages(profileImageList);
 			profileToBeSaved = dbOpenHelper.saveOrUpdateProfile(profileToBeSaved);
 			FullProfile profileSaved = dbOpenHelper.getFullProfile(profileToBeSaved.getId());
 			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
