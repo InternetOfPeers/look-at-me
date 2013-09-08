@@ -27,22 +27,16 @@ import com.brainmote.lookatme.util.Log;
 public class ScrollGalleryAdapter extends BaseAdapter {
 
 	private Activity activity;
-	// private int imageWidth=0;
-	// private int imageHeight=0;
 
 	List<ProfileImage> imageList = null;
 
 	public ScrollGalleryAdapter(Activity activity) {
 		this.activity = activity;
-		// imageList = imageList == null ?
-		// Services.currentState.getMyFullProfile().getProfileImages() :
-		// imageList;
 		imageList = new ArrayList<ProfileImage>();
 	}
 
 	@Override
 	public int getCount() {
-
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
@@ -71,10 +65,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 		Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(getItem(position).getImageBitmap(), Services.currentState.getContext().getResources()
 				.getDimensionPixelSize(R.dimen.edit_profile_scroll_thumbnail_size));
 		image.setImageBitmap(thumbnailBitmap);
-		// imageWidth=image.getWidth();
-		// imageHeight=image.getHeight();
 		image.setOnClickListener(new ImageClickListener(position));
-
 		return retval;
 	}
 
@@ -83,7 +74,6 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 		for (ProfileImage image : imageList) {
 			this.imageList.add(image);
 		}
-		// this.imageList = imageList;
 		notifyDataSetChanged();
 	}
 
@@ -97,14 +87,9 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-
-			// final long idSelected = imageId;
 			final Dialog dialog = new Dialog(activity);
-
-			// tell the Dialog to use the dialog.xml as it's layout description
 			dialog.setContentView(R.layout.dialog_manage_image);
-			dialog.setTitle("What do u wanna do?");
-
+			dialog.setTitle(activity.getResources().getString(R.string.dialog_image_management));
 			Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(clickedImage.getImageBitmap(), Services.currentState.getContext().getResources()
 					.getDimensionPixelSize(R.dimen.manage_image_thumbnail_size));
 			ImageView image = (ImageView) dialog.findViewById(R.id.image);
@@ -128,9 +113,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 					}
 					notifyDataSetChanged();
 				}
-
 			});
-
 			ImageButton deleteImageButton = (ImageButton) dialog.findViewById(R.id.deleteImageButton);
 			deleteImageButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -141,10 +124,6 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 						parent.showDialog(parent.getResources().getString(R.string.message_warning),
 								parent.getResources().getString(R.string.message_cant_delete_profile_image));
 						return;
-						// Toast.makeText(activity,
-						// R.string.message_cant_delete_profile_image,
-						// Toast.LENGTH_LONG).show();
-						// return;
 					}
 					try {
 						// TODO: perché non posticipare i cambiamenti sul db
@@ -159,10 +138,8 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 					}
 					notifyDataSetChanged();
 				}
-
 			});
 			dialog.show();
-
 		}
 
 	}

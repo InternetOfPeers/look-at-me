@@ -163,5 +163,6 @@
     <string name="unable_to_send_chat_message">Message NOT sent. This user isn\'t nearby anymore.</string>
     <string name="user_is_not_nearby_anymore">This user isn\'t nearby anymore.</string>
     <string name="void_placeholder">Placeholder</string>
+    <string name="dialog_image_management">What do u wanna do?</string>
 
 </resources>
