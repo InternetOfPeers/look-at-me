@@ -26,7 +26,7 @@ import com.brainmote.lookatme.util.Log;
 public class AddInterestActivity extends CommonActivity {
 
 	private InterestAdapter interestAdapter = null;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
