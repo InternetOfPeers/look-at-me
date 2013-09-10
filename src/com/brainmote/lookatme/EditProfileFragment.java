@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -118,6 +120,15 @@ public class EditProfileFragment extends Fragment {
 			Bitmap noProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image);
 			mainProfileImage.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(noProfileImage, widthPx));
 			noPhoto = true;
+		}
+
+		// Se la camera non è presente, nascondo il pulsante e il testo
+		if (!getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+			ImageButton addImageButton = (ImageButton) view.findViewById(R.id.addImageButton);
+			addImageButton.setVisibility(ImageButton.GONE);
+			addImageButton.setEnabled(false);
+			TextView addImageLabel = (TextView) view.findViewById(R.id.addImageLabel);
+			addImageLabel.setVisibility(TextView.GONE);
 		}
 		return view;
 	}
