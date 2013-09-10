@@ -32,7 +32,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_splash_activity"
             android:noHistory="true"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -44,12 +44,11 @@
         </activity>
         <activity
             android:name=".NearbyActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_social_activity" >
         </activity>
         <activity
             android:name=".ProfileActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_profile_activity"
             android:parentActivityName=".NearbyActivity" >
             <meta-data
@@ -67,7 +66,6 @@
         </activity>
         <activity
             android:name=".ManageInterestActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_manage_interest_activity"
             android:parentActivityName=".EditProfileActivity" >
             <meta-data
@@ -76,7 +74,6 @@
         </activity>
         <activity
             android:name=".AddInterestActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_add_interest_activity"
             android:parentActivityName=".ManageInterestActivity" >
             <meta-data
@@ -85,7 +82,6 @@
         </activity>
         <activity
             android:name=".ChatConversationsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_messages_activity"
             android:parentActivityName=".NearbyActivity" >
             <meta-data
@@ -94,7 +90,6 @@
         </activity>
         <activity
             android:name=".ChatMessagesActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_chat_activity"
             android:parentActivityName=".ChatConversationsActivity" >
             <meta-data
@@ -103,7 +98,6 @@
         </activity>
         <activity
             android:name=".StatisticsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_statistics_activity"
             android:parentActivityName=".NearbyActivity" >
             <meta-data
@@ -112,7 +106,6 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_settings_activity"
             android:parentActivityName=".NearbyActivity" >
             <meta-data
@@ -121,7 +114,6 @@
         </activity>
         <activity
             android:name=".HelpActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/title_help_activity"
             android:parentActivityName=".NearbyActivity" >
             <meta-data
