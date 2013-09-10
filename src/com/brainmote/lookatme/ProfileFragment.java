@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +49,11 @@ public class ProfileFragment extends Fragment {
 	private TextView textName;
 	private TextView textSurname;
 	private TextView textStatus;
+	
+	private ViewGroup profileActionContainer;
+	private ViewGroup profileBottomContainer;
+	private ViewGroup profileHiddenContainer;
+	private boolean showHiddenContainer;
 
 	private ProgressDialog loadingDialog;
 	private boolean profileReady;
@@ -61,6 +67,12 @@ public class ProfileFragment extends Fragment {
 
 		profileReady = false;
 		View view = inflater.inflate(R.layout.fragment_profile, null);
+		
+		profileActionContainer = (ViewGroup) view.findViewById(R.id.profileActionContainer);
+		profileHiddenContainer = (ViewGroup) view.findViewById(R.id.profileHiddenContainer);
+		profileHiddenContainer.setVisibility(View.GONE);
+		showHiddenContainer = false;
+		
 		countryImage = (ImageView) view.findViewById(R.id.imageCountry);
 		genderImage = (ImageView) view.findViewById(R.id.imageGender);
 		textName = (TextView) view.findViewById(R.id.textName);
@@ -250,6 +262,24 @@ public class ProfileFragment extends Fragment {
 	private boolean likeButtonIsEnabledFor(String nodeId) {
 		String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId);
 		return !Services.currentState.getILikeSet().contains(profileId);
+	}
+	
+	protected void toggleInterests() {
+		Log.d("toggling");
+		//ViewGroup interests = (ViewGroup) LayoutInflater.from(getActivity()).inflate(R.layout.interests_view, profileBottomContainer, true);
+		if (!showHiddenContainer) {
+			// Aggiungo il layout degli interessi
+			//LayoutInflater.from(getActivity()).inflate(R.layout.interests_view, profileBottomContainer, true);
+			// Nascondo i pulsanti like a chat
+			profileHiddenContainer.setVisibility(View.VISIBLE);
+			profileActionContainer.setVisibility(View.GONE);
+			showHiddenContainer = true;
+		}
+		else {
+			profileHiddenContainer.setVisibility(View.GONE);
+			profileActionContainer.setVisibility(View.VISIBLE);
+			showHiddenContainer = false;
+		}
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {
