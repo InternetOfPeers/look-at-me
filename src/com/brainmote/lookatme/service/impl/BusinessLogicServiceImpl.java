@@ -17,10 +17,11 @@ import com.brainmote.lookatme.chord.CustomException;
 import com.brainmote.lookatme.chord.impl.CommunicationListenerImpl;
 import com.brainmote.lookatme.chord.impl.CommunicationManagerImpl;
 import com.brainmote.lookatme.constants.AppSettings;
+import com.brainmote.lookatme.fake.FakeUser;
+import com.brainmote.lookatme.fake.FakeUserGiuseppe;
+import com.brainmote.lookatme.fake.FakeUserImpl;
 import com.brainmote.lookatme.service.BusinessLogicService;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.FakeUser;
-import com.brainmote.lookatme.util.FakeUserImpl;
 import com.brainmote.lookatme.util.Log;
 
 public class BusinessLogicServiceImpl extends Service implements BusinessLogicService {
@@ -55,7 +56,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 			fakeUserNodeList = new HashSet<String>();
 			for (int i = 0; i < AppSettings.fakeUsers; i++) {
 				// Creo un fakeuser
-				fakeUser = new FakeUserImpl(context);
+				fakeUser = new FakeUserGiuseppe(context);
 				// Aggiungo un nodo per l'utente fittizio
 				fakeUserNodeList.add(fakeUser.getNode().getId());
 				Services.currentState.putSocialNodeInMap(fakeUser.getNode());

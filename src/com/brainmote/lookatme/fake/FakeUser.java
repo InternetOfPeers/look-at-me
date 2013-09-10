@@ -1,4 +1,4 @@
-package com.brainmote.lookatme.util;
+package com.brainmote.lookatme.fake;
 
 import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.chord.Node;

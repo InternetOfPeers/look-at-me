@@ -1,4 +1,4 @@
-package com.brainmote.lookatme.util;
+package com.brainmote.lookatme.fake;
 
 import static com.brainmote.lookatme.util.ImageUtil.bitmapToByteArray;
 
@@ -16,6 +16,7 @@ import com.brainmote.lookatme.bean.ChatConversationImpl;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
+import com.brainmote.lookatme.util.CommonUtils;
 
 public class FakeUserImpl implements FakeUser {
 
@@ -56,7 +57,7 @@ public class FakeUserImpl implements FakeUser {
 		node.setProfile(profile);
 	}
 
-	private ProfileImage createProfileImage(Context context, String imageFile) {
+	protected ProfileImage createProfileImage(Context context, String imageFile) {
 		ProfileImage profileImage = new ProfileImage();
 		profileImage.setId(profileImageId);
 		profileImage.setProfileId(profileId);

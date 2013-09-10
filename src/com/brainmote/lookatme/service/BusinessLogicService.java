@@ -6,7 +6,7 @@ import android.content.Context;
 
 import com.brainmote.lookatme.ChatConversation;
 import com.brainmote.lookatme.bean.Interest;
-import com.brainmote.lookatme.util.FakeUser;
+import com.brainmote.lookatme.fake.FakeUser;
 
 public interface BusinessLogicService {
 

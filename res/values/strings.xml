@@ -56,7 +56,8 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="button_toggle_service">Offline mode</string>
+    <string name="button_toggle_service_label">Offline mode</string>
+    
     <!-- channel list dialog start -->
     <string name="text_matching_score">matching score</string>
     <string name="chat_btn">chat</string>
@@ -166,5 +167,7 @@
     <string name="dialog_image_management">Image management</string>
     <string name="action_title_offline_mode">Offline mode activated</string>
     <string name="nearby_message_offline_mode">You are in \'Offline mode\' and you are not able to find other people around you.\n\nTo disable \'Offline mode\', go to the settings page tapping the warning icon on the top-right corner.</string>
+    <string name="switch_toggle_credits_label">Invoke developers</string>
+    <string name="settings_credits_text">If you enable this option, you will feel - it does not matter where you are - the spirits of all Look@me developers around you. Use with caution.</string>
 
 </resources>

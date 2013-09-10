@@ -12,6 +12,13 @@
     android:scrollbarSize="10dp"
     android:scrollbarStyle="insideOverlay" >
 
+    <Switch
+        android:id="@+id/btn_toggle_communication_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="14dp"
+        android:text="@string/button_toggle_service_label" />
+
     <TextView
         android:id="@+id/settings_communication_service"
         android:layout_width="match_parent"
@@ -21,9 +28,18 @@
         android:textStyle="italic" />
 
     <Switch
-        android:id="@+id/btn_toggle_communication_service"
+        android:id="@+id/switch_toggle_credits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_toggle_service" />
+        android:paddingBottom="14dp"
+        android:text="@string/switch_toggle_credits_label" />
+
+    <TextView
+        android:id="@+id/settings_credits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="14dp"
+        android:text="@string/settings_credits_text"
+        android:textStyle="italic" />
 
 </LinearLayout>
