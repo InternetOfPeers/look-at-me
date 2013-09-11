@@ -11,7 +11,6 @@ import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatConversationImpl;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Profile;
-import com.brainmote.lookatme.chord.ChordErrorManager;
 import com.brainmote.lookatme.chord.CommunicationListener;
 import com.brainmote.lookatme.chord.CommunicationManager;
 import com.brainmote.lookatme.chord.CustomException;
@@ -22,7 +21,9 @@ import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
+import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.chord.InvalidInterfaceException;
+import com.samsung.android.sdk.chord.Schord;
 import com.samsung.android.sdk.chord.SchordChannel;
 import com.samsung.android.sdk.chord.SchordManager;
 import com.samsung.android.sdk.chord.SchordManager.StatusListener;
@@ -31,13 +32,11 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	private static final byte[][] EMPTY_PAYLOAD = new byte[0][0];
 
-	private SchordManager chord;
+	private SchordManager chordManager;
 	private SchordChannel socialChannel;
 
 	private List<Integer> availableWifiInterface;
 	private int currentWifiInterface;
-
-	private ChordErrorManager errorManager;
 
 	private CommunicationListener communicationListener;
 
@@ -46,25 +45,57 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	public CommunicationManagerImpl(Context context, CommunicationListener communicationListener) {
 		Log.d();
 		this.context = context;
-		this.errorManager = new ChordErrorManager();
 		this.communicationListener = communicationListener;
 	}
 
 	@Override
 	public void startCommunication() throws CustomException {
 		Log.d();
-		chord = new SchordManager(context);
-		chord.setTempDirectory(context.getFilesDir() + "/chordtemp");
-		chord.setLooper(Looper.getMainLooper());
-
+		// Create an instance of Schord.
+		Schord chord = new Schord();
 		try {
-			startChord();
+			// Initialize an instance of Schord.
+			chord.initialize(context);
+			chordManager = new SchordManager(context);
+			chordManager.setTempDirectory(context.getFilesDir() + "/chordtemp");
+			chordManager.setLooper(Looper.getMainLooper());
+			// trying to use INTERFACE_TYPE_WIFI, otherwise get the first
+			// available interface
+			availableWifiInterface = chordManager.getAvailableInterfaceTypes();
+			if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
+				// TODO lanciare un'eccezione al posto del valore di ritorno
+				// return ErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
+			}
+			if (availableWifiInterface.contains(SchordManager.INTERFACE_TYPE_WIFI)) {
+				currentWifiInterface = SchordManager.INTERFACE_TYPE_WIFI;
+			} else {
+				currentWifiInterface = (availableWifiInterface.get(0)).intValue();
+			}
+			Log.d("connecting with interface " + currentWifiInterface);
+			chordManager.start(currentWifiInterface, new StatusListener() {
+
+				@Override
+				public void onStopped(int arg0) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onStarted(String arg0, int arg1) {
+					Log.d();
+					socialChannel = joinSocialChannel();
+					Log.d("now chord is joined to " + chordManager.getJoinedChannelList().size() + " channels");
+
+				}
+			});
 		} catch (InvalidInterfaceException e) {
+			e.printStackTrace();
+		} catch (SsdkUnsupportedException e) {
+			// Error Handling
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -74,21 +105,21 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// exception per cui mi serve una struttura di appoggio da cui prendere
 		// i nomi dei canali
 		List<String> joinedChannelName = new ArrayList<String>();
-		for (SchordChannel channel : chord.getJoinedChannelList()) {
+		for (SchordChannel channel : chordManager.getJoinedChannelList()) {
 			joinedChannelName.add(channel.getName());
 		}
 		// Da capire perchè ritorna sempre il messaggio:
 		// "can't find channel (com.brainmote.lookatme.SOCIAL_CHANNEL)"
 		for (String channelName : joinedChannelName) {
 			Log.d("leaving channel " + channelName);
-			chord.leaveChannel(channelName);
+			chordManager.leaveChannel(channelName);
 		}
-		chord.stop();
+		chordManager.stop();
 	}
 
 	private SchordChannel joinSocialChannel() {
 		Log.d();
-		return chord.joinChannel(AppSettings.SOCIAL_CHANNEL_NAME, new SchordChannel.StatusListener() {
+		return chordManager.joinChannel(AppSettings.SOCIAL_CHANNEL_NAME, new SchordChannel.StatusListener() {
 
 			@Override
 			public void onNodeLeft(String nodeId, String arg1) {
@@ -252,7 +283,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	private SchordChannel joinChatChannel(String channelName) {
 		Log.d();
-		return chord.joinChannel(channelName, new SchordChannel.StatusListener() {
+		return chordManager.joinChannel(channelName, new SchordChannel.StatusListener() {
 
 			@Override
 			public void onNodeLeft(String arg0, String arg1) {
@@ -367,40 +398,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		});
 	}
 
-	private void startChord() throws Exception {
-		Log.d();
-		// trying to use INTERFACE_TYPE_WIFI, otherwise get the first
-		// available interface
-		availableWifiInterface = chord.getAvailableInterfaceTypes();
-		if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
-			// TODO lanciare un'eccezione al posto del valore di ritorno
-			// return ErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
-		}
-		if (availableWifiInterface.contains(SchordManager.INTERFACE_TYPE_WIFI)) {
-			currentWifiInterface = SchordManager.INTERFACE_TYPE_WIFI;
-		} else {
-			currentWifiInterface = (availableWifiInterface.get(0)).intValue();
-		}
-		Log.d("connecting with interface " + currentWifiInterface);
-
-		chord.start(currentWifiInterface, new StatusListener() {
-
-			@Override
-			public void onStopped(int arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onStarted(String arg0, int arg1) {
-				Log.d();
-				socialChannel = joinSocialChannel();
-				Log.d("now chord is joined to " + chord.getJoinedChannelList().size() + " channels");
-
-			}
-		});
-	}
-
 	@Override
 	public void requestAllProfiles() {
 		if (socialChannel != null) {
@@ -432,7 +429,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	private Message obtainMyProfileMessage(Profile myProfile, MessageType type, String receiverNodeName) {
 		Message message = new Message(type);
-		message.setSenderNodeName(chord.getName());
+		message.setSenderNodeName(chordManager.getName());
 		message.setReceiverNodeName(receiverNodeName); // this maybe null
 		message.putObject(type.toString(), myProfile);
 		return message;
@@ -468,7 +465,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile));
 		}
 		// Effettua il join al canale prescelto per la chat
-		SchordChannel chatChannel = chord.getJoinedChannel(conversationId);
+		SchordChannel chatChannel = chordManager.getJoinedChannel(conversationId);
 		if (chatChannel == null) {
 			Log.d("il device non era in join del chat channel " + conversationId + ", riprovo ora.");
 			chatChannel = joinChatChannel(conversationId);
@@ -484,11 +481,11 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		if (!checkAndJoinChatConversation(conversation)) {
 			return;
 		}
-		SchordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
+		SchordChannel privateChannel = chordManager.getJoinedChannel(conversation.getId());
 		String toNodeId = getNodeIdFromConversation(conversation);
 		// Preparo il messaggio chord da inviare
 		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
-		chordMessage.setSenderNodeName(chord.getName());
+		chordMessage.setSenderNodeName(chordManager.getName());
 		chordMessage.setReceiverNodeName(toNodeId);
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
 		privateChannel.sendData(toNodeId, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
@@ -501,7 +498,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// Verifico che l'utente con il quale voglio parlare esista
 		if (isNodeAlive(toNodeId)) {
 			// Verifico di essere connesso al canale privato della chat
-			SchordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
+			SchordChannel privateChannel = chordManager.getJoinedChannel(conversation.getId());
 			if (privateChannel == null) {
 				Log.w("Non sono in join nel canale privato " + conversation.getId() + ", rieseguo una richiesta di chat.");
 				startChat(toNodeId);
@@ -530,7 +527,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public List<String> getActiveNodeListInChannel(String channelId) {
-		SchordChannel channel = chord.getJoinedChannel(channelId);
+		SchordChannel channel = chordManager.getJoinedChannel(channelId);
 		if (channel == null)
 			return new ArrayList<String>();
 		return channel.getJoinedNodeList();
