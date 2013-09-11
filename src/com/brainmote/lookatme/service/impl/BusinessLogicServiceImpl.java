@@ -19,7 +19,6 @@ import com.brainmote.lookatme.chord.impl.CommunicationManagerImpl;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.fake.FakeUser;
 import com.brainmote.lookatme.fake.FakeUserGiuseppe;
-import com.brainmote.lookatme.fake.FakeUserImpl;
 import com.brainmote.lookatme.service.BusinessLogicService;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Log;
@@ -137,10 +136,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public void sendLike(String nodeId) {
 		Log.d();
-		if (communicationManager.sendLike(nodeId)) {
-			String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId);
-			Services.currentState.addILikeToSet(profileId);
-		}
+		// TODO If nodeId è valido ....
+		communicationManager.sendLike(nodeId);
+		String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId);
+		Services.currentState.addILikeToSet(profileId);
 	}
 
 	@Override
@@ -149,8 +148,8 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	@Override
-	public boolean startChat(String withNodeId) {
-		return communicationManager.startChat(withNodeId);
+	public void startChat(String withNodeId) {
+		communicationManager.startChat(withNodeId);
 	}
 
 	@Override
@@ -210,13 +209,12 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		if (!isNodeAlive(toNode))
 			return false;
 		// Tento l'invio il messaggio
-		if (communicationManager.sendChatMessage(conversation, messageText)) {
-			// Aggiorno la conversation e la memorizzo
-			Services.businessLogic.storeConversation(conversation.addMessage(new ChatMessage(messageText, true)));
-			return true;
-		}
-		return false;
-
+		// TODO inventarsi qualcosa per verificare l'invio
+		// if ... return false
+		communicationManager.sendChatMessage(conversation, messageText);
+		// Aggiorno la conversation e la memorizzo
+		Services.businessLogic.storeConversation(conversation.addMessage(new ChatMessage(messageText, true)));
+		return true;
 	}
 
 	@Override

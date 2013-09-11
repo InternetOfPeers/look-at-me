@@ -12,15 +12,15 @@ public interface CommunicationManager {
 
 	void requestAllProfiles();
 
-	boolean requestFullProfile(String fromNodeId);
+	void requestFullProfile(String fromNodeId);
 
-	boolean notifyMyProfileIsUpdated();
+	void notifyMyProfileIsUpdated();
 
-	boolean sendChatMessage(ChatConversation conversation, String message);
+	void sendChatMessage(ChatConversation conversation, String message);
 
-	boolean startChat(String toNodeId);
+	void startChat(String toNodeId);
 
-	boolean sendLike(String toNodeId);
+	void sendLike(String toNodeId);
 
 	/**
 	 * Restituisce l'elenco di tutti gli utenti che sono connessi al canale

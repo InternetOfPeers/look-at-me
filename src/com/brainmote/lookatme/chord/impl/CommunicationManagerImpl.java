@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.os.Environment;
 import android.os.Looper;
 
 import com.brainmote.lookatme.ChatConversation;
@@ -16,7 +15,6 @@ import com.brainmote.lookatme.chord.ChordErrorManager;
 import com.brainmote.lookatme.chord.CommunicationListener;
 import com.brainmote.lookatme.chord.CommunicationManager;
 import com.brainmote.lookatme.chord.CustomException;
-import com.brainmote.lookatme.chord.ErrorManager;
 import com.brainmote.lookatme.chord.Message;
 import com.brainmote.lookatme.chord.MessageType;
 import com.brainmote.lookatme.chord.Node;
@@ -24,19 +22,17 @@ import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
-import com.samsung.chord.ChordManager;
-import com.samsung.chord.IChordChannel;
-import com.samsung.chord.IChordChannelListener;
-import com.samsung.chord.IChordManagerListener;
+import com.samsung.android.sdk.chord.InvalidInterfaceException;
+import com.samsung.android.sdk.chord.SchordChannel;
+import com.samsung.android.sdk.chord.SchordManager;
+import com.samsung.android.sdk.chord.SchordManager.StatusListener;
 
 public class CommunicationManagerImpl implements CommunicationManager {
 
-	public static final String chordFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ChordTmp";
-
 	private static final byte[][] EMPTY_PAYLOAD = new byte[0][0];
 
-	private ChordManager chord;
-	private IChordChannel socialChannel;
+	private SchordManager chord;
+	private SchordChannel socialChannel;
 
 	private List<Integer> availableWifiInterface;
 	private int currentWifiInterface;
@@ -46,7 +42,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	private CommunicationListener communicationListener;
 
 	private Context context;
-	private Looper looper;
 
 	public CommunicationManagerImpl(Context context, CommunicationListener communicationListener) {
 		Log.d();
@@ -58,20 +53,28 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	@Override
 	public void startCommunication() throws CustomException {
 		Log.d();
-		chord = ChordManager.getInstance(context);
-		// this.chord.setTempDirectory(chordFilePath);
-		chord.setHandleEventLooper(looper);
-		errorManager.checkError(startChord());
+		chord = new SchordManager(context);
+		chord.setTempDirectory(context.getFilesDir() + "/chordtemp");
+		chord.setLooper(Looper.getMainLooper());
+
+		try {
+			startChord();
+		} catch (InvalidInterfaceException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void stopCommunication() {
 		Log.d();
 		// Se chiudo i canali direttamente va in concurrent modification
-		// exception per cui mi serve un astruttura di appoggio da cui prendere
+		// exception per cui mi serve una struttura di appoggio da cui prendere
 		// i nomi dei canali
 		List<String> joinedChannelName = new ArrayList<String>();
-		for (IChordChannel channel : chord.getJoinedChannelList()) {
+		for (SchordChannel channel : chord.getJoinedChannelList()) {
 			joinedChannelName.add(channel.getName());
 		}
 		// Da capire perchè ritorna sempre il messaggio:
@@ -83,101 +86,100 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		chord.stop();
 	}
 
-	private IChordChannel joinPublicChannel() {
+	private SchordChannel joinSocialChannel() {
 		Log.d();
-		return chord.joinChannel(ChordManager.PUBLIC_CHANNEL, new IChordChannelListener() {
-
-			@Override
-			public void onNodeLeft(String arg0, String arg1) {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onNodeJoined(String arg0, String arg1) {
-				Log.d("joinPublicChannel - NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onFileWillReceive(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6) {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onFileSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5) {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onFileReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, String arg7) {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onFileFailed(String arg0, String arg1, String arg2, String arg3, String arg4, int arg5) {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onFileChunkSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7, long arg8) {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onFileChunkReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7) {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onDataReceived(String arg0, String arg1, String arg2, byte[][] arg3) {
-				Log.d("joinPublicChannel - NOT IMPLEMENTED");
-			}
-		});
-	}
-
-	private IChordChannel joinSocialChannel() {
-		Log.d();
-		return chord.joinChannel(AppSettings.SOCIAL_CHANNEL_NAME, new IChordChannelListener() {
-
-			@Override
-			public void onNodeJoined(String nodeId, String arg1) {
-				Log.i("Il nodo che è appena apparso: " + nodeId + " - " + arg1);
-				communicationListener.onNodeJoined(nodeId);
-			}
+		return chord.joinChannel(AppSettings.SOCIAL_CHANNEL_NAME, new SchordChannel.StatusListener() {
 
 			@Override
 			public void onNodeLeft(String nodeId, String arg1) {
 				Log.i("Il nodo che è appena scomparso: " + nodeId + " - " + arg1);
 				communicationListener.onNodeLeft(nodeId);
+
+			}
+
+			@Override
+			public void onNodeJoined(String nodeId, String arg1) {
+				Log.i("Il nodo che è appena apparso: " + nodeId + " - " + arg1);
+				communicationListener.onNodeJoined(nodeId);
+
+			}
+
+			@Override
+			public void onMultiFilesWillReceive(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesSent(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesReceived(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6, String arg7) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesFinished(String arg0, String arg1, String arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesFailed(String arg0, String arg1, String arg2, String arg3, int arg4, int arg5) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesChunkSent(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6, long arg7, long arg8) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesChunkReceived(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6, long arg7) {
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileWillReceive(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, String arg7) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileFailed(String arg0, String arg1, String arg2, String arg3, String arg4, int arg5) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileChunkSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7, long arg8) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileChunkReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
@@ -248,48 +250,98 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		});
 	}
 
-	private IChordChannel joinChatChannel(String channelName) {
+	private SchordChannel joinChatChannel(String channelName) {
 		Log.d();
-		return chord.joinChannel(channelName, new IChordChannelListener() {
+		return chord.joinChannel(channelName, new SchordChannel.StatusListener() {
 
 			@Override
 			public void onNodeLeft(String arg0, String arg1) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onNodeJoined(String arg0, String arg1) {
-				Log.d("joinChatChannel - NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesWillReceive(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesSent(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesReceived(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6, String arg7) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesFinished(String arg0, String arg1, String arg2, int arg3) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesFailed(String arg0, String arg1, String arg2, String arg3, int arg4, int arg5) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesChunkSent(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6, long arg7, long arg8) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMultiFilesChunkReceived(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, long arg6, long arg7) {
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileWillReceive(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, String arg7) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileFailed(String arg0, String arg1, String arg2, String arg3, String arg4, int arg5) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileChunkSent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7, long arg8) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
 			public void onFileChunkReceived(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, long arg6, long arg7) {
-				Log.d("NOT IMPLEMENTED");
+				// TODO Auto-generated method stub
+
 			}
 
 			@Override
@@ -310,42 +362,41 @@ public class CommunicationManagerImpl implements CommunicationManager {
 				default:
 					break;
 				}
+
 			}
 		});
 	}
 
-	private int startChord() {
+	private void startChord() throws Exception {
 		Log.d();
 		// trying to use INTERFACE_TYPE_WIFI, otherwise get the first
 		// available interface
 		availableWifiInterface = chord.getAvailableInterfaceTypes();
 		if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
-			return ErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
+			// TODO lanciare un'eccezione al posto del valore di ritorno
+			// return ErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
 		}
-		if (availableWifiInterface.contains(ChordManager.INTERFACE_TYPE_WIFI)) {
-			currentWifiInterface = ChordManager.INTERFACE_TYPE_WIFI;
+		if (availableWifiInterface.contains(SchordManager.INTERFACE_TYPE_WIFI)) {
+			currentWifiInterface = SchordManager.INTERFACE_TYPE_WIFI;
 		} else {
 			currentWifiInterface = (availableWifiInterface.get(0)).intValue();
 		}
 		Log.d("connecting with interface " + currentWifiInterface);
-		return chord.start(currentWifiInterface, new IChordManagerListener() {
+
+		chord.start(currentWifiInterface, new StatusListener() {
+
+			@Override
+			public void onStopped(int arg0) {
+				// TODO Auto-generated method stub
+
+			}
 
 			@Override
 			public void onStarted(String arg0, int arg1) {
 				Log.d();
-				joinPublicChannel();
 				socialChannel = joinSocialChannel();
 				Log.d("now chord is joined to " + chord.getJoinedChannelList().size() + " channels");
-			}
 
-			@Override
-			public void onNetworkDisconnected() {
-				Log.d("NOT IMPLEMENTED");
-			}
-
-			@Override
-			public void onError(int arg0) {
-				Log.d("NOT IMPLEMENTED");
 			}
 		});
 	}
@@ -358,31 +409,25 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean notifyMyProfileIsUpdated() {
+	public void notifyMyProfileIsUpdated() {
 		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.PROFILE_UPDATE, null);
-		if (message != null && socialChannel != null) {
-			return socialChannel.sendDataToAll(MessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
-		} else {
-			return false;
-		}
+		if (message == null || socialChannel == null)
+			return;
+		socialChannel.sendDataToAll(MessageType.PROFILE_UPDATE.toString(), obtainPayload(message));
 	}
 
-	private boolean sendBasicProfileResponse(String nodeTo) {
+	private void sendBasicProfileResponse(String nodeTo) {
 		Message message = obtainMyProfileMessage(Services.currentState.getMyBasicProfile(), MessageType.BASIC_PROFILE, nodeTo);
-		if (message != null) {
-			return socialChannel.sendData(nodeTo, MessageType.BASIC_PROFILE.toString(), obtainPayload(message));
-		} else {
-			return false;
-		}
+		if (message == null || socialChannel == null)
+			return;
+		socialChannel.sendData(nodeTo, MessageType.BASIC_PROFILE.toString(), obtainPayload(message));
 	}
 
-	private boolean sendFullProfileResponse(String nodeTo) {
+	private void sendFullProfileResponse(String nodeTo) {
 		Message message = obtainMyProfileMessage(Services.currentState.getMyFullProfile(), MessageType.FULL_PROFILE, nodeTo);
-		if (message != null) {
-			return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE.toString(), obtainPayload(message));
-		} else {
-			return false;
-		}
+		if (message == null || socialChannel == null)
+			return;
+		socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE.toString(), obtainPayload(message));
 	}
 
 	private Message obtainMyProfileMessage(Profile myProfile, MessageType type, String receiverNodeName) {
@@ -400,17 +445,17 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public boolean requestFullProfile(String nodeTo) {
-		return socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
+	public void requestFullProfile(String nodeTo) {
+		socialChannel.sendData(nodeTo, MessageType.FULL_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
-	public boolean sendLike(String nodeTo) {
-		return socialChannel.sendData(nodeTo, MessageType.LIKE.name(), EMPTY_PAYLOAD);
+	public void sendLike(String nodeTo) {
+		socialChannel.sendData(nodeTo, MessageType.LIKE.name(), EMPTY_PAYLOAD);
 	}
 
 	@Override
-	public boolean startChat(String withNode) {
+	public void startChat(String withNode) {
 		String myProfileId = Services.currentState.getMyBasicProfile().getId();
 		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().findNodeByNodeId(withNode).getProfile();
 		String otherProfileId = otherProfile.getId();
@@ -423,30 +468,30 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile));
 		}
 		// Effettua il join al canale prescelto per la chat
-		IChordChannel chatChannel = chord.getJoinedChannel(conversationId);
+		SchordChannel chatChannel = chord.getJoinedChannel(conversationId);
 		if (chatChannel == null) {
 			Log.d("il device non era in join del chat channel " + conversationId + ", riprovo ora.");
 			chatChannel = joinChatChannel(conversationId);
 		}
 		// Manda all'utente un messaggio affinchè si agganci automaticamente
 		// al canale per chattare
-		return socialChannel.sendData(withNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
+		socialChannel.sendData(withNode, MessageType.START_CHAT_MESSAGE.toString(), EMPTY_PAYLOAD);
 	}
 
 	@Override
-	public boolean sendChatMessage(ChatConversation conversation, String text) {
+	public void sendChatMessage(ChatConversation conversation, String text) {
 		// Verifico lo stato della conversazione corrente
 		if (!checkAndJoinChatConversation(conversation)) {
-			return false;
+			return;
 		}
-		IChordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
+		SchordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
 		String toNodeId = getNodeIdFromConversation(conversation);
 		// Preparo il messaggio chord da inviare
 		Message chordMessage = new Message(MessageType.CHAT_MESSAGE);
 		chordMessage.setSenderNodeName(chord.getName());
 		chordMessage.setReceiverNodeName(toNodeId);
 		chordMessage.putString(MessageType.CHAT_MESSAGE.toString(), text);
-		return privateChannel.sendData(toNodeId, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
+		privateChannel.sendData(toNodeId, MessageType.CHAT_MESSAGE.toString(), obtainPayload(chordMessage));
 	}
 
 	@Override
@@ -456,7 +501,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// Verifico che l'utente con il quale voglio parlare esista
 		if (isNodeAlive(toNodeId)) {
 			// Verifico di essere connesso al canale privato della chat
-			IChordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
+			SchordChannel privateChannel = chord.getJoinedChannel(conversation.getId());
 			if (privateChannel == null) {
 				Log.w("Non sono in join nel canale privato " + conversation.getId() + ", rieseguo una richiesta di chat.");
 				startChat(toNodeId);
@@ -485,7 +530,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public List<String> getActiveNodeListInChannel(String channelId) {
-		IChordChannel channel = chord.getJoinedChannel(channelId);
+		SchordChannel channel = chord.getJoinedChannel(channelId);
 		if (channel == null)
 			return new ArrayList<String>();
 		return channel.getJoinedNodeList();

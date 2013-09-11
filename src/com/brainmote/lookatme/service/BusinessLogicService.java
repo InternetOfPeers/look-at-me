@@ -20,7 +20,7 @@ public interface BusinessLogicService {
 
 	void requestFullProfile(String nodeId);
 
-	boolean startChat(String nodeId);
+	void startChat(String nodeId);
 
 	void refreshSocialList();
 
