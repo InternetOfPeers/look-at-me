@@ -86,13 +86,9 @@ public class ProfileFragment extends Fragment {
 		// preparo i pulsanti
 		buttonLike = (LikeButton) view.findViewById(R.id.buttonLike);
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
-		// Verifico se il profilo è di un utente normale, fake o di un developer
-
-		// Verifico se è attiva l'opzione Invoke Developers
-		// TODO
-
-		if (AppSettings.fakeUsersEnabled && Services.businessLogic.isFakeUserNode(nodeId)) {
-			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser().getNode());
+		// Verifico se il profilo è di un utente fake
+		if (Services.businessLogic.isFakeUserNode(nodeId)) {
+			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser(nodeId).getNode());
 			prepareProfileAttributes();
 		} else {
 			// Controllo se il nodo è ancora presente
@@ -111,8 +107,10 @@ public class ProfileFragment extends Fragment {
 							loadingDialog.setCancelable(false);
 							loadingDialog.show();
 							// Dopo AppSettings.LOADING_PROFILE_TIMEOUT
-							// millisecondi, se il popup di caricamento non è
-							// stato chiuso, viene chiuso in automatico e viene
+							// millisecondi, se il popup di caricamento non
+							// è
+							// stato chiuso, viene chiuso in automatico e
+							// viene
 							// mostrato il messaggio di errore all'utente.
 							new Handler().postDelayed(new Runnable() {
 								public void run() {

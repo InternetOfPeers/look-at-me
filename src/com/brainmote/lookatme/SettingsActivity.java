@@ -56,11 +56,11 @@ public class SettingsActivity extends CommonActivity {
 		});
 		// Imposta il pulsante invoke developers
 		Switch invokeDevelopersSwitch = (Switch) findViewById(R.id.switch_toggle_credits);
-		invokeDevelopersSwitch.setChecked(getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).getBoolean(AppSettings.INVOKE_DEVELOPERS, false));
+		invokeDevelopersSwitch.setChecked(getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).getBoolean(AppSettings.IN_APP_CREDITS, false));
 		invokeDevelopersSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).edit().putBoolean(AppSettings.INVOKE_DEVELOPERS, isChecked).commit();
+				getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).edit().putBoolean(AppSettings.IN_APP_CREDITS, isChecked).commit();
 			}
 		});
 	};

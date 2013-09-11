@@ -7,13 +7,13 @@ import android.content.Context;
 
 import com.brainmote.lookatme.bean.ProfileImage;
 
-public class FakeUserGiuseppe extends FakeUserGenericImpl {
+public class FakeUserCarlo extends FakeUserGenericImpl {
 
-	public FakeUserGiuseppe(Context context) {
+	public FakeUserCarlo(Context context) {
 		super(context);
-		profile.setNickname("Neurone");
-		profile.setName("Giuseppe");
-		profile.setSurname("Bertone");
+		profile.setNickname("Carlo");
+		profile.setName("Carlo");
+		profile.setSurname("Tassi");
 		profile.setStatus("Due rette parallele non si incontrano mai, e se si incontrano non si salutano.");
 		profile.setAge(35);
 		profile.setMainProfileImage(createProfileImage(context, "giuseppe_main_profile_image.jpg"));

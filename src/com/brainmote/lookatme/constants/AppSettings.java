@@ -10,10 +10,12 @@ public interface AppSettings {
 	static final long DOUBLE_BACK_TO_REALLY_EXIT_DELAY = 2000; // Millisecondi
 
 	static final String MAIN_CHANNEL = "com.brainmote.lookatme.mainChannel";
-	static final String INVOKE_DEVELOPERS = "com.brainmote.lookatme.settings.invokeDevelopers";
+	static final String IN_APP_CREDITS = "com.brainmote.lookatme.settings.invokeDevelopers";
 	static final String USER_PREFERENCES = "com.brainmote.lookatme.userPreferences";
 
-	static final int fakeUsers = 0;
-	static final boolean fakeUsersEnabled = fakeUsers > 0;
+	static final int moreFakeUsers = 2; // In aggiunta ai profili fake dei
+										// credits, è possibile aggiungere
+										// ulteriori profili finti
+	static final boolean needMoreFakeUsers = moreFakeUsers > 0;
 
 }

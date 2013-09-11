@@ -30,7 +30,7 @@ public interface BusinessLogicService {
 
 	void storeConversation(ChatConversation conversation);
 
-	FakeUser getFakeUser();
+	FakeUser getFakeUser(String nodeId);
 
 	boolean isFakeUserNode(String nodeId);
 
@@ -61,5 +61,19 @@ public interface BusinessLogicService {
 	 *            La conversazione alla quale l'utente vuole partecipare
 	 */
 	void joinConversation(ChatConversation conversation);
+
+	/**
+	 * Verifica se l'utente ha abilitato l'opzione di credits in app (invoke
+	 * developers)
+	 * 
+	 * @param context
+	 * @return
+	 */
+	boolean isCreditsInAppEnabled(Context context);
+
+	/**
+	 * Inizializza le conversazioni degli utenti fake
+	 */
+	void initFakeUsersConversations();
 
 }

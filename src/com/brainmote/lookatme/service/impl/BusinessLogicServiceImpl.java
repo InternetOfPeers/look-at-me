@@ -1,6 +1,7 @@
 package com.brainmote.lookatme.service.impl;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -18,7 +19,11 @@ import com.brainmote.lookatme.chord.impl.CommunicationListenerImpl;
 import com.brainmote.lookatme.chord.impl.CommunicationManagerImpl;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.fake.FakeUser;
-import com.brainmote.lookatme.fake.FakeUserImpl;
+import com.brainmote.lookatme.fake.FakeUserCarlo;
+import com.brainmote.lookatme.fake.FakeUserGenericImpl;
+import com.brainmote.lookatme.fake.FakeUserGiuseppe;
+import com.brainmote.lookatme.fake.FakeUserRiccardo;
+import com.brainmote.lookatme.fake.FakeUserStefano;
 import com.brainmote.lookatme.service.BusinessLogicService;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Log;
@@ -31,8 +36,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	private boolean isRunning;
 	private CommunicationManager communicationManager;
-	private FakeUser fakeUser;
-	private Set<String> fakeUserNodeList;
+	private Map<String, FakeUser> fakeUsers;
 
 	/**
 	 * 
@@ -40,6 +44,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	 */
 	@Override
 	public void start(Context context) {
+		Log.i();
 		context.startService(new Intent(SERVICE_START));
 		isRunning = true;
 		try {
@@ -50,34 +55,34 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
-		// Verifico se è attiva l'opzione Invoke Developers
-		if (context.getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).getBoolean(AppSettings.INVOKE_DEVELOPERS, false)) {
-			fakeUserNodeList = new HashSet<String>();
-			for (int i = 0; i < AppSettings.fakeUsers; i++) {
-				// Creo un fakeuser
-				fakeUser = new FakeUserImpl(context);
-				// Aggiungo un nodo per l'utente fittizio
-				fakeUserNodeList.add(fakeUser.getNode().getId());
-				Services.currentState.putSocialNodeInMap(fakeUser.getNode());
-				// Aggiungo una conversazione fittizia all'inizio
-				if (Services.currentState.getMyBasicProfile() != null)
-					storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
+		// Verifico se è attiva l'opzione dei credits in app
+		if (isCreditsInAppEnabled(context)) {
+			addFakeUser(new FakeUserGiuseppe(context));
+			addFakeUser(new FakeUserCarlo(context));
+			addFakeUser(new FakeUserStefano(context));
+			addFakeUser(new FakeUserRiccardo(context));
+			// Se necessario creo ulteriori fake user
+			if (AppSettings.needMoreFakeUsers) {
+				for (int i = 0; i < AppSettings.moreFakeUsers; i++) {
+					addFakeUser(new FakeUserGenericImpl(context));
+				}
 			}
 		}
-		// Se necessario creo dei fake user
-		if (AppSettings.fakeUsersEnabled) {
-			fakeUserNodeList = new HashSet<String>();
-			for (int i = 0; i < AppSettings.fakeUsers; i++) {
-				// Creo un fakeuser
-				fakeUser = new FakeUserImpl(context);
-				// Aggiungo un nodo per l'utente fittizio
-				fakeUserNodeList.add(fakeUser.getNode().getId());
-				Services.currentState.putSocialNodeInMap(fakeUser.getNode());
-				// Aggiungo una conversazione fittizia all'inizio
-				if (Services.currentState.getMyBasicProfile() != null)
-					storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
-			}
-		}
+
+	}
+
+	/**
+	 * 
+	 * @param fakeUser
+	 */
+	private void addFakeUser(FakeUser fakeUser) {
+		if (fakeUsers == null)
+			fakeUsers = new HashMap<String, FakeUser>();
+		fakeUsers.put(fakeUser.getNode().getId(), fakeUser);
+		Services.currentState.putSocialNodeInMap(fakeUser.getNode());
+		// Aggiungo una conversazione fittizia all'inizio
+		if (Services.currentState.getMyBasicProfile() != null)
+			storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
 	}
 
 	/**
@@ -86,6 +91,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	 */
 	@Override
 	public void stop(Context context) {
+		Log.i();
 		communicationManager.stopCommunication();
 		context.stopService(new Intent(SERVICE_STOP));
 		isRunning = false;
@@ -102,26 +108,26 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public void onCreate() {
-		Log.d();
+		Log.i();
 		super.onCreate();
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d();
+		Log.i();
 		isRunning = true;
 		return super.onStartCommand(intent, flags, startId);
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		Log.d();
+		Log.i();
 		return null;
 	}
 
 	@Override
 	public void onDestroy() {
-		Log.d();
+		Log.i();
 		isRunning = false;
 		super.onDestroy();
 	}
@@ -193,13 +199,13 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	}
 
 	@Override
-	public FakeUser getFakeUser() {
-		return fakeUser;
+	public FakeUser getFakeUser(String nodeId) {
+		return fakeUsers.get(nodeId);
 	}
 
 	@Override
 	public boolean isFakeUserNode(String nodeId) {
-		return fakeUserNodeList.contains(nodeId);
+		return fakeUsers.containsKey(nodeId);
 	}
 
 	@Override
@@ -243,6 +249,18 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public void joinConversation(ChatConversation conversation) {
 		communicationManager.checkAndJoinChatConversation(conversation);
+	}
+
+	@Override
+	public boolean isCreditsInAppEnabled(Context context) {
+		return context.getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).getBoolean(AppSettings.IN_APP_CREDITS, false);
+	}
+
+	@Override
+	public void initFakeUsersConversations() {
+		for (FakeUser fakeUser : fakeUsers.values()) {
+			Services.businessLogic.storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
+		}
 	}
 
 }
