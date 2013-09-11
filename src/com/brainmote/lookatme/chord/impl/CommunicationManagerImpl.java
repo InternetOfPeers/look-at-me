@@ -54,11 +54,13 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		// Create an instance of Schord.
 		Schord chord = new Schord();
 		try {
-			// Initialize an instance of Schord.
-			chord.initialize(context);
-			chordManager = new SchordManager(context);
-			chordManager.setTempDirectory(context.getFilesDir() + "/chordtemp");
-			chordManager.setLooper(Looper.getMainLooper());
+			if (chordManager == null) {
+				// Initialize an instance of Schord.
+				chord.initialize(context);
+				chordManager = new SchordManager(context);
+				chordManager.setTempDirectory(context.getFilesDir() + "/chordtemp");
+				chordManager.setLooper(Looper.getMainLooper());
+			}
 			// trying to use INTERFACE_TYPE_WIFI, otherwise get the first
 			// available interface
 			availableWifiInterface = chordManager.getAvailableInterfaceTypes();
