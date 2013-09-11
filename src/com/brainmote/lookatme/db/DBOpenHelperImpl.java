@@ -777,9 +777,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	public void addVisit(String profileId) {
-		Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXX chiamo la procedura di salvataggio della visita");
 		if (selectProfileIdFromStatisticsTable(profileId, TABLE_VISIT, TABLE_VISIT_COLUMN_PROFILE_ID) == null) {
-			Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX inserisco la visita");
 			ContentValues contentValues = new ContentValues();
 			contentValues.put(TABLE_VISIT_COLUMN_PROFILE_ID, profileId);
 			database.insert(TABLE_VISIT, null, contentValues);
@@ -792,9 +790,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		try {
 
 			cursor = database.rawQuery("SELECT " + tableColumn + " FROM " + table + " WHERE " + tableColumn + "=? ", new String[] { profileId });
-			Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXXX cursor returned");
 			if (cursor.moveToFirst()) {
-				Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX recupero il risultato dal cursor");
 				// do {
 				result = cursor.getString(cursor.getColumnIndex(tableColumn));
 				return result;
