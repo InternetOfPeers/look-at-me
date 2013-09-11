@@ -18,7 +18,7 @@ import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.util.CommonUtils;
 
-public class FakeUserImpl implements FakeUser {
+public class FakeUserGenericImpl implements FakeUser {
 
 	final int id = 99998999 + new Random().nextInt(1000);
 	final String FAKE_NUMBER = String.valueOf(id);
@@ -36,7 +36,7 @@ public class FakeUserImpl implements FakeUser {
 	String primaryLanguage = "ITALIAN";
 	String status = "Sono molto felice!";
 
-	public FakeUserImpl(Context context) {
+	public FakeUserGenericImpl(Context context) {
 		profile = new FullProfile();
 		profile.setId(profileId);
 		profile.setNickname(nickname);

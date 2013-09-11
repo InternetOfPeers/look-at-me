@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
-import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.db.DBOpenHelper;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.enumattribute.Country;
@@ -176,11 +175,9 @@ public class EditProfileFragment extends Fragment {
 			switchToUpdateAccount(savedProfile);
 
 			// Se necessario, aggiungo delle conversazioni fittizie
-			if (AppSettings.fakeUsersEnabled) {
-				Services.businessLogic.storeConversation(Services.businessLogic.getFakeUser().getConversation(Services.currentState.getMyBasicProfile().getId()));
+			if (Services.businessLogic.isCreditsInAppEnabled(getActivity())) {
+				Services.businessLogic.initFakeUsersConversations();
 			}
-			// Verifico se è attiva l'opzione Invoke Developers
-			// TODO
 
 			Nav.startActivity(getActivity(), NearbyActivity.class);
 		} catch (Exception e) {
