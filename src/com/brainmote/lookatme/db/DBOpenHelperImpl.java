@@ -738,18 +738,26 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Cursor cursor = null;
 		Statistics statistics = new Statistics();
 		try {
+			// Separato in due query distinte perchè non recuperava il numero di visite
+			// Recupero il numero di visite
+			cursor = database.rawQuery("SELECT count(" + TABLE_LIKE_COLUMN_PROFILE_ID + ") AS " + TABLE_LIKE_COLUMN_COUNT_ALIAS + 
+					" FROM " + TABLE_LIKE, new String[] {});
 
-			cursor = database.rawQuery("SELECT count(" + TABLE_LIKE_COLUMN_PROFILE_ID + ") AS " + TABLE_LIKE_COLUMN_COUNT_ALIAS + ", count(" + TABLE_VISIT_COLUMN_PROFILE_ID
-					+ ") AS " + TABLE_VISIT_COLUMN_COUNT_ALIAS + " FROM " + TABLE_LIKE + ", " + TABLE_VISIT, new String[] {});
+			if (cursor.moveToFirst()) {
+				// do {
+				statistics.setLikeCount(cursor.getInt(cursor.getColumnIndex(TABLE_LIKE_COLUMN_COUNT_ALIAS)));
+				// } while (cursor.moveToNext());
+			}
+			// Recupero il numero di like
+			cursor = database.rawQuery("SELECT count(" + TABLE_VISIT_COLUMN_PROFILE_ID + ") AS " + TABLE_VISIT_COLUMN_COUNT_ALIAS + 
+					" FROM " + TABLE_VISIT, new String[] {});
 
 			if (cursor.moveToFirst()) {
 				// do {
 				statistics.setVisitCount(cursor.getInt(cursor.getColumnIndex(TABLE_VISIT_COLUMN_COUNT_ALIAS)));
-				statistics.setLikeCount(cursor.getInt(cursor.getColumnIndex(TABLE_LIKE_COLUMN_COUNT_ALIAS)));
-				return statistics;
 				// } while (cursor.moveToNext());
-
 			}
+			return statistics;
 		} catch (Throwable e) {
 			Log.e("error on getting getBasicProfile: " + e.getMessage());
 		} finally {
@@ -769,7 +777,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	public void addVisit(String profileId) {
+		Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXX chiamo la procedura di salvataggio della visita");
 		if (selectProfileIdFromStatisticsTable(profileId, TABLE_VISIT, TABLE_VISIT_COLUMN_PROFILE_ID) == null) {
+			Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX inserisco la visita");
 			ContentValues contentValues = new ContentValues();
 			contentValues.put(TABLE_VISIT_COLUMN_PROFILE_ID, profileId);
 			database.insert(TABLE_VISIT, null, contentValues);
@@ -782,8 +792,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		try {
 
 			cursor = database.rawQuery("SELECT " + tableColumn + " FROM " + table + " WHERE " + tableColumn + "=? ", new String[] { profileId });
-
+			Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXXX cursor returned");
 			if (cursor.moveToFirst()) {
+				Log.d("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX recupero il risultato dal cursor");
 				// do {
 				result = cursor.getString(cursor.getColumnIndex(tableColumn));
 				return result;
