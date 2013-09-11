@@ -3,9 +3,9 @@ package com.brainmote.lookatme.fake;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.brainmote.lookatme.bean.ProfileImage;
-
 import android.content.Context;
+
+import com.brainmote.lookatme.bean.ProfileImage;
 
 public class FakeUserGiuseppe extends FakeUserImpl {
 

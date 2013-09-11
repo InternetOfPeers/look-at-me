@@ -1,15 +1,13 @@
 package com.brainmote.lookatme;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.brainmote.lookatme.util.Log;
 
 public class ProfileActivity extends CommonActivity {
-	
+
 	private ProfileFragment profileFragment;
 
 	@Override
@@ -32,7 +30,7 @@ public class ProfileActivity extends CommonActivity {
 		}
 		return true;
 	}
-	
+
 	public void onInterestsButtonClick(View view) {
 		profileFragment.toggleInterests();
 	}
