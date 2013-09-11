@@ -86,7 +86,11 @@ public class ProfileFragment extends Fragment {
 		// preparo i pulsanti
 		buttonLike = (LikeButton) view.findViewById(R.id.buttonLike);
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
-		// Verifico se è il profilo di un utente fake
+		// Verifico se il profilo è di un utente normale, fake o di un developer
+
+		// Verifico se è attiva l'opzione Invoke Developers
+		// TODO
+
 		if (AppSettings.fakeUsersEnabled && Services.businessLogic.isFakeUserNode(nodeId)) {
 			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser().getNode());
 			prepareProfileAttributes();
@@ -219,10 +223,9 @@ public class ProfileFragment extends Fragment {
 				break;
 			}
 			buttonChat.setEnabled(true);
-			// Imposto il title con il nickname e l'et� dell'utente
-			// selezionato
+			// Imposto il title con il nickname e l'età dell'utente selezionato
 			String age = profile.getAge() > 0 ? ", " + String.valueOf(profile.getAge()) : "";
-			getActivity().setTitle(profile.getNickname() + age);
+			((CommonActivity) getActivity()).setTitle(profile.getNickname() + age);
 			// Imposto le immagini del profilo utente
 			if (profile.getProfileImages() != null) {
 				for (ProfileImage image : profile.getProfileImages()) {

@@ -175,10 +175,13 @@ public class EditProfileFragment extends Fragment {
 			Services.businessLogic.notifyMyProfileIsUpdated();
 			switchToUpdateAccount(savedProfile);
 
-			// Se necessario, aggiungo una conversazione fittizia
+			// Se necessario, aggiungo delle conversazioni fittizie
 			if (AppSettings.fakeUsersEnabled) {
 				Services.businessLogic.storeConversation(Services.businessLogic.getFakeUser().getConversation(Services.currentState.getMyBasicProfile().getId()));
 			}
+			// Verifico se è attiva l'opzione Invoke Developers
+			// TODO
+
 			Nav.startActivity(getActivity(), NearbyActivity.class);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());

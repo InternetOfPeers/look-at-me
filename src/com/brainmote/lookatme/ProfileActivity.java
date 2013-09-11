@@ -17,7 +17,6 @@ public class ProfileActivity extends CommonActivity {
 		setContentView(R.layout.activity_profile);
 		profileFragment = (ProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
-		setTitle("");
 		checkIfProfileIsCompleted();
 	}
 

@@ -32,8 +32,9 @@ public class FakeUserImpl implements FakeUser {
 	List<String> tags = null;
 	long profileImageId = id;
 	Node node;
+	String livingCountry = "ITALY";
 	String primaryLanguage = "ITALIAN";
-	String birthCountry = "ITALY";
+	String status = "Sono molto felice!";
 
 	public FakeUserImpl(Context context) {
 		profile = new FullProfile();
@@ -44,7 +45,8 @@ public class FakeUserImpl implements FakeUser {
 		profile.setGender(gender);
 		profile.setAge(age);
 		profile.setPrimaryLanguage(primaryLanguage);
-		profile.setBirthCountry(birthCountry);
+		profile.setLivingCountry(livingCountry);
+		profile.setStatus(status);
 		profile.setTags(tags);
 		profile.setMainProfileImage(createProfileImage(context, "fake_user_main_profile_image.jpg"));
 		List<ProfileImage> profileImages = new ArrayList<ProfileImage>();

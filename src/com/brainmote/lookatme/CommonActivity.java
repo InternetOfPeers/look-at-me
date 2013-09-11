@@ -37,7 +37,7 @@ public abstract class CommonActivity extends Activity {
 
 	protected CharSequence mDrawerTitle;
 	protected CharSequence mTitle;
-	protected String[] mPlanetTitles;
+	protected String[] mItemsTitles;
 	protected boolean menuEnabled;
 	protected Bundle extras;
 
@@ -61,7 +61,7 @@ public abstract class CommonActivity extends Activity {
 		this.isRootLevel = isRootLevel;
 		menuEnabled = true;
 		mTitle = mDrawerTitle = getTitle();
-		mPlanetTitles = getResources().getStringArray(R.array.menu_items);
+		mItemsTitles = getResources().getStringArray(R.array.menu_items);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -69,7 +69,7 @@ public abstract class CommonActivity extends Activity {
 		// opens
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// set up the drawer's list view with items and click listener
-		menuListAdapter = new MenuListAdapter(this, mPlanetTitles);
+		menuListAdapter = new MenuListAdapter(this, mItemsTitles);
 		mDrawerList.setAdapter(menuListAdapter);
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -111,7 +111,7 @@ public abstract class CommonActivity extends Activity {
 
 	protected void setMenuItem(int position) {
 		mDrawerList.setItemChecked(position, true);
-		setTitle(mPlanetTitles[position]);
+		setTitle(mItemsTitles[position]);
 	}
 
 	@Override
@@ -175,10 +175,6 @@ public abstract class CommonActivity extends Activity {
 
 	protected void selectItem(int position) {
 		if (menuEnabled) {
-			// update selected item and title, then close the drawer
-			// mDrawerList.setItemChecked(position, true);
-			// setTitle(mPlanetTitles[position]);
-			// mDrawerLayout.closeDrawer(mDrawerList);
 			menuEnabled = false;
 			Nav.startActivity(this, Nav.getActivityFromMenuPosition(position));
 		}

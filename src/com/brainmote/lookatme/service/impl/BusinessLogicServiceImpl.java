@@ -18,7 +18,7 @@ import com.brainmote.lookatme.chord.impl.CommunicationListenerImpl;
 import com.brainmote.lookatme.chord.impl.CommunicationManagerImpl;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.fake.FakeUser;
-import com.brainmote.lookatme.fake.FakeUserGiuseppe;
+import com.brainmote.lookatme.fake.FakeUserImpl;
 import com.brainmote.lookatme.service.BusinessLogicService;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Log;
@@ -50,12 +50,26 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
+		// Verifico se è attiva l'opzione Invoke Developers
+		if (context.getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).getBoolean(AppSettings.INVOKE_DEVELOPERS, false)) {
+			fakeUserNodeList = new HashSet<String>();
+			for (int i = 0; i < AppSettings.fakeUsers; i++) {
+				// Creo un fakeuser
+				fakeUser = new FakeUserImpl(context);
+				// Aggiungo un nodo per l'utente fittizio
+				fakeUserNodeList.add(fakeUser.getNode().getId());
+				Services.currentState.putSocialNodeInMap(fakeUser.getNode());
+				// Aggiungo una conversazione fittizia all'inizio
+				if (Services.currentState.getMyBasicProfile() != null)
+					storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
+			}
+		}
 		// Se necessario creo dei fake user
 		if (AppSettings.fakeUsersEnabled) {
 			fakeUserNodeList = new HashSet<String>();
 			for (int i = 0; i < AppSettings.fakeUsers; i++) {
 				// Creo un fakeuser
-				fakeUser = new FakeUserGiuseppe(context);
+				fakeUser = new FakeUserImpl(context);
 				// Aggiungo un nodo per l'utente fittizio
 				fakeUserNodeList.add(fakeUser.getNode().getId());
 				Services.currentState.putSocialNodeInMap(fakeUser.getNode());

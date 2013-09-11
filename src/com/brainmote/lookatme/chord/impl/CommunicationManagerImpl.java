@@ -121,7 +121,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	private SchordChannel joinSocialChannel() {
 		Log.d();
-		return chordManager.joinChannel(AppSettings.SOCIAL_CHANNEL_NAME, new SchordChannel.StatusListener() {
+		return chordManager.joinChannel(AppSettings.MAIN_CHANNEL, new SchordChannel.StatusListener() {
 
 			@Override
 			public void onNodeLeft(String nodeId, String arg1) {
@@ -537,7 +537,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public List<String> getActiveNodeList() {
-		return getActiveNodeListInChannel(AppSettings.SOCIAL_CHANNEL_NAME);
+		return getActiveNodeListInChannel(AppSettings.MAIN_CHANNEL);
 	}
 
 }

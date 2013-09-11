@@ -13,7 +13,7 @@
     android:scrollbarStyle="insideOverlay" >
 
     <Switch
-        android:id="@+id/btn_toggle_communication_service"
+        android:id="@+id/switch_toggle_communication_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="14dp"

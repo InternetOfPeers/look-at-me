@@ -7,6 +7,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 
+import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.Services;
 
 public class SettingsActivity extends CommonActivity {
@@ -20,9 +21,9 @@ public class SettingsActivity extends CommonActivity {
 		initDrawerMenu(savedInstanceState, this.getClass(), true);
 		checkIfProfileIsCompleted();
 		// Verifica lo stato del servizio
-		Switch button = (Switch) findViewById(R.id.btn_toggle_communication_service);
-		button.setChecked(!Services.businessLogic.isRunning());
-		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		Switch offlineModeSwitch = (Switch) findViewById(R.id.switch_toggle_communication_service);
+		offlineModeSwitch.setChecked(!Services.businessLogic.isRunning());
+		offlineModeSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean enable) {
 				if (enable) {
 					// Stop del servizio di comunicazione
@@ -51,6 +52,15 @@ public class SettingsActivity extends CommonActivity {
 						menuItem.setEnabled(false);
 					}
 				}
+			}
+		});
+		// Imposta il pulsante invoke developers
+		Switch invokeDevelopersSwitch = (Switch) findViewById(R.id.switch_toggle_credits);
+		invokeDevelopersSwitch.setChecked(getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).getBoolean(AppSettings.INVOKE_DEVELOPERS, false));
+		invokeDevelopersSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).edit().putBoolean(AppSettings.INVOKE_DEVELOPERS, isChecked).commit();
 			}
 		});
 	};
