@@ -55,6 +55,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
+		fakeUsers = new HashMap<String, FakeUser>();
 		// Verifico se è attiva l'opzione dei credits in app
 		if (isCreditsInAppEnabled(context)) {
 			addFakeUser(new FakeUserGiuseppe(context));
@@ -76,8 +77,6 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	 * @param fakeUser
 	 */
 	private void addFakeUser(FakeUser fakeUser) {
-		if (fakeUsers == null)
-			fakeUsers = new HashMap<String, FakeUser>();
 		fakeUsers.put(fakeUser.getNode().getId(), fakeUser);
 		Services.currentState.putSocialNodeInMap(fakeUser.getNode());
 		// Aggiungo una conversazione fittizia all'inizio
@@ -92,6 +91,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public void stop(Context context) {
 		Log.i();
+		fakeUsers.clear();
 		communicationManager.stopCommunication();
 		context.stopService(new Intent(SERVICE_STOP));
 		isRunning = false;

@@ -102,56 +102,54 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		try {
-			
-			 database=db;
 
-//			 db.execSQL("ALTER TABLE " + DBOpenHelper.TABLE_PROFILES +
-//			 " ADD COLUMN " + TABLE_PROFILES_COLUMN_AGE + " int");
+			database = db;
 
-			 List<FullProfile> profilesPresent = getOnUpgradeAllFullProfiles(db);
-			 List<ProfileImage> profileImagesPresent = getOnUpgradeAllImages(db);		 
-			 List<Interest> interests = getInterests();
-			 List<Conversation> conversations= getConversations();
-			 List<String>likes = getLikes(db);
-			 List<String>visites = getVisites(db);			 			
-			 
-			 db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES+";");
-			 db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES+";");
-			 db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERESTS+";");
-			 db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONVERSATIONS+";");
-			 db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES+";");
-			 db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIKE+";");
-			 db.execSQL("DROP TABLE IF EXISTS " + TABLE_VISIT+";");
-			 onCreate(db);
+			// db.execSQL("ALTER TABLE " + DBOpenHelper.TABLE_PROFILES +
+			// " ADD COLUMN " + TABLE_PROFILES_COLUMN_AGE + " int");
 
-			 Iterator<FullProfile> iter = profilesPresent.iterator();
-			 while (iter.hasNext())
-				 saveOrUpdateProfile(iter.next());
-			 
-			 Iterator<ProfileImage> iterImage =	 profileImagesPresent.iterator();
-			 while (iterImage.hasNext())
-				 saveOrUpdateImage(iterImage.next());
-			 
-			 Iterator<Conversation> iterConversation =	 conversations.iterator();
-			 while (iterConversation.hasNext())
-			 {
-				 Conversation tempConv=iterConversation.next();
-				 saveOrUpdateConversation(tempConv.getId(), tempConv.getChatList(), tempConv.getInterlocutor());
-			 }
-			 
-			 Iterator<Interest> iterInterest =	 interests.iterator();
-			 while (iterInterest.hasNext())
-				 saveInterest(iterInterest.next());
-			 
-			 Iterator<String> iterLikes =	 likes.iterator();
-			 while (iterLikes.hasNext())
-				 addLike(iterLikes.next());
-			 
-			 Iterator<String> iterVisites =	 visites.iterator();
-			 while (iterVisites.hasNext())
-				 addVisit(iterVisites.next());			 
-			 
-			 
+			List<FullProfile> profilesPresent = getOnUpgradeAllFullProfiles(db);
+			List<ProfileImage> profileImagesPresent = getOnUpgradeAllImages(db);
+			List<Interest> interests = getInterests();
+			List<Conversation> conversations = getConversations();
+			List<String> likes = getLikes(db);
+			List<String> visites = getVisites(db);
+
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERESTS + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONVERSATIONS + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIKE + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_VISIT + ";");
+			onCreate(db);
+
+			Iterator<FullProfile> iter = profilesPresent.iterator();
+			while (iter.hasNext())
+				saveOrUpdateProfile(iter.next());
+
+			Iterator<ProfileImage> iterImage = profileImagesPresent.iterator();
+			while (iterImage.hasNext())
+				saveOrUpdateImage(iterImage.next());
+
+			Iterator<Conversation> iterConversation = conversations.iterator();
+			while (iterConversation.hasNext()) {
+				Conversation tempConv = iterConversation.next();
+				saveOrUpdateConversation(tempConv.getId(), tempConv.getChatList(), tempConv.getInterlocutor());
+			}
+
+			Iterator<Interest> iterInterest = interests.iterator();
+			while (iterInterest.hasNext())
+				saveInterest(iterInterest.next());
+
+			Iterator<String> iterLikes = likes.iterator();
+			while (iterLikes.hasNext())
+				addLike(iterLikes.next());
+
+			Iterator<String> iterVisites = visites.iterator();
+			while (iterVisites.hasNext())
+				addVisit(iterVisites.next());
+
 		} catch (Exception e) {
 			Log.e("error onUpgrade : " + e.getMessage());
 		}
@@ -281,7 +279,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				do {
 					FullProfile tempProfile = new FullProfile();
 					valorizeProfile(tempProfile, cursor);
-					valorizeFullProfile(tempProfile, cursor,true);
+					valorizeFullProfile(tempProfile, cursor, true);
 					returnList.add(tempProfile);
 				} while (cursor.moveToNext());
 
@@ -351,7 +349,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				do {
 					// TODO: set the tag list
 					valorizeProfile(tempProfile, cursor);
-					valorizeFullProfile(tempProfile, cursor,false);
+					valorizeFullProfile(tempProfile, cursor, false);
 					return tempProfile;
 				} while (cursor.moveToNext());
 			}
@@ -731,7 +729,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		return profile;
 	}
 
-	private FullProfile valorizeFullProfile(FullProfile tempProfile, Cursor cursor,boolean isUpgrade) throws Exception {
+	private FullProfile valorizeFullProfile(FullProfile tempProfile, Cursor cursor, boolean isUpgrade) throws Exception {
 		tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
 		tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
 		tempProfile.setStatus(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_STATUS)));
@@ -746,8 +744,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		tempProfile.setJob(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_JOB)));
 		tempProfile.setMyDescription(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_MY_DESCRIPTION)));
 		tempProfile.setMotto(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_MOTTO)));
-		if(!isUpgrade)
-		tempProfile.setProfileImages(getProfileImages(tempProfile.getId()));
+		if (!isUpgrade)
+			tempProfile.setProfileImages(getProfileImages(tempProfile.getId()));
 		return tempProfile;
 	}
 
@@ -772,10 +770,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Cursor cursor = null;
 		Statistics statistics = new Statistics();
 		try {
-			// Separato in due query distinte perchè non recuperava il numero di visite
+			// Separato in due query distinte perchè non recuperava il numero di
+			// visite
 			// Recupero il numero di visite
-			cursor = database.rawQuery("SELECT count(" + TABLE_LIKE_COLUMN_PROFILE_ID + ") AS " + TABLE_LIKE_COLUMN_COUNT_ALIAS + 
-					" FROM " + TABLE_LIKE, new String[] {});
+			cursor = database.rawQuery("SELECT count(" + TABLE_LIKE_COLUMN_PROFILE_ID + ") AS " + TABLE_LIKE_COLUMN_COUNT_ALIAS + " FROM " + TABLE_LIKE, new String[] {});
 
 			if (cursor.moveToFirst()) {
 				// do {
@@ -783,8 +781,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				// } while (cursor.moveToNext());
 			}
 			// Recupero il numero di like
-			cursor = database.rawQuery("SELECT count(" + TABLE_VISIT_COLUMN_PROFILE_ID + ") AS " + TABLE_VISIT_COLUMN_COUNT_ALIAS + 
-					" FROM " + TABLE_VISIT, new String[] {});
+			cursor = database.rawQuery("SELECT count(" + TABLE_VISIT_COLUMN_PROFILE_ID + ") AS " + TABLE_VISIT_COLUMN_COUNT_ALIAS + " FROM " + TABLE_VISIT, new String[] {});
 
 			if (cursor.moveToFirst()) {
 				// do {
@@ -800,37 +797,32 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 		return statistics;
 	}
-	
-	
-	private List<String>getLikes(SQLiteDatabase db)
-	{
-		List <String> profileIdList =new ArrayList<String>();
+
+	private List<String> getLikes(SQLiteDatabase db) {
+		List<String> profileIdList = new ArrayList<String>();
 		Cursor cursor = null;
-		cursor = db.rawQuery("SELECT " + TABLE_LIKE_COLUMN_PROFILE_ID + " AS " + TABLE_LIKE_COLUMN_COUNT_ALIAS + 
-				" FROM " + TABLE_LIKE, new String[] {});
+		cursor = db.rawQuery("SELECT " + TABLE_LIKE_COLUMN_PROFILE_ID + " AS " + TABLE_LIKE_COLUMN_COUNT_ALIAS + " FROM " + TABLE_LIKE, new String[] {});
 
 		if (cursor.moveToFirst()) {
-			 do {
-			profileIdList.add((cursor.getString(cursor.getColumnIndex(TABLE_LIKE_COLUMN_COUNT_ALIAS))));
-			 } while (cursor.moveToNext());
+			do {
+				profileIdList.add((cursor.getString(cursor.getColumnIndex(TABLE_LIKE_COLUMN_COUNT_ALIAS))));
+			} while (cursor.moveToNext());
 		}
-		
+
 		return profileIdList;
 	}
-	
-	private List<String>getVisites(SQLiteDatabase db)
-	{
-		List <String> profileIdList =new ArrayList<String>();
+
+	private List<String> getVisites(SQLiteDatabase db) {
+		List<String> profileIdList = new ArrayList<String>();
 		Cursor cursor = null;
-		cursor = db.rawQuery("SELECT " + TABLE_VISIT_COLUMN_PROFILE_ID + " AS " + TABLE_VISIT_COLUMN_COUNT_ALIAS + 
-				" FROM " + TABLE_VISIT, new String[] {});
+		cursor = db.rawQuery("SELECT " + TABLE_VISIT_COLUMN_PROFILE_ID + " AS " + TABLE_VISIT_COLUMN_COUNT_ALIAS + " FROM " + TABLE_VISIT, new String[] {});
 
 		if (cursor.moveToFirst()) {
-			 do {
-			profileIdList.add((cursor.getString(cursor.getColumnIndex(TABLE_VISIT_COLUMN_COUNT_ALIAS))));
-			 } while (cursor.moveToNext());
+			do {
+				profileIdList.add((cursor.getString(cursor.getColumnIndex(TABLE_VISIT_COLUMN_COUNT_ALIAS))));
+			} while (cursor.moveToNext());
 		}
-		
+
 		return profileIdList;
 	}
 
