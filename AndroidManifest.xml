@@ -77,7 +77,7 @@
             android:parentActivityName=".ManageInterestActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ManageInterestActivity" />
+                android:value=".EditProfileActivity" />
         </activity>
         <activity
             android:name=".ChatConversationsActivity"

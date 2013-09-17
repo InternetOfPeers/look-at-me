@@ -169,5 +169,6 @@
     <string name="nearby_message_offline_mode">You are in \'Offline mode\' and you are not able to find other people around you.\n\nTo disable \'Offline mode\', go to the settings page tapping the warning icon on the top-right corner.</string>
     <string name="switch_toggle_credits_label">Invoke developers</string>
     <string name="settings_credits_text">If you enable this option, you will feel - it does not matter where you are - the spirits of all Look@me developers around you. Use with caution.</string>
-
+	<!-- EDIT PROFILE - INTERESTS -->
+	<string name="interest_usage">Add your interests touching below button and enhance probability to know people with the same interests!</string>
 </resources>

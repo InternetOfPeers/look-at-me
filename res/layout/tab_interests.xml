@@ -6,11 +6,17 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/addImageLabel"
-        android:layout_width="match_parent"
+        android:id="@+id/textInterestHead"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Under construction"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="@string/interest_usage"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageButton
+        android:id="@+id/buttonAddInterest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_drawer" />
 
 </LinearLayout>

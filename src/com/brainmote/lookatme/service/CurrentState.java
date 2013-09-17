@@ -6,7 +6,6 @@ import android.content.Context;
 
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
-import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.util.SocialNodeMap;
@@ -49,9 +48,13 @@ public interface CurrentState {
 
 	boolean checkLikeMatch(String profileId);
 
-	Set<Interest> getInterestList();
+	Set<Integer> getInterestSet();
 
-	void setInterestList(Set<Interest> interestList);
+	void setInterestSet(Set<Integer> interestSet);
+	
+	void addInterestToSet(int interest);
+	
+	void removeInterestFromSet(int interest);
 
 	void reset();
 

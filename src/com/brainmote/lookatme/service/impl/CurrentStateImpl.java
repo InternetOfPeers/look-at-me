@@ -7,7 +7,6 @@ import android.content.Context;
 
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
-import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
@@ -29,7 +28,7 @@ public class CurrentStateImpl implements CurrentState {
 
 	private Context currentContext;
 
-	private Set<Interest> interestList = new TreeSet<Interest>();
+	private Set<Integer> interestSet = new TreeSet<Integer>();
 
 	@Override
 	public FullProfile getMyFullProfile() {
@@ -147,12 +146,26 @@ public class CurrentStateImpl implements CurrentState {
 		// TODO: salvare le conversazioni appese?
 	}
 
-	public Set<Interest> getInterestList() {
-		return interestList;
+	@Override
+	public Set<Integer> getInterestSet() {
+		return interestSet;
 	}
 
-	public void setInterestList(Set<Interest> interestList) {
-		this.interestList = interestList;
+	@Override
+	public void setInterestSet(Set<Integer> interestSet) {
+		this.interestSet = interestSet;
+	}
+	
+	@Override
+	public void addInterestToSet(int interest) {
+		this.interestSet.add(interest);
+		System.out.println(interestSet);
+	}
+	
+	@Override
+	public void removeInterestFromSet(int interest) {
+		this.interestSet.remove(interest);
+		System.out.println(interestSet);
 	}
 
 	@Override

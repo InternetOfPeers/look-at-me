@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -53,6 +54,7 @@ public class EditProfileFragment extends Fragment {
 	private String profileId;
 	private int widthPx;
 	private boolean noPhoto;
+	private ImageButton addInterest;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,6 +131,16 @@ public class EditProfileFragment extends Fragment {
 			TextView addImageLabel = (TextView) view.findViewById(R.id.addImageLabel);
 			addImageLabel.setVisibility(TextView.GONE);
 		}
+		
+		addInterest = (ImageButton) view.findViewById(R.id.buttonAddInterest);
+		addInterest.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Nav.startActivity(EditProfileFragment.this.getActivity(), AddInterestActivity.class);
+			}
+		});
+		
 		return view;
 	}
 
