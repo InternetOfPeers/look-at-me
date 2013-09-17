@@ -12,18 +12,16 @@ import com.brainmote.lookatme.enumattribute.Interest;
 import com.brainmote.lookatme.service.Services;
 
 public class InterestGridAdapter extends BaseAdapter {
-	
+
 	private Integer[] interestValues;
 	private Activity activity;
 
 	public InterestGridAdapter(Activity activity) {
 		this.activity = activity;
-		if (Services.currentState.getInterestSet() == null || 
-				Services.currentState.getInterestSet().size() == 0) {
+		if (Services.currentState.getInterestSet() == null || Services.currentState.getInterestSet().size() == 0) {
 			interestValues = new Integer[1];
 			interestValues[0] = Interest.Manage_interest.getValue();
-		}
-		else {
+		} else {
 			Object[] tempArray = Services.currentState.getInterestSet().toArray();
 			interestValues = new Integer[tempArray.length];
 			for (int i = 0; i < tempArray.length; i++) {
@@ -33,7 +31,7 @@ public class InterestGridAdapter extends BaseAdapter {
 			}
 		}
 	}
-	
+
 	@Override
 	public int getCount() {
 		return interestValues.length;

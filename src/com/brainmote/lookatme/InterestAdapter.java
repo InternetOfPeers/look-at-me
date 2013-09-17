@@ -17,11 +17,11 @@ import com.brainmote.lookatme.enumattribute.Interest.InterestCategory;
 import com.brainmote.lookatme.service.Services;
 
 public class InterestAdapter extends BaseExpandableListAdapter {
-	
+
 	private Context context;
 	private List<String> categoryList;
 	private Map<String, List<String>> interestMap;
-	
+
 	public InterestAdapter(Context context) {
 		this.context = context;
 		categoryList = InterestCategory.getInterestCategoryList();
@@ -55,21 +55,19 @@ public class InterestAdapter extends BaseExpandableListAdapter {
 		if (Services.currentState.getInterestSet().contains(childId)) {
 			label.setTextColor(R.color.lightgrey);
 			label.setBackgroundColor(R.color.gray);
-		}
-		else {
+		} else {
 			label.setTextColor(R.color.black);
 			label.setBackgroundColor(R.color.lightgrey);
 		}
 		label.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if (Services.currentState.getInterestSet().contains(childId)) {
 					Services.currentState.removeInterestFromSet(childId);
 					label.setTextColor(R.color.black);
 					label.setBackgroundColor(R.color.lightgrey);
-				}
-				else {
+				} else {
 					Services.currentState.addInterestToSet(childId);
 					label.setTextColor(R.color.lightgrey);
 					label.setBackgroundColor(R.color.gray);

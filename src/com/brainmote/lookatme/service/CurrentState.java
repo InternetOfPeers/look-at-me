@@ -51,9 +51,9 @@ public interface CurrentState {
 	Set<Integer> getInterestSet();
 
 	void setInterestSet(Set<Integer> interestSet);
-	
+
 	void addInterestToSet(int interest);
-	
+
 	void removeInterestFromSet(int interest);
 
 	void reset();

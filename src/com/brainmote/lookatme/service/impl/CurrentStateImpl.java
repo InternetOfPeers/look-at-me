@@ -10,7 +10,6 @@ import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
-import com.brainmote.lookatme.enumattribute.Interest;
 import com.brainmote.lookatme.service.ConversationStore;
 import com.brainmote.lookatme.service.CurrentState;
 import com.brainmote.lookatme.util.SocialNodeMap;
@@ -149,15 +148,15 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public Set<Integer> getInterestSet() {
-//		this.addInterestToSet(Interest.Blues.getValue());
-//		this.addInterestToSet(Interest.Jazz.getValue());
-//		this.addInterestToSet(Interest.Classical.getValue());
-//		this.addInterestToSet(Interest.Body_building.getValue());
-//		this.addInterestToSet(Interest.Garden.getValue());
-//		this.addInterestToSet(Interest.Horror.getValue());
-//		this.addInterestToSet(Interest.Beach_volley.getValue());
-//		this.addInterestToSet(Interest.Tennis.getValue());
-//		this.addInterestToSet(Interest.Running.getValue());
+		// this.addInterestToSet(Interest.Blues.getValue());
+		// this.addInterestToSet(Interest.Jazz.getValue());
+		// this.addInterestToSet(Interest.Classical.getValue());
+		// this.addInterestToSet(Interest.Body_building.getValue());
+		// this.addInterestToSet(Interest.Garden.getValue());
+		// this.addInterestToSet(Interest.Horror.getValue());
+		// this.addInterestToSet(Interest.Beach_volley.getValue());
+		// this.addInterestToSet(Interest.Tennis.getValue());
+		// this.addInterestToSet(Interest.Running.getValue());
 		return interestSet;
 	}
 
@@ -165,13 +164,13 @@ public class CurrentStateImpl implements CurrentState {
 	public void setInterestSet(Set<Integer> interestSet) {
 		this.interestSet = interestSet;
 	}
-	
+
 	@Override
 	public void addInterestToSet(int interest) {
 		this.interestSet.add(interest);
 		System.out.println(interestSet);
 	}
-	
+
 	@Override
 	public void removeInterestFromSet(int interest) {
 		this.interestSet.remove(interest);

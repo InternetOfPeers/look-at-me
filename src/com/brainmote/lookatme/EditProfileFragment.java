@@ -131,7 +131,6 @@ public class EditProfileFragment extends Fragment {
 			TextView addImageLabel = (TextView) view.findViewById(R.id.addImageLabel);
 			addImageLabel.setVisibility(TextView.GONE);
 		}
-		
 
 		GridView gridInterest = (GridView) view.findViewById(R.id.gridInterestInEdit);
 		gridInterest.setAdapter(new InterestGridAdapter(getActivity()));

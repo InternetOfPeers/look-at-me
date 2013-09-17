@@ -18,7 +18,7 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// Salvo un contesto di utilità
 		Services.currentState.setContext(getApplicationContext());
-		//Services.currentState.setInterestList(Services.businessLogic.getFullInterestList());
+		// Services.currentState.setInterestList(Services.businessLogic.getFullInterestList());
 		// Imposto l'activity da caricare
 		setContentView(R.layout.activity_splashscreen);
 		// Mostra una immagine di splash differente a seconda dell'orientamento
