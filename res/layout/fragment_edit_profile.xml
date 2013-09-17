@@ -72,7 +72,8 @@
                     <LinearLayout
                         android:id="@+id/tab_interests"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center_horizontal"
                         android:orientation="vertical" >
 
                         <include layout="@layout/tab_interests" />

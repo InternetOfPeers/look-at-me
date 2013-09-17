@@ -12,11 +12,12 @@
         android:text="@string/interest_usage"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <ImageButton
-        android:id="@+id/buttonAddInterest"
-        android:layout_width="wrap_content"
+    <GridView
+        android:id="@+id/gridInterestInEdit"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_drawer" />
+        android:numColumns="3" >
+
+    </GridView>
 
 </LinearLayout>

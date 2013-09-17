@@ -16,8 +16,9 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -54,7 +55,6 @@ public class EditProfileFragment extends Fragment {
 	private String profileId;
 	private int widthPx;
 	private boolean noPhoto;
-	private ImageButton addInterest;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,15 +132,16 @@ public class EditProfileFragment extends Fragment {
 			addImageLabel.setVisibility(TextView.GONE);
 		}
 		
-		addInterest = (ImageButton) view.findViewById(R.id.buttonAddInterest);
-		addInterest.setOnClickListener(new View.OnClickListener() {
-			
+
+		GridView gridInterest = (GridView) view.findViewById(R.id.gridInterestInEdit);
+		gridInterest.setAdapter(new InterestGridAdapter(getActivity()));
+		gridInterest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
 			@Override
-			public void onClick(View v) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Nav.startActivity(EditProfileFragment.this.getActivity(), AddInterestActivity.class);
 			}
 		});
-		
 		return view;
 	}
 

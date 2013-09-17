@@ -5,6 +5,9 @@ import java.util.List;
 
 public enum Interest {
 	
+	// Special interest
+	Manage_interest(InterestCategory.NOT_AN_INTEREST),
+	
 	// Categories
 	Sport(InterestCategory.SPORT),
 	Music(InterestCategory.MUSIC),
@@ -95,6 +98,15 @@ public enum Interest {
 	
 	public static Interest getInterestWithName(String name) {
 		return valueOf(name.replaceAll(" ", "_"));
+	}
+	
+	public static Interest getInterestWithValue(int value) {
+		for (Interest interest : values()) {
+			if (interest.getValue() == value) {
+				return interest;
+			}
+		}
+		return null;
 	}
 	
 	public static class InterestCategory {
