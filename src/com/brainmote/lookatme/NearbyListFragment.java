@@ -80,12 +80,14 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 	 * Verifica se è necessario mostrare un messaggio all'utente
 	 */
 	private void verifyNearbyState() {
-		// Se ci sono utenti fake visibili, non mostro alcun messaggio di testo
-		// perché verrebbe comunque sovrascritto
-		if (Services.businessLogic.isCreditsInAppEnabled(getActivity()))
-			return;
 		// Imposto il messaggio della view in base allo stato dell'app
 		TextView messageText = (TextView) getView().findViewById(R.id.nearby_text_message);
+		// Se ci sono utenti fake visibili, non mostro alcun messaggio di testo
+		// perché verrebbe comunque sovrascritto
+		if (Services.businessLogic.isCreditsInAppEnabled(getActivity())){
+			messageText.setText("");
+			return;
+		}
 		// Verifico lo stato della connessione alla rete WiFi
 		if (!CommonUtils.isWifiConnected(this.getActivity()) && !CommonUtils.isEmulator()) {
 			messageText.setText(getString(R.string.message_wifi_required));
