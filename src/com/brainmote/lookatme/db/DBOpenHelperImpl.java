@@ -673,13 +673,14 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 
 	}
-	
+
 	private boolean checkInterest(int interestId) {
 		Cursor cursor = null;
 		boolean exists = false;
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_INTERESTS_COLUMN_ID + " FROM " + TABLE_INTERESTS + " WHERE " + TABLE_INTERESTS_COLUMN_ID + "=? ", new String[] { interestId+"" });
+			cursor = database.rawQuery("SELECT " + TABLE_INTERESTS_COLUMN_ID + " FROM " + TABLE_INTERESTS + " WHERE " + TABLE_INTERESTS_COLUMN_ID + "=? ",
+					new String[] { interestId + "" });
 
 			if (cursor.moveToFirst()) {
 

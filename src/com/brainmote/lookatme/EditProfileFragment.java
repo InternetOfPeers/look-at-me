@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -132,7 +131,7 @@ public class EditProfileFragment extends Fragment {
 			addImageLabel.setVisibility(TextView.GONE);
 		}
 
-		GridView gridInterest = (GridView) view.findViewById(R.id.gridInterestInEdit);
+		ExpandableHeightGridView gridInterest = (ExpandableHeightGridView) view.findViewById(R.id.gridInterestInEdit);
 		gridInterest.setAdapter(new EditProfileInterestGridAdapter(getActivity()));
 		gridInterest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -140,6 +139,10 @@ public class EditProfileFragment extends Fragment {
 				Nav.startActivity(EditProfileFragment.this.getActivity(), ManageInterestActivity.class);
 			}
 		});
+		// Serve per far espandere la grid e fargli occupare tutto lo spazio
+		// necessario (il wrap_content normale non funziona quando la gridview
+		// sta dentro una scrollview)
+		gridInterest.setExpanded(true);
 		return view;
 	}
 

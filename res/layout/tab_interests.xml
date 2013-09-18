@@ -12,15 +12,14 @@
         android:text="@string/interest_usage"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <GridView
+    <com.brainmote.lookatme.ExpandableHeightGridView
         android:id="@+id/gridInterestInEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:horizontalSpacing="2dp"
+        android:isScrollContainer="false"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="2dp" >
-
-    </GridView>
+        android:verticalSpacing="2dp" />
 
 </LinearLayout>
