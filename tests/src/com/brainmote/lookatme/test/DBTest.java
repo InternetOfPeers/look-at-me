@@ -3,18 +3,19 @@ package com.brainmote.lookatme.test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.brainmote.lookatme.SplashActivity;
 import com.brainmote.lookatme.bean.FullProfile;
-import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.db.DBOpenHelper;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
+import com.brainmote.lookatme.enumattribute.Interest;
 import com.brainmote.lookatme.util.ImageUtil;
 import com.jayway.android.robotium.solo.Solo;
 
@@ -121,8 +122,11 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 	public void testInterest() {
 		try {
 			dbOpenHelper.getWritableDatabase().beginTransaction();
-			Interest interest = new Interest(2, "prova2", false);
-			dbOpenHelper.saveInterest(interest);
+			Set<Integer> interestSet = new TreeSet<Integer>();
+			interestSet.add(Interest.Jazz.getValue());
+			interestSet.add(Interest.Running.getValue());
+			interestSet.add(Interest.Beach_volley.getValue());
+			dbOpenHelper.saveInterests(interestSet);
 		} catch (Exception e) {
 			fail("error on testDB error:" + e.getMessage());
 		} finally {

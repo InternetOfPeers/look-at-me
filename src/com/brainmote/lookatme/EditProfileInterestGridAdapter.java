@@ -22,13 +22,12 @@ public class EditProfileInterestGridAdapter extends BaseAdapter {
 	public EditProfileInterestGridAdapter(Activity activity, Set<Integer> interestSet, boolean setNotAnInterest) {
 		this.activity = activity;
 		if (interestSet == null || interestSet.size() == 0) {
-		 	if (setNotAnInterest) {
-		 		interestValues = new Integer[1];
-		 		interestValues[0] = Interest.Manage_interest.getValue();
-		 	}
-		 	else {
-		 		interestValues = new Integer[0];
-		 	}
+			if (setNotAnInterest) {
+				interestValues = new Integer[1];
+				interestValues[0] = Interest.Manage_interest.getValue();
+			} else {
+				interestValues = new Integer[0];
+			}
 		} else {
 			Object[] tempArray = interestSet.toArray();
 			interestValues = new Integer[tempArray.length];

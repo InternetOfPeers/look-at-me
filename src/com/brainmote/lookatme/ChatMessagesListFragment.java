@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.Log;
 import com.squareup.otto.Subscribe;
 
 public class ChatMessagesListFragment extends Fragment {
@@ -23,7 +22,6 @@ public class ChatMessagesListFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d();
 		View view = inflater.inflate(R.layout.fragment_chat_messages_list, null);
 		final ChatMessagesActivity activity = (ChatMessagesActivity) getActivity();
 		// Recupero la conversazione passata

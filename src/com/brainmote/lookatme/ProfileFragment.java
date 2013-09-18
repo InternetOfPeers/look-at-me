@@ -51,13 +51,12 @@ public class ProfileFragment extends Fragment {
 	private TextView textStatus;
 
 	private ViewGroup profileActionContainer;
-	private ViewGroup profileBottomContainer;
 	private ViewGroup profileHiddenContainer;
 	private boolean showHiddenContainer;
 
 	private ProgressDialog loadingDialog;
 	private boolean profileReady;
-	
+
 	private ImageButton showInterestsButton;
 	private GridView interestGrid;
 
@@ -114,10 +113,8 @@ public class ProfileFragment extends Fragment {
 							loadingDialog.setCancelable(false);
 							loadingDialog.show();
 							// Dopo AppSettings.LOADING_PROFILE_TIMEOUT
-							// millisecondi, se il popup di caricamento non
-							// è
-							// stato chiuso, viene chiuso in automatico e
-							// viene
+							// millisecondi, se il popup di caricamento non è
+							// stato chiuso, viene chiuso in automatico e viene
 							// mostrato il messaggio di errore all'utente.
 							new Handler().postDelayed(new Runnable() {
 								public void run() {
@@ -244,6 +241,8 @@ public class ProfileFragment extends Fragment {
 		buttonLike.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// TODO Verificare che il nodo sia ancora attivo, altrimenti
+				// dare un messaggio all'utente
 				Services.businessLogic.sendLike(profileNode.getId());
 				buttonLike.setEnabled(false);
 				Toast.makeText(getActivity(), "You like " + Services.currentState.getSocialNodeMap().findNodeByNodeId(profileNode.getId()).getProfile().getNickname(),
@@ -253,6 +252,8 @@ public class ProfileFragment extends Fragment {
 		buttonChat.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// TODO Verificare che il nodo sia ancora attivo, altrimenti
+				// dare un messaggio all'utente
 				Services.businessLogic.startChat(profileNode.getId());
 				Bundle parameters = new Bundle();
 				parameters.putString(
@@ -262,13 +263,13 @@ public class ProfileFragment extends Fragment {
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 		});
-		
+
 		// Preparo gli interessi
 		if (profile.getInterestSet() != null && profile.getInterestSet().size() > 0) {
 			showInterestsButton.setVisibility(View.VISIBLE);
 			interestGrid.setAdapter(new EditProfileInterestGridAdapter(getActivity(), profile.getInterestSet(), false));
 		}
-		
+
 		profilePhoto.getAdapter().notifyDataSetChanged();
 		profileReady = true;
 	}

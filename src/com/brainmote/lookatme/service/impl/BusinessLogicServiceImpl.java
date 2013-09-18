@@ -155,21 +155,28 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public void sendLike(String nodeId) {
-		Log.d();
-		// TODO If nodeId è valido ....
-		communicationManager.sendLike(nodeId);
+		// Verifica che il nodo sia attivo e che non sia un fake user
+		if (!isFakeUserNode(nodeId) && isNodeAlive(nodeId)) {
+			communicationManager.sendLike(nodeId);
+		}
 		String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(nodeId);
 		Services.currentState.addILikeToSet(profileId);
 	}
 
 	@Override
 	public void requestFullProfile(String toNodeId) {
-		communicationManager.requestFullProfile(toNodeId);
+		// Verifica che il nodo non sia un fake user
+		if (!isFakeUserNode(toNodeId)) {
+			communicationManager.requestFullProfile(toNodeId);
+		}
 	}
 
 	@Override
 	public void startChat(String withNodeId) {
-		communicationManager.startChat(withNodeId);
+		// Verifica che il nodo sia attivo e che non sia un fake user
+		if (!isFakeUserNode(withNodeId) && isNodeAlive(withNodeId)) {
+			communicationManager.startChat(withNodeId);
+		}
 	}
 
 	@Override
@@ -215,6 +222,10 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 
 	@Override
 	public boolean isNodeAlive(String nodeId) {
+		// Se l'utente è fake non è sicuramente alive
+		if (isFakeUserNode(nodeId))
+			return false;
+		// Verifico se l'utente è attualmente alive
 		return communicationManager.isNodeAlive(nodeId);
 	}
 
@@ -225,13 +236,18 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		String toNode = communicationManager.getNodeIdFromConversation(conversation);
 		if (toNode == null)
 			return false;
-		// Verifico che il nodo sia tutt'ora attivo
-		if (!isNodeAlive(toNode))
+		// Verifico che il nodo sia tutt'ora attivo o che sia un fake
+		if (!isNodeAlive(toNode) && !isFakeUserNode(toNode))
 			return false;
-		// Tento l'invio il messaggio
-		// TODO inventarsi qualcosa per verificare l'invio
-		// if ... return false
-		communicationManager.sendChatMessage(conversation, messageText);
+		// Invio il messaggio se non è un utente fake. A differenza della
+		// vecchia versione Chord, non ho
+		// più un parametro di ritorno che mi conferma l'avvenuta ricezione.
+		// TODO Da verificare se il metodo va in eccezione in caso di mancata
+		// consegna oppure se proprio non si può sapere se un messaggio è stato
+		// correttamente consegnato (sarebbe molto strano)
+		if (!isFakeUserNode(toNode)) {
+			communicationManager.sendChatMessage(conversation, messageText);
+		}
 		// Aggiorno la conversation e la memorizzo
 		Services.businessLogic.storeConversation(conversation.addMessage(new ChatMessage(messageText, true)));
 		return true;
@@ -261,6 +277,14 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		for (FakeUser fakeUser : fakeUsers.values()) {
 			Services.businessLogic.storeConversation(fakeUser.getConversation(Services.currentState.getMyBasicProfile().getId()));
 		}
+	}
+
+	private boolean isFakeConversation(ChatConversation conversation) {
+		for (FakeUser fakeUser : fakeUsers.values()) {
+			if (conversation.getId().contains(fakeUser.getNode().getId()))
+				return true;
+		}
+		return false;
 	}
 
 }

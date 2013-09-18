@@ -39,8 +39,9 @@ public class ChatMessagesActivity extends CommonActivity {
 		case R.id.action_view_profile:
 			String profileId = Services.businessLogic.getProfileIdFromConversationId(getConversation().getId());
 			String nodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(profileId);
-			// Verifico che il nodo sia ancora disponibile
-			if (Services.businessLogic.isNodeAlive(nodeId)) {
+			// Affinché l'utente possa visitare il profilo, verifico che il nodo
+			// sia ancora disponibile oppure che sia il nodo di un utente fake
+			if (Services.businessLogic.isNodeAlive(nodeId) || Services.businessLogic.isFakeUserNode(nodeId)) {
 				Bundle parameters = new Bundle();
 				parameters.putString(Nav.NODE_KEY_ID, nodeId);
 				Nav.startActivityWithParameters(this, ProfileActivity.class, parameters);
