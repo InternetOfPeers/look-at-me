@@ -14,14 +14,19 @@ public class FakeUserRiccardo extends FakeUserGenericImpl {
 		profile.setNickname("AlfaOmega");
 		profile.setName("Riccardo");
 		profile.setSurname("Alfrilli");
-		profile.setStatus("Due rette parallele non si incontrano mai, e se si incontrano non si salutano.");
-		profile.setAge(35);
-		profile.setMainProfileImage(createProfileImage(context, "giuseppe_main_profile_image.jpg"));
+		profile.setStatus("");
+		profile.setAge(30);
+		profile.setGender("Male");
+		profile.setMainProfileImage(createProfileImage(context, "riccardo_profile_image_1.png"));
 		List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_1.jpg"));
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_2.jpg"));
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_3.jpg"));
+		profileImages.add(createProfileImage(context, "riccardo_profile_image_1.png"));
 		profile.setProfileImages(profileImages);
+
+		// "Hi dude!"
+		// "nice to meet you again!"
+		// "don't think,just do it!"
+		// "keep going"
+		// "I'm the dumbest AI ever,why you keep chatting with me?"
 	}
 
 }

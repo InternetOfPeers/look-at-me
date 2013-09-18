@@ -14,9 +14,10 @@ public class FakeUserStefano extends FakeUserGenericImpl {
 		profile.setNickname("Ste");
 		profile.setName("Stefano");
 		profile.setSurname("Pirone");
-		profile.setStatus("Due rette parallele non si incontrano mai, e se si incontrano non si salutano.");
+		profile.setStatus("");
 		profile.setAge(35);
-		profile.setMainProfileImage(createProfileImage(context, "giuseppe_main_profile_image.jpg"));
+		profile.setGender("Male");
+		profile.setMainProfileImage(createProfileImage(context, "fake_user_profile_image_1.jpg"));
 		List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
 		profileImages.add(createProfileImage(context, "fake_user_profile_image_1.jpg"));
 		profileImages.add(createProfileImage(context, "fake_user_profile_image_2.jpg"));

@@ -14,14 +14,20 @@ public class FakeUserCarlo extends FakeUserGenericImpl {
 		profile.setNickname("Carlo");
 		profile.setName("Carlo");
 		profile.setSurname("Tassi");
-		profile.setStatus("Due rette parallele non si incontrano mai, e se si incontrano non si salutano.");
-		profile.setAge(35);
-		profile.setMainProfileImage(createProfileImage(context, "giuseppe_main_profile_image.jpg"));
+		profile.setStatus("");
+		profile.setAge(29);
+		profile.setGender("Male");
+		profile.setMainProfileImage(createProfileImage(context, "carlo_profile_image_1.jpg"));
 		List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_1.jpg"));
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_2.jpg"));
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_3.jpg"));
+		profileImages.add(createProfileImage(context, "carlo_profile_image_1.jpg"));
+		profileImages.add(createProfileImage(context, "carlo_profile_image_2.jpg"));
 		profile.setProfileImages(profileImages);
+
+		// "Hi! Nice to meet you!"
+		// "See you later"
+		// "Don't forget rating this app!!"
+		// "Look@Me it's a new way to know cool people!"
+		// "What are you waiting for? Turn on WiFi and return to search nerby!"
 	}
 
 }
