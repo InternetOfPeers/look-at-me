@@ -28,8 +28,6 @@ public class CurrentStateImpl implements CurrentState {
 
 	private Context currentContext;
 
-	private Set<Integer> interestSet = new TreeSet<Integer>();
-
 	@Override
 	public FullProfile getMyFullProfile() {
 		return DBOpenHelperImpl.getInstance(getContext()).getMyFullProfile();
@@ -148,22 +146,22 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public Set<Integer> getInterestSet() {
-		return interestSet;
+		return DBOpenHelperImpl.getInstance(getContext()).getInterests();
 	}
 
 	@Override
 	public void setInterestSet(Set<Integer> interestSet) {
-		this.interestSet = interestSet;
+		DBOpenHelperImpl.getInstance(getContext()).saveInterests(interestSet);
 	}
 
 	@Override
 	public void addInterestToSet(int interest) {
-		this.interestSet.add(interest);
+		DBOpenHelperImpl.getInstance(getContext()).saveInterest(interest);
 	}
 
 	@Override
 	public void removeInterestFromSet(int interest) {
-		this.interestSet.remove(interest);
+		DBOpenHelperImpl.getInstance(getContext()).deleteInterest(interest);
 	}
 
 	@Override

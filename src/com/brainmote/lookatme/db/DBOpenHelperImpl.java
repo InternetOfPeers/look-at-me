@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,7 +20,6 @@ import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatMessage;
 import com.brainmote.lookatme.bean.Conversation;
 import com.brainmote.lookatme.bean.FullProfile;
-import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.Profile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.bean.Statistics;
@@ -84,8 +85,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		db.execSQL("CREATE TABLE " + TABLE_IMAGES + "(" + TABLE_IMAGES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TABLE_IMAGES_COLUMN_PROFILE_ID
 				+ " TEXT NOT NULL, " + TABLE_IMAGES_COLUMN_IS_MAIN_PHOTO + " TEXT, " + TABLE_PROFILES_COLUMN_IMAGE + " BLOB ); ");
 
-		db.execSQL("CREATE TABLE " + TABLE_INTERESTS + "(" + TABLE_INTERESTS_COLUMN_ID + " INTEGER PRIMARY KEY , " + TABLE_INTERESTS_COLUMN_PROFILE_ID + " TEXT , "
-				+ TABLE_INTERESTS_COLUMN_DESCRIPTION + " TEXT ); ");
+		db.execSQL("CREATE TABLE " + TABLE_INTERESTS + "(" + TABLE_INTERESTS_COLUMN_ID + " INTEGER PRIMARY KEY ); ");
 
 		db.execSQL("CREATE TABLE " + TABLE_CONVERSATIONS + "(" + TABLE_CONVERSATIONS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ TABLE_CONVERSATIONS_COLUMN_PROFILE_ID + " TEXT NOT NULL," + TABLE_CONVERSATIONS_COLUMN_CONVERSATION_DATE + " TEXT NOT NULL); ");
@@ -110,7 +110,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			List<FullProfile> profilesPresent = getOnUpgradeAllFullProfiles(db);
 			List<ProfileImage> profileImagesPresent = getOnUpgradeAllImages(db);
-			List<Interest> interests = getInterests();
+			Set<Integer> interests = getInterests();
 			List<Conversation> conversations = getConversations();
 			List<String> likes = getLikes(db);
 			List<String> visites = getVisites(db);
@@ -138,7 +138,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				saveOrUpdateConversation(tempConv.getId(), tempConv.getChatList(), tempConv.getInterlocutor());
 			}
 
-			Iterator<Interest> iterInterest = interests.iterator();
+			Iterator<Integer> iterInterest = interests.iterator();
 			while (iterInterest.hasNext())
 				saveInterest(iterInterest.next());
 
@@ -339,13 +339,13 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		FullProfile tempProfile = null;
 		try {
 
-			List<Interest> interestList = getInterests();
+			Set<Integer> interestSet = getInterests();
 
 			cursor = database.rawQuery(TB_PROFILES_SELECT_ALL_FIELDS + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
 				tempProfile = new FullProfile();
-				tempProfile.setInterestList(interestList);
+				tempProfile.setInterestSet(interestSet);
 				do {
 					// TODO: set the tag list
 					valorizeProfile(tempProfile, cursor);
@@ -665,35 +665,58 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	@Override
-	public void saveInterest(Interest interest) {
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(TABLE_INTERESTS_COLUMN_ID, interest.getId());
-		contentValues.put(TABLE_INTERESTS_COLUMN_DESCRIPTION, interest.getDesc());
-		database.insert(TABLE_INTERESTS, null, contentValues);
+	public void saveInterest(int interestId) {
+		if (!checkInterest(interestId)) {
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(TABLE_INTERESTS_COLUMN_ID, interestId);
+			database.insert(TABLE_INTERESTS, null, contentValues);
+		}
 
+	}
+	
+	private boolean checkInterest(int interestId) {
+		Cursor cursor = null;
+		boolean exists = false;
+		try {
+
+			cursor = database.rawQuery("SELECT " + TABLE_INTERESTS_COLUMN_ID + " FROM " + TABLE_INTERESTS + " WHERE " + TABLE_INTERESTS_COLUMN_ID + "=? ", new String[] { interestId+"" });
+
+			if (cursor.moveToFirst()) {
+
+				int result = cursor.getInt(cursor.getColumnIndex(TABLE_INTERESTS_COLUMN_ID));
+				if (result > 0) {
+					exists = true;
+				}
+
+			}
+		} catch (Throwable e) {
+			Log.e("error on checking interest : " + e.getMessage());
+		} finally {
+			if (!cursor.isClosed())
+				cursor.close();
+		}
+		return exists;
 	}
 
 	@Override
-	public void saveInterests(List<Interest> interestsList) {
-		Iterator<Interest> iter = interestsList.iterator();
+	public void saveInterests(Set<Integer> interestsSet) {
+		Iterator<Integer> iter = interestsSet.iterator();
 		while (iter.hasNext())
 			saveInterest(iter.next());
 	}
 
 	@Override
-	public List<Interest> getInterests() throws Exception {
+	public Set<Integer> getInterests() {
 		Cursor cursor = null;
-		List<Interest> interestList = new ArrayList<Interest>();
+		Set<Integer> interestSet = new TreeSet<Integer>();
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_INTERESTS_COLUMN_ID + ", " + TABLE_INTERESTS_COLUMN_DESCRIPTION + " FROM " + TABLE_INTERESTS, new String[] {});
+			cursor = database.rawQuery("SELECT " + TABLE_INTERESTS_COLUMN_ID + " FROM " + TABLE_INTERESTS, new String[] {});
 
 			if (cursor.moveToFirst()) {
 				do {
-					Interest interest = new Interest(cursor.getInt(cursor.getColumnIndex(TABLE_INTERESTS_COLUMN_ID)), cursor.getString(cursor
-							.getColumnIndex(TABLE_INTERESTS_COLUMN_DESCRIPTION)), false);
 
-					interestList.add(interest);
+					interestSet.add(cursor.getInt(cursor.getColumnIndex(TABLE_INTERESTS_COLUMN_ID)));
 
 				} while (cursor.moveToNext());
 
@@ -704,7 +727,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			if (!cursor.isClosed())
 				cursor.close();
 		}
-		return interestList;
+		return interestSet;
 	}
 
 	@Override

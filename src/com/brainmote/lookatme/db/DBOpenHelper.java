@@ -1,6 +1,7 @@
 package com.brainmote.lookatme.db;
 
 import java.util.List;
+import java.util.Set;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -8,7 +9,6 @@ import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatMessage;
 import com.brainmote.lookatme.bean.Conversation;
 import com.brainmote.lookatme.bean.FullProfile;
-import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.bean.Statistics;
 
@@ -52,8 +52,6 @@ public interface DBOpenHelper {
 
 	public static final String TABLE_INTERESTS = "interests_tb";
 	public static final String TABLE_INTERESTS_COLUMN_ID = "id";
-	public static final String TABLE_INTERESTS_COLUMN_PROFILE_ID = "profile_id";
-	public static final String TABLE_INTERESTS_COLUMN_DESCRIPTION = "image";
 
 	public static final String TABLE_CONVERSATIONS = "conversations_tb";
 	public static final String TABLE_CONVERSATIONS_COLUMN_ID = "id";
@@ -208,13 +206,13 @@ public interface DBOpenHelper {
 	 */
 	public void deleteImage(long profileImageId) throws Exception;
 
-	public void saveInterest(Interest profileTag);
+	public void saveInterest(int interestId);
 
-	public List<Interest> getInterests() throws Exception;
+	public Set<Integer> getInterests();
 
 	public void deleteInterest(int interestId);
 
-	public void saveInterests(List<Interest> interestsList);
+	public void saveInterests(Set<Integer> interestsSet);
 
 	public List<Conversation> getConversations();
 
