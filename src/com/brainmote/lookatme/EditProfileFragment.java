@@ -132,7 +132,7 @@ public class EditProfileFragment extends Fragment {
 		}
 
 		ExpandableHeightGridView gridInterest = (ExpandableHeightGridView) view.findViewById(R.id.gridInterestInEdit);
-		gridInterest.setAdapter(new EditProfileInterestGridAdapter(getActivity()));
+		gridInterest.setAdapter(new EditProfileInterestGridAdapter(getActivity(), Services.currentState.getInterestSet(), true));
 		gridInterest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {

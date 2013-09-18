@@ -1,5 +1,7 @@
 package com.brainmote.lookatme;
 
+import java.util.Set;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,20 +13,24 @@ import android.widget.TextView;
 
 import com.brainmote.lookatme.enumattribute.Interest;
 import com.brainmote.lookatme.enumattribute.Interest.InterestCategory;
-import com.brainmote.lookatme.service.Services;
 
 public class EditProfileInterestGridAdapter extends BaseAdapter {
 
 	private Integer[] interestValues;
 	private Activity activity;
 
-	public EditProfileInterestGridAdapter(Activity activity) {
+	public EditProfileInterestGridAdapter(Activity activity, Set<Integer> interestSet, boolean setNotAnInterest) {
 		this.activity = activity;
-		if (Services.currentState.getInterestSet() == null || Services.currentState.getInterestSet().size() == 0) {
-			interestValues = new Integer[1];
-			interestValues[0] = Interest.Manage_interest.getValue();
+		if (interestSet == null || interestSet.size() == 0) {
+		 	if (setNotAnInterest) {
+		 		interestValues = new Integer[1];
+		 		interestValues[0] = Interest.Manage_interest.getValue();
+		 	}
+		 	else {
+		 		interestValues = new Integer[0];
+		 	}
 		} else {
-			Object[] tempArray = Services.currentState.getInterestSet().toArray();
+			Object[] tempArray = interestSet.toArray();
 			interestValues = new Integer[tempArray.length];
 			for (int i = 0; i < tempArray.length; i++) {
 				Object o = tempArray[i];
