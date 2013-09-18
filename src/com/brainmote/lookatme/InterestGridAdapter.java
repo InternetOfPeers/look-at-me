@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brainmote.lookatme.enumattribute.Interest;
+import com.brainmote.lookatme.enumattribute.Interest.InterestCategory;
 import com.brainmote.lookatme.service.Services;
 
 public class InterestGridAdapter extends BaseAdapter {
@@ -56,6 +58,9 @@ public class InterestGridAdapter extends BaseAdapter {
 		}
 		TextView text = (TextView) convertView.findViewById(R.id.textViewInterest);
 		text.setText(description);
+		ImageView icon = (ImageView) convertView.findViewById(R.id.imageInterestIcon);
+		Interest interest = Interest.getInterestWithName(description);
+		icon.setImageResource(InterestCategory.getIconOfCategory(interest.getInterestCategory()));
 		return convertView;
 	}
 

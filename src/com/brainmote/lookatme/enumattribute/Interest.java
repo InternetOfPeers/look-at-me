@@ -3,6 +3,8 @@ package com.brainmote.lookatme.enumattribute;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.brainmote.lookatme.R;
+
 public enum Interest {
 
 	// Special interest
@@ -85,6 +87,12 @@ public enum Interest {
 		public static final int MUSIC = InterestCategory.CATEGORY_GAP * 2;
 		public static final int MOVIE = InterestCategory.CATEGORY_GAP * 3;
 		public static final int HOBBY = InterestCategory.CATEGORY_GAP * 4;
+		
+		
+		private static final int SPORT_ICON = R.drawable.ic_sport;
+		private static final int MUSIC_ICON = R.drawable.ic_music;
+		private static final int MOVIE_ICON = R.drawable.ic_movie;
+		private static final int HOBBY_ICON = R.drawable.ic_misc;
 
 		public static List<String> getInterestCategoryList() {
 			List<String> result = new ArrayList<String>();
@@ -108,6 +116,21 @@ public enum Interest {
 			}
 
 			return result;
+		}
+		
+		public static int getIconOfCategory(int category) {
+			switch (category) {
+			case SPORT:
+				return SPORT_ICON;
+			case MOVIE:
+				return MOVIE_ICON;
+			case MUSIC:
+				return MUSIC_ICON;
+			case HOBBY:
+				return HOBBY_ICON;
+			default:
+				return R.drawable.ic_void;
+			}
 		}
 
 	}
