@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,6 +57,9 @@ public class ProfileFragment extends Fragment {
 
 	private ProgressDialog loadingDialog;
 	private boolean profileReady;
+	
+	private ImageButton showInterestsButton;
+	private GridView interestGrid;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,6 +71,9 @@ public class ProfileFragment extends Fragment {
 		profileReady = false;
 		View view = inflater.inflate(R.layout.fragment_profile, null);
 
+		interestGrid = (GridView) view.findViewById(R.id.gridInterestInDetail);
+		showInterestsButton = (ImageButton) view.findViewById(R.id.showInterestsButton);
+		showInterestsButton.setVisibility(View.GONE);
 		profileActionContainer = (ViewGroup) view.findViewById(R.id.profileActionContainer);
 		profileHiddenContainer = (ViewGroup) view.findViewById(R.id.profileHiddenContainer);
 		profileHiddenContainer.setVisibility(View.GONE);
@@ -255,6 +262,13 @@ public class ProfileFragment extends Fragment {
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 		});
+		
+		// Preparo gli interessi
+		if (profile.getInterestSet() != null && profile.getInterestSet().size() > 0) {
+			showInterestsButton.setVisibility(View.VISIBLE);
+			interestGrid.setAdapter(new EditProfileInterestGridAdapter(getActivity(), profile.getInterestSet(), false));
+		}
+		
 		profilePhoto.getAdapter().notifyDataSetChanged();
 		profileReady = true;
 	}

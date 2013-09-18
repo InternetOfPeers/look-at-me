@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -16,6 +18,7 @@ import com.brainmote.lookatme.bean.ChatConversationImpl;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
+import com.brainmote.lookatme.enumattribute.Interest;
 import com.brainmote.lookatme.util.CommonUtils;
 
 public class FakeUserGenericImpl implements FakeUser {
@@ -54,6 +57,11 @@ public class FakeUserGenericImpl implements FakeUser {
 		profileImages.add(createProfileImage(context, "fake_user_profile_image_2.jpg"));
 		profileImages.add(createProfileImage(context, "fake_user_profile_image_3.jpg"));
 		profile.setProfileImages(profileImages);
+		Set<Integer> interestSet = new TreeSet<Integer>();
+		interestSet.add(Interest.Jazz.getValue());
+		interestSet.add(Interest.Running.getValue());
+		interestSet.add(Interest.Beach_volley.getValue());
+		profile.setInterestSet(interestSet);
 		node = new Node();
 		node.setId(FAKE_NUMBER);
 		node.setProfile(profile);
