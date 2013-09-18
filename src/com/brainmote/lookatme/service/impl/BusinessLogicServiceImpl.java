@@ -2,19 +2,23 @@ package com.brainmote.lookatme.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 
 import com.brainmote.lookatme.ChatConversation;
+import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatMessage;
 import com.brainmote.lookatme.bean.Interest;
 import com.brainmote.lookatme.chord.CommunicationManager;
 import com.brainmote.lookatme.chord.CustomException;
+import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.chord.impl.CommunicationListenerImpl;
 import com.brainmote.lookatme.chord.impl.CommunicationManagerImpl;
 import com.brainmote.lookatme.constants.AppSettings;
@@ -25,6 +29,8 @@ import com.brainmote.lookatme.fake.FakeUserGiuseppe;
 import com.brainmote.lookatme.fake.FakeUserRiccardo;
 import com.brainmote.lookatme.fake.FakeUserStefano;
 import com.brainmote.lookatme.service.BusinessLogicService;
+import com.brainmote.lookatme.service.Event;
+import com.brainmote.lookatme.service.EventType;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Log;
 
@@ -279,12 +285,35 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		}
 	}
 
-	private boolean isFakeConversation(ChatConversation conversation) {
-		for (FakeUser fakeUser : fakeUsers.values()) {
-			if (conversation.getId().contains(fakeUser.getNode().getId()))
-				return true;
+	@Override
+	public void setResponseIfConversationIsFake(final ChatConversation conversation) {
+		final String nodeId = communicationManager.getNodeIdFromConversation(conversation);
+		if (isFakeUserNode(nodeId)) {
+			// Mostra una risposta casuale dopo un tempo casuale
+			new Handler().postDelayed(new Runnable() {
+				public void run() {
+					try {
+						if (nodeId == null)
+							return;
+						FakeUser fakeUser = getFakeUser(nodeId);
+						if (fakeUser == null || conversation == null)
+							return;
+						Node node = Services.currentState.getSocialNodeMap().findNodeByNodeId(nodeId);
+						BasicProfile otherProfile = (BasicProfile) node.getProfile();
+						String otherNickName = otherProfile.getNickname();
+						String message = fakeUser.getNextAnswer();
+						conversation.addMessage(new ChatMessage(message, false));
+						Services.businessLogic.storeConversation(conversation);
+						Services.notification.chatMessage(Services.currentState.getContext(), otherNickName, nodeId, message, conversation.getId());
+						Services.event.post(new Event(EventType.CHAT_MESSAGE_RECEIVED, nodeId));
+					} catch (Exception e) {
+						// Essendo una facezia, qualunque eccezione si verifichi
+						// ignoro quanto stavo tentando di fare :)
+						Log.d("Facezia non riuscita: " + e.toString());
+					}
+				}
+			}, AppSettings.FAKE_USER_CHAT_RESPONSE_TIME + new Random().nextInt(AppSettings.FAKE_USER_CHAT_RESPONSE_TIME_OFFSET + 1));
 		}
-		return false;
 	}
 
 }

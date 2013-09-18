@@ -21,12 +21,12 @@ public class FakeUserRiccardo extends FakeUserGenericImpl {
 		List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
 		profileImages.add(createProfileImage(context, "riccardo_profile_image_1.png"));
 		profile.setProfileImages(profileImages);
-
-		// "Hi dude!"
-		// "nice to meet you again!"
-		// "don't think,just do it!"
-		// "keep going"
-		// "I'm the dumbest AI ever,why you keep chatting with me?"
+		answers = new ArrayList<String>();
+		answers.add("Hi dude!");
+		answers.add("Nice to meet you again!");
+		answers.add("Don't think, just do it!");
+		answers.add("Keep going");
+		answers.add("I'm the dumbest AI ever,why you keep chatting with me?");
 	}
 
 }

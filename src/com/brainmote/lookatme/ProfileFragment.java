@@ -314,7 +314,6 @@ public class ProfileFragment extends Fragment {
 			photoView.setImageBitmap(ImageUtil.bitmapForGallery(photoImage));
 			// Now just add PhotoView to ViewPager and return it
 			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-
 			return photoView;
 		}
 

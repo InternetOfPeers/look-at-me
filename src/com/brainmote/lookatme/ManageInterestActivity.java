@@ -22,10 +22,11 @@ public class ManageInterestActivity extends CommonActivity {
 		// Verifica quale elemento è stato premuto
 		switch (item.getItemId()) {
 		case android.R.id.home:
+			// Le activity non di root devono gestire l'indietro autonomamente
 			onBackPressed();
-			break;
+			return true;
 		}
-		return true;
+		return super.onOptionsItemSelected(item);
 	}
 
 }

@@ -57,6 +57,8 @@ public class ChatMessagesListFragment extends Fragment {
 						mInputEditText.getText().clear();
 						ChatMessagesListFragment.this.refreshFragment();
 						scrollMyListViewToBottom();
+						// Se è un fake user, risponde al messaggio
+						Services.businessLogic.setResponseIfConversationIsFake(conversation);
 					} else {
 						// L'utente non è più online e non posso mandargli
 						// messaggi

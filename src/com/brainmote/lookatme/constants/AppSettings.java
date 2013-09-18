@@ -8,6 +8,13 @@ public interface AppSettings {
 	static final long LOADING_PROFILE_TIMEOUT = 20000; // Millisecondi
 	static final long WAIT_BEFORE_SHOWING_LOADING_PROFILE_DIALOG = 500; // Millisecondi
 	static final long DOUBLE_BACK_TO_REALLY_EXIT_DELAY = 2000; // Millisecondi
+	static final long FAKE_USER_CHAT_RESPONSE_TIME = 2500; // Millisecondi
+
+	/**
+	 * Massimo di millisecondi di scostamento rispetto al tempo impostato da
+	 * FAKE_USER_CHAT_RESPONSE_TIME
+	 */
+	static final int FAKE_USER_CHAT_RESPONSE_TIME_OFFSET = 8000;
 
 	static final String MAIN_CHANNEL = "com.brainmote.lookatme.mainChannel";
 	static final String IN_APP_CREDITS = "com.brainmote.lookatme.settings.invokeDevelopers";

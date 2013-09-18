@@ -15,8 +15,8 @@ public class ProfileActivity extends CommonActivity {
 		Log.d();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
-		profileFragment = (ProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		initDrawerMenu(savedInstanceState, this.getClass(), false);
+		profileFragment = (ProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		checkIfProfileIsCompleted();
 	}
 
@@ -25,9 +25,9 @@ public class ProfileActivity extends CommonActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
-			break;
+			return true;
 		}
-		return true;
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void onInterestsButtonClick(View view) {

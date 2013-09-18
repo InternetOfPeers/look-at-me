@@ -34,8 +34,9 @@ public class ChatMessagesActivity extends CommonActivity {
 		// Verifica quale elemento è stato premuto
 		switch (item.getItemId()) {
 		case android.R.id.home:
+			// Le activity non di root devono gestire l'indietro autonomamente
 			onBackPressed();
-			break;
+			return true;
 		case R.id.action_view_profile:
 			String profileId = Services.businessLogic.getProfileIdFromConversationId(getConversation().getId());
 			String nodeId = Services.currentState.getSocialNodeMap().getNodeIdByProfileId(profileId);
@@ -49,9 +50,9 @@ public class ChatMessagesActivity extends CommonActivity {
 				// L'utente non è più online e non posso vederne il profilo
 				showDialog(getString(R.string.message_warning), getString(R.string.user_is_not_nearby_anymore));
 			}
-			break;
+			return true;
 		}
-		return true;
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

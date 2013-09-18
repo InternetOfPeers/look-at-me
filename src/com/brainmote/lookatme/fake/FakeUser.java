@@ -9,4 +9,6 @@ public interface FakeUser {
 
 	ChatConversation getConversation(String myProfileId);
 
+	String getNextAnswer();
+
 }

@@ -76,4 +76,12 @@ public interface BusinessLogicService {
 	 */
 	void initFakeUsersConversations();
 
+	/**
+	 * Se la conversazione passata è con un fake user, viene generata una
+	 * risposta casuale tra quelle disponibili per l'utente selezionato
+	 * 
+	 * @param conversation
+	 */
+	void setResponseIfConversationIsFake(ChatConversation conversation);
+
 }

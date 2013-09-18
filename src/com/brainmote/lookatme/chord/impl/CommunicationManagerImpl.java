@@ -43,7 +43,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	private Context context;
 
 	public CommunicationManagerImpl(Context context, CommunicationListener communicationListener) {
-		Log.d();
 		this.context = context;
 		this.communicationListener = communicationListener;
 	}
@@ -65,8 +64,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 			// available interface
 			availableWifiInterface = chordManager.getAvailableInterfaceTypes();
 			if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
-				// TODO lanciare un'eccezione al posto del valore di ritorno
-				// return ErrorManager.ERROR_NO_INTERFACE_AVAILABLE;
+				throw new CustomException("Nessuna interfaccia WiFi disponibile.");
 			}
 			if (availableWifiInterface.contains(SchordManager.INTERFACE_TYPE_WIFI)) {
 				currentWifiInterface = SchordManager.INTERFACE_TYPE_WIFI;

@@ -22,12 +22,12 @@ public class FakeUserCarlo extends FakeUserGenericImpl {
 		profileImages.add(createProfileImage(context, "carlo_profile_image_1.jpg"));
 		profileImages.add(createProfileImage(context, "carlo_profile_image_2.jpg"));
 		profile.setProfileImages(profileImages);
-
-		// "Hi! Nice to meet you!"
-		// "See you later"
-		// "Don't forget rating this app!!"
-		// "Look@Me it's a new way to know cool people!"
-		// "What are you waiting for? Turn on WiFi and return to search nerby!"
+		answers = new ArrayList<String>();
+		answers.add("Hi! Nice to meet you!");
+		answers.add("See you later");
+		answers.add("Don't forget rating this app!!");
+		answers.add("Look@Me it's a new way to know cool people!");
+		answers.add("What are you waiting for? Turn on WiFi and return to search nerby!");
 	}
 
 }

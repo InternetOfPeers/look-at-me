@@ -42,6 +42,7 @@ public class SettingsActivity extends CommonActivity {
 					menuItem.setEnabled(false);
 				} else {
 					// Start del servizio di comunicazione
+					Services.currentState.reset();
 					Services.businessLogic.start(getApplicationContext());
 					// Nascondo il warning sulla barra di menu
 					MenuItem menuItem = menu.findItem(R.id.action_offline_mode);

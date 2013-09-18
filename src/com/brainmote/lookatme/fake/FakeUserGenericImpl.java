@@ -23,7 +23,7 @@ import com.brainmote.lookatme.util.CommonUtils;
 
 public class FakeUserGenericImpl implements FakeUser {
 
-	final int id = 99998999 + new Random().nextInt(1000);
+	final int id = 99998999 + new Random().nextInt(1001);
 	final String FAKE_NUMBER = String.valueOf(id);
 	FullProfile profile;
 	String profileId = FAKE_NUMBER;
@@ -38,6 +38,8 @@ public class FakeUserGenericImpl implements FakeUser {
 	String livingCountry = "ITALY";
 	String primaryLanguage = "ITALIAN";
 	String status = "Sono molto felice!";
+	List<String> answers;
+	int answer = 0;
 
 	public FakeUserGenericImpl(Context context) {
 		profile = new FullProfile();
@@ -65,6 +67,10 @@ public class FakeUserGenericImpl implements FakeUser {
 		node = new Node();
 		node.setId(FAKE_NUMBER);
 		node.setProfile(profile);
+		answers = new ArrayList<String>();
+		answers.add("Hi!");
+		answers.add("Scooby-dooby-doo!");
+		answers.add("Tanto va la gatta la largo che ci lascia lo zampino.");
 	}
 
 	protected ProfileImage createProfileImage(Context context, String imageFile) {
@@ -98,4 +104,11 @@ public class FakeUserGenericImpl implements FakeUser {
 		return new ChatConversationImpl(CommonUtils.getConversationId(myProfileId, profile.getId()), profile);
 	}
 
+	@Override
+	public String getNextAnswer() {
+		String message = answers.get(answer++);
+		if (answer > answers.size() - 1)
+			answer = 0;
+		return message;
+	}
 }

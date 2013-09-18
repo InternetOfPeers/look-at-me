@@ -137,6 +137,7 @@ public class CurrentStateImpl implements CurrentState {
 	@Override
 	public void reset() {
 		this.socialNodeMap = new SocialNodeMap();
+		this.conversationsStore = new ConversationStoreImpl();
 		this.profileViewed = null;
 		// this.iLikeSet = new TreeSet<String>();
 		// this.likedSet = new TreeSet<String>();
