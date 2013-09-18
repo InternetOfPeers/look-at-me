@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brainmote.lookatme.enumattribute.Interest;
@@ -106,6 +107,9 @@ public class InterestAdapter extends BaseExpandableListAdapter {
 		}
 		TextView text = (TextView) convertView.findViewById(R.id.textGroupInterestDescription);
 		text.setText(description);
+		ImageView icon = (ImageView) convertView.findViewById(R.id.imageGroupInterestIcon);
+		Interest interest = Interest.getInterestWithName(description);
+		icon.setImageResource(InterestCategory.getIconOfCategory(interest.getInterestCategory()));
 		return convertView;
 	}
 
