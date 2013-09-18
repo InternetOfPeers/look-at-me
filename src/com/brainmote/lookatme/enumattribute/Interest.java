@@ -87,8 +87,7 @@ public enum Interest {
 		public static final int MUSIC = InterestCategory.CATEGORY_GAP * 2;
 		public static final int MOVIE = InterestCategory.CATEGORY_GAP * 3;
 		public static final int HOBBY = InterestCategory.CATEGORY_GAP * 4;
-		
-		
+
 		private static final int SPORT_ICON = R.drawable.ic_sport;
 		private static final int MUSIC_ICON = R.drawable.ic_music;
 		private static final int MOVIE_ICON = R.drawable.ic_movie;
@@ -117,7 +116,7 @@ public enum Interest {
 
 			return result;
 		}
-		
+
 		public static int getIconOfCategory(int category) {
 			switch (category) {
 			case SPORT:

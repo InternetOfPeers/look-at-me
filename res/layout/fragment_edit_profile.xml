@@ -52,15 +52,6 @@
                     android:layout_height="wrap_content" >
 
                     <LinearLayout
-                        android:id="@+id/tab_data"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" >
-
-                        <include layout="@layout/tab_data" />
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:id="@+id/tab_photo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -70,9 +61,18 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/tab_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <include layout="@layout/tab_data" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/tab_interests"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:orientation="vertical" >
 

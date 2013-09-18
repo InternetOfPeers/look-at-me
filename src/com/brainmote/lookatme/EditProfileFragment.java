@@ -66,15 +66,15 @@ public class EditProfileFragment extends Fragment {
 		TabHost tabs = (TabHost) view.findViewById(R.id.editProfileTabs);
 		tabs.setup();
 
-		TabSpec tabSpecData = tabs.newTabSpec("Profile");
-		tabSpecData.setIndicator("", getResources().getDrawable(R.drawable.ic_edit_profile));
-		tabSpecData.setContent(R.id.tab_data);
-		tabs.addTab(tabSpecData);
-
 		TabSpec tabSpecPhoto = tabs.newTabSpec("Photo");
 		tabSpecPhoto.setIndicator("", getResources().getDrawable(R.drawable.ic_photo));
 		tabSpecPhoto.setContent(R.id.tab_photo);
 		tabs.addTab(tabSpecPhoto);
+
+		TabSpec tabSpecData = tabs.newTabSpec("Profile");
+		tabSpecData.setIndicator("", getResources().getDrawable(R.drawable.ic_edit_profile));
+		tabSpecData.setContent(R.id.tab_data);
+		tabs.addTab(tabSpecData);
 
 		TabSpec tabSpecInterests = tabs.newTabSpec("Interests");
 		tabSpecInterests.setIndicator("", getResources().getDrawable(R.drawable.ic_star));
@@ -133,12 +133,11 @@ public class EditProfileFragment extends Fragment {
 		}
 
 		GridView gridInterest = (GridView) view.findViewById(R.id.gridInterestInEdit);
-		gridInterest.setAdapter(new InterestGridAdapter(getActivity()));
+		gridInterest.setAdapter(new EditProfileInterestGridAdapter(getActivity()));
 		gridInterest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				Nav.startActivity(EditProfileFragment.this.getActivity(), AddInterestActivity.class);
+				Nav.startActivity(EditProfileFragment.this.getActivity(), ManageInterestActivity.class);
 			}
 		});
 		return view;
