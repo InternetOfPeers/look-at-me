@@ -13,7 +13,7 @@ public interface AppSettings {
 	static final String IN_APP_CREDITS = "com.brainmote.lookatme.settings.invokeDevelopers";
 	static final String USER_PREFERENCES = "com.brainmote.lookatme.userPreferences";
 
-	static final int moreFakeUsers = 2; // In aggiunta ai profili fake dei
+	static final int moreFakeUsers = 0; // In aggiunta ai profili fake dei
 										// credits, è possibile aggiungere
 										// ulteriori profili finti
 	static final boolean needMoreFakeUsers = moreFakeUsers > 0;

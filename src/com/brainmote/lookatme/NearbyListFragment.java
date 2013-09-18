@@ -14,7 +14,6 @@ import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
-import com.brainmote.lookatme.util.Log;
 import com.brainmote.lookatme.util.Nav;
 import com.squareup.otto.Subscribe;
 
@@ -24,7 +23,6 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d();
 		View view = inflater.inflate(R.layout.fragment_nearby_list, null);
 		nearbyListAdapter = new NearbyListAdapter(this.getActivity());
 		GridView socialListView = (GridView) view.findViewById(R.id.nearbyListView);
@@ -82,7 +80,11 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 	 * Verifica se è necessario mostrare un messaggio all'utente
 	 */
 	private void verifyNearbyState() {
-		GridView messageListView = (GridView) getView().findViewById(R.id.nearbyListView);
+		// Se ci sono utenti fake visibili, non mostro alcun messaggio di testo
+		// perché verrebbe comunque sovrascritto
+		if (Services.businessLogic.isCreditsInAppEnabled(getActivity()))
+			return;
+		// Imposto il messaggio della view in base allo stato dell'app
 		TextView messageText = (TextView) getView().findViewById(R.id.nearby_text_message);
 		// Verifico lo stato della connessione alla rete WiFi
 		if (!CommonUtils.isWifiConnected(this.getActivity()) && !CommonUtils.isEmulator()) {
@@ -95,6 +97,7 @@ public class NearbyListFragment extends Fragment implements OnItemClickListener 
 			return;
 		}
 		// Verifica se ci sono utenti visibili
+		GridView messageListView = (GridView) getView().findViewById(R.id.nearbyListView);
 		messageText.setText((messageListView.getAdapter().getCount() > 0 ? "" : getString(R.string.nearby_message_no_users_yet)));
 	}
 
