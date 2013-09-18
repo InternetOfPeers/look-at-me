@@ -72,7 +72,7 @@
                     <LinearLayout
                         android:id="@+id/tab_interests"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:layout_gravity="center_horizontal"
                         android:orientation="vertical" >
 
@@ -82,12 +82,7 @@
             </LinearLayout>
         </TabHost>
 
-        <Button
-            android:id="@+id/buttonSaveProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onSaveButtonPressed"
-            android:text="@string/edit_profile_button_save_profile_text" />
+       
     </LinearLayout>
 
 </ScrollView>

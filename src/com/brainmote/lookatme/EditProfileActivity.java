@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.brainmote.lookatme.bean.ProfileImage;
@@ -27,8 +30,22 @@ public class EditProfileActivity extends CommonActivity {
 		editProfileFragment = (EditProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_edit_profile);
 	}
 
-	public void onSaveButtonPressed(View view) {
-		editProfileFragment.saveProfile();
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.edit_profile, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Verifica quale elemento è stato premuto
+		switch (item.getItemId()) {
+		case R.id.action_save:
+			editProfileFragment.saveProfile();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void onSelectPictureButtonPressed(View view) {
@@ -83,7 +100,7 @@ public class EditProfileActivity extends CommonActivity {
 		editProfileFragment.addProfileImage(photo);
 	}
 
-	public void setMainProfileImage(ProfileImage photo) {
+	protected void setMainProfileImage(ProfileImage photo) {
 		editProfileFragment.setMainProfileImage(photo);
 	}
 
