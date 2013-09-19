@@ -42,7 +42,7 @@ public class EditProfileActivity extends CommonActivity {
 		// Verifica quale elemento è stato premuto
 		switch (item.getItemId()) {
 		case R.id.action_save:
-			editProfileFragment.saveProfile();
+			editProfileFragment.saveProfile(true);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -57,6 +57,10 @@ public class EditProfileActivity extends CommonActivity {
 			Log.e("Errore durante la selezione dell'immagine");
 			e.printStackTrace();
 		}
+	}
+	
+	public void saveProfile(){
+		editProfileFragment.saveProfile(true);
 	}
 
 	public void onTakePictureButtonPressed(View view) {

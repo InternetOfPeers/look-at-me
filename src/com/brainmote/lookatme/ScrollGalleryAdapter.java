@@ -111,6 +111,8 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 							tempProfileImage.setMainImage(false);
 						}
 					}
+					EditProfileActivity parent = (EditProfileActivity) activity;
+					parent.saveProfile();
 					notifyDataSetChanged();
 				}
 			});
@@ -136,6 +138,8 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 					} catch (Exception e) {
 						Log.e("error during delete of image");
 					}
+					EditProfileActivity parent = (EditProfileActivity) activity;
+					parent.saveProfile();
 					notifyDataSetChanged();
 				}
 			});
