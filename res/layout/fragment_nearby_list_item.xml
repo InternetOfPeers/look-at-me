@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/text_profile_photo_image"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true" />   
+
 
     <ImageView
         android:id="@+id/imageLiked"
@@ -20,5 +22,14 @@
         android:layout_marginRight="3dp"
         android:layout_marginTop="3dp"
         android:contentDescription="@string/text_profile_liked" />
+    
+     <!--ProgressBar
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/loadingImageProgressBar"
+         style="@android:style/Widget.ProgressBar.Small"
+         android:layout_centerInParent="true"
+         android:visibility="visible"
+          /-->
 
 </RelativeLayout>

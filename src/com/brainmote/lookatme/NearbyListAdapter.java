@@ -1,15 +1,20 @@
 package com.brainmote.lookatme;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
 
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.chord.Node;
@@ -50,10 +55,13 @@ public class NearbyListAdapter extends BaseAdapter {
 		}
 		// Imposto l'immagine del profilo
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
+//		ProgressBar loadingImage = (ProgressBar) convertView.findViewById(R.id.loadingImageProgressBar);
 		BasicProfile profile = (BasicProfile) getItem(position).getProfile();
-		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
-		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
-		photoImage.setImageBitmap(croppedImageProfile);
+		ImageLoader imageLoader = new ImageLoader(photoImage, profile,activity);
+		imageLoader.executeOnExecutor( AsyncTask.THREAD_POOL_EXECUTOR, "" );
+//		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
+//		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
+//		photoImage.setImageBitmap(croppedImageProfile);
 		// Imposto i liked
 		ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);
 		if (Services.currentState.getLikedSet().contains(getItem(position).getProfile().getId())) {
@@ -64,5 +72,41 @@ public class NearbyListAdapter extends BaseAdapter {
 		}
 		return convertView;
 	}
+	
+	public class ImageLoader extends AsyncTask<String, Integer, Bitmap> {
+		 
+		  private final WeakReference<ImageView> imageViewReference;
+//		  private final WeakReference<ProgressBar> loadingImageReference;
+		  
+		  private final BasicProfile profile;
+
+		 
+		  public ImageLoader( ImageView imageView ,BasicProfile profile,Context context) {
+		    imageViewReference = new WeakReference<ImageView>( imageView );
+//		    loadingImageReference = new WeakReference<ProgressBar>( loadingImage );
+		    this.profile=profile;
+
+		  }
+		 
+		  @Override
+		  protected Bitmap doInBackground( String... params ) {	
+			  	
+				Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
+				return ImageUtil.bitmapForThumbnail(mainImageProfile);
+		  }
+		 
+		  @Override
+		  protected void onPostExecute( Bitmap bitmap ) {
+		    ImageView imageView = imageViewReference.get();
+		    if( imageView != null ) {
+		      imageView.setImageBitmap( bitmap );
+		    }
+		  	//imageViewReference.get().setVisibility(View.VISIBLE);		  
+//		  	loadingImageReference.get().setVisibility(View.INVISIBLE);
+
+
+		  }		 		  
+		 
+		}
 
 }
