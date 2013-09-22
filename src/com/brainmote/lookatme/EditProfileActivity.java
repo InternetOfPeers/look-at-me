@@ -58,8 +58,8 @@ public class EditProfileActivity extends CommonActivity {
 			e.printStackTrace();
 		}
 	}
-	
-	public void saveProfile(){
+
+	public void saveProfile() {
 		editProfileFragment.saveProfile(true);
 	}
 

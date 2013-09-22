@@ -81,31 +81,31 @@ public class EditProfileFragment extends Fragment {
 		tabSpecInterests.setIndicator("", getResources().getDrawable(R.drawable.ic_star));
 		tabSpecInterests.setContent(R.id.tab_interests);
 		tabs.addTab(tabSpecInterests);
-		
+
 		OnFocusChangeListener focusChange = new OnFocusChangeListener() {
-		    public void onFocusChange(View v, boolean gainFocus) {
-		        //onFocus
-		        if (gainFocus) {
-		        } 
-		        //onBlur
-		        else {
-		         saveProfile(false);
-		        }
-		       }
-		      };
-		      
-		      OnItemSelectedListener itemSelectedListener =(new OnItemSelectedListener() {
-		    	    @Override
-		    	    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		    	        saveProfile(false);
-		    	    }
+			public void onFocusChange(View v, boolean gainFocus) {
+				// onFocus
+				if (gainFocus) {
+				}
+				// onBlur
+				else {
+					saveProfile(false);
+				}
+			}
+		};
 
-		    	    @Override
-		    	    public void onNothingSelected(AdapterView<?> parentView) {
-		    	        // your code here
-		    	    }
+		OnItemSelectedListener itemSelectedListener = (new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				saveProfile(false);
+			}
 
-		    	});
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+				// your code here
+			}
+
+		});
 
 		spinnerAge = (Spinner) view.findViewById(R.id.editProfileSpinnerAge);
 		spinnerGender = (Spinner) view.findViewById(R.id.editProfileSpinnerGender);
@@ -166,16 +166,16 @@ public class EditProfileFragment extends Fragment {
 				Nav.startActivity(EditProfileFragment.this.getActivity(), ManageInterestActivity.class);
 			}
 		});
-		
+
 		spinnerAge.setOnItemSelectedListener(itemSelectedListener);
 		spinnerGender.setOnItemSelectedListener(itemSelectedListener);
 		spinnerCountry.setOnItemSelectedListener(itemSelectedListener);
 		spinnerLanguage.setOnItemSelectedListener(itemSelectedListener);
-		
+
 		nameScreen.setOnFocusChangeListener(focusChange);
 		surnameScreen.setOnFocusChangeListener(focusChange);
 		nicknameScreen.setOnFocusChangeListener(focusChange);
-		nameScreen.setOnFocusChangeListener(focusChange);	
+		nameScreen.setOnFocusChangeListener(focusChange);
 		// Serve per far espandere la grid e fargli occupare tutto lo spazio
 		// necessario (il wrap_content normale non funziona quando la gridview
 		// sta dentro una scrollview)
@@ -216,7 +216,7 @@ public class EditProfileFragment extends Fragment {
 				profile.setPrimaryLanguage(language);
 			}
 
-			if (saveAll&&scrollGalleryAdapter.imageList.size() > 0) {
+			if (saveAll && scrollGalleryAdapter.imageList.size() > 0) {
 				profile.setProfileImages(scrollGalleryAdapter.imageList);
 			}
 
@@ -230,7 +230,7 @@ public class EditProfileFragment extends Fragment {
 				Services.businessLogic.initFakeUsersConversations();
 			}
 
-//			Nav.startActivity(getActivity(), NearbyActivity.class);
+			// Nav.startActivity(getActivity(), NearbyActivity.class);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
