@@ -17,6 +17,7 @@ import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.ImageUtil;
+import com.brainmote.lookatme.util.Log;
 
 public class NearbyListAdapter extends BaseAdapter {
 
@@ -90,9 +91,13 @@ public class NearbyListAdapter extends BaseAdapter {
 
 		@Override
 		protected Bitmap doInBackground(String... params) {
-
-			Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
-			return ImageUtil.bitmapForThumbnail(mainImageProfile);
+			try {
+				Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
+				return ImageUtil.bitmapForThumbnail(mainImageProfile);
+			} catch (Exception e) {
+				Log.e(e.toString());
+				return null;
+			}
 		}
 
 		@Override

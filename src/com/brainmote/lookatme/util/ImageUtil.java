@@ -154,122 +154,156 @@ public class ImageUtil {
 	}
 
 	public static byte[] bitmapToByteArray(Bitmap bitmap) {
-		// int size = bitmap.getWidth() * bitmap.getHeight() * 2;
-		// ByteArrayOutputStream outStream;
-		// while (true) {
-		// outStream = new ByteArrayOutputStream(size);
-		// if (bitmap.compress(Bitmap.CompressFormat.JPEG,
-		// JPEG_COMPRESSION_RATIO, outStream))
-		// break;
-		// size = size * 3 / 2;
-		// }
-		// return outStream.toByteArray();
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_COMPRESSION_RATIO, outStream);
-		return outStream.toByteArray();
+		try {
+			// int size = bitmap.getWidth() * bitmap.getHeight() * 2;
+			// ByteArrayOutputStream outStream;
+			// while (true) {
+			// outStream = new ByteArrayOutputStream(size);
+			// if (bitmap.compress(Bitmap.CompressFormat.JPEG,
+			// JPEG_COMPRESSION_RATIO, outStream))
+			// break;
+			// size = size * 3 / 2;
+			// }
+			// return outStream.toByteArray();
+			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_COMPRESSION_RATIO, outStream);
+			return outStream.toByteArray();
+
+		} catch (Exception e) {
+			Log.e(e.toString());
+			return null;
+		}
 	}
 
 	public static Bitmap getBitmapProfileImage(Resources resources, BasicProfile profile) {
-		ProfileImage profileImage = profile.getMainProfileImage();
-		if (profileImage == null)
-			return BitmapFactory.decodeResource(resources, R.drawable.ic_profile_image);
-		byte[] profileImageByteArray = profileImage.getImage();
-		if (profileImageByteArray == null) {
-			return BitmapFactory.decodeResource(resources, R.drawable.ic_profile_image);
+		try {
+			ProfileImage profileImage = profile.getMainProfileImage();
+			if (profileImage == null)
+				return BitmapFactory.decodeResource(resources, R.drawable.ic_profile_image);
+			byte[] profileImageByteArray = profileImage.getImage();
+			if (profileImageByteArray == null) {
+				return BitmapFactory.decodeResource(resources, R.drawable.ic_profile_image);
+			}
+			return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
+		} catch (Exception e) {
+			Log.e(e.toString());
+			return null;
 		}
-		return BitmapFactory.decodeByteArray(profileImageByteArray, 0, profileImageByteArray.length);
 	}
 
 	private static Bitmap cropBitmap(Bitmap bitmap, int aspectWidth, int aspectHeight) {
-		// Assumo che la bitmap di partenza abbia altezza >= larghezza
-		// Log.d("Cropping bitmap " + bitmap.getWidth() + " x " +
-		// bitmap.getHeight());
-		int newWidth = bitmap.getWidth();
-		int newHeight = bitmap.getHeight();
-		int offsetX = 0;
-		int offsetY = 0;
-		// Calcolo il rapporto destinazione e sorgente
-		float ratioSrc = (float) bitmap.getWidth() / (float) bitmap.getHeight();
-		float ratioDst = (float) aspectWidth / (float) aspectHeight;
-		// Log.d("Src ratio is " + ratioSrc);
-		// Log.d("Dst ratio is " + ratioDst);
+		try {
+			// Assumo che la bitmap di partenza abbia altezza >= larghezza
+			// Log.d("Cropping bitmap " + bitmap.getWidth() + " x " +
+			// bitmap.getHeight());
+			int newWidth = bitmap.getWidth();
+			int newHeight = bitmap.getHeight();
+			int offsetX = 0;
+			int offsetY = 0;
+			// Calcolo il rapporto destinazione e sorgente
+			float ratioSrc = (float) bitmap.getWidth() / (float) bitmap.getHeight();
+			float ratioDst = (float) aspectWidth / (float) aspectHeight;
+			// Log.d("Src ratio is " + ratioSrc);
+			// Log.d("Dst ratio is " + ratioDst);
 
-		if (ratioSrc > ratioDst) {
-			// l'immagine va stretta
-			// Log.d("Reducing width");
-			newWidth = (int) (bitmap.getHeight() * ratioDst);
-			offsetX = (bitmap.getWidth() - newWidth) / 2;
-		} else if (ratioSrc < ratioDst) {
-			// l'immagine va accorciata
-			// Log.d("Reducing height");
-			newHeight = (int) (bitmap.getWidth() / ratioDst);
-			offsetY = (bitmap.getHeight() - newHeight) / 2;
-		} else if (ratioSrc == ratioDst) {
-			// NOP
-			// Log.d("No need to reduce image");
-			return bitmap;
+			if (ratioSrc > ratioDst) {
+				// l'immagine va stretta
+				// Log.d("Reducing width");
+				newWidth = (int) (bitmap.getHeight() * ratioDst);
+				offsetX = (bitmap.getWidth() - newWidth) / 2;
+			} else if (ratioSrc < ratioDst) {
+				// l'immagine va accorciata
+				// Log.d("Reducing height");
+				newHeight = (int) (bitmap.getWidth() / ratioDst);
+				offsetY = (bitmap.getHeight() - newHeight) / 2;
+			} else if (ratioSrc == ratioDst) {
+				// NOP
+				// Log.d("No need to reduce image");
+				return bitmap;
+			}
+			// Log.d("New width is " + newWidth);
+			// Log.d("New height is " + newHeight);
+			// Log.d("Offset X is " + offsetX);
+			// Log.d("Offset Y is " + offsetY);
+			// I seguenti 4 controlli per evitare di avere valori negativi
+			if (offsetX < 0)
+				offsetX = 0;
+			if (offsetY < 0)
+				offsetY = 0;
+			if (newWidth > bitmap.getWidth())
+				newWidth = bitmap.getWidth();
+			if (newHeight > bitmap.getHeight())
+				newHeight = bitmap.getHeight();
+			Bitmap photoImageDst = Bitmap.createBitmap(bitmap, offsetX, offsetY, newWidth, newHeight);
+			return photoImageDst;
+		} catch (Exception e) {
+			Log.e(e.toString());
+			return null;
 		}
-		// Log.d("New width is " + newWidth);
-		// Log.d("New height is " + newHeight);
-		// Log.d("Offset X is " + offsetX);
-		// Log.d("Offset Y is " + offsetY);
-		// I seguenti 4 controlli per evitare di avere valori negativi
-		if (offsetX < 0)
-			offsetX = 0;
-		if (offsetY < 0)
-			offsetY = 0;
-		if (newWidth > bitmap.getWidth())
-			newWidth = bitmap.getWidth();
-		if (newHeight > bitmap.getHeight())
-			newHeight = bitmap.getHeight();
-		Bitmap photoImageDst = Bitmap.createBitmap(bitmap, offsetX, offsetY, newWidth, newHeight);
-		return photoImageDst;
 	}
 
 	private static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
-		// Get current dimensions
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		// Log.d("Scaling img with density " + bitmap.getDensity() + " size " +
-		// width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
+		try {
+			// Get current dimensions
+			int width = bitmap.getWidth();
+			int height = bitmap.getHeight();
+			// Log.d("Scaling img with density " + bitmap.getDensity() +
+			// " size " +
+			// width + " x " + height + " and " + bitmap.getByteCount() +
+			// " bytes");
 
-		// Determine how much to scale: the dimension requiring less scaling is
-		// closer to the its side. This way the image always stays inside your
-		// bounding box AND either x/y axis touches it.
-		float xScale = ((float) boundBoxInDp) / width;
-		float yScale = ((float) boundBoxInDp) / height;
-		float scale = (xScale <= yScale) ? xScale : yScale;
+			// Determine how much to scale: the dimension requiring less scaling
+			// is
+			// closer to the its side. This way the image always stays inside
+			// your
+			// bounding box AND either x/y axis touches it.
+			float xScale = ((float) boundBoxInDp) / width;
+			float yScale = ((float) boundBoxInDp) / height;
+			float scale = (xScale <= yScale) ? xScale : yScale;
 
-		// Create a matrix for the scaling and add the scaling data
-		Matrix matrix = new Matrix();
-		matrix.postScale(scale, scale);
+			// Create a matrix for the scaling and add the scaling data
+			Matrix matrix = new Matrix();
+			matrix.postScale(scale, scale);
 
-		// Create a new bitmap and convert it to a format understood by the
-		// ImageView
-		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-		// Log.d("Result an img with density " + scaledBitmap.getDensity() +
-		// " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight()
-		// + " and " + scaledBitmap.getByteCount() + " bytes");
+			// Create a new bitmap and convert it to a format understood by the
+			// ImageView
+			Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+			// Log.d("Result an img with density " + scaledBitmap.getDensity() +
+			// " size " + scaledBitmap.getWidth() + " x " +
+			// scaledBitmap.getHeight()
+			// + " and " + scaledBitmap.getByteCount() + " bytes");
 
-		return scaledBitmap;
+			return scaledBitmap;
+		} catch (Exception e) {
+			Log.e(e.toString());
+			return null;
+		}
 	}
 
 	private static Bitmap scaleThumbnail(Bitmap bitmap, int boundBoxInPx) {
-		// Get current dimensions
-		// int width = bitmap.getWidth();
-		// int height = bitmap.getHeight();
-		// Log.d("Scaling img with density " + bitmap.getDensity() + " size " +
-		// width + " x " + height + " and " + bitmap.getByteCount() + " bytes");
-		// DisplayMetrics displayMetrics =
-		// Services.currentState.getContext().getResources().getDisplayMetrics();
-		// int px = Math.round(boundBoxInDp * (displayMetrics.xdpi /
-		// DisplayMetrics.DENSITY_DEFAULT));
-		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, boundBoxInPx, boundBoxInPx, false);
-		// Log.d("Result an img with density " + scaledBitmap.getDensity() +
-		// " size " + scaledBitmap.getWidth() + " x " + scaledBitmap.getHeight()
-		// + " and " + scaledBitmap.getByteCount() + " bytes");
+		try {
+			// Get current dimensions
+			// int width = bitmap.getWidth();
+			// int height = bitmap.getHeight();
+			// Log.d("Scaling img with density " + bitmap.getDensity() +
+			// " size " +
+			// width + " x " + height + " and " + bitmap.getByteCount() +
+			// " bytes");
+			// DisplayMetrics displayMetrics =
+			// Services.currentState.getContext().getResources().getDisplayMetrics();
+			// int px = Math.round(boundBoxInDp * (displayMetrics.xdpi /
+			// DisplayMetrics.DENSITY_DEFAULT));
+			Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, boundBoxInPx, boundBoxInPx, false);
+			// Log.d("Result an img with density " + scaledBitmap.getDensity() +
+			// " size " + scaledBitmap.getWidth() + " x " +
+			// scaledBitmap.getHeight()
+			// + " and " + scaledBitmap.getByteCount() + " bytes");
 
-		return scaledBitmap;
+			return scaledBitmap;
+		} catch (Exception e) {
+			Log.e(e.toString());
+			return null;
+		}
 	}
 
 	public static boolean isFilePathValid(String filePath) {
