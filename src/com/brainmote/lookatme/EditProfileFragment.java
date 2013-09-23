@@ -1,5 +1,6 @@
 package com.brainmote.lookatme;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.Fragment;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -94,19 +96,6 @@ public class EditProfileFragment extends Fragment {
 			}
 		};
 
-		OnItemSelectedListener itemSelectedListener = (new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-				saveProfile(false);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parentView) {
-				// your code here
-			}
-
-		});
-
 		spinnerAge = (Spinner) view.findViewById(R.id.editProfileSpinnerAge);
 		spinnerGender = (Spinner) view.findViewById(R.id.editProfileSpinnerGender);
 		spinnerCountry = (Spinner) view.findViewById(R.id.editProfileSpinnerCountry);
@@ -167,10 +156,70 @@ public class EditProfileFragment extends Fragment {
 			}
 		});
 
-		spinnerAge.setOnItemSelectedListener(itemSelectedListener);
-		spinnerGender.setOnItemSelectedListener(itemSelectedListener);
-		spinnerCountry.setOnItemSelectedListener(itemSelectedListener);
-		spinnerLanguage.setOnItemSelectedListener(itemSelectedListener);
+		spinnerAge.setOnItemSelectedListener((new OnItemSelectedListener() {
+			boolean checked = false;
+
+			@Override
+			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				if (checked) {
+					saveProfile(false);
+				}
+				checked = true;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+				// your code here
+			}
+		}));
+		spinnerGender.setOnItemSelectedListener((new OnItemSelectedListener() {
+			boolean checked = false;
+
+			@Override
+			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				if (checked) {
+					saveProfile(false);
+				}
+				checked = true;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+				// your code here
+			}
+		}));
+		spinnerCountry.setOnItemSelectedListener((new OnItemSelectedListener() {
+			boolean checked = false;
+
+			@Override
+			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				if (checked) {
+					saveProfile(false);
+				}
+				checked = true;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+				// your code here
+			}
+		}));
+		spinnerLanguage.setOnItemSelectedListener((new OnItemSelectedListener() {
+			boolean checked = false;
+
+			@Override
+			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				if (checked) {
+					saveProfile(false);
+				}
+				checked = true;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+				// your code here
+			}
+		}));
 
 		nameScreen.setOnFocusChangeListener(focusChange);
 		surnameScreen.setOnFocusChangeListener(focusChange);
@@ -192,8 +241,20 @@ public class EditProfileFragment extends Fragment {
 				return;
 			}
 			FullProfile profile = Services.currentState.getMyFullProfile();
-			if (profile == null)
+			if (profile == null) {
+				saveAll = true;
 				profile = new FullProfile();
+				if (mainProfileImage.getDrawable() == null)
+					return;
+				ProfileImage profileImage = new ProfileImage();
+				profileImage.setImage(ImageUtil.bitmapToByteArray(((BitmapDrawable) mainProfileImage.getDrawable()).getBitmap()));
+				profileImage.setMainImage(true);
+				profile.setProfileImages(new ArrayList<ProfileImage>());
+				profile.getProfileImages().add(profileImage);
+				if (scrollGalleryAdapter.imageList.isEmpty())
+					scrollGalleryAdapter.imageList.add(profileImage);
+			}
+
 			profile.setName(nameScreen.getText().toString());
 			profile.setSurname(surnameScreen.getText().toString());
 			profile.setNickname(nicknameScreen.getText().toString());
@@ -317,6 +378,10 @@ public class EditProfileFragment extends Fragment {
 		}
 
 		scrollGalleryAdapter.imageList.add(profileImage);
+		if (scrollGalleryAdapter.imageList.size() > 1
+				|| (scrollGalleryAdapter.imageList.size() == 1 && nicknameScreen.getText() != null && nicknameScreen.getText().length() > 0 && Services.currentState
+						.getMyFullProfile() == null))
+			saveProfile(true);
 		noPhoto = false;
 		refreshFragment();
 	}
