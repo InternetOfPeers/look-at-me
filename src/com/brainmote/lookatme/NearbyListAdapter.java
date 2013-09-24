@@ -1,6 +1,5 @@
 package com.brainmote.lookatme;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import android.app.Activity;
@@ -56,12 +55,13 @@ public class NearbyListAdapter extends BaseAdapter {
 		// Imposto l'immagine del profilo
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
 		photoImage.setTag(position);
-//		 ProgressBar loadingImage = (ProgressBar)
-//		 convertView.findViewById(R.id.loadingImageProgressBar);
+		// ProgressBar loadingImage = (ProgressBar)
+		// convertView.findViewById(R.id.loadingImageProgressBar);
 		BasicProfile profile = (BasicProfile) getItem(position).getProfile();
-//		ImageLoader imageLoader = new ImageLoader(photoImage,loadingImage, position,profile, activity);
-//		imageLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
-		
+		// ImageLoader imageLoader = new ImageLoader(photoImage,loadingImage,
+		// position,profile, activity);
+		// imageLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "");
+
 		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
 		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
 		photoImage.setImageBitmap(croppedImageProfile);
@@ -75,36 +75,36 @@ public class NearbyListAdapter extends BaseAdapter {
 		}
 		return convertView;
 	}
-	
+
 	public class ImageLoader extends AsyncTask<String, Integer, Bitmap> {
 
-//		private final WeakReference<ImageView> imageViewReference;
-//		 private final WeakReference<ProgressBar> loadingImageReference;
-		 
-			private final ImageView imageViewReference;
-			 private final ProgressBar loadingImageReference;
-			 private final int position;	
-		 
+		// private final WeakReference<ImageView> imageViewReference;
+		// private final WeakReference<ProgressBar> loadingImageReference;
+
+		private final ImageView imageViewReference;
+		private final ProgressBar loadingImageReference;
+		private final int position;
+
 		private final BasicProfile profile;
 
-		public ImageLoader(ImageView imageView,ProgressBar loadingImage,int position, BasicProfile profile, Context context) {
+		public ImageLoader(ImageView imageView, ProgressBar loadingImage, int position, BasicProfile profile, Context context) {
 			imageViewReference = (imageView);
-			 loadingImageReference = (loadingImage );
-			 this.position=position;
+			loadingImageReference = (loadingImage);
+			this.position = position;
 			this.profile = profile;
 
 		}
 
 		@Override
 		protected Bitmap doInBackground(String... params) {
-			Bitmap returnBitmap=null;
+			Bitmap returnBitmap = null;
 			try {
-				
+
 				Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
-				returnBitmap= ImageUtil.bitmapForThumbnail(mainImageProfile);
-				
+				returnBitmap = ImageUtil.bitmapForThumbnail(mainImageProfile);
+
 			} catch (Exception e) {
-				Log.e("async loading class",e.toString());
+				Log.e("async loading class", e.toString());
 			}
 			return returnBitmap;
 		}
@@ -112,14 +112,13 @@ public class NearbyListAdapter extends BaseAdapter {
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
 			ImageView imageView = imageViewReference;
-			if (imageView != null&&((Integer)imageView.getTag()==this.position)) {
-					imageView.setImageBitmap(bitmap);	
-					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				
+			if (imageView != null && ((Integer) imageView.getTag() == this.position)) {
+				imageView.setImageBitmap(bitmap);
+				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
 				imageViewReference.setVisibility(View.VISIBLE);
 				loadingImageReference.setVisibility(View.INVISIBLE);
 			}
-
 
 		}
 
