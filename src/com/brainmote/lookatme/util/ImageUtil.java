@@ -17,8 +17,8 @@ import com.brainmote.lookatme.service.Services;
 
 public class ImageUtil {
 
-	private static final int MAX_IMAGE_SIZE = 1080;
-	private static final int DEFAULT_SIZE_IN_DP = 600;
+	public static final int MAX_IMAGE_SIZE = 1080;
+	public static final int DEFAULT_SIZE_IN_DP = 600;
 	private static final int ASPECT_THUMBNAIL = 1;
 	private static final int ASPECT_WIDTH = 2;
 	private static final int ASPECT_HEIGHT = 3;
@@ -242,7 +242,7 @@ public class ImageUtil {
 		}
 	}
 
-	private static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
+	public static Bitmap scaleImage(Bitmap bitmap, int boundBoxInDp) {
 		try {
 			// Get current dimensions
 			int width = bitmap.getWidth();

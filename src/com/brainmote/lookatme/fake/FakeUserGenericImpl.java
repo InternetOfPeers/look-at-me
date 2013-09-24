@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.brainmote.lookatme.ChatConversation;
@@ -20,6 +21,7 @@ import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.enumattribute.Interest;
 import com.brainmote.lookatme.util.CommonUtils;
+import com.brainmote.lookatme.util.ImageUtil;
 
 public class FakeUserGenericImpl implements FakeUser {
 
@@ -80,7 +82,8 @@ public class FakeUserGenericImpl implements FakeUser {
 		InputStream is = null;
 		try {
 			is = context.getAssets().open(imageFile);
-			profileImage.setImage(bitmapToByteArray(BitmapFactory.decodeStream(is)));
+			Bitmap BitmapImageScaled = ImageUtil.scaleImage(BitmapFactory.decodeStream(is), ImageUtil.DEFAULT_SIZE_IN_DP);
+			profileImage.setImage(bitmapToByteArray(BitmapImageScaled));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
