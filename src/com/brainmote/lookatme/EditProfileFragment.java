@@ -291,7 +291,8 @@ public class EditProfileFragment extends Fragment {
 				Services.businessLogic.initFakeUsersConversations();
 			}
 
-			// Nav.startActivity(getActivity(), NearbyActivity.class);
+			// Riporta l'utente alla schermata di nearby
+			Nav.startActivity(getActivity(), NearbyActivity.class);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();

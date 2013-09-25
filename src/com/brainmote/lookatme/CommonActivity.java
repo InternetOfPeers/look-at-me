@@ -68,6 +68,7 @@ public abstract class CommonActivity extends Activity {
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
 		// set up the drawer's list view with items and click listener
 		menuListAdapter = new MenuListAdapter(this, mItemsTitles);
 		mDrawerList.setAdapter(menuListAdapter);
@@ -212,11 +213,9 @@ public abstract class CommonActivity extends Activity {
 		// Verifico se presente un parent
 		Intent upIntent = NavUtils.getParentActivityIntent(this);
 		if (upIntent != null) {
-			Log.d("Ha un parent");
 			// Verifico se viene da fuori dall'app (esempio da una notifica di
 			// sistema) oppure dall'interno
 			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-				Log.d("Viene dall'esterno");
 				// This activity is NOT part of this app's task, so create a new
 				// task when navigating up, with a synthesized back stack.
 				TaskStackBuilder.create(this)
@@ -225,13 +224,11 @@ public abstract class CommonActivity extends Activity {
 						// Navigate up to the closest parent
 						.startActivities();
 			} else {
-				Log.d("Viene dall'interno");
 				// This activity is part of this app's task, so simply
 				// navigate up to the logical parent activity.
 				NavUtils.navigateUpTo(this, upIntent);
 			}
 		} else {
-			Log.d("NIENTE parent");
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

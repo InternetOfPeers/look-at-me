@@ -128,7 +128,6 @@ public class ProfileFragment extends Fragment {
 						}
 					}
 				}, AppSettings.WAIT_BEFORE_SHOWING_LOADING_PROFILE_DIALOG);
-
 			} else {
 				activity.showDialog(activity.getString(R.string.no_profile_title), activity.getString(R.string.no_profile_message),
 						activity.getString(R.string.no_profile_button_label), NearbyActivity.class, true, true);
