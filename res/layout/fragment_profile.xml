@@ -172,13 +172,9 @@
                         android:numColumns="auto_fit"
                         android:stretchMode="columnWidth"
                         android:verticalSpacing="@dimen/interest_grid_spacing" >
-
                     </GridView>
-
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
     </RelativeLayout>
 

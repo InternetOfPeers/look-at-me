@@ -6,5 +6,5 @@
     android:layout_gravity="start"
     android:background="#111"
     android:choiceMode="singleChoice"
-    android:divider="@android:color/darker_gray"
+    android:divider="#555"
     android:dividerHeight="1dp" />

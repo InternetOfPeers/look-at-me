@@ -14,8 +14,8 @@
         android:layout_height="@dimen/chat_conversations_list_thumbnail_size"
         android:layout_gravity="center_vertical"
         android:layout_rowSpan="2"
+        android:background="@drawable/image_borders"
         android:contentDescription="@string/text_chat_alt_profile_image"
-        android:paddingRight="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
 
@@ -28,6 +28,7 @@
         android:layout_gravity="left|center_vertical"
         android:layout_row="1"
         android:maxEms="8"
+        android:paddingLeft="10dp"
         android:scrollHorizontally="false"
         android:singleLine="false"
         android:text="@string/text_chat_message"

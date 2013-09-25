@@ -81,8 +81,6 @@
                 </FrameLayout>
             </LinearLayout>
         </TabHost>
-
-       
     </LinearLayout>
 
 </ScrollView>

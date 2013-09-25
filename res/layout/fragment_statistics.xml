@@ -16,6 +16,8 @@
             android:id="@+id/statisticsThumbnail"
             android:layout_width="@dimen/edit_profile_thumbnail_size"
             android:layout_height="@dimen/edit_profile_thumbnail_size"
+            android:background="@drawable/image_borders"
+            android:contentDescription="@string/void_placeholder"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_profile_image" />
 

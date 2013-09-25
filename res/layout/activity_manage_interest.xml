@@ -14,13 +14,12 @@
         android:paddingRight="@dimen/activity_vertical_margin"
         android:paddingTop="@dimen/activity_horizontal_margin" >
 
-	    <ExpandableListView
-	        android:id="@+id/expandableListInterests"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
-	    </ExpandableListView>
-	
-	</LinearLayout>
+        <ExpandableListView
+            android:id="@+id/expandableListInterests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ExpandableListView>
+    </LinearLayout>
 
     <include layout="@layout/drawer_list" />
 
