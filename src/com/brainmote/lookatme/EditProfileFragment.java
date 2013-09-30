@@ -30,7 +30,9 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.brainmote.lookatme.bean.FullProfile;
+import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
+import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelper;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.enumattribute.Country;
@@ -285,6 +287,13 @@ public class EditProfileFragment extends Fragment {
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 			Services.businessLogic.notifyMyProfileIsUpdated();
 			switchToUpdateAccount(savedProfile);
+			
+			// ora che ho aggiornato il profilo devo vedere se gli interessi matchano con quelli degli altri
+			for (Node node : Services.currentState.getSocialNodeMap().getNodeList()) {
+				if (Services.currentState.checkInterestMatch((BasicProfile) node.getProfile())) {
+					Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(node.getId()));
+				}
+			}
 
 			// Se necessario, aggiungo delle conversazioni fittizie
 			if (Services.businessLogic.isCreditsInAppEnabled(getActivity())) {

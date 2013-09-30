@@ -23,6 +23,7 @@ import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Profile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.bean.Statistics;
+import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.google.common.base.Optional;
@@ -196,6 +197,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		} else {
 			database.update(TABLE_PROFILES, contentValues, TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profile.getId() });
 		}
+		
+		saveInterests(Services.currentState.getInterestSet());
 
 		if (profile.getProfileImages() != null && !profile.getProfileImages().isEmpty()) {
 			Iterator<ProfileImage> iter = profile.getProfileImages().iterator();
@@ -702,6 +705,18 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	@Override
 	public void saveInterests(Set<Integer> interestsSet) {
+		// cancello tutti gi interessi e li reinserisco, piuttosto che andare a vedere quali
+		// ancora esistono e quali no
+		Cursor cursor = null;
+		try {
+			cursor = database.rawQuery("TRUNCATE TABLE " + TABLE_INTERESTS, new String[] {});
+		}
+		catch (Throwable e) {
+			Log.e("error on loading interests : " + e.getMessage());
+		} finally {
+			if (!cursor.isClosed())
+				cursor.close();
+		}
 		Iterator<Integer> iter = interestsSet.iterator();
 		while (iter.hasNext())
 			saveInterest(iter.next());
