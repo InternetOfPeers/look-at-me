@@ -86,12 +86,11 @@ public class EditProfileFragment extends Fragment {
 
 		OnFocusChangeListener focusChange = new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean gainFocus) {
-				// onFocus
 				if (gainFocus) {
-				}
-				// onBlur
-				else {
-					saveProfile(false);
+					// onFocus
+				} else {
+					// onBlur
+					saveProfile(false, false);
 				}
 			}
 		};
@@ -162,7 +161,7 @@ public class EditProfileFragment extends Fragment {
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 				if (checked) {
-					saveProfile(false);
+					saveProfile(false, false);
 				}
 				checked = true;
 			}
@@ -178,7 +177,7 @@ public class EditProfileFragment extends Fragment {
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 				if (checked) {
-					saveProfile(false);
+					saveProfile(false, false);
 				}
 				checked = true;
 			}
@@ -194,7 +193,7 @@ public class EditProfileFragment extends Fragment {
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 				if (checked) {
-					saveProfile(false);
+					saveProfile(false, false);
 				}
 				checked = true;
 			}
@@ -210,7 +209,7 @@ public class EditProfileFragment extends Fragment {
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 				if (checked) {
-					saveProfile(false);
+					saveProfile(false, false);
 				}
 				checked = true;
 			}
@@ -232,7 +231,13 @@ public class EditProfileFragment extends Fragment {
 		return view;
 	}
 
-	public void saveProfile(boolean saveAll) {
+	/**
+	 * 
+	 * @param saveAll
+	 * @param backToNearby
+	 *            TODO
+	 */
+	public void saveProfile(boolean saveAll, boolean backToNearby) {
 		Log.d();
 		try {
 			// Verifico che sia inserito il nickname ed un'immagine di profilo
@@ -283,7 +288,10 @@ public class EditProfileFragment extends Fragment {
 
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
+			
+			//TOFIX Se il servizio è spento qui va in eccezione
 			Services.businessLogic.notifyMyProfileIsUpdated();
+			
 			switchToUpdateAccount(savedProfile);
 
 			// Se necessario, aggiungo delle conversazioni fittizie
@@ -292,7 +300,8 @@ public class EditProfileFragment extends Fragment {
 			}
 
 			// Riporta l'utente alla schermata di nearby
-			Nav.startActivity(getActivity(), NearbyActivity.class);
+			if (backToNearby)
+				Nav.startActivity(getActivity(), NearbyActivity.class);
 		} catch (Exception e) {
 			Log.e("errore during registration! error: " + e.getMessage());
 			e.printStackTrace();
@@ -382,7 +391,7 @@ public class EditProfileFragment extends Fragment {
 		if (scrollGalleryAdapter.imageList.size() > 1
 				|| (scrollGalleryAdapter.imageList.size() == 1 && nicknameScreen.getText() != null && nicknameScreen.getText().length() > 0 && Services.currentState
 						.getMyFullProfile() == null))
-			saveProfile(true);
+			saveProfile(true, false);
 		noPhoto = false;
 		refreshFragment();
 	}

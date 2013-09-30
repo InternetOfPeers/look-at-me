@@ -20,8 +20,10 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.event.post(new Event(EventType.BASIC_PROFILE_RECEIVED, node.getId()));
 		if (Services.currentState.checkInterestMatch((BasicProfile) node.getProfile())) {
 			Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(node.getId()));
-			// questo non serve a nulla e di conseguenza neanche l'EventType.INTEREST_MATCH
-			//Services.event.post(new Event(EventType.INTEREST_MATCH, node.getId()));
+			// questo non serve a nulla e di conseguenza neanche
+			// l'EventType.INTEREST_MATCH
+			// Services.event.post(new Event(EventType.INTEREST_MATCH,
+			// node.getId()));
 		}
 	}
 

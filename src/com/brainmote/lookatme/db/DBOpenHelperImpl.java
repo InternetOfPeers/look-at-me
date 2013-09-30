@@ -303,9 +303,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
 			Log.e("error on deleting ALL profiles : " + e.getMessage());
-		} finally {
 		}
-
 	}
 
 	@Override

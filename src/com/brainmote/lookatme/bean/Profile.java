@@ -16,7 +16,7 @@ public class Profile implements Serializable {
 	private int age;
 
 	private Gender gender;
-	
+
 	private Set<Integer> interestSet = new TreeSet<Integer>();
 
 	public String getId() {
@@ -52,7 +52,7 @@ public class Profile implements Serializable {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
+
 	public Set<Integer> getInterestSet() {
 		return interestSet;
 	}

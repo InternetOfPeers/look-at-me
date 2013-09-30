@@ -61,7 +61,7 @@ public interface CurrentState {
 	Statistics getStatistics();
 
 	void addVisitSet(String profileId);
-	
+
 	boolean checkInterestMatch(BasicProfile profile);
 
 }
