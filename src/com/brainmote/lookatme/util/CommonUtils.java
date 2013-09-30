@@ -105,6 +105,7 @@ public class CommonUtils {
 			Thread.sleep(200L);
 			return;
 		} catch (InterruptedException localInterruptedException) {
+			Log.d("Fallito sleep: " + localInterruptedException);
 		}
 	}
 

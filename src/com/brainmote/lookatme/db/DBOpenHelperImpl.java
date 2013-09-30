@@ -157,7 +157,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	}
 
 	@Override
-	public void close() {
+	public synchronized void close() {
 
 		this.close();
 
@@ -315,9 +315,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
 			Log.e("error on deleting specific Image : " + e.getMessage() + " image ID:" + profileID);
-		} finally {
 		}
-
 	}
 
 	public FullProfile getMyFullProfile() {
@@ -498,9 +496,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
 			Log.e("error on deleting specific Image : " + e.getMessage() + " image ID:" + profileImageId);
-		} finally {
 		}
-
 	}
 
 	@Override
@@ -610,7 +606,6 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
 			Log.e("error on deleting conversation messages : " + e.getMessage() + " conversation ID:" + conversationId);
-		} finally {
 		}
 	}
 
@@ -626,7 +621,6 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.insert(TABLE_MESSAGES, null, contentValues);
 		} catch (Throwable e) {
 			Log.e("error on saving message : " + e.getMessage() + " conversation ID:" + conversationID);
-		} finally {
 		}
 	}
 
@@ -739,9 +733,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.delete(table_name, where, whereArgs);
 		} catch (Throwable e) {
 			Log.e("error on deleting specific Interest : " + e.getMessage() + " interest ID:" + interestId);
-		} finally {
 		}
-
 	}
 
 	private static Profile valorizeProfile(Profile profile, Cursor cursor) {
