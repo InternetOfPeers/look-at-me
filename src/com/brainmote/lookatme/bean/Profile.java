@@ -1,7 +1,8 @@
 package com.brainmote.lookatme.bean;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.brainmote.lookatme.enumattribute.Gender;
 
@@ -15,7 +16,8 @@ public class Profile implements Serializable {
 	private int age;
 
 	private Gender gender;
-	private List<String> tags;
+	
+	private Set<Integer> interestSet = new TreeSet<Integer>();
 
 	public String getId() {
 		return id;
@@ -43,20 +45,20 @@ public class Profile implements Serializable {
 		this.gender = Gender.parse(sex);
 	}
 
-	public List<String> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<String> tags) {
-		this.tags = tags;
-	}
-
 	public int getAge() {
 		return age;
 	}
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+	
+	public Set<Integer> getInterestSet() {
+		return interestSet;
+	}
+
+	public void setInterestSet(Set<Integer> interestSet) {
+		this.interestSet = interestSet;
 	}
 
 }

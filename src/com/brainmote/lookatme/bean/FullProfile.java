@@ -2,8 +2,6 @@ package com.brainmote.lookatme.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class FullProfile extends BasicProfile {
 
@@ -24,8 +22,6 @@ public class FullProfile extends BasicProfile {
 	private String job;
 	private String myDescription;
 	private String motto;
-
-	private Set<Integer> interestSet = new TreeSet<Integer>();
 
 	public String getName() {
 		return name;
@@ -149,14 +145,6 @@ public class FullProfile extends BasicProfile {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Set<Integer> getInterestSet() {
-		return interestSet;
-	}
-
-	public void setInterestSet(Set<Integer> interestSet) {
-		this.interestSet = interestSet;
 	}
 
 	// public void addInterest(Interest interest) {

@@ -175,5 +175,23 @@ public class CurrentStateImpl implements CurrentState {
 		// salvo nel DB
 		DBOpenHelperImpl.getInstance(getContext()).addVisit(profileId);
 	}
+	
+	@Override
+	public boolean checkInterestMatch(BasicProfile profile) {
+		boolean perfectMatch = false;
+		if (getInterestSet() != null && profile.getInterestSet() != null) {
+			int match = 0;
+			for (Integer myInterest : getInterestSet()) {
+				if (profile.getInterestSet().contains(myInterest)) {
+					match++;
+				}
+			}
+			int difference = getInterestSet().size() - profile.getInterestSet().size();
+			if (match > 0 && Math.abs(difference) <= 1) {
+				perfectMatch = true;
+			}
+		}
+		return perfectMatch;
+	}
 
 }

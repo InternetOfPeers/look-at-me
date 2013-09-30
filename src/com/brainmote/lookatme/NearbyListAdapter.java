@@ -65,6 +65,10 @@ public class NearbyListAdapter extends BaseAdapter {
 		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
 		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
 		photoImage.setImageBitmap(croppedImageProfile);
+		// Se gli interessi matchano allora evidenzio il profilo
+		if (Services.currentState.checkInterestMatch(profile)) {
+			photoImage.setBackgroundResource(R.drawable.image_borders_match);
+		}
 		// Imposto i liked
 		ImageView likedImage = (ImageView) convertView.findViewById(R.id.imageLiked);
 		if (Services.currentState.getLikedSet().contains(getItem(position).getProfile().getId())) {
