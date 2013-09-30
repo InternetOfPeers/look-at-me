@@ -254,6 +254,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// Can sometimes happen when getX() and getY() is called
+			com.brainmote.lookatme.util.Log.d("Fallito doppio click: " + e.toString());
 		}
 
 		return true;

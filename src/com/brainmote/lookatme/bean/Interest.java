@@ -62,8 +62,8 @@ public class Interest implements Comparable<Interest> {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		return Integer.valueOf(this.getId()).equals(Integer.valueOf(((Interest) o).getId()));
+	public boolean equals(Object object) {
+		return this == object || Integer.valueOf(this.getId()).equals(Integer.valueOf(((Interest) object).getId()));
 	}
 
 }
