@@ -701,7 +701,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		// ancora esistono e quali no
 		Cursor cursor = null;
 		try {
-			cursor = database.rawQuery("TRUNCATE TABLE " + TABLE_INTERESTS, new String[] {});
+			cursor = database.rawQuery("DELETE FROM " + TABLE_INTERESTS, new String[] {});
 		}
 		catch (Throwable e) {
 			Log.e("error on loading interests : " + e.getMessage());
