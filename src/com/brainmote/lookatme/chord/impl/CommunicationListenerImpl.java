@@ -19,7 +19,9 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		Services.currentState.getConversationsStore().updateConversationsByNode(node);
 		Services.event.post(new Event(EventType.BASIC_PROFILE_RECEIVED, node.getId()));
 		if (Services.currentState.checkInterestMatch((BasicProfile) node.getProfile())) {
-			Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(node.getId()));
+			// La notifica disturba in quanto viene inviata in continuazione
+			// Quando ci saranno liste distinte non avrà neppure senso
+			//Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(node.getId()));
 			Services.event.post(new Event(EventType.INTEREST_MATCH, node.getId()));
 		}
 	}
