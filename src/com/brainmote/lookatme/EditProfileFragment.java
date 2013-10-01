@@ -29,8 +29,8 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.BasicProfile;
+import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelper;
@@ -290,13 +290,14 @@ public class EditProfileFragment extends Fragment {
 
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
-			
-			//TOFIX Se il servizio è spento qui va in eccezione
+
+			// TOFIX Se il servizio è spento qui va in eccezione
 			Services.businessLogic.notifyMyProfileIsUpdated();
-			
+
 			switchToUpdateAccount(savedProfile);
-			
-			// ora che ho aggiornato il profilo devo vedere se gli interessi matchano con quelli degli altri
+
+			// ora che ho aggiornato il profilo devo vedere se gli interessi
+			// matchano con quelli degli altri
 			for (Node node : Services.currentState.getSocialNodeMap().getNodeList()) {
 				if (Services.currentState.checkInterestMatch((BasicProfile) node.getProfile())) {
 					Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(node.getId()));

@@ -55,22 +55,30 @@ public class ProfileImage implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null) {
-			return false;
-		}
-		ProfileImage profileImage = (ProfileImage) o;
-		if (this.getImage().length != profileImage.getImage().length) {
-			return false;
-		}
-		for (int i = 0; i < this.getImage().length; i++) {
-			if (this.getImage()[i] != profileImage.getImage()[i]) {
+	public boolean equals(Object profileImage) {
+		if (!(profileImage instanceof ProfileImage)) {
+			if (this == profileImage)
+				return true;
+			if (profileImage == null) {
 				return false;
 			}
+			ProfileImage tmpProfileImage = (ProfileImage) profileImage;
+			if (this.getImage().length != tmpProfileImage.getImage().length) {
+				return false;
+			}
+			for (int i = 0; i < this.getImage().length; i++) {
+				if (this.getImage()[i] != tmpProfileImage.getImage()[i]) {
+					return false;
+				}
+			}
+			return true;
 		}
-		return true;
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 
 }

@@ -197,7 +197,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		} else {
 			database.update(TABLE_PROFILES, contentValues, TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profile.getId() });
 		}
-		
+
 		saveInterests(Services.currentState.getInterestSet());
 
 		if (profile.getProfileImages() != null && !profile.getProfileImages().isEmpty()) {
@@ -697,13 +697,13 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	@Override
 	public void saveInterests(Set<Integer> interestsSet) {
-		// cancello tutti gi interessi e li reinserisco, piuttosto che andare a vedere quali
+		// cancello tutti gi interessi e li reinserisco, piuttosto che andare a
+		// vedere quali
 		// ancora esistono e quali no
 		Cursor cursor = null;
 		try {
 			cursor = database.rawQuery("DELETE FROM " + TABLE_INTERESTS, new String[] {});
-		}
-		catch (Throwable e) {
+		} catch (Throwable e) {
 			Log.e("error on loading interests : " + e.getMessage());
 		} finally {
 			if (!cursor.isClosed())
