@@ -11,18 +11,22 @@ public class FakeUserStefano extends FakeUserGenericImpl {
 
 	public FakeUserStefano(Context context) {
 		super(context);
-		profile.setNickname("Ste");
+		profile.setNickname("Svalvolo");
 		profile.setName("Stefano");
 		profile.setSurname("Pirone");
-		profile.setStatus("");
-		profile.setAge(35);
+		profile.setStatus("If something can go wrong it will");
+		profile.setAge(30);
 		profile.setGender("Male");
-		profile.setMainProfileImage(createProfileImage(context, "fake_user_profile_image_1.jpg"));
+		profile.setMainProfileImage(createProfileImage(context, "stefano_profile_image_1.jpg"));
 		List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_1.jpg"));
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_2.jpg"));
-		profileImages.add(createProfileImage(context, "fake_user_profile_image_3.jpg"));
+		profileImages.add(createProfileImage(context, "stefano_profile_image_1.jpg"));
+		profileImages.add(createProfileImage(context, "stefano_profile_image_2.jpg"));
 		profile.setProfileImages(profileImages);
+		answers = new ArrayList<String>();
+		answers.add("Hi dude, nice to meet you.");
+		answers.add("Hi, I'm Stefano and I'm one of the developer of these app..you can use to chatvand meet people around you...it's fun!");
+		answers.add("My favourite hobbies are technology stuff and music...I play music..I'm a bass player..and what are your favourite intetest?");
+		answers.add("Sorry dude it's time to go...maybe we can meet another time on look@me....see you");
 	}
 
 }
