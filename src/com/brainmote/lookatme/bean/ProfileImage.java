@@ -54,31 +54,48 @@ public class ProfileImage implements Serializable {
 		this.isMainImage = isMainImage;
 	}
 
-	@Override
-	public boolean equals(Object profileImage) {
-		if (!(profileImage instanceof ProfileImage)) {
-			if (this == profileImage)
-				return true;
-			if (profileImage == null) {
-				return false;
-			}
-			ProfileImage tmpProfileImage = (ProfileImage) profileImage;
-			if (this.getImage().length != tmpProfileImage.getImage().length) {
-				return false;
-			}
-			for (int i = 0; i < this.getImage().length; i++) {
-				if (this.getImage()[i] != tmpProfileImage.getImage()[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean equals(Object profileImage) {
+//		if (!(profileImage instanceof ProfileImage)) {
+//			if (this == profileImage)
+//				return true;
+//			if (profileImage == null) {
+//				return false;
+//			}
+//			ProfileImage tmpProfileImage = (ProfileImage) profileImage;
+//			if (this.getImage().length != tmpProfileImage.getImage().length) {
+//				return false;
+//			}
+//			for (int i = 0; i < this.getImage().length; i++) {
+//				if (this.getImage()[i] != tmpProfileImage.getImage()[i]) {
+//					return false;
+//				}
+//			}
+//			return true;
+//		}
+//		return false;
+//	}
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProfileImage other = (ProfileImage) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }
