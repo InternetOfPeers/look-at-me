@@ -84,4 +84,17 @@ public interface BusinessLogicService {
 	 */
 	void setResponseIfConversationIsFake(ChatConversation conversation);
 
+	/**
+	 * Aggiunge i developers all'elenco degli utenti visibili
+	 * 
+	 * @param context
+	 */
+	void addDevelopers(Context context);
+
+	/**
+	 * Rimuove i developers dall'elenco degli utenti visibili
+	 * 
+	 */
+	void removeDevelopers();
+
 }

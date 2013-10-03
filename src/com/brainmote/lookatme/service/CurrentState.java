@@ -8,7 +8,7 @@ import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
-import com.brainmote.lookatme.util.SocialNodeMap;
+import com.brainmote.lookatme.chord.SocialNodeMap;
 
 public interface CurrentState {
 
@@ -18,11 +18,15 @@ public interface CurrentState {
 
 	ConversationStore getConversationsStore();
 
+	void removeFromConversationsStore(Node node);
+
 	SocialNodeMap getSocialNodeMap();
 
 	void putSocialNodeInMap(Node node);
 
 	void removeSocialNodeFromMap(String nodeName);
+
+	void removeSocialNodeFromMap(Node node);
 
 	Set<String> getILikeSet();
 

@@ -9,4 +9,7 @@ public interface ConversationStore extends Map<String, ChatConversation> {
 
 	void updateConversationsByNode(Node node);
 
+	String calculateConversationId(String myProfileId, String otherProfileId);
+
+	void removeConversation(String myProfileId, String otherProfileId);
 }

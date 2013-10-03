@@ -51,13 +51,6 @@ public class CommonUtils {
 		return out.toByteArray();
 	}
 
-	public static String getConversationId(String myId, String otherProfileId) {
-		if (myId.compareTo(otherProfileId) < 0)
-			return myId + "_" + otherProfileId;
-		else
-			return otherProfileId + "_" + myId;
-	}
-
 	/**
 	 * Get a diff between two dates
 	 * 

@@ -9,7 +9,6 @@ import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.EventType;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.CommonUtils;
 
 public class CommunicationListenerImpl implements CommunicationListener {
 
@@ -21,7 +20,8 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		if (Services.currentState.checkInterestMatch((BasicProfile) node.getProfile())) {
 			// La notifica disturba in quanto viene inviata in continuazione
 			// Quando ci saranno liste distinte non avrà neppure senso
-			//Services.notification.perfectMatch(Services.currentState.getContext(), Services.currentState.getNickname(node.getId()));
+			// Services.notification.perfectMatch(Services.currentState.getContext(),
+			// Services.currentState.getNickname(node.getId()));
 			Services.event.post(new Event(EventType.INTEREST_MATCH, node.getId()));
 		}
 	}
@@ -65,7 +65,7 @@ public class CommunicationListenerImpl implements CommunicationListener {
 		String otherNickName = otherProfile.getNickname();
 		String otherProfileId = otherProfile.getId();
 		BasicProfile myProfile = Services.currentState.getMyBasicProfile();
-		String conversationId = CommonUtils.getConversationId(myProfile.getId(), otherProfileId);
+		String conversationId = Services.currentState.getConversationsStore().calculateConversationId(myProfile.getId(), otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
 		if (conversation == null || conversation.isEmpty())
 			conversation = new ChatConversationImpl(conversationId, otherProfile);

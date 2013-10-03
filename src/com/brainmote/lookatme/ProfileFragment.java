@@ -31,7 +31,6 @@ import com.brainmote.lookatme.enumattribute.Country;
 import com.brainmote.lookatme.enumattribute.Gender;
 import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.ImageUtil;
 import com.brainmote.lookatme.util.Log;
 import com.brainmote.lookatme.util.Nav;
@@ -257,7 +256,7 @@ public class ProfileFragment extends Fragment {
 				Bundle parameters = new Bundle();
 				parameters.putString(
 						Nav.CONVERSATION_KEY_ID,
-						CommonUtils.getConversationId(Services.currentState.getMyBasicProfile().getId(),
+						Services.currentState.getConversationsStore().calculateConversationId(Services.currentState.getMyBasicProfile().getId(),
 								Services.currentState.getSocialNodeMap().getProfileIdByNodeId(profileNode.getId())));
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}

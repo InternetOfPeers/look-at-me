@@ -9,16 +9,17 @@ import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Statistics;
 import com.brainmote.lookatme.chord.Node;
+import com.brainmote.lookatme.chord.SocialNodeMap;
+import com.brainmote.lookatme.chord.impl.SocialNodeMapImpl;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.service.ConversationStore;
 import com.brainmote.lookatme.service.CurrentState;
-import com.brainmote.lookatme.util.SocialNodeMap;
 
 public class CurrentStateImpl implements CurrentState {
 
 	private ConversationStore conversationsStore = new ConversationStoreImpl();
 
-	private SocialNodeMap socialNodeMap = new SocialNodeMap();
+	private SocialNodeMap socialNodeMap = new SocialNodeMapImpl();
 
 	private Set<String> iLikeSet = new TreeSet<String>();
 
@@ -60,6 +61,11 @@ public class CurrentStateImpl implements CurrentState {
 	@Override
 	public void removeSocialNodeFromMap(String nodeId) {
 		socialNodeMap.remove(nodeId);
+	}
+
+	@Override
+	public void removeSocialNodeFromMap(Node node) {
+		socialNodeMap.remove(node);
 	}
 
 	@Override
@@ -138,13 +144,13 @@ public class CurrentStateImpl implements CurrentState {
 
 	@Override
 	public void reset() {
-		this.socialNodeMap = new SocialNodeMap();
-		this.conversationsStore = new ConversationStoreImpl();
-		this.profileViewed = null;
+		socialNodeMap = new SocialNodeMapImpl();
+		profileViewed = null;
 		// this.iLikeSet = new TreeSet<String>();
 		// this.likedSet = new TreeSet<String>();
 		// this.interestList = new TreeSet<Interest>();
 		// TODO: salvare le conversazioni appese?
+		conversationsStore = new ConversationStoreImpl();
 	}
 
 	@Override
@@ -200,6 +206,11 @@ public class CurrentStateImpl implements CurrentState {
 			}
 		}
 		return perfectMatch;
+	}
+
+	@Override
+	public void removeFromConversationsStore(Node node) {
+		conversationsStore.removeConversation(getMyBasicProfile().getId(), node.getProfile().getId());
 	}
 
 }

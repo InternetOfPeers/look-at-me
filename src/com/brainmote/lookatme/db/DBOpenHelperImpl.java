@@ -23,7 +23,6 @@ import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Profile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.bean.Statistics;
-import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.google.common.base.Optional;

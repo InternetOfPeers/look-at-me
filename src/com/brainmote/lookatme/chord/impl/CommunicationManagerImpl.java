@@ -19,7 +19,6 @@ import com.brainmote.lookatme.chord.MessageType;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.chord.InvalidInterfaceException;
@@ -261,10 +260,10 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					break;
 				case START_CHAT_MESSAGE:
 					Log.d("Ricevuta richiesta di start chat");
-					String myId = Services.currentState.getMyBasicProfile().getId();
+					String myProfileId = Services.currentState.getMyBasicProfile().getId();
 					if (Services.currentState.getSocialNodeMap().containsNode(senderNodeId)) {
 						String profileId = Services.currentState.getSocialNodeMap().getProfileIdByNodeId(senderNodeId);
-						String chatChannelName = CommonUtils.getConversationId(myId, profileId);
+						String chatChannelName = Services.currentState.getConversationsStore().calculateConversationId(myProfileId, profileId);
 						joinChatChannel(chatChannelName);
 					} else {
 						Log.d("PROFILO DI DESTINAZIONE NON PRESENTE IN TABELLA");
@@ -456,12 +455,12 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		String myProfileId = Services.currentState.getMyBasicProfile().getId();
 		BasicProfile otherProfile = (BasicProfile) Services.currentState.getSocialNodeMap().findNodeByNodeId(withNode).getProfile();
 		String otherProfileId = otherProfile.getId();
-		String conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
+		String conversationId = Services.currentState.getConversationsStore().calculateConversationId(myProfileId, otherProfileId);
 		ChatConversation conversation = Services.currentState.getConversationsStore().get(conversationId);
 		// Se una conversazione con lo stesso id non è mai stata iniziata, la
 		// crea
 		if (conversation == null) {
-			conversationId = CommonUtils.getConversationId(myProfileId, otherProfileId);
+			conversationId = Services.currentState.getConversationsStore().calculateConversationId(myProfileId, otherProfileId);
 			Services.businessLogic.storeConversation(new ChatConversationImpl(conversationId, otherProfile));
 		}
 		// Effettua il join al canale prescelto per la chat

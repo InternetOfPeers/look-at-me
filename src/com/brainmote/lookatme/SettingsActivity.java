@@ -28,7 +28,6 @@ public class SettingsActivity extends CommonActivity {
 				if (enable) {
 					// Stop del servizio di comunicazione
 					Services.businessLogic.stop(getApplicationContext());
-					Services.currentState.reset();
 					// Mostro il warning sulla barra di menu
 					MenuItem menuItem = menu.findItem(R.id.action_offline_mode);
 					if (menuItem == null) {
@@ -42,7 +41,6 @@ public class SettingsActivity extends CommonActivity {
 					menuItem.setEnabled(false);
 				} else {
 					// Start del servizio di comunicazione
-					Services.currentState.reset();
 					Services.businessLogic.start(getApplicationContext());
 					// Nascondo il warning sulla barra di menu
 					MenuItem menuItem = menu.findItem(R.id.action_offline_mode);
@@ -62,6 +60,13 @@ public class SettingsActivity extends CommonActivity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				getSharedPreferences(AppSettings.USER_PREFERENCES, MODE_PRIVATE).edit().putBoolean(AppSettings.IN_APP_CREDITS, isChecked).commit();
+				if (isChecked) {
+					// Aggiungo dinamicamente i developers
+					Services.businessLogic.addDevelopers(getApplicationContext());
+				} else {
+					// Rimuovo dinamicamente i developers
+					Services.businessLogic.removeDevelopers();
+				}
 			}
 		});
 	};

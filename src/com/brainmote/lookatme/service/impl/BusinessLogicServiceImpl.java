@@ -51,6 +51,9 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 	@Override
 	public void start(Context context) {
 		Log.i();
+		// Azzero per sicurezza lo stato iniziale dell'app
+		Services.currentState.reset();
+		// Avvio il servizio
 		context.startService(new Intent(SERVICE_START));
 		isRunning = true;
 		try {
@@ -59,14 +62,11 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 			}
 			communicationManager.startCommunication();
 		} catch (CustomException e) {
-			e.printStackTrace();
+			Log.d(e.toString());
 		}
 		// Verifico se è attiva l'opzione dei credits in app
 		if (isCreditsInAppEnabled(context)) {
-			addFakeUser(new FakeUserGiuseppe(context));
-			addFakeUser(new FakeUserCarlo(context));
-			addFakeUser(new FakeUserStefano(context));
-			addFakeUser(new FakeUserRiccardo(context));
+			addDevelopers(context);
 			// Se necessario creo ulteriori fake user
 			if (AppSettings.needMoreFakeUsers) {
 				for (int i = 0; i < AppSettings.moreFakeUsers; i++) {
@@ -75,6 +75,14 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 			}
 		}
 
+	}
+
+	@Override
+	public void addDevelopers(Context context) {
+		addFakeUser(new FakeUserGiuseppe(context));
+		addFakeUser(new FakeUserCarlo(context));
+		addFakeUser(new FakeUserStefano(context));
+		addFakeUser(new FakeUserRiccardo(context));
 	}
 
 	/**
@@ -101,6 +109,7 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 			communicationManager.stopCommunication();
 		context.stopService(new Intent(SERVICE_STOP));
 		isRunning = false;
+		Services.currentState.reset();
 	}
 
 	/**
@@ -314,6 +323,16 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 				}
 			}, AppSettings.FAKE_USER_CHAT_RESPONSE_TIME + new Random().nextInt(AppSettings.FAKE_USER_CHAT_RESPONSE_TIME_OFFSET + 1));
 		}
+	}
+
+	@Override
+	public void removeDevelopers() {
+		for (FakeUser fakeUser : fakeUsers.values()) {
+			Node node = fakeUser.getNode();
+			Services.currentState.removeSocialNodeFromMap(node);
+			Services.currentState.removeFromConversationsStore(node);
+		}
+		fakeUsers.clear();
 	}
 
 }

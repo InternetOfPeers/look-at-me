@@ -26,4 +26,17 @@ public class ConversationStoreImpl extends HashMap<String, ChatConversation> imp
 		}
 	}
 
+	@Override
+	public String calculateConversationId(String myId, String otherProfileId) {
+		if (myId.compareTo(otherProfileId) < 0)
+			return myId + "_" + otherProfileId;
+		else
+			return otherProfileId + "_" + myId;
+	}
+
+	@Override
+	public void removeConversation(String myProfileId, String otherProfileId) {
+		remove(calculateConversationId(myProfileId, otherProfileId));
+	}
+
 }

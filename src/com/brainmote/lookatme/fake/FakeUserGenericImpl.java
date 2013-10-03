@@ -2,7 +2,6 @@ package com.brainmote.lookatme.fake;
 
 import static com.brainmote.lookatme.util.ImageUtil.bitmapToByteArray;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.enumattribute.Interest;
-import com.brainmote.lookatme.util.CommonUtils;
+import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.ImageUtil;
 
 public class FakeUserGenericImpl implements FakeUser {
@@ -83,13 +82,13 @@ public class FakeUserGenericImpl implements FakeUser {
 			is = context.getAssets().open(imageFile);
 			Bitmap BitmapImageScaled = ImageUtil.scaleImage(BitmapFactory.decodeStream(is), ImageUtil.DEFAULT_SIZE_IN_DP);
 			profileImage.setImage(bitmapToByteArray(BitmapImageScaled));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				if (is != null)
 					is.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -103,7 +102,7 @@ public class FakeUserGenericImpl implements FakeUser {
 
 	@Override
 	public ChatConversation getConversation(String myProfileId) {
-		return new ChatConversationImpl(CommonUtils.getConversationId(myProfileId, profile.getId()), profile);
+		return new ChatConversationImpl(Services.currentState.getConversationsStore().calculateConversationId(myProfileId, profile.getId()), profile);
 	}
 
 	@Override
