@@ -163,7 +163,9 @@ public class EditProfileActivity extends CommonActivity {
     }
 
 	private void imageSelectedFromCamera() {
-		Bitmap photo = BitmapFactory.decodeFile(imageFromCamera.getAbsolutePath());
+		
+		Bitmap photo = ImageUtil.loadBitmap(imageFromCamera.getAbsolutePath());
+		//Bitmap photo = BitmapFactory.decodeFile(imageFromCamera.getAbsolutePath());
 		if (photo == null) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_unable_to_load_image));
 			return;
