@@ -2,7 +2,6 @@ package com.brainmote.lookatme;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brainmote.lookatme.bean.ChatMessage;
-import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.FormatUtils;
-import com.brainmote.lookatme.util.ImageUtil;
 
 public class ChatMessagesListAdapter extends BaseAdapter {
 	private ChatConversation conversation;
@@ -45,25 +42,26 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = layoutInflater.inflate(R.layout.fragment_chat_messages_list_item, null);
 		}
-		int backgroundResId;
-		Bitmap profileImageBitmap;
 		ChatMessage message = getItem(position);
-		// Imposto il background
-		if (message.isMine()) {
-			profileImageBitmap = ImageUtil.bitmapForCustomThumbnail(Services.currentState.getMyBasicProfile().getMainProfileImage().getImageBitmap(), Services.currentState
-					.getContext().getResources().getDimensionPixelSize(R.dimen.chat_conversations_list_thumbnail_size));
-			backgroundResId = R.drawable.right_message_bg;
-		} else {
-			backgroundResId = R.drawable.left_message_bg;
-			profileImageBitmap = conversation.getImageBitmap();
-		}
-		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
-		photoImage.setImageBitmap(profileImageBitmap);
-		convertView.setBackgroundResource(backgroundResId);
-		TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
-		lastMessageText.setText(message.getText());
+		// TODO Se necessario mostra il timestamp del messaggio
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
 		lastMessageDate.setText(FormatUtils.formatMessageTimestamp(message));
+		// Effettuo operazioni differenti a seconda che sia un messaggio
+		// dell'utente o di un'altro
+		TextView lastMessageText;
+		if (message.isMine()) {
+			// Seleziono il layout corretto da visualizzare
+			convertView.findViewById(R.id.me).setVisibility(View.VISIBLE);
+			convertView.findViewById(R.id.other).setVisibility(View.GONE);
+			lastMessageText = (TextView) convertView.findViewById(R.id.myLastMessageText);
+		} else {
+			convertView.findViewById(R.id.me).setVisibility(View.GONE);
+			convertView.findViewById(R.id.other).setVisibility(View.VISIBLE);
+			ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
+			photoImage.setImageBitmap(conversation.getImageBitmap());
+			lastMessageText = (TextView) convertView.findViewById(R.id.otherLastMessageText);
+		}
+		lastMessageText.setText(message.getText());
 		return convertView;
 	}
 }
