@@ -266,6 +266,7 @@ public class EditProfileFragment extends Fragment {
 			profile.setSurname(surnameScreen.getText().toString());
 			profile.setNickname(nicknameScreen.getText().toString());
 			profile.setId(profileId);
+			profile.setInterestSet(Services.currentState.getInterestSet());
 			String age = (String) spinnerAge.getSelectedItem();
 			if (age != null && !age.isEmpty() && !age.equals(getString(R.string.edit_profile_spinner_age_prompt)))
 				profile.setAge(Integer.valueOf(age));

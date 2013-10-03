@@ -198,7 +198,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			database.update(TABLE_PROFILES, contentValues, TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profile.getId() });
 		}
 
-		saveInterests(Services.currentState.getInterestSet());
+		saveInterests(profile.getInterestSet());
 
 		if (profile.getProfileImages() != null && !profile.getProfileImages().isEmpty()) {
 			Iterator<ProfileImage> iter = profile.getProfileImages().iterator();
