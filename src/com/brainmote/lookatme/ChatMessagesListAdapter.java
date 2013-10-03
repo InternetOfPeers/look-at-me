@@ -1,7 +1,5 @@
 package com.brainmote.lookatme;
 
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 
 import com.brainmote.lookatme.bean.ChatMessage;
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.CommonUtils;
+import com.brainmote.lookatme.util.FormatUtils;
 import com.brainmote.lookatme.util.ImageUtil;
 
 public class ChatMessagesListAdapter extends BaseAdapter {
@@ -65,8 +63,7 @@ public class ChatMessagesListAdapter extends BaseAdapter {
 		TextView lastMessageText = (TextView) convertView.findViewById(R.id.lastMessageText);
 		lastMessageText.setText(message.getText());
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
-		String timeElapsed = CommonUtils.timeElapsed(message.getTimestamp(), new Date(System.currentTimeMillis()));
-		lastMessageDate.setText(timeElapsed);
+		lastMessageDate.setText(FormatUtils.formatMessageTimestamp(message));
 		return convertView;
 	}
 }

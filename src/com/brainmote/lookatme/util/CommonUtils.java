@@ -4,10 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -49,35 +47,6 @@ public class CommonUtils {
 		}
 
 		return out.toByteArray();
-	}
-
-	/**
-	 * Get a diff between two dates
-	 * 
-	 * @param date1
-	 *            the oldest date
-	 * @param date2
-	 *            the newest date
-	 * @param timeUnit
-	 *            the unit in which you want the diff
-	 * @return the diff value, in the provided unit
-	 */
-	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-		long diffInMillies = date2.getTime() - date1.getTime();
-		return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
-	}
-
-	public static String timeElapsed(Date date1, Date date2) {
-		Long diff = getDateDiff(date1, date2, TimeUnit.SECONDS);
-		if (diff <= 60)
-			return "now";
-		else if (getDateDiff(date1, date2, TimeUnit.MINUTES) <= 60)
-			return getDateDiff(date1, date2, TimeUnit.MINUTES) + " minutes ago";
-		else if (getDateDiff(date1, date2, TimeUnit.DAYS) <= 7)
-			return getDateDiff(date1, date2, TimeUnit.MINUTES) + " days ago";
-		else {
-			return new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
-		}
 	}
 
 	public static boolean isEmulator() {
@@ -161,4 +130,5 @@ public class CommonUtils {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		return (Boolean) Optional.fromNullable(Reflection.invokeMethod_NoParameters_ReturnObject(wifiManager, "isWifiApEnabled")).or(false);
 	}
+
 }

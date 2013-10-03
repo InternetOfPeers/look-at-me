@@ -1,7 +1,6 @@
 package com.brainmote.lookatme;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brainmote.lookatme.service.Services;
-import com.brainmote.lookatme.util.CommonUtils;
+import com.brainmote.lookatme.util.FormatUtils;
 
 public class ChatConversationsListAdapter extends BaseAdapter {
 
@@ -64,8 +63,7 @@ public class ChatConversationsListAdapter extends BaseAdapter {
 		// Mostro il tempo trascorso dall'ultimo messaggio ricevuto nella
 		// conversazione
 		TextView lastMessageDate = (TextView) convertView.findViewById(R.id.lastMessageDate);
-		String timeElapsed = CommonUtils.timeElapsed(conversation.getLastMessageTimestamp(), new Date(System.currentTimeMillis()));
-		lastMessageDate.setText(timeElapsed);
+		lastMessageDate.setText(FormatUtils.formatConversationTimestamp(conversation));
 		// Imposto l'immagine del profilo
 		ImageView photoImage = (ImageView) convertView.findViewById(R.id.profilePhotoImage);
 		photoImage.setImageBitmap(conversation.getImageBitmap());
