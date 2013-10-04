@@ -699,7 +699,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		// cancello tutti gi interessi e li reinserisco, piuttosto che andare a
 		// vedere quali
 		// ancora esistono e quali no
-		database.execSQL("DELETE FROM "+ TABLE_INTERESTS);
+		database.execSQL("DELETE FROM " + TABLE_INTERESTS);
 		Iterator<Integer> iter = interestsSet.iterator();
 		while (iter.hasNext())
 			saveInterest(iter.next());

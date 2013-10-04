@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,7 +23,7 @@ import com.brainmote.lookatme.util.Log;
 public class EditProfileActivity extends CommonActivity {
 
 	protected static final int PHOTO_PICKED = 0;
-	private static final int CAMERA_REQUEST = 1888; 
+	private static final int CAMERA_REQUEST = 1888;
 	private File imageFromCamera;
 	private EditProfileFragment editProfileFragment;
 
@@ -71,59 +70,52 @@ public class EditProfileActivity extends CommonActivity {
 
 	public void onTakePictureButtonPressed(View view) {
 		try {
-			
-			//ContentValues values = new ContentValues();
-			//values.put(Media.TITLE, "image");
-			//Uri tempPhotoUri = getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
-			//intent.putExtra(MediaStore.EXTRA_OUTPUT, tempPhotoUri);
-			
+
+			// ContentValues values = new ContentValues();
+			// values.put(Media.TITLE, "image");
+			// Uri tempPhotoUri =
+			// getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+			// intent.putExtra(MediaStore.EXTRA_OUTPUT, tempPhotoUri);
+
 			imageFromCamera = createImageFile();
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCamera));
-            startActivityForResult(cameraIntent, CAMERA_REQUEST); 
-             //startActivityForResult(cameraIntent, CAMERA_REQUEST); 
-             
-			//startActivityForResult(Intent.createChooser(cameraIntent, getString(R.string.edit_profile_add_image_select_picture)), CAMERA_REQUEST);
+			Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+			cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCamera));
+			startActivityForResult(cameraIntent, CAMERA_REQUEST);
+			// startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+			// startActivityForResult(Intent.createChooser(cameraIntent,
+			// getString(R.string.edit_profile_add_image_select_picture)),
+			// CAMERA_REQUEST);
 		} catch (Exception e) {
 			Log.e("Errore durante la selezione dell'immagine");
 			e.printStackTrace();
 		}
 	}
 
-	
+	public File getAlbumDir() {
 
-	public File getAlbumDir()
-    {
+		File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BAC/");
+		// Create directories if needed
+		if (!storageDir.exists()) {
+			storageDir.mkdirs();
+		}
 
-        File storageDir = new File(
-                Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES
-                ), 
-                "BAC/"
-            ); 
-         // Create directories if needed
-        if (!storageDir.exists()) {
-            storageDir.mkdirs();
-        }
+		return storageDir;
+	}
 
-        return storageDir;
-    }
-    private File createImageFile() throws IOException {
-        // Create an image file name
+	private File createImageFile() throws IOException {
+		// Create an image file name
 
-        String imageFileName =getAlbumDir().toString() +"/image.jpg";
-        File image = new File(imageFileName);
-        return image;
-    }
-
-
+		String imageFileName = getAlbumDir().toString() + "/image.jpg";
+		File image = new File(imageFileName);
+		return image;
+	}
 
 	public void imageSelectedFromGallery(int requestCode, int resultCode, Intent data) {
 		Log.d("Activity result started with " + requestCode);
 		super.onActivityResult(requestCode, resultCode, data);
 		// Verifico se l'utente ha annullato l'inserimento di una nuova immagine
-		
-			
+
 		Uri selectedImage = data.getData();
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
@@ -148,30 +140,30 @@ public class EditProfileActivity extends CommonActivity {
 		}
 		editProfileFragment.addProfileImage(photo);
 	}
-	
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
-		Log.d("Activity result started with " + requestCode);
-		
-		if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {  
 
-            imageSelectedFromCamera();
-        }
-		else if (requestCode == PHOTO_PICKED && resultCode == Activity.RESULT_OK && data != null){
-			imageSelectedFromGallery(requestCode,resultCode,data);
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.d("Activity result started with " + requestCode);
+
+		if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+
+			imageSelectedFromCamera();
+		} else if (requestCode == PHOTO_PICKED && resultCode == Activity.RESULT_OK && data != null) {
+			imageSelectedFromGallery(requestCode, resultCode, data);
 		}
-		
-    }
+
+	}
 
 	private void imageSelectedFromCamera() {
-		
+
 		Bitmap photo = ImageUtil.loadBitmap(imageFromCamera.getAbsolutePath());
-		//Bitmap photo = BitmapFactory.decodeFile(imageFromCamera.getAbsolutePath());
+		// Bitmap photo =
+		// BitmapFactory.decodeFile(imageFromCamera.getAbsolutePath());
 		if (photo == null) {
 			showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_unable_to_load_image));
 			return;
 		}
 		editProfileFragment.addProfileImage(photo);
-	} 
+	}
 
 	protected void setMainProfileImage(ProfileImage photo) {
 		editProfileFragment.setMainProfileImage(photo);

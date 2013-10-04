@@ -244,7 +244,7 @@ public class EditProfileFragment extends Fragment {
 		try {
 			// Verifico che sia inserito il nickname ed un'immagine di profilo
 			if (nicknameScreen.getText() == null || nicknameScreen.getText().toString().trim().isEmpty() || noPhoto) {
-				if(backToNearby)
+				if (backToNearby)
 					((CommonActivity) getActivity()).showDialog(getString(R.string.message_warning), getString(R.string.edit_profile_message_mandatory_fields_not_set));
 				return;
 			}

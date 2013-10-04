@@ -54,28 +54,6 @@ public class ProfileImage implements Serializable {
 		this.isMainImage = isMainImage;
 	}
 
-//	@Override
-//	public boolean equals(Object profileImage) {
-//		if (!(profileImage instanceof ProfileImage)) {
-//			if (this == profileImage)
-//				return true;
-//			if (profileImage == null) {
-//				return false;
-//			}
-//			ProfileImage tmpProfileImage = (ProfileImage) profileImage;
-//			if (this.getImage().length != tmpProfileImage.getImage().length) {
-//				return false;
-//			}
-//			for (int i = 0; i < this.getImage().length; i++) {
-//				if (this.getImage()[i] != tmpProfileImage.getImage()[i]) {
-//					return false;
-//				}
-//			}
-//			return true;
-//		}
-//		return false;
-//	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
