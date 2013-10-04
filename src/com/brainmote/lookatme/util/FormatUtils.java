@@ -20,8 +20,17 @@ public class FormatUtils {
 	 * @param message
 	 * @return
 	 */
-	public static CharSequence formatMessageTimestamp(ChatMessage message) {
+	public static CharSequence formatMessageShowElapsedTime(ChatMessage message) {
 		return getFormattedTimestamp(message.getTimestamp());
+	}
+
+	/**
+	 * 
+	 * @param message
+	 * @return
+	 */
+	public static CharSequence formatMessageShowTime(ChatMessage message) {
+		return SimpleDateFormat.getDateInstance().format(message.getTimestamp());
 	}
 
 	/**

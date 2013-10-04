@@ -7,11 +7,10 @@
 
     <LinearLayout
         android:id="@+id/me"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp" >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/myLastMessageText"
@@ -23,43 +22,56 @@
             android:singleLine="false"
             android:text="@string/text_chat_message"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/myLastMessageTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:text="@string/void_placeholder"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/other"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingRight="20dp" >
+        android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/profilePhotoImage"
             android:layout_width="@dimen/chat_messages_list_thumbnail_size"
             android:layout_height="@dimen/chat_messages_list_thumbnail_size"
-            android:layout_gravity="top|center"
             android:background="@drawable/image_borders"
             android:contentDescription="@string/text_chat_alt_profile_image"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_profile_image" />
 
-        <TextView
-            android:id="@+id/otherLastMessageText"
+        <LinearLayout
+            android:id="@+id/messageAndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:background="@drawable/chat_bubble_others"
-            android:scrollHorizontally="false"
-            android:singleLine="false"
-            android:text="@string/text_chat_message"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
+            android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/lastMessageDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Divisione con indicazione della data"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/otherLastMessageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/chat_bubble_others"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:text="@string/text_chat_message"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/otherLastMessageTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="@string/void_placeholder"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
