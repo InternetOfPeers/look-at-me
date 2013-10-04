@@ -5,14 +5,6 @@
     android:orientation="vertical"
     android:paddingBottom="10dp" >
 
-    <TextView
-        android:id="@+id/lastMessageDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Divisione con indicazione della data"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
     <LinearLayout
         android:id="@+id/me"
         android:layout_width="match_parent"
@@ -26,8 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="@drawable/right_message_bg"
-            android:paddingLeft="10dp"
+            android:background="@drawable/chat_bubble_me"
             android:scrollHorizontally="false"
             android:singleLine="false"
             android:text="@string/text_chat_message"
@@ -56,12 +47,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:background="@drawable/left_message_bg"
-            android:paddingLeft="10dp"
+            android:background="@drawable/chat_bubble_others"
             android:scrollHorizontally="false"
             android:singleLine="false"
             android:text="@string/text_chat_message"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/lastMessageDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Divisione con indicazione della data"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </LinearLayout>
