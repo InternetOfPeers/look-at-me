@@ -3,46 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:background="@color/verylightgrey"
     tools:context=".ChatMessagesActivity" >
 
     <ListView
         android:id="@+id/chatMessagesListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/sendButton"
+        android:layout_above="@+id/chatFooter"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/sendButton"
         android:divider="@null"
         android:dividerHeight="0dp"
+        android:paddingLeft="6dp"
         android:paddingRight="2dp" />
 
-    <EditText
-        android:id="@+id/messageEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/chatFooter"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="false"
-        android:layout_marginBottom="6dp"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/sendButton"
-        android:hint="@string/hint_chat_message_text"
-        android:inputType="textAutoCorrect|textMultiLine|textLongMessage"
-        android:singleLine="false" />
+        android:background="@color/white" >
 
-    <ImageButton
-        android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/btn_chat_send"
-        android:contentDescription="@string/send_btn"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:src="@drawable/ic_social_send_now"
-        android:text="@string/send_btn" />
+        <EditText
+            android:id="@+id/messageEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="false"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="2dp"
+            android:layout_toLeftOf="@+id/sendButton"
+            android:hint="@string/hint_chat_message_text"
+            android:inputType="textAutoCorrect|textMultiLine|textShortMessage"
+            android:singleLine="false" />
+
+        <ImageButton
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/btn_chat_send"
+            android:contentDescription="@string/send_btn"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_social_send_now"
+            android:text="@string/send_btn" />
+    </RelativeLayout>
 
 </RelativeLayout>

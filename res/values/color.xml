@@ -7,5 +7,6 @@
     <color name="grid_state_focused">#777dbcd3</color>
     <color name="itemPressHighlight">#8033b5e1</color>
     <color name="itemSelectedHighlight">#7066c6f2</color>
+    <color name="verylightgrey">#EEEEEE</color>
 
 </resources>
