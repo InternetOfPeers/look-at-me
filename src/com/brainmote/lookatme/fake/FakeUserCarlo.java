@@ -27,7 +27,7 @@ public class FakeUserCarlo extends FakeUserGenericImpl {
 		answers.add("See you later");
 		answers.add("Don't forget rating this app!!");
 		answers.add("Look@Me it's a new way to know cool people!");
-		answers.add("What are you waiting for? Turn on WiFi and return to search nerby!");
+		answers.add("What are you waiting for? Turn on WiFi and return to search nearby!");
 	}
 
 }
