@@ -8,7 +8,7 @@ import com.brainmote.lookatme.R;
 public enum Interest {
 
 	// Special interest
-	Manage_interest(InterestCategory.NOT_AN_INTEREST),
+	Touch_here_to_manage_interests(InterestCategory.NOT_AN_INTEREST),
 
 	// Categories
 	Sport(InterestCategory.SPORT), Music(InterestCategory.MUSIC), Movie(InterestCategory.MOVIE), Hobby(InterestCategory.HOBBY),

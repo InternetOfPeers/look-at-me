@@ -4,6 +4,7 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +19,18 @@ public class EditProfileInterestGridAdapter extends BaseAdapter {
 
 	private Integer[] interestValues;
 	private Activity activity;
+	private boolean empty;
 
 	public EditProfileInterestGridAdapter(Activity activity, Set<Integer> interestSet, boolean setNotAnInterest) {
 		this.activity = activity;
 		if (interestSet == null || interestSet.size() == 0) {
 			if (setNotAnInterest) {
 				interestValues = new Integer[1];
-				interestValues[0] = Interest.Manage_interest.getValue();
+				interestValues[0] = Interest.Touch_here_to_manage_interests.getValue();
 			} else {
 				interestValues = new Integer[0];
 			}
+			empty = true;
 		} else {
 			Object[] tempArray = interestSet.toArray();
 			interestValues = new Integer[tempArray.length];
@@ -36,7 +39,12 @@ public class EditProfileInterestGridAdapter extends BaseAdapter {
 				Integer value = (Integer) o;
 				interestValues[i] = value;
 			}
+			empty = false;
 		}
+	}
+	
+	public boolean isEmpty() {
+		return empty;
 	}
 
 	@Override
@@ -66,6 +74,10 @@ public class EditProfileInterestGridAdapter extends BaseAdapter {
 		ImageView icon = (ImageView) convertView.findViewById(R.id.imageInterestIcon);
 		Interest interest = Interest.getInterestWithName(description);
 		icon.setImageResource(InterestCategory.getIconOfCategory(interest.getInterestCategory()));
+		if (isEmpty()) {
+			icon.setVisibility(ImageView.GONE);
+			text.setGravity(Gravity.CENTER_HORIZONTAL);
+		}
 		return convertView;
 	}
 

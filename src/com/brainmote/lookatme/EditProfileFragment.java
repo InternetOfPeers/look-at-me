@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -149,7 +150,14 @@ public class EditProfileFragment extends Fragment {
 		}
 
 		ExpandableHeightGridView gridInterest = (ExpandableHeightGridView) view.findViewById(R.id.gridInterestInEdit);
-		gridInterest.setAdapter(new EditProfileInterestGridAdapter(getActivity(), Services.currentState.getInterestSet(), true));
+		EditProfileInterestGridAdapter gridInterestAdapter = new EditProfileInterestGridAdapter(getActivity(), Services.currentState.getInterestSet(), true);
+		if (gridInterestAdapter.isEmpty()) {
+			gridInterest.setNumColumns(1);
+		}
+		else {
+			gridInterest.setNumColumns(GridView.AUTO_FIT);
+		}
+		gridInterest.setAdapter(gridInterestAdapter);
 		gridInterest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
