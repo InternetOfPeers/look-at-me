@@ -2,73 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal" >
+    android:layout_gravity="center_horizontal"
+    android:padding="10dp" >
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="@dimen/manage_image_thumbnail_size"
         android:layout_height="@dimen/manage_image_thumbnail_size"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/image"
         android:contentDescription="@string/profile_selected_image"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_image" />
 
     <LinearLayout
-        android:layout_width="160dp"
-        android:layout_height="85dp"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/image" >
+        android:layout_toRightOf="@id/image"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+        <RadioButton
+            android:id="@+id/radioButtonSetAsMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set as main" />
 
-            <ImageButton
-                android:id="@+id/mainImageButton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:background="#00000000"
-                android:contentDescription="@string/set_as_main"
-                android:scaleType="fitCenter"
-                android:src="@drawable/main_photo" />
+        <RadioButton
+            android:id="@+id/radioButtonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete image" />
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="@string/set_as_main"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <ImageButton
-                android:id="@+id/deleteImageButton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:background="#00000000"
-                android:contentDescription="@string/delete"
-                android:scaleType="fitCenter"
-                android:src="@drawable/delete_photo" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="@string/delete"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

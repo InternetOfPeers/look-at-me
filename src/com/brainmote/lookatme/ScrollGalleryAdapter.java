@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.view.Display;
@@ -14,8 +16,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.db.DBOpenHelper;
@@ -87,63 +91,86 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			final Dialog dialog = new Dialog(activity);
-			dialog.setContentView(R.layout.dialog_manage_image);
-			dialog.setTitle(activity.getResources().getString(R.string.dialog_image_management));
+			AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = layoutInflater.inflate(R.layout.dialog_manage_image, null);
+			dialogBuilder.setView(view);
+			dialogBuilder.setTitle(activity.getResources().getString(R.string.dialog_image_management));
 			Bitmap thumbnailBitmap = ImageUtil.bitmapForCustomThumbnail(clickedImage.getImageBitmap(), Services.currentState.getContext().getResources()
 					.getDimensionPixelSize(R.dimen.manage_image_thumbnail_size));
-			ImageView image = (ImageView) dialog.findViewById(R.id.image);
+			ImageView image = (ImageView) view.findViewById(R.id.image);
 			image.setImageBitmap(thumbnailBitmap);
-
-			ImageButton mainImageButton = (ImageButton) dialog.findViewById(R.id.mainImageButton);
-			mainImageButton.setOnClickListener(new OnClickListener() {
+			final RadioButton radioSetAsMain = (RadioButton) view.findViewById(R.id.radioButtonSetAsMain);
+			final RadioButton radioDelete = (RadioButton) view.findViewById(R.id.radioButtonDelete);
+			radioSetAsMain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				
 				@Override
-				public void onClick(View v) {
-					dialog.dismiss();
-					Iterator<ProfileImage> iter = imageList.iterator();
-					while (iter.hasNext()) {
-						ProfileImage tempProfileImage = iter.next();
-						if (tempProfileImage.equals(clickedImage)) {
-							tempProfileImage.setMainImage(true);
-							EditProfileActivity editProfileActivity = (EditProfileActivity) activity;
-							editProfileActivity.setMainProfileImage(tempProfileImage);
-						} else {
-							tempProfileImage.setMainImage(false);
-						}
+				public void onCheckedChanged(CompoundButton button, boolean checked) {
+					if (checked) {
+						radioDelete.setChecked(false);
 					}
-					EditProfileActivity parent = (EditProfileActivity) activity;
-					parent.saveProfile();
-					notifyDataSetChanged();
 				}
 			});
-			ImageButton deleteImageButton = (ImageButton) dialog.findViewById(R.id.deleteImageButton);
-			deleteImageButton.setOnClickListener(new OnClickListener() {
+			radioDelete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				
 				@Override
-				public void onClick(View v) {
-					dialog.dismiss();
-					if (clickedImage.isMainImage()) {
+				public void onCheckedChanged(CompoundButton button, boolean checked) {
+					if (checked) {
+						radioSetAsMain.setChecked(false);
+					}
+				}
+			});
+			dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (radioSetAsMain.isChecked()) {
+						Iterator<ProfileImage> iter = imageList.iterator();
+						while (iter.hasNext()) {
+							ProfileImage tempProfileImage = iter.next();
+							if (tempProfileImage.equals(clickedImage)) {
+								tempProfileImage.setMainImage(true);
+								EditProfileActivity editProfileActivity = (EditProfileActivity) activity;
+								editProfileActivity.setMainProfileImage(tempProfileImage);
+							} else {
+								tempProfileImage.setMainImage(false);
+							}
+						}
 						EditProfileActivity parent = (EditProfileActivity) activity;
-						parent.showDialog(parent.getResources().getString(R.string.message_warning),
-								parent.getResources().getString(R.string.message_cant_delete_profile_image));
-						return;
+						parent.saveProfile();
+						notifyDataSetChanged();
 					}
-					try {
-						// TODO: perché non posticipare i cambiamenti sul db
-						// solo al momento del salvataggio?
-						if (clickedImage.getId() != 0) {
-							DBOpenHelper db = DBOpenHelperImpl.getInstance(activity);
-							db.deleteImage(clickedImage.getId());
+					else if (radioDelete.isChecked()) {
+						if (clickedImage.isMainImage()) {
+							EditProfileActivity parent = (EditProfileActivity) activity;
+							parent.showDialog(parent.getResources().getString(R.string.message_warning),
+									parent.getResources().getString(R.string.message_cant_delete_profile_image));
+							return;
 						}
-						imageList.remove(clickedImage);
-					} catch (Exception e) {
-						Log.e("error during delete of image");
+						try {
+							if (clickedImage.getId() != 0) {
+								DBOpenHelper db = DBOpenHelperImpl.getInstance(activity);
+								db.deleteImage(clickedImage.getId());
+							}
+							imageList.remove(clickedImage);
+						} catch (Exception e) {
+							Log.e("error during delete of image");
+						}
+						EditProfileActivity parent = (EditProfileActivity) activity;
+						parent.saveProfile();
+						notifyDataSetChanged();
 					}
-					EditProfileActivity parent = (EditProfileActivity) activity;
-					parent.saveProfile();
-					notifyDataSetChanged();
+					dialog.dismiss();
 				}
 			});
-			dialog.show();
+			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			dialogBuilder.create().show();
 		}
 
 	}
