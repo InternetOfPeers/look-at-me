@@ -14,7 +14,7 @@ public class FakeUserCarlo extends FakeUserGenericImpl {
 		profile.setNickname("Carlo");
 		profile.setName("Carlo");
 		profile.setSurname("Tassi");
-		profile.setStatus("");
+		profile.setStatus("make love, not engineering");
 		profile.setAge(29);
 		profile.setGender("Male");
 		profile.setMainProfileImage(createProfileImage(context, "carlo_profile_image_1.jpg"));
