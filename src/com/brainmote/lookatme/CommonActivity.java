@@ -1,7 +1,9 @@
 package com.brainmote.lookatme;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
@@ -260,12 +262,11 @@ public abstract class CommonActivity extends Activity {
 	 *            normale comportamento di dismiss del dialog.
 	 */
 	protected void showDialog(String title, String message, String buttonLabel, final Class<? extends Activity> nextActivity, boolean isBlocking, boolean isBackButtonEnabled) {
-		final Dialog dialog = new Dialog(this);
-		dialog.setContentView(R.layout.dialog_generic);
-		dialog.setTitle(title);
-		dialog.setCancelable(!isBlocking);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+		dialogBuilder.setTitle(title);
+		dialogBuilder.setCancelable(!isBlocking);
 		if (isBackButtonEnabled) {
-			dialog.setOnKeyListener(new OnKeyListener() {
+			dialogBuilder.setOnKeyListener(new OnKeyListener() {
 				@Override
 				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 					if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
@@ -276,20 +277,18 @@ public abstract class CommonActivity extends Activity {
 				}
 			});
 		}
-		TextView errorMsg = (TextView) dialog.findViewById(R.id.dialog_message);
-		errorMsg.setText(message);
-		Button dialogButton = (Button) dialog.findViewById(R.id.dialog_button_close);
-		dialogButton.setText(buttonLabel);
-		dialogButton.setOnClickListener(new OnClickListener() {
+		dialogBuilder.setMessage(message);
+		dialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+			
 			@Override
-			public void onClick(View v) {
+			public void onClick(DialogInterface dialog, int which) {
 				if (nextActivity != null) {
 					Nav.startActivity(CommonActivity.this, nextActivity);
 				}
 				dialog.dismiss();
 			}
 		});
-		dialog.show();
+		dialogBuilder.create().show();
 	}
 
 	/**
