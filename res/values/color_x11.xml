@@ -74,6 +74,7 @@
     <color name="greenyellow">#ADFF2F</color>
     <color name="lightblue">#ADD8E6</color>
     <color name="darkgray">#A9A9A9</color>
+    <color name="transparent_darkgray">#CCA9A9A9</color>
     <color name="brown">#A52A2A</color>
     <color name="sienna">#A0522D</color>
     <color name="yellowgreen">#9ACD32</color>
