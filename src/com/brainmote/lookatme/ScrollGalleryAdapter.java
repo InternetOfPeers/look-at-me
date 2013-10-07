@@ -17,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
@@ -103,7 +102,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 			final RadioButton radioSetAsMain = (RadioButton) view.findViewById(R.id.radioButtonSetAsMain);
 			final RadioButton radioDelete = (RadioButton) view.findViewById(R.id.radioButtonDelete);
 			radioSetAsMain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				
+
 				@Override
 				public void onCheckedChanged(CompoundButton button, boolean checked) {
 					if (checked) {
@@ -112,7 +111,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				}
 			});
 			radioDelete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				
+
 				@Override
 				public void onCheckedChanged(CompoundButton button, boolean checked) {
 					if (checked) {
@@ -121,7 +120,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				}
 			});
 			dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					if (radioSetAsMain.isChecked()) {
@@ -139,8 +138,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 						EditProfileActivity parent = (EditProfileActivity) activity;
 						parent.saveProfile();
 						notifyDataSetChanged();
-					}
-					else if (radioDelete.isChecked()) {
+					} else if (radioDelete.isChecked()) {
 						if (clickedImage.isMainImage()) {
 							EditProfileActivity parent = (EditProfileActivity) activity;
 							parent.showDialog(parent.getResources().getString(R.string.message_warning),
@@ -164,7 +162,7 @@ public class ScrollGalleryAdapter extends BaseAdapter {
 				}
 			});
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();

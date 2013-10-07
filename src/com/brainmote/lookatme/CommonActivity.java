@@ -2,8 +2,6 @@ package com.brainmote.lookatme;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
@@ -20,11 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Log;
@@ -279,7 +274,7 @@ public abstract class CommonActivity extends Activity {
 		}
 		dialogBuilder.setMessage(message);
 		dialogBuilder.setNegativeButton(buttonLabel, new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (nextActivity != null) {

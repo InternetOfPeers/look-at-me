@@ -42,7 +42,7 @@ public class EditProfileInterestGridAdapter extends BaseAdapter {
 			empty = false;
 		}
 	}
-	
+
 	public boolean isEmpty() {
 		return empty;
 	}

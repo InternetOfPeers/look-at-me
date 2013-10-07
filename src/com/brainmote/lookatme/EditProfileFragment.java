@@ -153,8 +153,7 @@ public class EditProfileFragment extends Fragment {
 		EditProfileInterestGridAdapter gridInterestAdapter = new EditProfileInterestGridAdapter(getActivity(), Services.currentState.getInterestSet(), true);
 		if (gridInterestAdapter.isEmpty()) {
 			gridInterest.setNumColumns(1);
-		}
-		else {
+		} else {
 			gridInterest.setNumColumns(GridView.AUTO_FIT);
 		}
 		gridInterest.setAdapter(gridInterestAdapter);
