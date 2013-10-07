@@ -278,7 +278,7 @@ public abstract class CommonActivity extends Activity {
 			});
 		}
 		dialogBuilder.setMessage(message);
-		dialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+		dialogBuilder.setNegativeButton(buttonLabel, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
