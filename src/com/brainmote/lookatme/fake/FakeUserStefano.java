@@ -14,7 +14,7 @@ public class FakeUserStefano extends FakeUserGenericImpl {
 		profile.setNickname("Svalvolo");
 		profile.setName("Stefano");
 		profile.setSurname("Pirone");
-		profile.setStatus("If something can go wrong it will");
+		profile.setStatus("If anything can go wrong, it will");
 		profile.setAge(30);
 		profile.setGender("Male");
 		profile.setMainProfileImage(createProfileImage(context, "stefano_profile_image_1.jpg"));
@@ -24,9 +24,9 @@ public class FakeUserStefano extends FakeUserGenericImpl {
 		profile.setProfileImages(profileImages);
 		answers = new ArrayList<String>();
 		answers.add("Hi dude, nice to meet you.");
-		answers.add("Hi, I'm Stefano and I'm one of the developer of these app..you can use to chat and meet people around you...it's fun!");
-		answers.add("My favourite hobbies are technology stuff and music...I play music..I'm a bass player..and what are your favourite intetest?");
-		answers.add("Sorry dude it's time to go...maybe we can meet another time on look@me....see you");
+		answers.add("Hi, I'm Stefano and I'm one of the developer of this app... you can use it to chat and meet people around you... it's fun!");
+		answers.add("My favourite hobbies are technology stuff and music... I play music... I'm a bass player... and what are your favourite interests?");
+		answers.add("Sorry dude it's time to go... maybe we can meet another time on look@me... see you");
 	}
 
 }

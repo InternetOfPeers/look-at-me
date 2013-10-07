@@ -26,7 +26,7 @@ public class FakeUserRiccardo extends FakeUserGenericImpl {
 		answers.add("Nice to meet you again!");
 		answers.add("Don't think, just do it!");
 		answers.add("Keep going");
-		answers.add("I'm the dumbest AI ever,why you keep chatting with me?");
+		answers.add("I'm the dumbest AI ever, why do you keep chatting with me?");
 	}
 
 }
