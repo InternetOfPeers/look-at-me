@@ -289,12 +289,21 @@ public class ProfileFragment extends Fragment {
 			// Nascondo i pulsanti like a chat
 			profileHiddenContainer.setVisibility(View.VISIBLE);
 			profileActionContainer.setVisibility(View.GONE);
-			showInterestsButton.setRotation(270);
+			showInterestsButton.setRotation(180);
+			// Inverto i valori di padding perché altrimenti vengono riportati
+			// in maniera errata (il padding top diventa effettivamente padding
+			// bottom)
+			showInterestsButton.setPadding(showInterestsButton.getPaddingLeft(), showInterestsButton.getPaddingBottom(), showInterestsButton.getPaddingRight(),
+					showInterestsButton.getPaddingTop());
 			showHiddenContainer = true;
 		} else {
 			profileHiddenContainer.setVisibility(View.GONE);
 			profileActionContainer.setVisibility(View.VISIBLE);
-			showInterestsButton.setRotation(90);
+			showInterestsButton.setRotation(0);
+			// Inverto nuovamente i valori di padding per riportarli ai valori
+			// corretti
+			showInterestsButton.setPadding(showInterestsButton.getPaddingLeft(), showInterestsButton.getPaddingBottom(), showInterestsButton.getPaddingRight(),
+					showInterestsButton.getPaddingTop());
 			showHiddenContainer = false;
 		}
 	}

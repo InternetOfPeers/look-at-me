@@ -89,6 +89,7 @@
                 android:id="@+id/profileBottomContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bottom_profile_gradient"
                 android:gravity="bottom"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
@@ -111,12 +112,12 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#FFFFFF"
                         android:shadowColor="#000000"
-    					android:shadowDx="1"
-    					android:shadowDy="1"
-    					android:shadowRadius="1" />
+                        android:shadowDx="1"
+                        android:shadowDy="1"
+                        android:shadowRadius="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#FFFFFF" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -137,12 +138,12 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#FFFFFF"
                         android:shadowColor="#000000"
-    					android:shadowDx="1"
-    					android:shadowDy="1"
-    					android:shadowRadius="1" />
+                        android:shadowDx="1"
+                        android:shadowDy="1"
+                        android:shadowRadius="1"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/textSurname"
@@ -150,29 +151,33 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#FFFFFF"
                         android:shadowColor="#000000"
-    					android:shadowDx="1"
-    					android:shadowDy="1"
-    					android:shadowRadius="1" />
+                        android:shadowDx="1"
+                        android:shadowDy="1"
+                        android:shadowRadius="1"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#FFFFFF" />
                 </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/showInterestsButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:background="#00000000"
                     android:onClick="onInterestsButtonClick"
-                    android:rotation="90"
-                    android:src="@drawable/ic_navigation_previous_item" />
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:src="@drawable/ic_show_hide_interests" />
 
                 <LinearLayout
                     android:id="@+id/profileHiddenContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="6dp"
-                    android:orientation="vertical" >
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="6dp" >
 
                     <GridView
                         android:id="@+id/gridInterestInDetail"
