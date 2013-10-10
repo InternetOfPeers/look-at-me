@@ -6,14 +6,14 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.QuickContactBadge;
 
 public class ContactListAdapter extends BaseAdapter {
 	
@@ -50,20 +50,47 @@ public class ContactListAdapter extends BaseAdapter {
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = layoutInflater.inflate(R.layout.contact_list_row, null);
 		}
-		QuickContactBadge contactBadge = (QuickContactBadge) convertView.findViewById(R.id.contactBadge);
-		contactBadge.setImageResource(R.drawable.ic_profile_image);
-		contactBadge.assignContactFromEmail("any@gmail.com", true);  
-		contactBadge.assignContactFromPhone("3211234567", true);
-		//contactBadge.setMode(ContactsContract.QuickContact.MODE_SMALL); 
+
+		ImageView imageMobile = (ImageView) convertView.findViewById(R.id.imageContactMobile);
+		imageMobile.setOnClickListener(new View.OnClickListener(){
+		    public void onClick(View v){
+		        Intent intent = new Intent();
+		        intent.setAction(Intent.ACTION_CALL);
+		        intent.setData(Uri.parse("tel:00393483953186"));
+		        activity.startActivity(intent);
+		        //activity.startActivity(Intent.createChooser(intent, "How call:"));
+		    }
+		});
+		
+		ImageView imageEmail = (ImageView) convertView.findViewById(R.id.imageContactEmail);
+		imageEmail.setOnClickListener(new View.OnClickListener(){
+		    public void onClick(View v){
+		    	Intent email = new Intent(Intent.ACTION_SEND);
+		    	email.putExtra(Intent.EXTRA_EMAIL, new String[]{"youremail@yahoo.com"});		  
+		    	email.putExtra(Intent.EXTRA_SUBJECT, "subject");
+		    	email.putExtra(Intent.EXTRA_TEXT, "message");
+		    	email.setType("message/rfc822");
+		    	activity.startActivity(Intent.createChooser(email, "Choose an Email client:"));
+		    }
+		});
 		
 		ImageView imageFacebook = (ImageView) convertView.findViewById(R.id.imageContactFacebook);
 		imageFacebook.setOnClickListener(new View.OnClickListener(){
 		    public void onClick(View v){
-		        Intent intent = new Intent();
-		        intent.setAction(Intent.ACTION_VIEW);
-		        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-		        intent.setData(Uri.parse("http://www.facebook.com"));
-		        activity.startActivity(intent);
+		    	
+		    	try{
+		    	    activity.getPackageManager().getApplicationInfo("com.facebook.android", 0 );
+		    	    String uri = "facebook://facebook.com/pirone.stefano";
+			        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+			        activity.startActivity(intent);
+		    	} catch( PackageManager.NameNotFoundException e ){
+		    		String uri = "http://facebook.com/pirone.stefano";
+			        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+			        activity.startActivity(intent);
+		    	}
+		    	
+		       
+
 		    }
 		});
 		ImageView imageLinkedin = (ImageView) convertView.findViewById(R.id.imageContactLinkedin);

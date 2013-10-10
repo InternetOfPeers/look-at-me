@@ -76,7 +76,7 @@
             android:src="@drawable/linkedin_icon" />
 
         <EditText
-            android:id="@+id/editProfileFieldSurname"
+            android:id="@+id/editProfileFieldLinkedIn"
             android:hint="@string/edit_profile_field_linkedin_hint"
             android:inputType="textPersonName" />
     </TableRow>
