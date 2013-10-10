@@ -140,6 +140,7 @@
     <string name="edit_profile_label_name_text">Name</string>
     <string name="edit_profile_label_surname_text">Surname</string>
     <string name="edit_profile_field_nickname_hint">Choose a nickname</string>
+    <string name="edit_profile_field_email_hint">Choose an email</string>
     <string name="edit_profile_spinner_age_prompt">Set your age</string>
     <string name="edit_profile_spinner_country_prompt">Set your country</string>
     <string name="edit_profile_spinner_language_prompt">Set your main language</string>
