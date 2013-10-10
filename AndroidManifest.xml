@@ -80,6 +80,13 @@
                 android:value=".NearbyActivity" />
         </activity>
         <activity
+            android:name=".ContactActivity"
+            android:label="@string/title_contact_activity"
+            android:parentActivityName=".NearbyActivity" ><meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NearbyActivity" />
+        </activity>      
+        <activity
             android:name=".ChatMessagesActivity"
             android:label="@string/title_chat_activity"
             android:parentActivityName=".ChatConversationsActivity" >

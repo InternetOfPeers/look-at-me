@@ -96,12 +96,15 @@ public class MenuListAdapter extends BaseAdapter {
 			}
 			break;
 		case 3:
-			icon.setImageResource(R.drawable.ic_statistics);
+			icon.setImageResource(R.drawable.ic_star);
 			break;
 		case 4:
-			icon.setImageResource(R.drawable.ic_settings);
+			icon.setImageResource(R.drawable.ic_statistics);
 			break;
 		case 5:
+			icon.setImageResource(R.drawable.ic_settings);
+			break;
+		case 6:
 			icon.setImageResource(R.drawable.ic_help);
 			break;
 		}

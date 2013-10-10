@@ -12,6 +12,7 @@
     <string name="title_manage_interest_activity">Interest</string>
     <string name="title_add_interest_activity">Add Interest</string>
     <string name="title_messages_activity">Chat</string>
+    <string name="title_contact_activity">Favourites</string>
     <string name="title_statistics_activity">Statistics</string>
     <string name="title_settings_activity">Settings</string>
     <string name="title_feelings_activity">Feelings</string>
@@ -50,6 +51,7 @@
         <item>Profile</item>
         <item>Nearby</item>
         <item>Chat</item>
+        <item>Favourites</item>
         <item>Statistics</item>
         <item>Settings</item>
         <item>Help</item>

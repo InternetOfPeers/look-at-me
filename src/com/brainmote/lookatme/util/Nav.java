@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.brainmote.lookatme.ChatConversationsActivity;
+import com.brainmote.lookatme.ContactActivity;
 import com.brainmote.lookatme.EditProfileActivity;
 import com.brainmote.lookatme.HelpActivity;
 import com.brainmote.lookatme.NearbyActivity;
@@ -31,9 +32,10 @@ public class Nav {
 		map.put(EditProfileActivity.class, 0);
 		map.put(NearbyActivity.class, 1);
 		map.put(ChatConversationsActivity.class, 2);
-		map.put(StatisticsActivity.class, 3);
-		map.put(SettingsActivity.class, 4);
-		map.put(HelpActivity.class, 5);
+		map.put(ContactActivity.class, 3);
+		map.put(StatisticsActivity.class, 4);
+		map.put(SettingsActivity.class, 5);
+		map.put(HelpActivity.class, 6);
 	}
 
 	/**

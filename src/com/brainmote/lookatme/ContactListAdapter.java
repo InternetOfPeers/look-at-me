@@ -17,7 +17,9 @@ public class ContactListAdapter extends BaseAdapter {
 	private Activity activity;
 	private List<String> contactList;
 	
-	public ContactListAdapter() {
+	public ContactListAdapter(Activity activity) {
+		this.activity = activity;
+		// fake list da sostituire quando 
 		contactList = new ArrayList<String>();
 		contactList.add("UNO");
 		contactList.add("DUE");
@@ -46,6 +48,7 @@ public class ContactListAdapter extends BaseAdapter {
 			convertView = layoutInflater.inflate(R.layout.contact_list_row, null);
 		}
 		QuickContactBadge contactBadge = (QuickContactBadge) convertView.findViewById(R.id.contactBadge);
+		contactBadge.setImageResource(R.drawable.canada);
 		contactBadge.assignContactFromEmail("any@gmail.com", true);  
 		contactBadge.assignContactFromPhone("3211234567", true);
 		contactBadge.setMode(ContactsContract.QuickContact.MODE_SMALL); 
