@@ -54,7 +54,7 @@ public class ContactListAdapter extends BaseAdapter {
 		contactBadge.setImageResource(R.drawable.ic_profile_image);
 		contactBadge.assignContactFromEmail("any@gmail.com", true);  
 		contactBadge.assignContactFromPhone("3211234567", true);
-		contactBadge.setMode(ContactsContract.QuickContact.MODE_SMALL); 
+		//contactBadge.setMode(ContactsContract.QuickContact.MODE_SMALL); 
 		
 		ImageView imageFacebook = (ImageView) convertView.findViewById(R.id.imageContactFacebook);
 		imageFacebook.setOnClickListener(new View.OnClickListener(){
