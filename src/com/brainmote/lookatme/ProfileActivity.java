@@ -1,6 +1,8 @@
 package com.brainmote.lookatme;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -9,6 +11,8 @@ import com.brainmote.lookatme.util.Log;
 public class ProfileActivity extends CommonActivity {
 
 	private ProfileFragment profileFragment;
+	private boolean favourite = false;
+	private MenuItem toggleFavouriteItem;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,15 @@ public class ProfileActivity extends CommonActivity {
 		profileFragment = (ProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		checkIfProfileIsCompleted();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Imposta il menù di favorito o meno a secona dei casi
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.view_profile, menu);
+		toggleFavouriteItem = (MenuItem) menu.findItem(R.id.action_toggle_favourites);
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -26,6 +39,18 @@ public class ProfileActivity extends CommonActivity {
 		case android.R.id.home:
 			onBackPressed();
 			return true;
+		case R.id.action_toggle_favourites:
+			if (favourite) {
+				favourite = false;
+				toggleFavouriteItem.setIcon(R.drawable.ic_not_favourite);
+				toggleFavouriteItem.setTitle(R.string.action_add_favourites);
+			}
+			else {
+				favourite = true;
+				toggleFavouriteItem.setIcon(R.drawable.ic_favourite);
+				toggleFavouriteItem.setTitle(R.string.action_remove_favourites);
+			}
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
