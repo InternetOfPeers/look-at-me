@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="8dp" >
+    android:paddingBottom="6dp"
+    android:paddingTop="6dp" >
 
     <QuickContactBadge
         android:id="@+id/contactBadge"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_width="@dimen/chat_conversations_list_thumbnail_size"
+        android:layout_height="@dimen/chat_conversations_list_thumbnail_size"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -17,9 +19,9 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight=".5" >
+            android:layout_weight=".3" >
 
             <TextView
                 android:id="@+id/textContactNick"
@@ -27,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="Nick"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/textContactAge"
@@ -35,29 +37,51 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="Age"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight=".5" >
+            android:layout_weight=".3" >
 
             <TextView
                 android:id="@+id/textContactName"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-        		android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Name" />
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Name"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/textContactSurname"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
+                android:gravity="center_vertical"
                 android:text="Surname"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight=".3" >
+
+            <ImageView
+                android:id="@+id/imageContactFacebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@drawable/facebook_full_icon" />
+
+            <ImageView
+                android:id="@+id/imageContactLinkedin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/linkedin_full_icon" />
 
         </LinearLayout>
 
