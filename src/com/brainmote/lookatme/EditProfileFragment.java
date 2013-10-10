@@ -83,9 +83,14 @@ public class EditProfileFragment extends Fragment {
 		tabs.addTab(tabSpecData);
 
 		TabSpec tabSpecInterests = tabs.newTabSpec("Interests");
-		tabSpecInterests.setIndicator("", getResources().getDrawable(R.drawable.ic_star));
+		tabSpecInterests.setIndicator("", getResources().getDrawable(R.drawable.ic_interest));
 		tabSpecInterests.setContent(R.id.tab_interests);
 		tabs.addTab(tabSpecInterests);
+		
+		TabSpec tabSpecContacts = tabs.newTabSpec("Contacts");
+		tabSpecContacts.setIndicator("", getResources().getDrawable(R.drawable.ic_contact));
+		tabSpecContacts.setContent(R.id.tab_contacts);
+		tabs.addTab(tabSpecContacts);
 
 		OnFocusChangeListener focusChange = new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean gainFocus) {
