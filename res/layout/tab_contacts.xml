@@ -7,55 +7,77 @@
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" >
 
-        <TextView
-            android:id="@+id/editProfileEmail"
+        <ImageView
+            android:id="@+id/imageIcEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/edit_profile_label_nickname_text" />
+            android:src="@drawable/ic_action_email" />
 
         <EditText
             android:id="@+id/editProfileFieldEmail"
             android:layout_gravity="center_vertical"
             android:hint="@string/edit_profile_field_email_hint"
-            android:inputType="textPersonName" />
+            android:inputType="textEmailAddress" />
     </TableRow>
 
     <TableRow
         android:id="@+id/tableRow6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" >
 
-        <TextView
-            android:id="@+id/editProfilePhone"
+        <ImageView
+            android:id="@+id/imageIcTelephone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/edit_profile_label_name_text" />
+            android:src="@drawable/ic_action_call" />
 
         <EditText
-            android:id="@+id/editProfileFieldName"
-            android:hint="@string/edit_profile_field_name_hint"
+            android:id="@+id/editProfileFieldMobile"
+            android:hint="@string/edit_profile_field_mobile_hint"
             android:inputType="textPersonName" />
     </TableRow>
 
     <TableRow
         android:id="@+id/tableRow7"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
 
-        <TextView
-            android:id="@+id/editProfileSurname"
+        <ImageView
+            android:id="@+id/imageFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/edit_profile_label_surname_text" />
+            android:src="@drawable/facebook_icon" />
+
+        <EditText
+            android:id="@+id/editProfileFieldFacebook"
+            android:hint="@string/edit_profile_field_facebook_hint"
+            android:inputType="textPersonName" />
+    </TableRow>
+    
+     <TableRow
+        android:id="@+id/tableRow7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" >
+
+        <ImageView
+            android:id="@+id/imageLinkedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/linkedin_icon" />
 
         <EditText
             android:id="@+id/editProfileFieldSurname"
-            android:hint="@string/edit_profile_field_surname_hint"
+            android:hint="@string/edit_profile_field_linkedin_hint"
             android:inputType="textPersonName" />
     </TableRow>
 

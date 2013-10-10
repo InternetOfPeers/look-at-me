@@ -86,6 +86,7 @@
                         android:layout_gravity="center_horizontal"
                         android:orientation="vertical" >
 
+						<include layout="@layout/tab_contacts" />
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
