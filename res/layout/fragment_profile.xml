@@ -179,16 +179,99 @@
                     android:orientation="vertical"
                     android:paddingBottom="6dp" >
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" >
+
+                            <ImageView
+                                android:id="@+id/imageIcTelephone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_telephone" />
+
+                            <TextView
+                                android:id="@+id/textTelephone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="6dp"
+                                android:gravity="center_vertical"
+                                android:shadowColor="#000000"
+                                android:shadowDx="1"
+                                android:shadowDy="1"
+                                android:shadowRadius="1"
+                                android:text="3211234567"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" >
+
+                            <ImageView
+                                android:id="@+id/imageIcEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_email" />
+
+                            <TextView
+                                android:id="@+id/textEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="6dp"
+                                android:gravity="center_vertical"
+                                android:shadowColor="#000000"
+                                android:shadowDx="1"
+                                android:shadowDy="1"
+                                android:shadowRadius="1"
+                                android:text="any@gmail.com"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="6dp" >
+
+                            <ImageView
+                                android:id="@+id/imageFacebook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/facebook_icon" />
+
+                            <ImageView
+                                android:id="@+id/imageLinkedin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/linkedin_icon" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
                     <GridView
                         android:id="@+id/gridInterestInDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
                         android:clickable="false"
                         android:horizontalSpacing="@dimen/interest_grid_spacing"
                         android:numColumns="auto_fit"
                         android:stretchMode="columnWidth"
                         android:verticalSpacing="@dimen/interest_grid_spacing" >
+
                     </GridView>
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

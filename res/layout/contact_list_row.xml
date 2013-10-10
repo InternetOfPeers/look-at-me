@@ -28,13 +28,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Nick"
+                android:text="Nick,"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/textContactAge"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="Age"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -50,7 +51,7 @@
                 android:id="@+id/textContactName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:gravity="top"
                 android:text="Name"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -58,8 +59,8 @@
                 android:id="@+id/textContactSurname"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:gravity="top"
                 android:text="Surname"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -74,14 +75,14 @@
                 android:id="@+id/imageContactFacebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="center"
-                android:src="@drawable/facebook_full_icon" />
+                android:src="@drawable/facebook_icon" />
 
             <ImageView
                 android:id="@+id/imageContactLinkedin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/linkedin_full_icon" />
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/linkedin_icon" />
 
         </LinearLayout>
 
