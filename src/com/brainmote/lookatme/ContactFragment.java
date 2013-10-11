@@ -1,11 +1,16 @@
 package com.brainmote.lookatme;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class ContactFragment extends Fragment {
 	
@@ -19,7 +24,37 @@ public class ContactFragment extends Fragment {
 			contactListAdapter = new ContactListAdapter(this.getActivity());
 			contactList = (ListView) view.findViewById(R.id.contactList);
 			contactList.setAdapter(contactListAdapter);
+			contactList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+					// Show alert dialog con riepilogo dati e scelta salva ed elimina
+					showContactDialog();
+				}
+			});
 		}
 		return view;
+	}
+	
+	private void showContactDialog() {
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
+		LayoutInflater layoutInflater = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = layoutInflater.inflate(R.layout.dialog_manage_contact, null);
+		dialogBuilder.setView(view);
+		dialogBuilder.setTitle("Nick, age");
+		
+		TextView phone = (TextView) view.findViewById(R.id.textManageContactTelephone);
+		TextView email = (TextView) view.findViewById(R.id.textManageContactEmail);
+		ImageView facebookImg = (ImageView) view.findViewById(R.id.imageManageContactFacebook);
+		ImageView linkedinImg = (ImageView)view.findViewById(R.id.imageManageContactLinkedin);
+		
+		phone.setText("3211234567");
+		email.setText("askjdhasd");
+		
+		dialogBuilder.setPositiveButton("Save in contacts", null);
+		dialogBuilder.setNeutralButton("Remove favourite", null);
+		dialogBuilder.setNegativeButton("Cancel", null);
+		
+		dialogBuilder.create().show();
 	}
 }
