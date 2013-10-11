@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.brainmote.lookatme.util.Log;
 
@@ -44,11 +45,13 @@ public class ProfileActivity extends CommonActivity {
 				favourite = false;
 				toggleFavouriteItem.setIcon(R.drawable.ic_not_favourite);
 				toggleFavouriteItem.setTitle(R.string.action_add_favourites);
+				Toast.makeText(getApplicationContext(), "Removed from favourites", Toast.LENGTH_SHORT).show();
 			}
 			else {
 				favourite = true;
 				toggleFavouriteItem.setIcon(R.drawable.ic_favourite);
 				toggleFavouriteItem.setTitle(R.string.action_remove_favourites);
+				Toast.makeText(getApplicationContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
