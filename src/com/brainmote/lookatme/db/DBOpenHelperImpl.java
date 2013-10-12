@@ -18,18 +18,20 @@ import android.telephony.TelephonyManager;
 
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatMessage;
+import com.brainmote.lookatme.bean.Contact;
 import com.brainmote.lookatme.bean.Conversation;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.Profile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.bean.Statistics;
+import com.brainmote.lookatme.enumattribute.ContactType;
 import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.google.common.base.Optional;
 
 public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 4;
 	private SQLiteDatabase database;
 
 	private TelephonyManager tm;
@@ -97,6 +99,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		db.execSQL("CREATE TABLE " + TABLE_LIKE + "(" + TABLE_LIKE_COLUMN_PROFILE_ID + " TEXT PRIMARY KEY); ");
 
 		db.execSQL("CREATE TABLE " + TABLE_VISIT + "(" + TABLE_VISIT_COLUMN_PROFILE_ID + " TEXT PRIMARY KEY); ");
+		
+		db.execSQL("CREATE TABLE " + TABLE_CONTACTS + "(" + TABLE_CONTACTS_COLUMN_PROFILE_ID + " TEXT NOT NULL, "+  TABLE_CONTACTS_COLUMN_TYPE + " TEXT NOT NULL, "+
+				  TABLE_CONTACTS_COLUMN_REFERENCE + " TEXT NOT NULL "+"); ");
 	}
 
 	@Override
@@ -198,6 +203,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 
 		saveInterests(profile.getInterestSet());
+		saveOrUpdateContacts(profile.getId(), profile.getContactList());
 
 		if (profile.getProfileImages() != null && !profile.getProfileImages().isEmpty()) {
 			Iterator<ProfileImage> iter = profile.getProfileImages().iterator();
@@ -344,6 +350,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			if (cursor.moveToFirst()) {
 				tempProfile = new FullProfile();
 				tempProfile.setInterestSet(interestSet);
+				tempProfile.setContactList(getProfileContacts(contactID));
 				do {
 					// TODO: set the tag list
 					valorizeProfile(tempProfile, cursor);
@@ -387,6 +394,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 					valorizeProfile(tempProfile, cursor);
 					tempProfile.setMainProfileImage(getProfileMainImage(contactID));
 					tempProfile.setInterestSet(getInterests());
+					tempProfile.setContactList(getProfileContacts(contactID));
 					return tempProfile;
 				} while (cursor.moveToNext());
 
@@ -884,6 +892,65 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 				cursor.close();
 		}
 		return null;
+	}
+	
+	public void saveOrUpdateContacts(String profileId, List<Contact> contacts) throws Exception {
+		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
+		// vedere quali
+		// ancora esistono e quali no
+		String table_name = TABLE_CONTACTS;
+		String where = null;//TABLE_CONTACTS_COLUMN_PROFILE_ID + "=" + profileId;
+		String[] whereArgs = null;
+		database.delete(table_name, where, whereArgs);
+		Iterator<Contact> iter = contacts.iterator();
+		while (iter.hasNext())
+			saveContact(profileId, iter.next());
+	}
+	
+	public void deleteContact(Contact contacts) throws Exception {
+		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
+		// vedere quali
+		// ancora esistono e quali no
+		String table_name = TABLE_CONTACTS;
+		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID + "=" + contacts.getProfileId() + " AND " + TABLE_CONTACTS_COLUMN_TYPE + "="+ contacts.getContactType().toString();
+		String[] whereArgs = null;
+		database.delete(table_name, where, whereArgs);
+	}
+	
+	private void saveContact(String profileId, Contact contact) throws Exception {
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(TABLE_CONTACTS_COLUMN_PROFILE_ID, contact.getProfileId());
+		contentValues.put(TABLE_CONTACTS_COLUMN_TYPE, contact.getContactType().toString());
+		contentValues.put(TABLE_CONTACTS_COLUMN_REFERENCE, contact.getReference());
+		database.insert(TABLE_CONTACTS, null, contentValues);		
+	}
+	
+	public List<Contact> getProfileContacts(String profileId) {
+		Cursor cursor = null;
+		Contact contact = null;
+		List<Contact> returnList = new ArrayList<Contact>();
+		try {
+
+			cursor = database.rawQuery("SELECT " + TABLE_CONTACTS_COLUMN_PROFILE_ID + ", " + TABLE_CONTACTS_COLUMN_REFERENCE + ", " + TABLE_CONTACTS_COLUMN_TYPE 
+					+ " FROM " + TABLE_CONTACTS + " WHERE " + TABLE_CONTACTS_COLUMN_PROFILE_ID + "=?", new String[] { "" + profileId });
+
+			if (cursor.moveToFirst()) {
+				do {				
+					contact= new Contact();
+					contact.setProfileId(cursor.getString(cursor.getColumnIndex(TABLE_CONTACTS_COLUMN_PROFILE_ID)));
+					contact.setContactType(ContactType.parse(cursor.getString(cursor.getColumnIndex(TABLE_CONTACTS_COLUMN_TYPE))));
+					contact.setReference(cursor.getString(cursor.getColumnIndex(TABLE_CONTACTS_COLUMN_REFERENCE)));
+					returnList.add( contact);
+				} while (cursor.moveToNext());
+
+			}
+		} catch (Throwable e) {
+			Log.e("error on loading profile main image : " + e.getMessage() + " profile ID:" + profileId);
+		} finally {
+			if (!cursor.isClosed())
+				cursor.close();
+		}
+		return returnList;
 	}
 
 }

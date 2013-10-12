@@ -73,6 +73,12 @@ public interface DBOpenHelper {
 	public static final String TABLE_VISIT = "visit_tb";
 	public static final String TABLE_VISIT_COLUMN_PROFILE_ID = "visit_profile_id";
 	public static final String TABLE_VISIT_COLUMN_COUNT_ALIAS = "visit_count";
+	
+
+	public static final String TABLE_CONTACTS = "contact_tb";
+	public static final String TABLE_CONTACTS_COLUMN_PROFILE_ID = "contacts_profile_id";
+	public static final String TABLE_CONTACTS_COLUMN_TYPE = "contacts_type";
+	public static final String TABLE_CONTACTS_COLUMN_REFERENCE = "contacts_reference";	
 
 	public SQLiteDatabase getWritableDatabase();
 

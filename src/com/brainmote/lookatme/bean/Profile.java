@@ -1,6 +1,8 @@
 package com.brainmote.lookatme.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -18,6 +20,16 @@ public class Profile implements Serializable {
 	private Gender gender;
 
 	private Set<Integer> interestSet = new TreeSet<Integer>();
+	
+	private List<Contact> contactList = new ArrayList<Contact>();
+
+	public List<Contact> getContactList() {
+		return contactList;
+	}
+
+	public void setContactList(List<Contact> contactList) {
+		this.contactList = contactList;
+	}
 
 	public String getId() {
 		return id;

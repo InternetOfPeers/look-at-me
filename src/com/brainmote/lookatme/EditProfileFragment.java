@@ -1,6 +1,8 @@
 package com.brainmote.lookatme;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Fragment;
@@ -10,6 +12,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.MailTo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -31,11 +34,13 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.brainmote.lookatme.bean.BasicProfile;
+import com.brainmote.lookatme.bean.Contact;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.db.DBOpenHelper;
 import com.brainmote.lookatme.db.DBOpenHelperImpl;
+import com.brainmote.lookatme.enumattribute.ContactType;
 import com.brainmote.lookatme.enumattribute.Country;
 import com.brainmote.lookatme.enumattribute.Language;
 import com.brainmote.lookatme.service.Services;
@@ -57,6 +62,11 @@ public class EditProfileFragment extends Fragment {
 	private TextView nameScreen;
 	private TextView surnameScreen;
 	private TextView nicknameScreen;
+	private TextView emailContactScreen;
+	private TextView facebookContactScreen;
+	private TextView linkedinContactScreen;
+	private TextView phoneContactScreen;
+	
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 	private String profileId;
 	private int widthPx;
@@ -112,6 +122,10 @@ public class EditProfileFragment extends Fragment {
 		nameScreen = (TextView) view.findViewById(R.id.editProfileFieldName);
 		surnameScreen = (TextView) view.findViewById(R.id.editProfileFieldSurname);
 		nicknameScreen = (TextView) view.findViewById(R.id.editProfileFieldNickname);
+		emailContactScreen = (TextView) view.findViewById(R.id.editProfileFieldEmail);
+		phoneContactScreen = (TextView) view.findViewById(R.id.editProfileFieldMobile);
+		facebookContactScreen = (TextView) view.findViewById(R.id.editProfileFieldFacebook);
+		linkedinContactScreen = (TextView) view.findViewById(R.id.editProfileFieldLinkedIn);
 
 		spinnerGender.setAdapter(new ImageSpinnerAdapter(getActivity(), R.id.editProfileSpinnerGender, CommonUtils.genderArray, CommonUtils.genderImages));
 		spinnerCountry.setAdapter(new ImageSpinnerAdapter(getActivity(), R.id.editProfileSpinnerCountry, CommonUtils.countryArray, CommonUtils.countryImages));
@@ -238,6 +252,10 @@ public class EditProfileFragment extends Fragment {
 		surnameScreen.setOnFocusChangeListener(focusChange);
 		nicknameScreen.setOnFocusChangeListener(focusChange);
 		nameScreen.setOnFocusChangeListener(focusChange);
+		phoneContactScreen.setOnFocusChangeListener(focusChange);
+		emailContactScreen.setOnFocusChangeListener(focusChange);
+		facebookContactScreen.setOnFocusChangeListener(focusChange);
+		linkedinContactScreen.setOnFocusChangeListener(focusChange);
 		// Serve per far espandere la grid e fargli occupare tutto lo spazio
 		// necessario (il wrap_content normale non funziona quando la gridview
 		// sta dentro una scrollview)
@@ -294,7 +312,7 @@ public class EditProfileFragment extends Fragment {
 			}
 
 			String language = (String) spinnerLanguage.getSelectedItem();
-			if (language != null && !country.isEmpty()) {
+			if (language != null && !language.isEmpty()) {
 				profile.setPrimaryLanguage(language);
 			}
 
@@ -302,6 +320,51 @@ public class EditProfileFragment extends Fragment {
 				profile.setProfileImages(scrollGalleryAdapter.imageList);
 			}
 
+			List<Contact> contactList = new ArrayList<Contact>();
+			
+			String email = emailContactScreen.getText().toString();
+			if(email!=null&&!email.isEmpty())
+			{
+				Contact contact = new Contact();
+				contact.setProfileId(profileId);
+				contact.setContactType(ContactType.EMAIL);
+				contact.setReference(email);
+				contactList.add(contact);
+			}
+			
+			String phone = phoneContactScreen.getText().toString();
+			if(phone!=null&&!phone.isEmpty())
+			{
+				Contact contact = new Contact();
+				contact.setProfileId(profileId);
+				contact.setContactType(ContactType.PHONE);
+				contact.setReference(phone);
+				contactList.add(contact);
+			}			
+			
+			String facebookContact = facebookContactScreen.getText().toString();
+			if(facebookContact!=null&&!facebookContact.isEmpty())
+			{
+				Contact contact = new Contact();
+				contact.setProfileId(profileId);
+				contact.setContactType(ContactType.FACEBOOK);
+				contact.setReference(facebookContact);
+				contactList.add(contact);
+			}
+			
+			String linkedinContact = linkedinContactScreen.getText().toString();
+			if(linkedinContact!=null&&!linkedinContact.isEmpty())
+			{
+				Contact contact = new Contact();
+				contact.setProfileId(profileId);
+				contact.setContactType(ContactType.LINKEDIN);
+				contact.setReference(linkedinContact);
+				contactList.add(contact);
+			}			
+			
+			if(!contactList.isEmpty())
+				profile.setContactList(contactList);
+						
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 
@@ -309,6 +372,9 @@ public class EditProfileFragment extends Fragment {
 			Services.businessLogic.notifyMyProfileIsUpdated();
 
 			switchToUpdateAccount(savedProfile);
+			
+
+			
 
 			// ora che ho aggiornato il profilo devo vedere se gli interessi
 			// matchano con quelli degli altri
@@ -363,6 +429,23 @@ public class EditProfileFragment extends Fragment {
 
 		if (profile.getProfileImages() != null) {
 			scrollGalleryAdapter.setProfileImageList(profile.getProfileImages());
+		}
+		
+		if(profile.getContactList()!=null&&!profile.getContactList().isEmpty())
+		{
+			Contact tempContact = new Contact();
+			Iterator<Contact>iter = profile.getContactList().iterator();
+			while(iter.hasNext())
+			{
+				tempContact=iter.next();
+				switch(tempContact.getContactType())
+				{
+				case PHONE:{phoneContactScreen.setText(tempContact.getReference());break;}
+				case EMAIL:{emailContactScreen.setText(tempContact.getReference());break;}
+				case FACEBOOK:{facebookContactScreen.setText(tempContact.getReference());break;}
+				case LINKEDIN:{linkedinContactScreen.setText(tempContact.getReference());break;}
+				}
+			}
 		}
 
 		mainProfileImage.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(profile.getProfileImages().get(0).getImageBitmap(), widthPx));
