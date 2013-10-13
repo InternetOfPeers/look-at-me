@@ -6,36 +6,48 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.brainmote.lookatme.bean.BasicProfile;
+import com.brainmote.lookatme.bean.Contact;
+import com.brainmote.lookatme.util.ImageUtil;
 
 public class ContactListAdapter extends BaseAdapter {
 	
 	private Activity activity;
-	private List<String> contactList;
+	private List<BasicProfile> contactList;
 	
 	public ContactListAdapter(Activity activity) {
 		this.activity = activity;
-		// fake list da sostituire quando 
-		contactList = new ArrayList<String>();
-		contactList.add("UNO");
-		contactList.add("DUE");
-		contactList.add("TRE");
+		contactList = new ArrayList<BasicProfile>();
+	}
+	
+	public ContactListAdapter(Activity activity, List<BasicProfile> contactList) {
+		this.activity = activity;
+		this.contactList = contactList;
 	}
 
 	@Override
 	public int getCount() {
+		if (contactList == null) {
+			return 0;
+		}
 		return contactList.size();
 	}
 
 	@Override
 	public Object getItem(int arg0) {
+		if (contactList == null) {
+			return null;
+		}
 		return contactList.get(arg0);
 	}
 
@@ -46,63 +58,106 @@ public class ContactListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		BasicProfile profile = (BasicProfile) getItem(position);
 		if (convertView == null) {
 			LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = layoutInflater.inflate(R.layout.contact_list_row, null);
 		}
-
+		
+		TextView textName = (TextView) convertView.findViewById(R.id.textContactName);
+		TextView textSurname = (TextView) convertView.findViewById(R.id.textContactSurname);
+		// Abbiamo fatto una fesseria! il nome e il cognome non ce l'ho nel basic profile
+		// Seguire l'idea di Giuseppe e dividere il profile in dati di testo + main image e dati non di testo
+		textName.setText("NULL"); //TODO
+		textSurname.setText("NULL"); //TODO
+		TextView textNick = (TextView) convertView.findViewById(R.id.textContactNick);
+		TextView textAge = (TextView) convertView.findViewById(R.id.textContactAge);
+		textNick.setText(profile.getNickname() + ",");
+		textAge.setText(profile.getAge());
+		
+		ImageView imageContact = (ImageView) convertView.findViewById(R.id.imageContact);
 		ImageView imageMobile = (ImageView) convertView.findViewById(R.id.imageContactMobile);
-		imageMobile.setOnClickListener(new View.OnClickListener(){
-		    public void onClick(View v){
-		        Intent intent = new Intent();
-		        intent.setAction(Intent.ACTION_CALL);
-		        intent.setData(Uri.parse("tel:00393483953186"));
-		        activity.startActivity(intent);
-		        //activity.startActivity(Intent.createChooser(intent, "How call:"));
-		    }
-		});
-		
 		ImageView imageEmail = (ImageView) convertView.findViewById(R.id.imageContactEmail);
-		imageEmail.setOnClickListener(new View.OnClickListener(){
-		    public void onClick(View v){
-		    	Intent email = new Intent(Intent.ACTION_SEND);
-		    	email.putExtra(Intent.EXTRA_EMAIL, new String[]{"youremail@yahoo.com"});		  
-		    	email.putExtra(Intent.EXTRA_SUBJECT, "subject");
-		    	email.putExtra(Intent.EXTRA_TEXT, "message");
-		    	email.setType("message/rfc822");
-		    	activity.startActivity(Intent.createChooser(email, "Choose an Email client:"));
-		    }
-		});
-		
 		ImageView imageFacebook = (ImageView) convertView.findViewById(R.id.imageContactFacebook);
-		imageFacebook.setOnClickListener(new View.OnClickListener(){
-		    public void onClick(View v){
-		    	
-		    	try{
-		    	    activity.getPackageManager().getApplicationInfo("com.facebook.android", 0 );
-		    	    String uri = "facebook://facebook.com/pirone.stefano";
-			        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-			        activity.startActivity(intent);
-		    	} catch( PackageManager.NameNotFoundException e ){
-		    		String uri = "http://facebook.com/pirone.stefano";
-			        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-			        activity.startActivity(intent);
-		    	}
-		    	
-		       
-
-		    }
-		});
 		ImageView imageLinkedin = (ImageView) convertView.findViewById(R.id.imageContactLinkedin);
-		imageLinkedin.setOnClickListener(new View.OnClickListener(){
-		    public void onClick(View v){
-		        Intent intent = new Intent();
-		        intent.setAction(Intent.ACTION_VIEW);
-		        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-		        intent.setData(Uri.parse("http://www.linkedin.com"));
-		        activity.startActivity(intent);
-		    }
-		});
+		
+		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(activity.getResources(), profile);
+		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
+		imageContact.setImageBitmap(croppedImageProfile);
+		
+		imageMobile.setVisibility(View.GONE);
+		imageEmail.setVisibility(View.GONE);
+		imageFacebook.setVisibility(View.GONE);
+		imageLinkedin.setVisibility(View.GONE);
+		
+		if (profile.getContactList() != null) {
+			for (Contact contact : profile.getContactList()) {
+				final String reference = contact.getReference();
+				switch (contact.getContactType()) {
+				case EMAIL:
+					imageEmail.setVisibility(View.VISIBLE);
+					imageEmail.setOnClickListener(new View.OnClickListener(){
+					    public void onClick(View v){
+					    	Intent email = new Intent(Intent.ACTION_SEND);
+					    	email.putExtra(Intent.EXTRA_EMAIL, new String[]{reference});		  
+					    	email.putExtra(Intent.EXTRA_SUBJECT, "subject");
+					    	email.putExtra(Intent.EXTRA_TEXT, "message");
+					    	email.setType("message/rfc822");
+					    	activity.startActivity(Intent.createChooser(email, "Choose an Email client:"));
+					    }
+					});
+					break;
+				case FACEBOOK:
+					imageFacebook.setVisibility(View.VISIBLE);
+					imageFacebook.setOnClickListener(new View.OnClickListener(){
+					    public void onClick(View v){
+					    	
+					    	try{
+					    	    activity.getPackageManager().getApplicationInfo("com.facebook.android", 0 );
+					    	    String uri = "facebook://facebook.com/" + reference;
+						        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+						        activity.startActivity(intent);
+					    	} catch( PackageManager.NameNotFoundException e ){
+					    		String uri = "http://facebook.com/" + reference;
+						        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+						        activity.startActivity(intent);
+					    	}
+					    	
+					       
+
+					    }
+					});
+					break;
+				case LINKEDIN:
+					imageLinkedin.setVisibility(View.VISIBLE);
+					imageLinkedin.setOnClickListener(new View.OnClickListener(){
+					    public void onClick(View v){
+					        Intent intent = new Intent();
+					        intent.setAction(Intent.ACTION_VIEW);
+					        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+					        intent.setData(Uri.parse("http://www.linkedin.com"));
+					        activity.startActivity(intent);
+					    }
+					});
+					break;
+				case PHONE:
+					imageMobile.setVisibility(View.VISIBLE);
+					imageMobile.setOnClickListener(new View.OnClickListener(){
+					    public void onClick(View v){
+					        Intent intent = new Intent();
+					        intent.setAction(Intent.ACTION_CALL);
+					        intent.setData(Uri.parse("tel:" + reference));
+					        activity.startActivity(intent);
+					        //activity.startActivity(Intent.createChooser(intent, "How call:"));
+					    }
+					});
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		
 		return convertView;
 	}
 
