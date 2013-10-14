@@ -185,4 +185,6 @@
     <string name="settings_credits_text">If you enable this option, you will feel - it does not matter where you are - the spirits of Look@me developers all around you. Use with caution.</string>
 	<!-- EDIT PROFILE - INTERESTS -->
 	<string name="interest_usage">Manage your interests touching below area and enhance probability to know people with the same interests!</string>
+	<!-- CONTACT LIST -->
+	<string name="no_contact_message">There are no contact yet. To add your favourite profiles touch the star on profile view action bar.</string>
 </resources>

@@ -20,11 +20,14 @@ public class ContactFragment extends Fragment {
 	
 	private ContactListAdapter contactListAdapter;
 	private ListView contactList;
+	private TextView noContactMessage;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_contact_list, null);
+		noContactMessage = (TextView) view.findViewById(R.id.contact_text_message);
 		if (((CommonActivity) getActivity()).checkIfProfileIsCompleted()) {
+			//if (lista dei contatti != null && lista dei contatti .size() > 0) { noContactMessage.setVisibility(View.GONE); }
 			contactListAdapter = new ContactListAdapter(this.getActivity());
 			contactList = (ListView) view.findViewById(R.id.contactList);
 			contactList.setAdapter(contactListAdapter);
