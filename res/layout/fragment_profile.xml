@@ -180,11 +180,13 @@
                     android:paddingBottom="6dp" >
 
                     <LinearLayout
+                        android:id="@+id/profileContactView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
                         <LinearLayout
+                            android:id="@+id/profilePhoneView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" >
 
@@ -204,13 +206,13 @@
                                 android:shadowDx="1"
                                 android:shadowDy="1"
                                 android:shadowRadius="1"
-                                android:text="3211234567"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFFFFF" />
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/profileMailView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" >
 
@@ -230,7 +232,6 @@
                                 android:shadowDx="1"
                                 android:shadowDy="1"
                                 android:shadowRadius="1"
-                                android:text="any@gmail.com"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFFFFF" />
 

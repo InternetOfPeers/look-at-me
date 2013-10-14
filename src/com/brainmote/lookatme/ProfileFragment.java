@@ -6,12 +6,16 @@ import java.util.List;
 import uk.co.senab.photoview.PhotoView;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brainmote.lookatme.bean.Contact;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
@@ -48,6 +53,14 @@ public class ProfileFragment extends Fragment {
 	private TextView textName;
 	private TextView textSurname;
 	private TextView textStatus;
+	
+	private ViewGroup contactView;
+	private ViewGroup phoneGroup;
+	private ViewGroup mailGroup;
+	private TextView textTelephone;
+	private TextView textMail;
+	private ImageView facebookLink;
+	private ImageView linkedinLink;
 
 	private ViewGroup profileActionContainer;
 	private ViewGroup profileHiddenContainer;
@@ -91,6 +104,19 @@ public class ProfileFragment extends Fragment {
 		// preparo i pulsanti
 		buttonLike = (LikeButton) view.findViewById(R.id.buttonLike);
 		buttonChat = (ImageButton) view.findViewById(R.id.buttonChat);
+		// contatti
+		contactView = (ViewGroup) view.findViewById(R.id.profileContactView);
+		contactView.setVisibility(View.GONE);
+		phoneGroup = (ViewGroup) view.findViewById(R.id.profilePhoneView);
+		phoneGroup.setVisibility(View.GONE);
+		mailGroup = (ViewGroup) view.findViewById(R.id.profileMailView);
+		mailGroup.setVisibility(View.GONE);
+		textTelephone = (TextView) view.findViewById(R.id.textTelephone); 
+		textMail = (TextView) view.findViewById(R.id.textEmail); 
+		facebookLink = (ImageView) view.findViewById(R.id.imageFacebook); 
+		facebookLink.setVisibility(View.GONE);
+		linkedinLink = (ImageView) view.findViewById(R.id.imageLinkedin);
+		linkedinLink.setVisibility(View.GONE);
 		// Verifico se il profilo è di un utente fake
 		if (Services.businessLogic.isFakeUserNode(nodeId)) {
 			Services.currentState.setProfileViewed(Services.businessLogic.getFakeUser(nodeId).getNode());
@@ -235,6 +261,83 @@ public class ProfileFragment extends Fragment {
 				gallery_images.add(BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_image));
 			}
 			buttonLike.setEnabled(likeButtonIsEnabledFor(Services.currentState.getProfileViewed().getId()));
+
+			// Preparo gli interessi e i contatti
+			if ((profile.getInterestSet() != null && profile.getInterestSet().size() > 0) ||
+					(profile.getContactList() != null && profile.getContactList().size() > 0)) {
+				showInterestsButton.setVisibility(View.VISIBLE);
+			}
+			
+			if (profile.getInterestSet() != null && profile.getInterestSet().size() > 0) {
+				interestGrid.setAdapter(new EditProfileInterestGridAdapter(getActivity(), profile.getInterestSet(), false));
+			}
+			
+			if (profile.getContactList() != null && profile.getContactList().size() > 0) {
+				contactView.setVisibility(View.VISIBLE);
+				for (Contact contact : profile.getContactList()) {
+					final String reference = contact.getReference();
+					switch (contact.getContactType()) {
+					case EMAIL:
+						mailGroup.setVisibility(View.VISIBLE);
+						textMail.setText(contact.getReference());
+						textMail.setOnClickListener(new View.OnClickListener(){
+						    public void onClick(View v){
+						    	Intent email = new Intent(Intent.ACTION_SEND);
+						    	email.putExtra(Intent.EXTRA_EMAIL, new String[]{reference});		  
+						    	email.putExtra(Intent.EXTRA_SUBJECT, "subject");
+						    	email.putExtra(Intent.EXTRA_TEXT, "message");
+						    	email.setType("message/rfc822");
+						    	startActivity(Intent.createChooser(email, "Choose an Email client:"));
+						    }
+						});
+						break;
+					case FACEBOOK:
+						facebookLink.setVisibility(View.VISIBLE);
+						facebookLink.setOnClickListener(new View.OnClickListener(){
+						    public void onClick(View v){
+						    	
+						    	try{
+						    	    getActivity().getPackageManager().getApplicationInfo("com.facebook.android", 0 );
+						    	    String uri = "facebook://facebook.com/" + reference;
+							        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+							        startActivity(intent);
+						    	} catch( PackageManager.NameNotFoundException e ){
+						    		String uri = "http://facebook.com/" + reference;
+							        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+							        startActivity(intent);
+						    	}
+						    }
+						});
+						break;
+					case LINKEDIN:
+						linkedinLink.setVisibility(View.VISIBLE);
+						linkedinLink.setOnClickListener(new View.OnClickListener(){
+						    public void onClick(View v){
+						        Intent intent = new Intent();
+						        intent.setAction(Intent.ACTION_VIEW);
+						        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+						        intent.setData(Uri.parse("http://www.linkedin.com"));
+						        startActivity(intent);
+						    }
+						});
+						break;
+					case PHONE:
+						phoneGroup.setVisibility(View.VISIBLE);
+						textTelephone.setText(contact.getReference());
+						textTelephone.setOnClickListener(new View.OnClickListener(){
+						    public void onClick(View v){
+						        Intent intent = new Intent();
+						        intent.setAction(Intent.ACTION_CALL);
+						        intent.setData(Uri.parse("tel:" + reference));
+						        startActivity(intent);
+						        //activity.startActivity(Intent.createChooser(intent, "How call:"));
+						    }
+						});
+						break;
+					}
+				}
+			}
+
 		}
 		buttonLike.setOnClickListener(new OnClickListener() {
 			@Override
@@ -261,13 +364,6 @@ public class ProfileFragment extends Fragment {
 				Nav.startActivityWithParameters(getActivity(), ChatMessagesActivity.class, parameters);
 			}
 		});
-
-		// Preparo gli interessi
-		if (profile.getInterestSet() != null && profile.getInterestSet().size() > 0) {
-			showInterestsButton.setVisibility(View.VISIBLE);
-			interestGrid.setAdapter(new EditProfileInterestGridAdapter(getActivity(), profile.getInterestSet(), false));
-		}
-
 		profilePhoto.getAdapter().notifyDataSetChanged();
 		profileReady = true;
 	}

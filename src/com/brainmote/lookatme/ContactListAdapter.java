@@ -122,9 +122,6 @@ public class ContactListAdapter extends BaseAdapter {
 						        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 						        activity.startActivity(intent);
 					    	}
-					    	
-					       
-
 					    }
 					});
 					break;
