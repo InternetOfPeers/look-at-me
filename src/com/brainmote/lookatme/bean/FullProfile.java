@@ -7,8 +7,7 @@ public class FullProfile extends BasicProfile {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
-	private String surname;
+
 	private List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
 	private String status;
 	private String birthdateYear;
@@ -22,22 +21,6 @@ public class FullProfile extends BasicProfile {
 	private String job;
 	private String myDescription;
 	private String motto;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
 
 	public List<ProfileImage> getProfileImages() {
 		return profileImages;

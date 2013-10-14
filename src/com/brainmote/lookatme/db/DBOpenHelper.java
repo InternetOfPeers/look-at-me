@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.ChatMessage;
+import com.brainmote.lookatme.bean.Contact;
 import com.brainmote.lookatme.bean.Conversation;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
@@ -229,5 +230,7 @@ public interface DBOpenHelper {
 	public void addLike(String profileId);
 
 	public void addVisit(String profileId);
+	
+	public List<Contact> getProfileContacts(String profileId);
 
 }

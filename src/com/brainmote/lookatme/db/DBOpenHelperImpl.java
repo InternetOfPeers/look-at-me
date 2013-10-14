@@ -38,12 +38,15 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	private static DBOpenHelperImpl mInstance = null;
 
-	private static final String TB_PROFILES_SELECT_ALL_FIELDS = "SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NAME + ", "
+	private static final String TB_FULL_PROFILES_SELECT_ALL_FIELDS = "SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NAME + ", "
 			+ TABLE_PROFILES_COLUMN_SURNAME + ", " + TABLE_PROFILES_COLUMN_NICKNAME + ", " + TABLE_PROFILES_COLUMN_AGE + ", " + TABLE_PROFILES_COLUMN_GENDER + ", "
 			+ TABLE_PROFILES_COLUMN_STATUS + ", " + TABLE_PROFILES_COLUMN_BIRTHDATE_YEAR + ", " + TABLE_PROFILES_COLUMN_BIRTHDATE_MONTH + ", "
 			+ TABLE_PROFILES_COLUMN_BIRTHDATE_DAY + ", " + TABLE_PROFILES_COLUMN_BIRTH_COUNTRY + ", " + TABLE_PROFILES_COLUMN_BIRTH_CITY + ", "
 			+ TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE + ", " + TABLE_PROFILES_COLUMN_LIVING_COUNTRY + ", " + TABLE_PROFILES_COLUMN_LIVING_CITY + ", "
 			+ TABLE_PROFILES_COLUMN_JOB + ", " + TABLE_PROFILES_COLUMN_MY_DESCRIPTION + ", " + TABLE_PROFILES_COLUMN_MOTTO + " FROM " + TABLE_PROFILES + " ";
+	
+	private static final String TB_BASIC_PROFILES_SELECT_ALL_FIELDS ="SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NICKNAME + ", " + TABLE_PROFILES_COLUMN_GENDER + ", "
+			+ TABLE_PROFILES_COLUMN_AGE +" , " + TABLE_PROFILES_COLUMN_NAME + ", " + TABLE_PROFILES_COLUMN_SURNAME + " FROM " + TABLE_PROFILES;
 
 	private String DEVICE_ID = null;
 
@@ -119,6 +122,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			List<Conversation> conversations = getConversations();
 			List<String> likes = getLikes(db);
 			List<String> visites = getVisites(db);
+			//List<Contact> contact = getCVisites(db);
 
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES + ";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES + ";");
@@ -127,6 +131,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES + ";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIKE + ";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_VISIT + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS + ";");
 			onCreate(db);
 
 			Iterator<FullProfile> iter = profilesPresent.iterator();
@@ -225,6 +230,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		contentValues.put(TABLE_PROFILES_COLUMN_ID, profile.getId());
 		contentValues.put(TABLE_PROFILES_COLUMN_AGE, profile.getAge());
 		contentValues.put(TABLE_PROFILES_COLUMN_GENDER, profile.getGender());
+		contentValues.put(TABLE_PROFILES_COLUMN_NAME, profile.getName());
+		contentValues.put(TABLE_PROFILES_COLUMN_SURNAME, profile.getSurname());
 
 		if (oldContact == null) {
 			database.insert(TABLE_PROFILES, null, contentValues);
@@ -232,16 +239,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		} else {
 			database.update(TABLE_PROFILES, contentValues, TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profile.getId() });
 		}
-
-		// if (profile.getMainProfileImage() != null ) {
-		// Iterator<ProfileImage> iter = profile.getProfileImages().iterator();
-		// while (iter.hasNext()) {
-		// saveOrUpdateImage(iter.next());
-		// }
-		// } else
-		// Log.e("db",
-		// "problem saving profile,this profile has no foto profileId:" +
-		// profile.getId());
+		
+		saveOrUpdateContacts(profile.getId(), profile.getContactList());
 
 		return getFullProfile(profile.getId());
 
@@ -252,17 +251,18 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Cursor cursor = null;
 		List<BasicProfile> returnList = new ArrayList<BasicProfile>();
 		try {
-			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NAME + ", " + TABLE_PROFILES_COLUMN_SURNAME + " FROM "
-					+ TABLE_PROFILES, null);
+			cursor = database.rawQuery(TB_BASIC_PROFILES_SELECT_ALL_FIELDS, null);
+			
 
 			if (cursor.moveToFirst()) {
 				do {
 					BasicProfile tempProfile = new BasicProfile();
 					tempProfile.setId(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
-					// tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
-					// tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
+					tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
+					tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
 					tempProfile.setNickname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
-					// tempProfile.setImage(cursor.getBlob(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_IMAGE)));
+					tempProfile.setMainProfileImage(getProfileMainImage(tempProfile.getId()));
+					tempProfile.setContactList(getProfileContacts(tempProfile.getId()));
 					returnList.add(tempProfile);
 				} while (cursor.moveToNext());
 
@@ -281,7 +281,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Cursor cursor = null;
 		List<FullProfile> returnList = new ArrayList<FullProfile>();
 		try {
-			cursor = db.rawQuery(TB_PROFILES_SELECT_ALL_FIELDS, null);
+			cursor = db.rawQuery(TB_FULL_PROFILES_SELECT_ALL_FIELDS, null);
 
 			if (cursor.moveToFirst()) {
 				do {
@@ -345,7 +345,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			Set<Integer> interestSet = getInterests();
 
-			cursor = database.rawQuery(TB_PROFILES_SELECT_ALL_FIELDS + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
+			cursor = database.rawQuery(TB_FULL_PROFILES_SELECT_ALL_FIELDS + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
 				tempProfile = new FullProfile();
@@ -385,8 +385,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		BasicProfile tempProfile = null;
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NICKNAME + ", " + TABLE_PROFILES_COLUMN_GENDER + ", "
-					+ TABLE_PROFILES_COLUMN_AGE + " FROM " + TABLE_PROFILES + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
+			cursor = database.rawQuery(TB_BASIC_PROFILES_SELECT_ALL_FIELDS+ " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
 				do {
@@ -755,6 +754,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		profile.setNickname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
 		profile.setGender(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_GENDER)));
 		profile.setAge(cursor.getInt(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_AGE)));
+		profile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
+		profile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
 		return profile;
 	}
 
@@ -898,25 +899,16 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
 		// vedere quali
 		// ancora esistono e quali no
+
 		String table_name = TABLE_CONTACTS;
-		String where = null;//TABLE_CONTACTS_COLUMN_PROFILE_ID + "=" + profileId;
-		String[] whereArgs = null;
+		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID +"=?";
+		String[]whereArgs = new String[] {String.valueOf(profileId)};
 		database.delete(table_name, where, whereArgs);
 		Iterator<Contact> iter = contacts.iterator();
 		while (iter.hasNext())
 			saveContact(profileId, iter.next());
 	}
-	
-	public void deleteContact(Contact contacts) throws Exception {
-		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
-		// vedere quali
-		// ancora esistono e quali no
-		String table_name = TABLE_CONTACTS;
-		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID + "=" + contacts.getProfileId() + " AND " + TABLE_CONTACTS_COLUMN_TYPE + "="+ contacts.getContactType().toString();
-		String[] whereArgs = null;
-		database.delete(table_name, where, whereArgs);
-	}
-	
+
 	private void saveContact(String profileId, Contact contact) throws Exception {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(TABLE_CONTACTS_COLUMN_PROFILE_ID, contact.getProfileId());
@@ -925,6 +917,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		database.insert(TABLE_CONTACTS, null, contentValues);		
 	}
 	
+	@Override
 	public List<Contact> getProfileContacts(String profileId) {
 		Cursor cursor = null;
 		Contact contact = null;

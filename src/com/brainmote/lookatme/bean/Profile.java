@@ -18,6 +18,9 @@ public class Profile implements Serializable {
 	private int age;
 
 	private Gender gender;
+	
+	private String name;
+	private String surname;
 
 	private Set<Integer> interestSet = new TreeSet<Integer>();
 	
@@ -71,6 +74,22 @@ public class Profile implements Serializable {
 
 	public void setInterestSet(Set<Integer> interestSet) {
 		this.interestSet = interestSet;
+	}	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 }
