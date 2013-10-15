@@ -242,6 +242,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 		
 		saveOrUpdateContacts(profile.getId(), profile.getContactList());
+		if(profile.getMainProfileImage()!=null&&!profile.getMainProfileImage().isMainImage())
+			profile.getMainProfileImage().setMainImage(true);
+		saveOrUpdateImage(profile.getMainProfileImage());
 
 		return getFullProfile(profile.getId());
 
@@ -261,10 +264,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 					// Escludo il mio profilo
 					if (!id.equals(DEVICE_ID)) {
 						BasicProfile tempProfile = new BasicProfile();
-						tempProfile.setId(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
-						tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
-						tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
-						tempProfile.setNickname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
+						valorizeProfile(tempProfile, cursor);
 						tempProfile.setMainProfileImage(getProfileMainImage(tempProfile.getId()));
 						tempProfile.setContactList(getProfileContacts(tempProfile.getId()));
 						returnList.add(tempProfile);
@@ -326,6 +326,8 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			String where = TABLE_PROFILES_COLUMN_ID + "=" + profileID;
 			String[] whereArgs = null;
 			database.delete(table_name, where, whereArgs);
+			deleteProfileContacts(profileID);
+			deleteProfileImages(profileID);
 		} catch (Throwable e) {
 			Log.e("error on deleting specific Image : " + e.getMessage() + " image ID:" + profileID);
 		}
@@ -513,6 +515,16 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		} catch (Throwable e) {
 			Log.e("error on deleting specific Image : " + e.getMessage() + " image ID:" + profileImageId);
 		}
+	}
+	
+	private void deleteProfileImages(String profileId) throws Exception {
+		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
+		// vedere quali
+		// ancora esistono e quali no
+		String table_name = TABLE_IMAGES;
+		String where = TABLE_IMAGES_COLUMN_ID +"=?";
+		String[]whereArgs = new String[] {String.valueOf(profileId)};
+		database.delete(table_name, where, whereArgs);
 	}
 
 	@Override
@@ -918,6 +930,16 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		Iterator<Contact> iter = contacts.iterator();
 		while (iter.hasNext())
 			saveContact(profileId, iter.next());
+	}
+	
+	private void deleteProfileContacts(String profileId) throws Exception {
+		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
+		// vedere quali
+		// ancora esistono e quali no
+		String table_name = TABLE_CONTACTS;
+		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID +"=?";
+		String[]whereArgs = new String[] {String.valueOf(profileId)};
+		database.delete(table_name, where, whereArgs);
 	}
 
 	private void saveContact(String profileId, Contact contact) throws Exception {
