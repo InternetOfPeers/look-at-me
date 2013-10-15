@@ -26,11 +26,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.Contact;
 import com.brainmote.lookatme.bean.FullProfile;
 import com.brainmote.lookatme.bean.ProfileImage;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.constants.AppSettings;
+import com.brainmote.lookatme.db.DBOpenHelper;
+import com.brainmote.lookatme.db.DBOpenHelperImpl;
 import com.brainmote.lookatme.enumattribute.Country;
 import com.brainmote.lookatme.enumattribute.Gender;
 import com.brainmote.lookatme.service.Event;
@@ -189,6 +192,7 @@ public class ProfileFragment extends Fragment {
 	public void prepareProfileAttributes() {
 		final Node profileNode = Services.currentState.getProfileViewed();
 		FullProfile profile = (FullProfile) profileNode.getProfile();
+		((ProfileActivity) this.getActivity()).setFavourite(checkFavourite());
 		gallery_images = new ArrayList<Bitmap>();
 		if (profile != null) {
 			if (profile.getStatus() != null) {
@@ -401,6 +405,42 @@ public class ProfileFragment extends Fragment {
 					showInterestsButton.getPaddingTop());
 			showHiddenContainer = false;
 		}
+	}
+	
+	public void saveContact() {
+		try {
+			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
+			BasicProfile profile = (BasicProfile) Services.currentState.getProfileViewed().getProfile();
+			dbOpenHelper.saveOrUpdateProfile(profile);
+		}
+		catch (Exception e) {
+			Log.e("Error while saving favourite contact");
+		}
+	}
+	
+	public void removeContact() {
+		try {
+			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
+			BasicProfile profile = (BasicProfile) Services.currentState.getProfileViewed().getProfile();
+			dbOpenHelper.deleteProfile(profile.getId());
+		}
+		catch (Exception e) {
+			Log.e("Error while deleting favourite contact");
+		}
+	}
+	
+	private boolean checkFavourite() {
+		try {
+			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
+			BasicProfile profile = (BasicProfile) Services.currentState.getProfileViewed().getProfile();
+			if (dbOpenHelper.getBasicProfile(profile.getId()) != null) {
+				return true;
+			}
+		}
+		catch (Exception e) {
+			Log.e("Error while deleting favourite contact");
+		}
+		return false;
 	}
 
 	class SamplePagerAdapter extends PagerAdapter {

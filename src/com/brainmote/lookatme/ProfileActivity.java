@@ -43,19 +43,34 @@ public class ProfileActivity extends CommonActivity {
 		case R.id.action_toggle_favourites:
 			if (favourite) {
 				favourite = false;
-				toggleFavouriteItem.setIcon(R.drawable.ic_not_favourite);
-				toggleFavouriteItem.setTitle(R.string.action_add_favourites);
+				profileFragment.removeContact();
+				setFavouriteAction();
 				Toast.makeText(getApplicationContext(), R.string.favourite_removed_message, Toast.LENGTH_SHORT).show();
 			}
 			else {
 				favourite = true;
-				toggleFavouriteItem.setIcon(R.drawable.ic_favourite);
-				toggleFavouriteItem.setTitle(R.string.action_remove_favourites);
+				profileFragment.saveContact();
+				setFavouriteAction();
 				Toast.makeText(getApplicationContext(), R.string.favourite_added_message, Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void setFavouriteAction() {
+		if (!favourite) {
+			toggleFavouriteItem.setIcon(R.drawable.ic_not_favourite);
+			toggleFavouriteItem.setTitle(R.string.action_add_favourites);
+		}
+		else {
+			toggleFavouriteItem.setIcon(R.drawable.ic_favourite);
+			toggleFavouriteItem.setTitle(R.string.action_remove_favourites);
+		}
+	}
+	
+	public void setFavourite(boolean favourite) {
+		this.favourite = favourite;
 	}
 
 	public void onInterestsButtonClick(View view) {

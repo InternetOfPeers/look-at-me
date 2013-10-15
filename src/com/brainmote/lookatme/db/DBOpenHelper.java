@@ -233,4 +233,8 @@ public interface DBOpenHelper {
 	
 	public List<Contact> getProfileContacts(String profileId);
 
+	void saveOrUpdateContacts(String profileId, List<Contact> contacts) throws Exception;
+
+	FullProfile saveOrUpdateProfile(BasicProfile profile) throws Exception;
+
 }

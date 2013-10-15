@@ -222,6 +222,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	}
 
+	@Override
 	public FullProfile saveOrUpdateProfile(BasicProfile profile) throws Exception {
 		FullProfile oldContact = getFullProfile(profile.getId());
 
@@ -326,6 +327,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 	}
 
+	@Override
 	public FullProfile getMyFullProfile() {
 		try {
 			return getFullProfile(DEVICE_ID);
@@ -368,6 +370,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		return tempProfile;
 	}
 
+	@Override
 	public BasicProfile getMyBasicProfile() {
 		try {
 			return getBasicProfile(DEVICE_ID);
@@ -561,6 +564,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 	}
 
+	@Override
 	public void saveOrUpdateConversation(long conversationID, List<ChatMessage> chatMessageList, BasicProfile profile) throws Exception {
 		if (conversationID == 0) {
 			ContentValues contentValues = new ContentValues();
@@ -579,6 +583,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	}
 
+	@Override
 	public List<Conversation> getConversations() {
 		Cursor cursor = null;
 		List<Conversation> conversationList = new ArrayList<Conversation>();
@@ -865,6 +870,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 	}
 
+	@Override
 	public void addVisit(String profileId) {
 		if (selectProfileIdFromStatisticsTable(profileId, TABLE_VISIT, TABLE_VISIT_COLUMN_PROFILE_ID) == null) {
 			ContentValues contentValues = new ContentValues();
@@ -895,6 +901,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		return null;
 	}
 	
+	@Override
 	public void saveOrUpdateContacts(String profileId, List<Contact> contacts) throws Exception {
 		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
 		// vedere quali
