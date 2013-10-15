@@ -119,7 +119,13 @@ public class ContactFragment extends Fragment {
 				}
 			}
 		});
-		dialogBuilder.setNegativeButton(R.string.close, null);
+		dialogBuilder.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int arg1) {
+				dialog.dismiss();
+			}
+		});
 		
 		dialogBuilder.create().show();
 	}
