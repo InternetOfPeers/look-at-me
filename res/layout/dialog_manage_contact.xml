@@ -19,18 +19,21 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="80dp"
+        android:layout_marginLeft="4dp"
         android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/lineManageContactPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".3" >
+            android:layout_weight=".5" >
 
             <ImageView
                 android:id="@+id/imageManageContactTelephone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:scaleType="center"
                 android:src="@drawable/ic_action_call" />
 
             <TextView
@@ -39,19 +42,23 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="6dp"
                 android:gravity="center_vertical"
+                android:text="aaa"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/lineManageContactMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".3" >
+            android:layout_weight=".5" >
 
             <ImageView
                 android:id="@+id/imageManageContactEmail"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:scaleType="center"
                 android:src="@drawable/ic_action_email" />
 
             <TextView
@@ -60,7 +67,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="6dp"
                 android:gravity="center_vertical"
+                android:text="aaa"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -69,19 +78,6 @@
             android:layout_weight=".3"
             android:paddingBottom="6dp"
             android:paddingTop="6dp" >
-
-            <ImageView
-                android:id="@+id/imageManageContactFacebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/facebook_icon" />
-
-            <ImageView
-                android:id="@+id/imageManageContactLinkedin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:src="@drawable/linkedin_icon" />
         </LinearLayout>
     </LinearLayout>
 

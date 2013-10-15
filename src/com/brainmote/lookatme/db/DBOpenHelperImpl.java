@@ -257,14 +257,18 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 			if (cursor.moveToFirst()) {
 				do {
-					BasicProfile tempProfile = new BasicProfile();
-					tempProfile.setId(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
-					tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
-					tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
-					tempProfile.setNickname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
-					tempProfile.setMainProfileImage(getProfileMainImage(tempProfile.getId()));
-					tempProfile.setContactList(getProfileContacts(tempProfile.getId()));
-					returnList.add(tempProfile);
+					String id = cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID));
+					// Escludo il mio profilo
+					if (!id.equals(DEVICE_ID)) {
+						BasicProfile tempProfile = new BasicProfile();
+						tempProfile.setId(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_ID)));
+						tempProfile.setName(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NAME)));
+						tempProfile.setSurname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_SURNAME)));
+						tempProfile.setNickname(cursor.getString(cursor.getColumnIndex(TABLE_PROFILES_COLUMN_NICKNAME)));
+						tempProfile.setMainProfileImage(getProfileMainImage(tempProfile.getId()));
+						tempProfile.setContactList(getProfileContacts(tempProfile.getId()));
+						returnList.add(tempProfile);
+					}
 				} while (cursor.moveToNext());
 
 			}

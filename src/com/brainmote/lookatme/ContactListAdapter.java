@@ -34,6 +34,12 @@ public class ContactListAdapter extends BaseAdapter {
 		this.activity = activity;
 		this.contactList = contactList;
 	}
+	
+	public void removeItem(BasicProfile profile) {
+		if (contactList != null) {
+			contactList.remove(profile);
+		}
+	}
 
 	@Override
 	public int getCount() {
@@ -66,14 +72,12 @@ public class ContactListAdapter extends BaseAdapter {
 		
 		TextView textName = (TextView) convertView.findViewById(R.id.textContactName);
 		TextView textSurname = (TextView) convertView.findViewById(R.id.textContactSurname);
-		// Abbiamo fatto una fesseria! il nome e il cognome non ce l'ho nel basic profile
-		// Seguire l'idea di Giuseppe e dividere il profile in dati di testo + main image e dati non di testo
-		textName.setText("NULL"); //TODO
-		textSurname.setText("NULL"); //TODO
+		textName.setText(profile.getName());
+		textSurname.setText(profile.getSurname());
 		TextView textNick = (TextView) convertView.findViewById(R.id.textContactNick);
 		TextView textAge = (TextView) convertView.findViewById(R.id.textContactAge);
 		textNick.setText(profile.getNickname() + ",");
-		textAge.setText(profile.getAge());
+		textAge.setText(profile.getAge()+"");
 		
 		ImageView imageContact = (ImageView) convertView.findViewById(R.id.imageContact);
 		ImageView imageMobile = (ImageView) convertView.findViewById(R.id.imageContactMobile);

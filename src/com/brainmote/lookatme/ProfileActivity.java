@@ -27,10 +27,11 @@ public class ProfileActivity extends CommonActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Imposta il menù di favorito o meno a secona dei casi
+		// Imposta il menù di favorito o meno a seconda dei casi
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.view_profile, menu);
 		toggleFavouriteItem = (MenuItem) menu.findItem(R.id.action_toggle_favourites);
+		setFavouriteAction();
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -42,15 +43,13 @@ public class ProfileActivity extends CommonActivity {
 			return true;
 		case R.id.action_toggle_favourites:
 			if (favourite) {
-				favourite = false;
 				profileFragment.removeContact();
-				setFavouriteAction();
+				setFavourite(false);
 				Toast.makeText(getApplicationContext(), R.string.favourite_removed_message, Toast.LENGTH_SHORT).show();
 			}
 			else {
-				favourite = true;
 				profileFragment.saveContact();
-				setFavouriteAction();
+				setFavourite(true);
 				Toast.makeText(getApplicationContext(), R.string.favourite_added_message, Toast.LENGTH_SHORT).show();
 			}
 			break;
@@ -58,19 +57,25 @@ public class ProfileActivity extends CommonActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void setFavouriteAction() {
-		if (!favourite) {
-			toggleFavouriteItem.setIcon(R.drawable.ic_not_favourite);
-			toggleFavouriteItem.setTitle(R.string.action_add_favourites);
+	public void setFavourite(boolean favourite) {
+		this.favourite = favourite;
+		try {
+			setFavouriteAction();
 		}
-		else {
-			toggleFavouriteItem.setIcon(R.drawable.ic_favourite);
-			toggleFavouriteItem.setTitle(R.string.action_remove_favourites);
+		catch (Exception e) {
+			Log.d("Errore nel setting della action bar! Probabilmente il menù ancora non è stato inizializzato");
 		}
 	}
 	
-	public void setFavourite(boolean favourite) {
-		this.favourite = favourite;
+	private void setFavouriteAction() {
+		if (favourite) {
+			toggleFavouriteItem.setIcon(R.drawable.ic_favourite);
+			toggleFavouriteItem.setTitle(R.string.action_remove_favourites);
+		}
+		else {
+			toggleFavouriteItem.setIcon(R.drawable.ic_not_favourite);
+			toggleFavouriteItem.setTitle(R.string.action_add_favourites);
+		}
 	}
 
 	public void onInterestsButtonClick(View view) {

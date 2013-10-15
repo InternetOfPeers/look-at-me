@@ -187,4 +187,9 @@
 	<string name="interest_usage">Manage your interests touching below area and enhance probability to know people with the same interests!</string>
 	<!-- CONTACT LIST -->
 	<string name="no_contact_message">There are no contact yet. To add your favourite profiles touch the star on profile view action bar.</string>
+	<!-- GENERIC -->
+	<string name="close">Close</string>
+	<string name="remove">Remove</string>
+	<string name="ok">OK</string>
+	<string name="cancel">Cancel</string>
 </resources>
