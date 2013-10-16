@@ -929,7 +929,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		database.delete(table_name, where, whereArgs);
 		Iterator<Contact> iter = contacts.iterator();
 		while (iter.hasNext())
-			saveContact(profileId, iter.next());
+			saveContact(iter.next());
 	}
 	
 	private void deleteProfileContacts(String profileId) throws Exception {
@@ -942,7 +942,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		database.delete(table_name, where, whereArgs);
 	}
 
-	private void saveContact(String profileId, Contact contact) throws Exception {
+	private void saveContact(Contact contact) throws Exception {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(TABLE_CONTACTS_COLUMN_PROFILE_ID, contact.getProfileId());
 		contentValues.put(TABLE_CONTACTS_COLUMN_TYPE, contact.getContactType().toString());
