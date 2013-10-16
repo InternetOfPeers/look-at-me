@@ -136,7 +136,7 @@ public class ContactListAdapter extends BaseAdapter {
 					        Intent intent = new Intent();
 					        intent.setAction(Intent.ACTION_VIEW);
 					        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-					        intent.setData(Uri.parse("http://www.linkedin.com"));
+					        intent.setData(Uri.parse("http://www.linkedin.com/pub/" + reference));
 					        activity.startActivity(intent);
 					    }
 					});
