@@ -21,7 +21,7 @@ public interface AppSettings {
 	static final String USER_PREFERENCES = "com.brainmote.lookatme.userPreferences";
 
 	static final String URL_PREFIX_LINKEDIN = "http://www.linkedin.com/in/";
-	static final String URL_PREFIX_FACEBOOK = "https://m.facebook.com/";
+	static final String URL_PREFIX_FACEBOOK = "https://www.facebook.com/";
 
 	static final int MORE_FAKE_USERS = 0; // In aggiunta ai profili fake dei
 											// credits, è possibile aggiungere
