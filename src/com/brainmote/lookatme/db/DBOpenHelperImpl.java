@@ -44,9 +44,10 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			+ TABLE_PROFILES_COLUMN_BIRTHDATE_DAY + ", " + TABLE_PROFILES_COLUMN_BIRTH_COUNTRY + ", " + TABLE_PROFILES_COLUMN_BIRTH_CITY + ", "
 			+ TABLE_PROFILES_COLUMN_PRIMARY_LANGUAGE + ", " + TABLE_PROFILES_COLUMN_LIVING_COUNTRY + ", " + TABLE_PROFILES_COLUMN_LIVING_CITY + ", "
 			+ TABLE_PROFILES_COLUMN_JOB + ", " + TABLE_PROFILES_COLUMN_MY_DESCRIPTION + ", " + TABLE_PROFILES_COLUMN_MOTTO + " FROM " + TABLE_PROFILES + " ";
-	
-	private static final String TB_BASIC_PROFILES_SELECT_ALL_FIELDS ="SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NICKNAME + ", " + TABLE_PROFILES_COLUMN_GENDER + ", "
-			+ TABLE_PROFILES_COLUMN_AGE +" , " + TABLE_PROFILES_COLUMN_NAME + ", " + TABLE_PROFILES_COLUMN_SURNAME + " FROM " + TABLE_PROFILES;
+
+	private static final String TB_BASIC_PROFILES_SELECT_ALL_FIELDS = "SELECT " + TABLE_PROFILES_COLUMN_ID + ", " + TABLE_PROFILES_COLUMN_NICKNAME + ", "
+			+ TABLE_PROFILES_COLUMN_GENDER + ", " + TABLE_PROFILES_COLUMN_AGE + " , " + TABLE_PROFILES_COLUMN_NAME + ", " + TABLE_PROFILES_COLUMN_SURNAME + " FROM "
+			+ TABLE_PROFILES;
 
 	private String DEVICE_ID = null;
 
@@ -102,9 +103,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		db.execSQL("CREATE TABLE " + TABLE_LIKE + "(" + TABLE_LIKE_COLUMN_PROFILE_ID + " TEXT PRIMARY KEY); ");
 
 		db.execSQL("CREATE TABLE " + TABLE_VISIT + "(" + TABLE_VISIT_COLUMN_PROFILE_ID + " TEXT PRIMARY KEY); ");
-		
-		db.execSQL("CREATE TABLE " + TABLE_CONTACTS + "(" + TABLE_CONTACTS_COLUMN_PROFILE_ID + " TEXT NOT NULL, "+  TABLE_CONTACTS_COLUMN_TYPE + " TEXT NOT NULL, "+
-				  TABLE_CONTACTS_COLUMN_REFERENCE + " TEXT NOT NULL "+"); ");
+
+		db.execSQL("CREATE TABLE " + TABLE_CONTACTS + "(" + TABLE_CONTACTS_COLUMN_PROFILE_ID + " TEXT NOT NULL, " + TABLE_CONTACTS_COLUMN_TYPE + " TEXT NOT NULL, "
+				+ TABLE_CONTACTS_COLUMN_REFERENCE + " TEXT NOT NULL " + "); ");
 	}
 
 	@Override
@@ -122,7 +123,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			List<Conversation> conversations = getConversations();
 			List<String> likes = getLikes(db);
 			List<String> visites = getVisites(db);
-			//List<Contact> contact = getCVisites(db);
+			// List<Contact> contact = getCVisites(db);
 
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES + ";");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES + ";");
@@ -240,9 +241,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		} else {
 			database.update(TABLE_PROFILES, contentValues, TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + profile.getId() });
 		}
-		
+
 		saveOrUpdateContacts(profile.getId(), profile.getContactList());
-		if(profile.getMainProfileImage()!=null&&!profile.getMainProfileImage().isMainImage())
+		if (profile.getMainProfileImage() != null && !profile.getMainProfileImage().isMainImage())
 			profile.getMainProfileImage().setMainImage(true);
 		saveOrUpdateImage(profile.getMainProfileImage());
 
@@ -256,7 +257,6 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		List<BasicProfile> returnList = new ArrayList<BasicProfile>();
 		try {
 			cursor = database.rawQuery(TB_BASIC_PROFILES_SELECT_ALL_FIELDS, null);
-			
 
 			if (cursor.moveToFirst()) {
 				do {
@@ -394,7 +394,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		BasicProfile tempProfile = null;
 		try {
 
-			cursor = database.rawQuery(TB_BASIC_PROFILES_SELECT_ALL_FIELDS+ " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
+			cursor = database.rawQuery(TB_BASIC_PROFILES_SELECT_ALL_FIELDS + " WHERE " + TABLE_PROFILES_COLUMN_ID + "=?", new String[] { "" + contactID });
 
 			if (cursor.moveToFirst()) {
 				do {
@@ -516,14 +516,14 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 			Log.e("error on deleting specific Image : " + e.getMessage() + " image ID:" + profileImageId);
 		}
 	}
-	
+
 	private void deleteProfileImages(String profileId) throws Exception {
 		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
 		// vedere quali
 		// ancora esistono e quali no
 		String table_name = TABLE_IMAGES;
-		String where = TABLE_IMAGES_COLUMN_ID +"=?";
-		String[]whereArgs = new String[] {String.valueOf(profileId)};
+		String where = TABLE_IMAGES_COLUMN_ID + "=?";
+		String[] whereArgs = new String[] { String.valueOf(profileId) };
 		database.delete(table_name, where, whereArgs);
 	}
 
@@ -916,7 +916,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void saveOrUpdateContacts(String profileId, List<Contact> contacts) throws Exception {
 		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
@@ -924,21 +924,21 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		// ancora esistono e quali no
 
 		String table_name = TABLE_CONTACTS;
-		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID +"=?";
-		String[]whereArgs = new String[] {String.valueOf(profileId)};
+		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID + "=?";
+		String[] whereArgs = new String[] { String.valueOf(profileId) };
 		database.delete(table_name, where, whereArgs);
 		Iterator<Contact> iter = contacts.iterator();
 		while (iter.hasNext())
 			saveContact(iter.next());
 	}
-	
+
 	private void deleteProfileContacts(String profileId) throws Exception {
 		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
 		// vedere quali
 		// ancora esistono e quali no
 		String table_name = TABLE_CONTACTS;
-		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID +"=?";
-		String[]whereArgs = new String[] {String.valueOf(profileId)};
+		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID + "=?";
+		String[] whereArgs = new String[] { String.valueOf(profileId) };
 		database.delete(table_name, where, whereArgs);
 	}
 
@@ -947,9 +947,9 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		contentValues.put(TABLE_CONTACTS_COLUMN_PROFILE_ID, contact.getProfileId());
 		contentValues.put(TABLE_CONTACTS_COLUMN_TYPE, contact.getContactType().toString());
 		contentValues.put(TABLE_CONTACTS_COLUMN_REFERENCE, contact.getReference());
-		database.insert(TABLE_CONTACTS, null, contentValues);		
+		database.insert(TABLE_CONTACTS, null, contentValues);
 	}
-	
+
 	@Override
 	public List<Contact> getProfileContacts(String profileId) {
 		Cursor cursor = null;
@@ -957,16 +957,16 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 		List<Contact> returnList = new ArrayList<Contact>();
 		try {
 
-			cursor = database.rawQuery("SELECT " + TABLE_CONTACTS_COLUMN_PROFILE_ID + ", " + TABLE_CONTACTS_COLUMN_REFERENCE + ", " + TABLE_CONTACTS_COLUMN_TYPE 
-					+ " FROM " + TABLE_CONTACTS + " WHERE " + TABLE_CONTACTS_COLUMN_PROFILE_ID + "=?", new String[] { "" + profileId });
+			cursor = database.rawQuery("SELECT " + TABLE_CONTACTS_COLUMN_PROFILE_ID + ", " + TABLE_CONTACTS_COLUMN_REFERENCE + ", " + TABLE_CONTACTS_COLUMN_TYPE + " FROM "
+					+ TABLE_CONTACTS + " WHERE " + TABLE_CONTACTS_COLUMN_PROFILE_ID + "=?", new String[] { "" + profileId });
 
 			if (cursor.moveToFirst()) {
-				do {				
-					contact= new Contact();
+				do {
+					contact = new Contact();
 					contact.setProfileId(cursor.getString(cursor.getColumnIndex(TABLE_CONTACTS_COLUMN_PROFILE_ID)));
 					contact.setContactType(ContactType.parse(cursor.getString(cursor.getColumnIndex(TABLE_CONTACTS_COLUMN_TYPE))));
 					contact.setReference(cursor.getString(cursor.getColumnIndex(TABLE_CONTACTS_COLUMN_REFERENCE)));
-					returnList.add( contact);
+					returnList.add(contact);
 				} while (cursor.moveToNext());
 
 			}

@@ -18,12 +18,12 @@ public class Profile implements Serializable {
 	private int age;
 
 	private Gender gender;
-	
+
 	private String name;
 	private String surname;
 
 	private Set<Integer> interestSet = new TreeSet<Integer>();
-	
+
 	private List<Contact> contactList = new ArrayList<Contact>();
 
 	public List<Contact> getContactList() {
@@ -74,7 +74,7 @@ public class Profile implements Serializable {
 
 	public void setInterestSet(Set<Integer> interestSet) {
 		this.interestSet = interestSet;
-	}	
+	}
 
 	public String getName() {
 		return name;

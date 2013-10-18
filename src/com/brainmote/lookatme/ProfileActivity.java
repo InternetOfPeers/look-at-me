@@ -24,7 +24,7 @@ public class ProfileActivity extends CommonActivity {
 		profileFragment = (ProfileFragment) getFragmentManager().findFragmentById(R.id.fragment_profile);
 		checkIfProfileIsCompleted();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Imposta il menù di favorito o meno a seconda dei casi
@@ -46,8 +46,7 @@ public class ProfileActivity extends CommonActivity {
 				profileFragment.removeContact();
 				setFavourite(false);
 				Toast.makeText(getApplicationContext(), R.string.favourite_removed_message, Toast.LENGTH_SHORT).show();
-			}
-			else {
+			} else {
 				profileFragment.saveContact();
 				setFavourite(true);
 				Toast.makeText(getApplicationContext(), R.string.favourite_added_message, Toast.LENGTH_SHORT).show();
@@ -56,23 +55,21 @@ public class ProfileActivity extends CommonActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	public void setFavourite(boolean favourite) {
 		this.favourite = favourite;
 		try {
 			setFavouriteAction();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			Log.d("Errore nel setting della action bar! Probabilmente il menù ancora non è stato inizializzato");
 		}
 	}
-	
+
 	private void setFavouriteAction() {
 		if (favourite) {
 			toggleFavouriteItem.setIcon(R.drawable.ic_favourite);
 			toggleFavouriteItem.setTitle(R.string.action_remove_favourites);
-		}
-		else {
+		} else {
 			toggleFavouriteItem.setIcon(R.drawable.ic_not_favourite);
 			toggleFavouriteItem.setTitle(R.string.action_add_favourites);
 		}

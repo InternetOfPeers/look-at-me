@@ -1,8 +1,8 @@
 package com.brainmote.lookatme.enumattribute;
 
 public enum ContactType {
-	
-	PHONE("Phone"),EMAIL("Email"), LINKEDIN("LinkedIn"), FACEBOOK("Facebook");
+
+	PHONE("Phone"), EMAIL("Email"), LINKEDIN("LinkedIn"), FACEBOOK("Facebook");
 
 	String contact;
 
@@ -23,7 +23,7 @@ public enum ContactType {
 			return EMAIL;
 		} else if ("LinkedIn".equals(s)) {
 			return LINKEDIN;
-		}else if ("Facebook".equals(s)) {
+		} else if ("Facebook".equals(s)) {
 			return FACEBOOK;
 		}
 		return null;

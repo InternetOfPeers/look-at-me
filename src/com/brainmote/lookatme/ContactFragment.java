@@ -24,11 +24,11 @@ import com.brainmote.lookatme.util.ImageUtil;
 import com.brainmote.lookatme.util.Log;
 
 public class ContactFragment extends Fragment {
-	
+
 	private ContactListAdapter contactListAdapter;
 	private ListView contactList;
 	private TextView noContactMessage;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_contact_list, null);
@@ -37,11 +37,10 @@ public class ContactFragment extends Fragment {
 			try {
 				DBOpenHelper dbHelper = DBOpenHelperImpl.getInstance(getActivity());
 				List<BasicProfile> contacts = dbHelper.getProfiles();
-				if (contacts != null && contacts.size() > 0) { 
+				if (contacts != null && contacts.size() > 0) {
 					noContactMessage.setVisibility(View.GONE);
 					contactListAdapter = new ContactListAdapter(this.getActivity(), contacts);
-				}
-				else {
+				} else {
 					contactListAdapter = new ContactListAdapter(this.getActivity());
 				}
 				contactList = (ListView) view.findViewById(R.id.contactList);
@@ -50,38 +49,38 @@ public class ContactFragment extends Fragment {
 
 					@Override
 					public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-						// Show alert dialog con riepilogo dati e scelta salva ed elimina
+						// Show alert dialog con riepilogo dati e scelta salva
+						// ed elimina
 						showContactDialog((BasicProfile) contactListAdapter.getItem(position));
 					}
 				});
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				Log.e("Error while retrieving contact list");
 			}
 		}
 		return view;
 	}
-	
+
 	private void showContactDialog(final BasicProfile profile) {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this.getActivity());
 		LayoutInflater layoutInflater = (LayoutInflater) this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = layoutInflater.inflate(R.layout.dialog_manage_contact, null);
 		dialogBuilder.setView(view);
 		dialogBuilder.setTitle(profile.getNickname() + ", " + profile.getAge());
-		
+
 		ViewGroup linePhone = (ViewGroup) view.findViewById(R.id.lineManageContactPhone);
 		ViewGroup lineMail = (ViewGroup) view.findViewById(R.id.lineManageContactMail);
 		linePhone.setVisibility(View.GONE);
 		lineMail.setVisibility(View.GONE);
-		
+
 		TextView phone = (TextView) view.findViewById(R.id.textManageContactTelephone);
 		TextView email = (TextView) view.findViewById(R.id.textManageContactEmail);
-		
+
 		ImageView imageContact = (ImageView) view.findViewById(R.id.imageManageContactThumbnail);
 		Bitmap mainImageProfile = ImageUtil.getBitmapProfileImage(getActivity().getResources(), profile);
 		Bitmap croppedImageProfile = ImageUtil.bitmapForThumbnail(mainImageProfile);
 		imageContact.setImageBitmap(croppedImageProfile);
-		
+
 		if (profile.getContactList() != null) {
 			for (Contact contact : profile.getContactList()) {
 				final String reference = contact.getReference();
@@ -99,10 +98,10 @@ public class ContactFragment extends Fragment {
 				}
 			}
 		}
-		
-		//dialogBuilder.setPositiveButton("Save in contacts", null);
+
+		// dialogBuilder.setPositiveButton("Save in contacts", null);
 		dialogBuilder.setNeutralButton(R.string.remove, new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				try {
@@ -113,20 +112,19 @@ public class ContactFragment extends Fragment {
 					if (contactListAdapter.getCount() == 0) {
 						noContactMessage.setVisibility(View.VISIBLE);
 					}
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					Log.e("Error while removing favourite");
 				}
 			}
 		});
 		dialogBuilder.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int arg1) {
 				dialog.dismiss();
 			}
 		});
-		
+
 		dialogBuilder.create().show();
 	}
 }

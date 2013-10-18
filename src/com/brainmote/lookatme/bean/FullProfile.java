@@ -7,7 +7,6 @@ public class FullProfile extends BasicProfile {
 
 	private static final long serialVersionUID = 1L;
 
-
 	private List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
 	private String status;
 	private String birthdateYear;

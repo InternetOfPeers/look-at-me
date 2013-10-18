@@ -65,7 +65,7 @@ public class EditProfileFragment extends Fragment {
 	private TextView facebookContactScreen;
 	private TextView linkedinContactScreen;
 	private TextView phoneContactScreen;
-	
+
 	private ScrollGalleryAdapter scrollGalleryAdapter;
 	private String profileId;
 	private int widthPx;
@@ -95,7 +95,7 @@ public class EditProfileFragment extends Fragment {
 		tabSpecInterests.setIndicator("", getResources().getDrawable(R.drawable.ic_interest));
 		tabSpecInterests.setContent(R.id.tab_interests);
 		tabs.addTab(tabSpecInterests);
-		
+
 		TabSpec tabSpecContacts = tabs.newTabSpec("Contacts");
 		tabSpecContacts.setIndicator("", getResources().getDrawable(R.drawable.ic_contact));
 		tabSpecContacts.setContent(R.id.tab_contacts);
@@ -320,50 +320,46 @@ public class EditProfileFragment extends Fragment {
 			}
 
 			List<Contact> contactList = new ArrayList<Contact>();
-			
+
 			String email = emailContactScreen.getText().toString();
-			if(email!=null&&!email.isEmpty())
-			{
+			if (email != null && !email.isEmpty()) {
 				Contact contact = new Contact();
 				contact.setProfileId(profileId);
 				contact.setContactType(ContactType.EMAIL);
 				contact.setReference(email);
 				contactList.add(contact);
 			}
-			
+
 			String phone = phoneContactScreen.getText().toString();
-			if(phone!=null&&!phone.isEmpty())
-			{
+			if (phone != null && !phone.isEmpty()) {
 				Contact contact = new Contact();
 				contact.setProfileId(profileId);
 				contact.setContactType(ContactType.PHONE);
 				contact.setReference(phone);
 				contactList.add(contact);
-			}			
-			
+			}
+
 			String facebookContact = facebookContactScreen.getText().toString();
-			if(facebookContact!=null&&!facebookContact.isEmpty())
-			{
+			if (facebookContact != null && !facebookContact.isEmpty()) {
 				Contact contact = new Contact();
 				contact.setProfileId(profileId);
 				contact.setContactType(ContactType.FACEBOOK);
 				contact.setReference(facebookContact);
 				contactList.add(contact);
 			}
-			
+
 			String linkedinContact = linkedinContactScreen.getText().toString();
-			if(linkedinContact!=null&&!linkedinContact.isEmpty())
-			{
+			if (linkedinContact != null && !linkedinContact.isEmpty()) {
 				Contact contact = new Contact();
 				contact.setProfileId(profileId);
 				contact.setContactType(ContactType.LINKEDIN);
 				contact.setReference(linkedinContact);
 				contactList.add(contact);
-			}			
-			
-			if(!contactList.isEmpty())
+			}
+
+			if (!contactList.isEmpty())
 				profile.setContactList(contactList);
-						
+
 			DBOpenHelper dbOpenHelper = DBOpenHelperImpl.getInstance(getActivity());
 			FullProfile savedProfile = dbOpenHelper.saveOrUpdateProfile(profile);
 
@@ -371,9 +367,6 @@ public class EditProfileFragment extends Fragment {
 			Services.businessLogic.notifyMyProfileIsUpdated();
 
 			switchToUpdateAccount(savedProfile);
-			
-
-			
 
 			// ora che ho aggiornato il profilo devo vedere se gli interessi
 			// matchano con quelli degli altri
@@ -429,20 +422,29 @@ public class EditProfileFragment extends Fragment {
 		if (profile.getProfileImages() != null) {
 			scrollGalleryAdapter.setProfileImageList(profile.getProfileImages());
 		}
-		
-		if(profile.getContactList()!=null&&!profile.getContactList().isEmpty())
-		{
+
+		if (profile.getContactList() != null && !profile.getContactList().isEmpty()) {
 			Contact tempContact = new Contact();
-			Iterator<Contact>iter = profile.getContactList().iterator();
-			while(iter.hasNext())
-			{
-				tempContact=iter.next();
-				switch(tempContact.getContactType())
-				{
-				case PHONE:{phoneContactScreen.setText(tempContact.getReference());break;}
-				case EMAIL:{emailContactScreen.setText(tempContact.getReference());break;}
-				case FACEBOOK:{facebookContactScreen.setText(tempContact.getReference());break;}
-				case LINKEDIN:{linkedinContactScreen.setText(tempContact.getReference());break;}
+			Iterator<Contact> iter = profile.getContactList().iterator();
+			while (iter.hasNext()) {
+				tempContact = iter.next();
+				switch (tempContact.getContactType()) {
+				case PHONE: {
+					phoneContactScreen.setText(tempContact.getReference());
+					break;
+				}
+				case EMAIL: {
+					emailContactScreen.setText(tempContact.getReference());
+					break;
+				}
+				case FACEBOOK: {
+					facebookContactScreen.setText(tempContact.getReference());
+					break;
+				}
+				case LINKEDIN: {
+					linkedinContactScreen.setText(tempContact.getReference());
+					break;
+				}
 				}
 			}
 		}
