@@ -30,15 +30,14 @@ import com.jayway.android.robotium.solo.Solo;
 public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 
 	private Solo solo;
-	
-	
+
 	private Random rand;
 
 	DBOpenHelper dbOpenHelper;
 
 	public DBTest() {
 		super(SplashActivity.class);
-		rand= new Random();
+		rand = new Random();
 	}
 
 	protected void setUp() throws Exception {
@@ -145,21 +144,20 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 			dbOpenHelper.getWritableDatabase().endTransaction();
 		}
 	}
-	
+
 	public void testContacts() {
 		try {
 			dbOpenHelper.getWritableDatabase().beginTransaction();
-			BasicProfile profileToBeSaved= madeFakeBasicProfile();
+			BasicProfile profileToBeSaved = madeFakeBasicProfile();
 			profileToBeSaved.setContactList(madeFakeContacts(profileToBeSaved.getId()));
 			dbOpenHelper.saveOrUpdateProfile(profileToBeSaved);
-			Map<String,Contact> contactsToBeSaved=new HashMap<String,Contact>();
-			Iterator<Contact> iter=profileToBeSaved.getContactList().iterator();
-			while(iter.hasNext())
-			{
-				Contact temp= iter.next();
+			Map<String, Contact> contactsToBeSaved = new HashMap<String, Contact>();
+			Iterator<Contact> iter = profileToBeSaved.getContactList().iterator();
+			while (iter.hasNext()) {
+				Contact temp = iter.next();
 				contactsToBeSaved.put(temp.getReference(), temp);
 			}
-			
+
 			BasicProfile profileSaved = dbOpenHelper.getBasicProfile(profileToBeSaved.getId());
 			assertEquals(profileToBeSaved.getId(), profileSaved.getId());
 			assertEquals(profileToBeSaved.getName(), profileSaved.getName());
@@ -170,39 +168,36 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 			assertEquals(profileToBeSaved.getAge(), profileSaved.getAge());
 			assertNotNull(profileSaved.getContactList());
 			assertFalse(profileSaved.getContactList().isEmpty());
-			
-			iter=profileSaved.getContactList().iterator();
-			while(iter.hasNext())
-			{
-				Contact temp= iter.next();
-				assertNotNull(contactsToBeSaved.get(temp.getReference()));				
+
+			iter = profileSaved.getContactList().iterator();
+			while (iter.hasNext()) {
+				Contact temp = iter.next();
+				assertNotNull(contactsToBeSaved.get(temp.getReference()));
 			}
-			
+
 			dbOpenHelper.deleteProfile(profileSaved.getId());
 			assertNull(dbOpenHelper.getBasicProfile(profileSaved.getId()));
-						
+
 			assertTrue(dbOpenHelper.getProfileContacts(profileSaved.getId()).isEmpty());
-			
+
 			ProfileImage temp = dbOpenHelper.getProfileMainImage(profileSaved.getId());
-			assertNull(dbOpenHelper.getProfileMainImage(profileSaved.getId()).getImage());			 						
-			
+			assertNull(dbOpenHelper.getProfileMainImage(profileSaved.getId()).getImage());
+
 		} catch (Exception e) {
 			fail("error on testDB error:" + e.getMessage());
 		} finally {
 			dbOpenHelper.getWritableDatabase().endTransaction();
 		}
 	}
-	
-	
-	private BasicProfile madeFakeBasicProfile()
-	{
-		BasicProfile bp= new BasicProfile();
-		bp.setId(""+rand.nextInt());
-		bp.setGender((rand.nextInt(1)>0?Gender.M.toString():Gender.F.toString()));
+
+	private BasicProfile madeFakeBasicProfile() {
+		BasicProfile bp = new BasicProfile();
+		bp.setId("" + rand.nextInt());
+		bp.setGender((rand.nextInt(1) > 0 ? Gender.M.toString() : Gender.F.toString()));
 		bp.setAge(rand.nextInt(100));
-		bp.setNickname("nickName"+bp.getId());
-		bp.setName("name"+bp.getId());
-		bp.setSurname("surname"+bp.getId());	
+		bp.setNickname("nickName" + bp.getId());
+		bp.setName("name" + bp.getId());
+		bp.setSurname("surname" + bp.getId());
 		File imgFile = new File("/sdcard/Images/test_image.jpg");
 		Bitmap photo = null;
 		if (imgFile.exists()) {
@@ -211,34 +206,32 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 		ProfileImage profileImage = new ProfileImage();
 		profileImage.setMainImage(true);
 		profileImage.setImage(ImageUtil.bitmapToByteArray(photo));
-		profileImage.setProfileId(bp.getId());		
+		profileImage.setProfileId(bp.getId());
 		bp.setMainProfileImage(profileImage);
 		return bp;
 	}
-	
-	
-	private List<Contact> madeFakeContacts(String profileID)
-	{
-		List<Contact>returnList=new ArrayList<Contact>();
+
+	private List<Contact> madeFakeContacts(String profileID) {
+		List<Contact> returnList = new ArrayList<Contact>();
 		Contact contact = new Contact();
 		contact.setProfileId(profileID);
 		contact.setContactType(ContactType.EMAIL);
-		contact.setReference("email"+profileID);
+		contact.setReference("email" + profileID);
 		returnList.add(contact);
 		contact = new Contact();
 		contact.setProfileId(profileID);
 		contact.setContactType(ContactType.PHONE);
-		contact.setReference("phone"+profileID);
+		contact.setReference("phone" + profileID);
 		returnList.add(contact);
 		contact = new Contact();
 		contact.setProfileId(profileID);
 		contact.setContactType(ContactType.FACEBOOK);
-		contact.setReference("facebook"+profileID);
+		contact.setReference("facebook" + profileID);
 		returnList.add(contact);
 		contact = new Contact();
 		contact.setProfileId(profileID);
 		contact.setContactType(ContactType.LINKEDIN);
-		contact.setReference("linkedIn"+profileID);		
+		contact.setReference("linkedIn" + profileID);
 		returnList.add(contact);
 		return returnList;
 	}
@@ -263,4 +256,3 @@ public class DBTest extends ActivityInstrumentationTestCase2<SplashActivity> {
 	// }
 
 }
-
