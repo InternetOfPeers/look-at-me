@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.brainmote.lookatme.bean.BasicProfile;
 import com.brainmote.lookatme.bean.Contact;
+import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.util.ImageUtil;
 
 public class ContactListAdapter extends BaseAdapter {
@@ -115,17 +115,9 @@ public class ContactListAdapter extends BaseAdapter {
 					imageFacebook.setVisibility(View.VISIBLE);
 					imageFacebook.setOnClickListener(new View.OnClickListener() {
 						public void onClick(View v) {
-
-							try {
-								activity.getPackageManager().getApplicationInfo("com.facebook.android", 0);
-								String uri = "facebook://facebook.com/" + reference;
-								Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-								activity.startActivity(intent);
-							} catch (PackageManager.NameNotFoundException e) {
-								String uri = "http://facebook.com/" + reference;
-								Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-								activity.startActivity(intent);
-							}
+							String uri = AppSettings.URL_PREFIX_FACEBOOK + reference;
+							Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+							activity.startActivity(intent);
 						}
 					});
 					break;
@@ -136,7 +128,7 @@ public class ContactListAdapter extends BaseAdapter {
 							Intent intent = new Intent();
 							intent.setAction(Intent.ACTION_VIEW);
 							intent.addCategory(Intent.CATEGORY_BROWSABLE);
-							intent.setData(Uri.parse("http://www.linkedin.com/pub/" + reference));
+							intent.setData(Uri.parse(AppSettings.URL_PREFIX_LINKEDIN + reference));
 							activity.startActivity(intent);
 						}
 					});
@@ -149,8 +141,6 @@ public class ContactListAdapter extends BaseAdapter {
 							intent.setAction(Intent.ACTION_CALL);
 							intent.setData(Uri.parse("tel:" + reference));
 							activity.startActivity(intent);
-							// activity.startActivity(Intent.createChooser(intent,
-							// "How call:"));
 						}
 					});
 					break;

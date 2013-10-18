@@ -32,8 +32,9 @@ public class FakeUserGiuseppe extends FakeUserGenericImpl {
 		answers.add("Look@me! Is there anybody out there?");
 		answers.add("Sorry, I can't. Annalisa is my love.");
 		List<Contact> contactList = new ArrayList<Contact>();
-		contactList.add(new Contact().setProfileId(profileId).setContactType(ContactType.EMAIL).setReference("bertone.giuseppe@gmail.com"));
-		contactList.add(new Contact().setProfileId(profileId).setContactType(ContactType.LINKEDIN).setReference("giuseppe.bertone"));
+		contactList.add(new Contact().setProfileId(profileId).setContactType(ContactType.EMAIL).setReference("giuseppe.bertone@brainmote.com"));
+		contactList.add(new Contact().setProfileId(profileId).setContactType(ContactType.LINKEDIN).setReference("giuseppebertone"));
+		contactList.add(new Contact().setProfileId(profileId).setContactType(ContactType.FACEBOOK).setReference("giuseppe.bertone"));
 		profile.setContactList(contactList);
 	}
 }

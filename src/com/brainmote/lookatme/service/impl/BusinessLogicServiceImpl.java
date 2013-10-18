@@ -68,8 +68,8 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 		if (isCreditsInAppEnabled(context)) {
 			addDevelopers(context);
 			// Se necessario creo ulteriori fake user
-			if (AppSettings.needMoreFakeUsers) {
-				for (int i = 0; i < AppSettings.moreFakeUsers; i++) {
+			if (AppSettings.NEED_MORE_FAKE_USERS) {
+				for (int i = 0; i < AppSettings.MORE_FAKE_USERS; i++) {
 					addFakeUser(new FakeUserGenericImpl(context));
 				}
 			}

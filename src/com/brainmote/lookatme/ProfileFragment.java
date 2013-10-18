@@ -7,7 +7,6 @@ import uk.co.senab.photoview.PhotoView;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -297,17 +296,9 @@ public class ProfileFragment extends Fragment {
 						facebookLink.setVisibility(View.VISIBLE);
 						facebookLink.setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
-
-								try {
-									getActivity().getPackageManager().getApplicationInfo("com.facebook.android", 0);
-									String uri = "facebook://facebook.com/" + reference;
-									Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-									startActivity(intent);
-								} catch (PackageManager.NameNotFoundException e) {
-									String uri = "http://facebook.com/" + reference;
-									Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-									startActivity(intent);
-								}
+								String uri = AppSettings.URL_PREFIX_FACEBOOK + reference;
+								Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+								startActivity(intent);
 							}
 						});
 						break;
@@ -318,7 +309,7 @@ public class ProfileFragment extends Fragment {
 								Intent intent = new Intent();
 								intent.setAction(Intent.ACTION_VIEW);
 								intent.addCategory(Intent.CATEGORY_BROWSABLE);
-								intent.setData(Uri.parse("http://www.linkedin.com/pub/" + reference));
+								intent.setData(Uri.parse(AppSettings.URL_PREFIX_LINKEDIN + reference));
 								startActivity(intent);
 							}
 						});
@@ -332,8 +323,6 @@ public class ProfileFragment extends Fragment {
 								intent.setAction(Intent.ACTION_CALL);
 								intent.setData(Uri.parse("tel:" + reference));
 								startActivity(intent);
-								// activity.startActivity(Intent.createChooser(intent,
-								// "How call:"));
 							}
 						});
 						break;

@@ -20,9 +20,12 @@ public interface AppSettings {
 	static final String IN_APP_CREDITS = "com.brainmote.lookatme.settings.invokeDevelopers";
 	static final String USER_PREFERENCES = "com.brainmote.lookatme.userPreferences";
 
-	static final int moreFakeUsers = 0; // In aggiunta ai profili fake dei
-										// credits, è possibile aggiungere
-										// ulteriori profili finti
-	static final boolean needMoreFakeUsers = moreFakeUsers > 0;
+	static final String URL_PREFIX_LINKEDIN = "http://www.linkedin.com/in/";
+	static final String URL_PREFIX_FACEBOOK = "https://m.facebook.com/";
+
+	static final int MORE_FAKE_USERS = 0; // In aggiunta ai profili fake dei
+											// credits, è possibile aggiungere
+											// ulteriori profili finti
+	static final boolean NEED_MORE_FAKE_USERS = MORE_FAKE_USERS > 0;
 
 }
