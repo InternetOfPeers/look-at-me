@@ -1,10 +1,8 @@
 package com.brainmote.lookatme.bean;
 
-import java.io.Serializable;
-
 import com.brainmote.lookatme.enumattribute.ContactType;
 
-public class Contact implements Serializable {
+public class Contact {
 
 	private String profileId;
 	private ContactType contactType;
@@ -14,24 +12,27 @@ public class Contact implements Serializable {
 		return profileId;
 	}
 
-	public void setProfileId(String profileId) {
+	public Contact setProfileId(String profileId) {
 		this.profileId = profileId;
+		return this;
 	}
 
 	public ContactType getContactType() {
 		return contactType;
 	}
 
-	public void setContactType(ContactType contactType) {
+	public Contact setContactType(ContactType contactType) {
 		this.contactType = contactType;
+		return this;
 	}
 
 	public String getReference() {
 		return reference;
 	}
 
-	public void setReference(String reference) {
+	public Contact setReference(String reference) {
 		this.reference = reference;
+		return this;
 	}
 
 }
