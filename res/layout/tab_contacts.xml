@@ -5,16 +5,17 @@
     android:layout_marginTop="@dimen/activity_horizontal_margin" >
 
     <TableRow
-        android:id="@+id/tableRow1"
+        android:id="@+id/tableRowContact1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp" >
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
 
         <ImageView
             android:id="@+id/imageIcEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/void_placeholder"
             android:src="@drawable/ic_action_email" />
 
         <EditText
@@ -25,35 +26,37 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow6"
+        android:id="@+id/tableRowContact2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp" >
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
 
         <ImageView
             android:id="@+id/imageIcTelephone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/void_placeholder"
             android:src="@drawable/ic_action_call" />
 
         <EditText
             android:id="@+id/editProfileFieldMobile"
             android:hint="@string/edit_profile_field_mobile_hint"
-            android:inputType="textPersonName" />
+            android:inputType="phone" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow7"
+        android:id="@+id/tableRowContact3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
 
         <ImageView
             android:id="@+id/imageFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/void_placeholder"
             android:src="@drawable/facebook_icon" />
 
         <EditText
@@ -61,18 +64,19 @@
             android:hint="@string/edit_profile_field_facebook_hint"
             android:inputType="textPersonName" />
     </TableRow>
-    
-     <TableRow
-        android:id="@+id/tableRow7"
+
+    <TableRow
+        android:id="@+id/tableRowContact4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp" >
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" >
 
         <ImageView
             android:id="@+id/imageLinkedIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/void_placeholder"
             android:src="@drawable/linkedin_icon" />
 
         <EditText

@@ -208,7 +208,6 @@
                                 android:shadowRadius="1"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFFFFF" />
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -234,7 +233,6 @@
                                 android:shadowRadius="1"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFFFFF" />
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -255,9 +253,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:src="@drawable/linkedin_icon" />
-
                         </LinearLayout>
-
                     </LinearLayout>
 
                     <GridView
@@ -270,9 +266,7 @@
                         android:numColumns="auto_fit"
                         android:stretchMode="columnWidth"
                         android:verticalSpacing="@dimen/interest_grid_spacing" >
-
                     </GridView>
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

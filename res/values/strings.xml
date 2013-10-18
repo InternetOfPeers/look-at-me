@@ -143,7 +143,6 @@
     <string name="edit_profile_label_name_text">Name</string>
     <string name="edit_profile_label_mobile_text">Mobile number</string>
     <string name="edit_profile_label_surname_text">Surname</string>
-    <string name="edit_profile_label_facebook_text">www.facebook.com/</string>
     <string name="edit_profile_field_nickname_hint">Choose a nickname</string>
     <string name="edit_profile_field_email_hint">Choose an email</string>
     <string name="edit_profile_spinner_age_prompt">Set your age</string>
