@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -135,14 +136,18 @@ public class ContactListAdapter extends BaseAdapter {
 					break;
 				case PHONE:
 					imageMobile.setVisibility(View.VISIBLE);
-					imageMobile.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View v) {
-							Intent intent = new Intent();
-							intent.setAction(Intent.ACTION_CALL);
-							intent.setData(Uri.parse("tel:" + reference));
-							activity.startActivity(intent);
-						}
-					});
+					// Se è presente il modulo telefonico inserisco l'opzione di
+					// chiamare direttamente il numero indicato
+					if (activity.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+						imageMobile.setOnClickListener(new View.OnClickListener() {
+							public void onClick(View v) {
+								Intent intent = new Intent();
+								intent.setAction(Intent.ACTION_CALL);
+								intent.setData(Uri.parse("tel:" + reference));
+								activity.startActivity(intent);
+							}
+						});
+					}
 					break;
 				default:
 					break;
@@ -152,5 +157,4 @@ public class ContactListAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-
 }

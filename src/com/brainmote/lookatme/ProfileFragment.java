@@ -7,6 +7,7 @@ import uk.co.senab.photoview.PhotoView;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -317,14 +318,18 @@ public class ProfileFragment extends Fragment {
 					case PHONE:
 						phoneGroup.setVisibility(View.VISIBLE);
 						textTelephone.setText(contact.getReference());
-						textTelephone.setOnClickListener(new View.OnClickListener() {
-							public void onClick(View v) {
-								Intent intent = new Intent();
-								intent.setAction(Intent.ACTION_CALL);
-								intent.setData(Uri.parse("tel:" + reference));
-								startActivity(intent);
-							}
-						});
+						// Se è presente il modulo telefonico inserisco l'opzione di
+						// chiamare direttamente il numero indicato
+						if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+							textTelephone.setOnClickListener(new View.OnClickListener() {
+								public void onClick(View v) {
+									Intent intent = new Intent();
+									intent.setAction(Intent.ACTION_CALL);
+									intent.setData(Uri.parse("tel:" + reference));
+									startActivity(intent);
+								}
+							});
+						}
 						break;
 					}
 				}
