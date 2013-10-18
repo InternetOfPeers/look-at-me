@@ -450,38 +450,12 @@ public class EditProfileFragment extends Fragment {
 		}
 
 		mainProfileImage.setImageBitmap(ImageUtil.bitmapForCustomThumbnail(profile.getProfileImages().get(0).getImageBitmap(), widthPx));
-
-		// TextView interest = (TextView) findViewById(R.id.reg_interest);
-		// StringBuilder sb = new StringBuilder();
-		// for (Interest inter :
-		// Services.currentState.getMyFullProfile().getInterestList()) {
-		// sb.append(inter.getDesc() + " ");
-		// }
-		// interest.setText(sb.toString());
-		// interest.setOnFocusChangeListener(new InterestOnFocusListner(this));
-
-		// saveButton.setText(R.string.edit_profile_button_save_profile_text);
 		refreshFragment();
 	}
 
 	private void refreshFragment() {
 		scrollGalleryAdapter.notifyDataSetChanged();
 	}
-
-	// private class InterestOnFocusListner implements OnFocusChangeListener {
-	// private Activity activity;
-	//
-	// public InterestOnFocusListner(Activity activity) {
-	// this.activity = activity;
-	// }
-	//
-	// @Override
-	// public void onFocusChange(View v, boolean hasFocus) {
-	// if (hasFocus) {
-	// Nav.startActivity(activity, ManageInterestActivity.class);
-	// }
-	// }
-	// }
 
 	public void addProfileImage(Bitmap photo) {
 		ProfileImage profileImage = new ProfileImage();

@@ -5,7 +5,9 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.brainmote.lookatme.bean.Contact;
 import com.brainmote.lookatme.bean.ProfileImage;
+import com.brainmote.lookatme.enumattribute.ContactType;
 
 public class FakeUserGiuseppe extends FakeUserGenericImpl {
 
@@ -29,6 +31,9 @@ public class FakeUserGiuseppe extends FakeUserGenericImpl {
 		answers.add("Vengono fuori dalle pareti! Vengono fuori dalle fottute pareti!");
 		answers.add("Look@me! Is there anybody out there?");
 		answers.add("Sorry, I can't. Annalisa is my love.");
+		List<Contact> contactList = new ArrayList<Contact>();
+		contactList.add(new Contact().setProfileId(profileId).setContactType(ContactType.EMAIL).setReference("bertone.giuseppe@gmail.com"));
+		contactList.add(new Contact().setProfileId(profileId).setContactType(ContactType.LINKEDIN).setReference("giuseppe.bertone"));
+		profile.setContactList(contactList);
 	}
-
 }

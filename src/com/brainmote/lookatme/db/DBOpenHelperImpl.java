@@ -920,8 +920,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 	@Override
 	public void saveOrUpdateContacts(String profileId, List<Contact> contacts) throws Exception {
 		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
-		// vedere quali
-		// ancora esistono e quali no
+		// vedere quali ancora esistono e quali no
 
 		String table_name = TABLE_CONTACTS;
 		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID + "=?";
@@ -934,8 +933,7 @@ public class DBOpenHelperImpl extends SQLiteOpenHelper implements DBOpenHelper {
 
 	private void deleteProfileContacts(String profileId) throws Exception {
 		// cancello tutti i contatti e li reinserisco, piuttosto che andare a
-		// vedere quali
-		// ancora esistono e quali no
+		// vedere quali ancora esistono e quali no
 		String table_name = TABLE_CONTACTS;
 		String where = TABLE_CONTACTS_COLUMN_PROFILE_ID + "=?";
 		String[] whereArgs = new String[] { String.valueOf(profileId) };
