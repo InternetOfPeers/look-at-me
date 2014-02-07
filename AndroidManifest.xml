@@ -33,6 +33,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data android:name="GroupPlay" android:value="true" />
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|screenSize"

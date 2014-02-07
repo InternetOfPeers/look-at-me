@@ -19,6 +19,7 @@ import com.brainmote.lookatme.chord.MessageType;
 import com.brainmote.lookatme.chord.Node;
 import com.brainmote.lookatme.constants.AppSettings;
 import com.brainmote.lookatme.service.Services;
+import com.brainmote.lookatme.util.CommonUtils;
 import com.brainmote.lookatme.util.Log;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.chord.InvalidInterfaceException;
@@ -33,13 +34,10 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	private SchordManager chordManager;
 	private SchordChannel socialChannel;
-
-	private List<Integer> availableWifiInterface;
-	private int currentWifiInterface;
-
 	private CommunicationListener communicationListener;
-
 	private Context context;
+	private Integer lastWiFiInterface;
+	private boolean shouldRestart;
 
 	public CommunicationManagerImpl(Context context, CommunicationListener communicationListener) {
 		this.context = context;
@@ -59,32 +57,31 @@ public class CommunicationManagerImpl implements CommunicationManager {
 				chordManager.setTempDirectory(context.getFilesDir() + "/chordtemp");
 				chordManager.setLooper(Looper.getMainLooper());
 			}
-			// trying to use INTERFACE_TYPE_WIFI, otherwise get the first
-			// available interface
-			availableWifiInterface = chordManager.getAvailableInterfaceTypes();
-			if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
-				throw new CustomException("Nessuna interfaccia WiFi disponibile.");
-			}
-			if (availableWifiInterface.contains(SchordManager.INTERFACE_TYPE_WIFI)) {
-				currentWifiInterface = SchordManager.INTERFACE_TYPE_WIFI;
-			} else {
-				currentWifiInterface = (availableWifiInterface.get(0)).intValue();
-			}
-			Log.d("connecting with interface " + currentWifiInterface);
-			chordManager.start(currentWifiInterface, new StatusListener() {
+			final Integer bestWiFiInterface = getBestWiFiInterface();
+			Log.d("connecting with interface " + bestWiFiInterface);
+			chordManager.start(bestWiFiInterface, new StatusListener() {
 
 				@Override
 				public void onStopped(int arg0) {
-					// TODO Auto-generated method stub
-
+					Log.d("====== onStopped communication manager");
+					lastWiFiInterface = null;
+					// Verifico se è stato pianificato un riavvio
+					if (shouldRestart) {
+						try {
+							Log.d("====== restart communication manager");
+							startCommunication();
+						} catch (CustomException e) {
+							e.printStackTrace();
+						}
+					}
 				}
 
 				@Override
 				public void onStarted(String arg0, int arg1) {
-					Log.d();
+					Log.d("====== onStarted communication manager");
+					lastWiFiInterface = bestWiFiInterface;
 					socialChannel = joinSocialChannel();
 					Log.d("now chord is joined to " + chordManager.getJoinedChannelList().size() + " channels");
-
 				}
 			});
 		} catch (InvalidInterfaceException e) {
@@ -98,7 +95,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 	}
 
 	@Override
-	public void stopCommunication() {
+	public void stopCommunication(boolean shouldRestart) {
+		this.shouldRestart = shouldRestart;
 		Log.d();
 		// Se chiudo i canali direttamente va in concurrent modification
 		// exception per cui mi serve una struttura di appoggio da cui prendere
@@ -107,7 +105,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		for (SchordChannel channel : chordManager.getJoinedChannelList()) {
 			joinedChannelName.add(channel.getName());
 		}
-		// Da capire perchè ritorna sempre il messaggio:
+		// Da capire perchè a volte ritorna il messaggio:
 		// "can't find channel (com.brainmote.lookatme.SOCIAL_CHANNEL)"
 		for (String channelName : joinedChannelName) {
 			Log.d("leaving channel " + channelName);
@@ -399,9 +397,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
 	@Override
 	public void requestAllProfiles() {
-		if (socialChannel != null) {
+		if (socialChannel != null)
 			socialChannel.sendDataToAll(MessageType.BASIC_PROFILE_REQUEST.name(), EMPTY_PAYLOAD);
-		}
 	}
 
 	@Override
@@ -537,4 +534,55 @@ public class CommunicationManagerImpl implements CommunicationManager {
 		return getActiveNodeListInChannel(AppSettings.MAIN_CHANNEL);
 	}
 
+	/**
+	 * Verifica che la connessione WiFi sia correttamente disponibile
+	 * 
+	 * @return
+	 */
+	private boolean isWiFiAviable() {
+		// Verifica che la connessione WiFi sia correttamente disponibile
+		Integer currentWiFiInterface = getCurrentWiFiInterface(context);
+		// Verifica anche che la connessione sia coerente con quella
+		// precentemente
+		// impostata
+		return currentWiFiInterface != null && currentWiFiInterface == lastWiFiInterface;
+	}
+
+	/**
+	 * Recupera l'identificativo (in gergo Chord) della connessione WiFi da
+	 * utilizzare
+	 * 
+	 * @return
+	 * @throws CustomException
+	 */
+	private Integer getBestWiFiInterface() throws CustomException {
+		// trying to use INTERFACE_TYPE_WIFI, otherwise get the first available
+		// interface
+		List<Integer> availableWifiInterface = chordManager.getAvailableInterfaceTypes();
+		Integer wiFiInterface = null;
+		if (availableWifiInterface == null || availableWifiInterface.size() == 0) {
+			throw new CustomException("Nessuna interfaccia WiFi disponibile.");
+		}
+		if (availableWifiInterface.contains(SchordManager.INTERFACE_TYPE_WIFI)) {
+			wiFiInterface = SchordManager.INTERFACE_TYPE_WIFI;
+		} else {
+			wiFiInterface = (availableWifiInterface.get(0)).intValue();
+		}
+		return wiFiInterface;
+	}
+
+	/**
+	 * Recupera l'identificativo (in gergo Chord) della connessione WiFi
+	 * attualmente utilizzata
+	 * 
+	 * @param context
+	 * @return
+	 */
+	private Integer getCurrentWiFiInterface(Context context) {
+		if (CommonUtils.isWifiClassicConnected(context))
+			return SchordManager.INTERFACE_TYPE_WIFI;
+		if (CommonUtils.isWifiApEnabled(context))
+			return SchordManager.INTERFACE_TYPE_WIFI_AP;
+		return null;
+	}
 }

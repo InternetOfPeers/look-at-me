@@ -8,7 +8,7 @@ public interface CommunicationManager {
 
 	void startCommunication() throws CustomException;
 
-	void stopCommunication();
+	void stopCommunication(boolean shouldRestart);
 
 	void requestAllProfiles();
 

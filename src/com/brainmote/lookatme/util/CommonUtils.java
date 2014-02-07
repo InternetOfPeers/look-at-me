@@ -111,14 +111,9 @@ public class CommonUtils {
 	 *         contrario
 	 */
 	public static boolean isWifiConnected(Context context) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		// Verifico che il device sia connesso ad una WiFi
-		if (networkInfo.isAvailable() && networkInfo.getDetailedState() == DetailedState.CONNECTED)
-			return true;
 		// Controllo a questo punto se almeno il device ha creato un access
 		// point WiFi, altrimenti non considero il device connesso
-		return isWifiApEnabled(context);
+		return isWifiClassicConnected(context) || isWifiApEnabled(context);
 	}
 
 	/**
@@ -126,7 +121,19 @@ public class CommonUtils {
 	 * @param context
 	 * @return
 	 */
-	private static boolean isWifiApEnabled(Context context) {
+	public static boolean isWifiClassicConnected(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		// Verifico che il device sia connesso ad una WiFi
+		return (networkInfo.isAvailable() && networkInfo.getDetailedState() == DetailedState.CONNECTED);
+	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static boolean isWifiApEnabled(Context context) {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		return (Boolean) Optional.fromNullable(Reflection.invokeMethod_NoParameters_ReturnObject(wifiManager, "isWifiApEnabled")).or(false);
 	}
