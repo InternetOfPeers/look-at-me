@@ -127,7 +127,7 @@ public class CommonUtils {
 		// Verifico che il device sia connesso ad una WiFi
 		return (networkInfo.isAvailable() && networkInfo.getDetailedState() == DetailedState.CONNECTED);
 	}
-	
+
 	/**
 	 * 
 	 * @param context

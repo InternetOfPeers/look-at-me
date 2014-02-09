@@ -318,7 +318,8 @@ public class ProfileFragment extends Fragment {
 					case PHONE:
 						phoneGroup.setVisibility(View.VISIBLE);
 						textTelephone.setText(contact.getReference());
-						// Se è presente il modulo telefonico inserisco l'opzione di
+						// Se è presente il modulo telefonico inserisco
+						// l'opzione di
 						// chiamare direttamente il numero indicato
 						if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
 							textTelephone.setOnClickListener(new View.OnClickListener() {

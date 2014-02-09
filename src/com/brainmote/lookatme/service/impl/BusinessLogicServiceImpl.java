@@ -33,9 +33,6 @@ import com.brainmote.lookatme.service.Event;
 import com.brainmote.lookatme.service.EventType;
 import com.brainmote.lookatme.service.Services;
 import com.brainmote.lookatme.util.Log;
-import com.samsung.android.sdk.SsdkUnsupportedException;
-import com.samsung.android.sdk.groupplay.Sgp;
-import com.samsung.android.sdk.groupplay.SgpGroupPlay;
 
 public class BusinessLogicServiceImpl extends Service implements BusinessLogicService {
 
@@ -77,20 +74,6 @@ public class BusinessLogicServiceImpl extends Service implements BusinessLogicSe
 				}
 			}
 		}
-		// Istanzio group play sdk
-		Sgp sgp = new Sgp();
-		try {
-			sgp.initialize(context);
-			Log.d(sgp.getVersionName() + ":" + sgp.getVersionCode());
-		} catch (SsdkUnsupportedException e) {
-			// TODO better exception handling
-			e.printStackTrace();
-		}
-		Log.d("pre group play");
-		// Mi aggancio a group play (l'applicazione) per inizializzare l'sdk
-		SgpGroupPlay gpsdk = new SgpGroupPlay(new GroupPlayListenerImpl());
-		gpsdk.start();
-		Log.d("post group play start");
 	}
 
 	@Override
