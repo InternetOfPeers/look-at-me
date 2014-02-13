@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Looper;
 
 import com.brainmote.lookatme.ChatConversation;
@@ -28,11 +27,8 @@ import com.samsung.android.sdk.chord.Schord;
 import com.samsung.android.sdk.chord.SchordChannel;
 import com.samsung.android.sdk.chord.SchordManager;
 import com.samsung.android.sdk.chord.SchordManager.StatusListener;
-import com.samsung.android.sdk.groupplay.Sgp;
-import com.samsung.android.sdk.groupplay.SgpGroupPlay;
-import com.samsung.android.sdk.groupplay.SgpGroupPlay.SgpConnectionStatusListener;
 
-public class CommunicationManagerImpl implements CommunicationManager, SgpConnectionStatusListener {
+public class CommunicationManagerImpl implements CommunicationManager {
 
 	private static final byte[][] EMPTY_PAYLOAD = new byte[0][0];
 
@@ -50,15 +46,8 @@ public class CommunicationManagerImpl implements CommunicationManager, SgpConnec
 
 	@Override
 	public void startCommunication() throws CustomException {
-		Log.d(new Intent().getStringExtra("DeviceName"));
-		Log.d(new Intent().getStringExtra("netIF"));
 		try {
-			Sgp sgp = new Sgp();
-			// Inizializzo la group play sdk
-			sgp.initialize(context);
-			Log.d(sgp.getVersionName() + ":" + sgp.getVersionCode());
-			// Tento di agganciare l'SDK a Group Play (l'applicazione)
-			new SgpGroupPlay(this).start();
+			Services.groupPlayManager.init(context);
 		} catch (SsdkUnsupportedException e) {
 			// TODO better exception handling
 			e.printStackTrace();
@@ -128,20 +117,6 @@ public class CommunicationManagerImpl implements CommunicationManager, SgpConnec
 			chordManager.leaveChannel(channelName);
 		}
 		chordManager.stop();
-	}
-
-	@Override
-	public void onConnected(SgpGroupPlay sdk) {
-		Log.d();
-		if (sdk.hasSession()) {
-			Log.d("hasSession implica mando lo stato di joined all'app GP");
-			sdk.setParticipantInfo(true);
-		}
-	}
-
-	@Override
-	public void onDisconnected() {
-		Log.d("L'SDK si è disconnessa da Group Play.");
 	}
 
 	private SchordChannel joinSocialChannel() {

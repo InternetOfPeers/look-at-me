@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Look@me</string>
     <string name="action_settings">Settings</string>
     <string name="action_force_refresh">Force refresh</string>
@@ -58,11 +57,9 @@
         <item>Settings</item>
         <item>Help</item>
     </string-array>
-
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="button_toggle_service_label">Offline mode</string>
-    
     <!-- channel list dialog start -->
     <string name="text_matching_score">matching score</string>
     <string name="chat_btn">chat</string>
@@ -78,7 +75,6 @@
     <string name="text_chat_datetime">date</string>
     <string name="hint_chat_message_text">Type your message here</string>
     <string name="action_view_profile">View profile</string>
-
     <string-array name="gender_array">
         <item>@string/edit_profile_spinner_gender_prompt</item>
         <item>@string/gender_male</item>
@@ -111,7 +107,6 @@
         <item>@string/language_zh_CN</item>
         <item>@string/language_zh_TW</item>
     </string-array>
-
     <string name="text_profile_liked">He/She likes you</string>
     <!-- VIEW PROFILE -->
     <string name="text_profile_photo_image">profile image</string>
@@ -162,7 +157,7 @@
     <string name="first_time_dialog_message">Create your profile to start searching for new friends nearby</string>
     <string name="first_time_dialog_button_go_to_profile_text">Go to profile</string>
     <string name="message_warning">Warning</string>
-    <string name="message_wifi_required">No WiFi connection available. Connect to a WiFi hotspot to find new friends nearby.</string>
+    <string name="message_wifi_required">No WiFi connection available. Connect to a WiFi hotspot to find new friends nearby or create your own network with Group Play!</string>
     <string name="first_time_dialog_title">First launch</string>
     <string name="chat_conversations_message_no_conversations_yet">There are still no conversations in here. Go to Nearby area and find someone to chat with.</string>
     <string name="nearby_message_no_users_yet">There are not connected people around you yet. Use another WiFi hotspot or simply wait, people will automatically appear here as soon as they connect.</string>
@@ -182,13 +177,13 @@
     <string name="nearby_message_offline_mode">You are in \'Offline mode\' and you are not able to find other people around you.\n\nTo disable \'Offline mode\', go to the settings page tapping the warning icon on the top-right corner.</string>
     <string name="switch_toggle_credits_label">Summon developers</string>
     <string name="settings_credits_text">If you enable this option, you will feel - it does not matter where you are - the spirits of Look@me developers all around you. Use with caution.</string>
-	<!-- EDIT PROFILE - INTERESTS -->
-	<string name="interest_usage">Manage your interests touching below area and enhance probability to know people with the same interests!</string>
-	<!-- CONTACT LIST -->
-	<string name="no_contact_message">There are no contact yet. To add your favourite profiles touch the star on profile view action bar.</string>
-	<!-- GENERIC -->
-	<string name="close">Close</string>
-	<string name="remove">Remove</string>
-	<string name="ok">OK</string>
-	<string name="cancel">Cancel</string>
+    <!-- EDIT PROFILE - INTERESTS -->
+    <string name="interest_usage">Manage your interests touching below area and enhance probability to know people with the same interests!</string>
+    <!-- CONTACT LIST -->
+    <string name="no_contact_message">There are no contact yet. To add your favourite profiles touch the star on profile view action bar.</string>
+    <!-- GENERIC -->
+    <string name="close">Close</string>
+    <string name="remove">Remove</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

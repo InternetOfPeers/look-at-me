@@ -3,6 +3,7 @@ package com.brainmote.lookatme.service;
 import com.brainmote.lookatme.service.impl.BusinessLogicServiceImpl;
 import com.brainmote.lookatme.service.impl.CurrentStateImpl;
 import com.brainmote.lookatme.service.impl.EventBusImpl;
+import com.brainmote.lookatme.service.impl.GroupPlayManagerImpl;
 import com.brainmote.lookatme.service.impl.NotificationServiceImpl;
 import com.squareup.otto.Bus;
 
@@ -32,5 +33,10 @@ public interface Services {
 	 * Sevizio per la gestione delle notifiche di sistema Android
 	 */
 	public static NotificationService notification = NotificationServiceImpl.Factory.getNotificationService();
+
+	/**
+	 * Servizio per la gestione delle configurazioni e dello stato di Group Play
+	 */
+	public static GroupPlayManager groupPlayManager = GroupPlayManagerImpl.Factory.getGroupPlayManager();
 
 }
