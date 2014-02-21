@@ -46,7 +46,6 @@ public class NearbyActivity extends CommonActivity {
 			if (Services.groupPlayManager.isReady()) {
 				Log.d("gone");
 				button.setVisibility(View.GONE);
-
 			} else {
 				Log.d("visibile");
 				button.setVisibility(View.VISIBLE);

@@ -46,6 +46,7 @@ public class GroupPlayManagerImpl implements GroupPlayManager, SgpConnectionStat
 
 	@Override
 	public boolean isReady() {
-		return groupPlay.getGroupPlayStatus() == SgpGroupPlay.STATUS_HAS_SESSION_AS_CLIENT || groupPlay.getGroupPlayStatus() == SgpGroupPlay.STATUS_HAS_SESSION_AS_HOST;
+		return groupPlay != null
+				&& (groupPlay.getGroupPlayStatus() == SgpGroupPlay.STATUS_HAS_SESSION_AS_CLIENT || groupPlay.getGroupPlayStatus() == SgpGroupPlay.STATUS_HAS_SESSION_AS_HOST);
 	}
 }
