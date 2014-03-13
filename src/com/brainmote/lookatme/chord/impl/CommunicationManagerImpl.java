@@ -280,6 +280,18 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					break;
 				}
 			}
+
+			@Override
+			public void onUdpDataDelivered(String arg0, String arg1, String arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onUdpDataReceived(String arg0, String arg1, String arg2, byte[][] arg3, String arg4) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 	}
 
@@ -396,6 +408,18 @@ public class CommunicationManagerImpl implements CommunicationManager {
 					break;
 				}
 
+			}
+
+			@Override
+			public void onUdpDataDelivered(String arg0, String arg1, String arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onUdpDataReceived(String arg0, String arg1, String arg2, byte[][] arg3, String arg4) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
