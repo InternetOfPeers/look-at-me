@@ -49,4 +49,10 @@ public class GroupPlayManagerImpl implements GroupPlayManager, SgpConnectionStat
 		return groupPlay != null
 				&& (groupPlay.getGroupPlayStatus() == SgpGroupPlay.STATUS_HAS_SESSION_AS_CLIENT || groupPlay.getGroupPlayStatus() == SgpGroupPlay.STATUS_HAS_SESSION_AS_HOST);
 	}
+
+	@Override
+	public void onSessionClosed() {
+		// TODO Auto-generated method stub
+		
+	}
 }
